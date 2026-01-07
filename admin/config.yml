@@ -2,7 +2,7 @@ backend:
   name: git-gateway
   branch: main
 
-publish_mode: editorial_workflow
+publish_mode: simple
 
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
@@ -19,11 +19,18 @@ collections:
           - label: "Items"
             name: "items"
             widget: "list"
+            collapsed: true
+            add_to_top: true
+            allow_reorder: true
+            allow_remove: true
             summary: "{{fields.fecha}} — {{fields.titulo}}"
+            label_singular: "Publicación"
             fields:
+              - { label: "ID", name: "id", widget: "string", hint: "Ej: 2025-12-18-cuentas-inversion" }
               - { label: "Fecha", name: "fecha", widget: "datetime" }
               - { label: "Título", name: "titulo", widget: "string" }
               - { label: "Subtítulo", name: "subtitulo", widget: "string" }
-              - { label: "Etiqueta", name: "etiqueta", widget: "select", options: ["Nota", "Noticia", "Documento", "Comunicado", "Proyecto presentado"] }
+              - { label: "Etiqueta", name: "etiqueta", widget: "select", options: ["Documento", "Nota", "Entrevista", "Actividad"] }
               - { label: "Imagen", name: "imagen", widget: "image", required: false }
-              - { label: "Texto", name: "cuerpo", widget: "markdown" }
+              - { label: "Documento", name: "documento", widget: "file", choose_url: false, required: false }
+              - { label: "Cuerpo", name: "cuerpo", widget: "markdown", required: false }
