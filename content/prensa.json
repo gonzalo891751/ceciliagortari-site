@@ -1,20 +1,31 @@
 {
   "items": [
     {
-      "titulo": "Cecilia Gortari presentó proyecto para impulsar emprendedores",
-      "subtitulo": "La diputada provincial busca fomentar el desarrollo local a través de nuevas herramientas legislativas.",
-      "fecha": "2024-05-15",
-      "etiqueta": "Proyecto presentado",
-      "imagen": "https://picsum.photos/seed/cecilia1/800/600",
-      "contenido": "<p>La diputada provincial Cecilia Gortari presentó hoy un nuevo proyecto de ley destinado a fortalecer el ecosistema emprendedor de la provincia. La iniciativa busca brindar beneficios fiscales y acceso a créditos blandos para quienes inicien su primera actividad comercial.</p><p>'Es fundamental apoyar a quienes generan trabajo genuino', destacó Gortari durante la presentación en la Legislatura.</p><p>El proyecto contempla también la creación de una incubadora de empresas estatal que brinde asesoramiento técnico y legal gratuito.</p>"
+      "id": "2025-12-18-cuentas-inversion",
+      "fecha": "2025-12-18T02:35:00.000-03:00",
+      "titulo": "Solicitamos mediante nota la remisión de Cuentas de Inversión adeudadas al Gobernador J.P. Valdés",
+      "subtitulo": "Se pidió enviar a la Legislatura la documentación de los últimos dos ejercicios fiscales para su análisis y tratamiento, en el marco del debate del Presupuesto 2026.",
+      "etiqueta": "Documento",
+      "imagen": "/assets/uploads/captura-de-pantalla-2026-01-07-023705.png",
+      "cuerpo": "**El 18 de diciembre de 2025, la diputada provincial Cecilia Gortari, junto a otros diputadas de la Honorable Cámara de Diputados de Corrientes, presentó una nota dirigida al Gobernador Juan Pablo Valdés solicitando la remisión a la Legislatura de las Cuentas de Inversión correspondientes a los últimos dos ejercicios fiscales, que se encuentran pendientes de envío para su análisis y tratamiento.**\n\nLa solicitud se fundamenta en las atribuciones de control y evaluación que posee el Poder Legislativo, y busca fortalecer el debate parlamentario y la transparencia institucional, especialmente en el contexto del tratamiento del **Proyecto de Ley de Presupuesto 2026**.\n\n**¿Qué se solicitó concretamente?**\n\n*   La **remisión a la Legislatura** de las **Cuentas de Inversión** adeudadas de los últimos dos ejercicios.\n\n*   El envío de la **documentación respaldatoria** correspondiente.\n\n*   En caso de estar disponibles, los **informes y/o dictámenes** de los órganos de control vinculados al tema.\n\n**¿Por qué es importante?**\n\nPorque contar con las Cuentas de Inversión en tiempo y forma permite realizar un análisis responsable y fundado del uso de los recursos públicos, brindar previsibilidad y claridad a la ciudadanía y fortalecer el correcto funcionamiento institucional."
     },
     {
+      "id": "2024-05-15-proyecto-emprendedores",
+      "fecha": "2024-05-15T10:00:00.000-03:00",
+      "titulo": "Cecilia Gortari presentó proyecto para impulsar emprendedores",
+      "subtitulo": "La diputada provincial busca fomentar el desarrollo local a través de nuevas herramientas legislativas.",
+      "etiqueta": "Actividad",
+      "imagen": "https://picsum.photos/seed/cecilia1/800/600",
+      "cuerpo": "La diputada provincial Cecilia Gortari presentó hoy un nuevo proyecto de ley destinado a fortalecer el ecosistema emprendedor de la provincia. La iniciativa busca brindar beneficios fiscales y acceso a créditos blandos para quienes inicien su primera actividad comercial.\n\n'Es fundamental apoyar a quienes generan trabajo genuino', destacó Gortari durante la presentación en la Legislatura.\n\nEl proyecto contempla también la creación de una incubadora de empresas estatal que brinde asesoramiento técnico y legal gratuito."
+    },
+    {
+      "id": "2024-04-20-escuela-robotica",
+      "fecha": "2024-04-20T10:00:00.000-03:00",
       "titulo": "Visita a la Escuela de Robótica de Goya",
       "subtitulo": "Recorrida institucional junto a docentes y alumnos para conocer los avances en educación tecnológica.",
-      "fecha": "2024-04-20",
-      "etiqueta": "Noticia",
+      "etiqueta": "Actividad",
       "imagen": "https://picsum.photos/seed/cecilia2/800/600",
-      "contenido": "<p>En el marco de sus visitas territoriales, Cecilia Gortari recorrió las instalaciones de la Escuela de Robótica de Goya. Allí pudo conversar con los estudiantes sobre sus proyectos de innovación.</p><p>La educación tecnológica es una prioridad en la agenda de la diputada, quien se comprometió a gestionar recursos para ampliar el equipamiento de la institución.</p>"
+      "cuerpo": "En el marco de sus visitas territoriales, Cecilia Gortari recorrió las instalaciones de la Escuela de Robótica de Goya. Allí pudo conversar con los estudiantes sobre sus proyectos de innovación.\n\nLa educación tecnológica es una prioridad en la agenda de la diputada, quien se comprometió a gestionar recursos para ampliar el equipamiento de la institución."
     }
   ]
 }
