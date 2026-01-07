@@ -1,0 +1,29 @@
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: editorial_workflow
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "prensa"
+    label: "Prensa"
+    files:
+      - file: "content/prensa.json"
+        label: "Publicaciones"
+        name: "publicaciones"
+        format: "json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.fecha}} — {{fields.titulo}}"
+            fields:
+              - { label: "Fecha", name: "fecha", widget: "datetime" }
+              - { label: "Título", name: "titulo", widget: "string" }
+              - { label: "Subtítulo", name: "subtitulo", widget: "string" }
+              - { label: "Etiqueta", name: "etiqueta", widget: "select", options: ["Nota", "Noticia", "Documento", "Comunicado", "Proyecto presentado"] }
+              - { label: "Imagen", name: "imagen", widget: "image", required: false }
+              - { label: "Texto", name: "cuerpo", widget: "markdown" }
