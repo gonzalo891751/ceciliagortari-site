@@ -29,12 +29,15 @@ collections:
             collapsed: true
             summary: "{{fecha}} — {{titulo}}"
             fields:
-              - { label: "ID", name: "id", widget: "string", required: true, hint: "Identificador único (ej: 2025-10-12-titulo-nota)" }
               - { label: "Fecha", name: "fecha", widget: "datetime" }
               - { label: "Título", name: "titulo", widget: "string" }
               - { label: "Subtítulo", name: "subtitulo", widget: "text", required: false }
               - { label: "Etiqueta", name: "etiqueta", widget: "select", options: ["Documento", "Actividad", "Prensa", "Novedad", "Proyecto presentado"], default: "Novedad" }
-              - { label: "Imagen", name: "imagen", widget: "image", required: false }
+              - { label: "Imagen destacada", name: "imagen", widget: "image", required: false }
               - { label: "Archivo/Documento (PDF/DOCX)", name: "archivo", widget: "file", required: false, hint: "Subir archivo adjunto (PDF, DOCX)." }
-              - { label: "Documento (Legacy)", name: "documento", widget: "string", required: false, hint: "Campo 'documento' antiguo. No editar manualmente salvo para migración.", hidden: true }
-              - { label: "Cuerpo", name: "cuerpo", widget: "markdown", required: false }
+              - { label: "URL de Instagram (Reel/Post)", name: "instagram_url", widget: "string", required: false, hint: "Pegar la URL completa del post o reel." }
+              - { label: "Contenido", name: "body", widget: "markdown", required: false, hint: "Escribir el cuerpo de la noticia. Se puede usar Markdown." }
+              # Hidden/Legacy Fields
+              - { label: "ID", name: "id", widget: "string", required: false, hidden: true }
+              - { label: "Cuerpo (Legacy)", name: "cuerpo", widget: "markdown", required: false, hidden: true }
+              - { label: "Documento (Legacy)", name: "documento", widget: "string", required: false, hidden: true }

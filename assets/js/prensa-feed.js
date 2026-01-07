@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const badgeClass = getBadgeClass(item.etiqueta);
-    const bodyContent = parseMarkdown(item.cuerpo || item.contenido || ""); // Support both fields
+    const bodyContent = parseMarkdown(item.body || item.cuerpo || item.contenido || ""); // Support all fields
 
     let imageHtml = "";
     if (item.imagen) {
