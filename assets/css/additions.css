@@ -772,7 +772,7 @@
 }
 
 /* Background Atmosphere */
-.press-detail__bg {
+.press-detail .press-detail__bg {
     position: absolute;
     top: 0;
     left: 0;
@@ -785,7 +785,7 @@
 }
 
 /* Back Button */
-.press-detail__back {
+.press-detail .press-detail__back {
     position: relative;
     z-index: 2;
     display: inline-flex;
@@ -804,14 +804,14 @@
     transition: all 0.25s ease;
 }
 
-.press-detail__back:hover {
+.press-detail .press-detail__back:hover {
     transform: translateX(-4px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     color: var(--brand-blue, #1C5CFF);
 }
 
 /* Main Card */
-.press-article {
+.press-detail .press-article {
     position: relative;
     z-index: 2;
     background: white;
@@ -824,7 +824,7 @@
 }
 
 @media (max-width: 1024px) {
-    .press-article {
+    .press-detail .press-article {
         padding: 40px;
     }
 }
@@ -834,21 +834,21 @@
         padding: 40px 16px;
     }
 
-    .press-article {
+    .press-detail .press-article {
         padding: 24px 20px;
         border-radius: 20px;
     }
 }
 
 /* Header Section */
-.prensa-detail__header {
+.press-detail .prensa-detail__header {
     text-align: left;
     margin-bottom: 3rem;
     border-bottom: 1px solid #f0f0f4;
     padding-bottom: 2.5rem;
 }
 
-.prensa-detail__brand-chip {
+.press-detail .prensa-detail__brand-chip {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -864,27 +864,27 @@
 }
 
 /* Styles for specific chips are reused from badges or defined here if needing gradients */
-.chip--noticia {
+.press-detail .chip--noticia {
     background: var(--brand-blue, #1C5CFF);
 }
 
-.chip--documento {
+.press-detail .chip--documento {
     background: #64748b;
 }
 
-.chip--comunicado {
+.press-detail .chip--comunicado {
     background: var(--brand-magenta, #9F57A7);
 }
 
-.chip--nota {
+.press-detail .chip--nota {
     background: #9333ea;
 }
 
-.chip--proyecto {
+.press-detail .chip--proyecto {
     background: linear-gradient(135deg, #9F57A7, #1C5CFF);
 }
 
-.prensa-detail__title {
+.press-detail .prensa-detail__title {
     font-family: 'Outfit', sans-serif;
     font-size: clamp(2.2rem, 5vw, 3.5rem);
     font-weight: 800;
@@ -894,7 +894,7 @@
     letter-spacing: -0.02em;
 }
 
-.prensa-detail__subtitle {
+.press-detail .prensa-detail__subtitle {
     font-family: 'Outfit', sans-serif;
     font-size: clamp(1.15rem, 2vw, 1.4rem);
     line-height: 1.5;
@@ -904,7 +904,7 @@
     max-width: 90%;
 }
 
-.prensa-detail__meta {
+.press-detail .prensa-detail__meta {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -916,19 +916,19 @@
     /* Clean meta font */
 }
 
-.prensa-detail__meta-item {
+.press-detail .prensa-detail__meta-item {
     display: flex;
     align-items: center;
     gap: 6px;
 }
 
-.prensa-detail__meta-icon {
+.press-detail .prensa-detail__meta-icon {
     width: 18px;
     height: 18px;
 }
 
 /* Feature Image */
-.prensa-detail__image-container {
+.press-detail .prensa-detail__image-container {
     position: relative;
     margin-bottom: 3.5rem;
     border-radius: 18px;
@@ -944,7 +944,7 @@
     cursor: zoom-in;
 }
 
-.prensa-detail__image {
+.press-detail .prensa-detail__image {
     display: block;
     max-width: 100%;
     max-height: 70vh;
@@ -958,12 +958,12 @@
     transition: transform 0.5s ease;
 }
 
-.prensa-detail__image-container:hover .prensa-detail__image {
+.press-detail .prensa-detail__image-container:hover .prensa-detail__image {
     transform: scale(1.02);
 }
 
 /* Placeholder for missing image */
-.prensa-detail__placeholder {
+.press-detail .prensa-detail__placeholder {
     display: grid;
     place-items: center;
     padding: 56px 24px;
@@ -973,7 +973,7 @@
     border: 1px dashed #d1d5db;
 }
 
-.prensa-detail__placeholder-icon {
+.press-detail .prensa-detail__placeholder-icon {
     width: 48px;
     height: 48px;
     opacity: 0.3;
@@ -981,13 +981,13 @@
     margin-bottom: 12px;
 }
 
-.prensa-detail__placeholder-text {
+.press-detail .prensa-detail__placeholder-text {
     font-size: 0.9rem;
     color: #94a3b8;
     font-weight: 500;
 }
 
-.prensa-detail__image-overlay {
+.press-detail .prensa-detail__image-overlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.2);
@@ -1002,12 +1002,12 @@
     backdrop-filter: blur(2px);
 }
 
-.prensa-detail__image-container:hover .prensa-detail__image-overlay {
+.press-detail .prensa-detail__image-container:hover .prensa-detail__image-overlay {
     opacity: 1;
 }
 
 /* Download Block */
-.download-block {
+.press-detail .download-block {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -1019,13 +1019,13 @@
     transition: all 0.2s ease;
 }
 
-.download-block:hover {
+.press-detail .download-block:hover {
     background: #f1f5f9;
     border-color: #cbd5e1;
     transform: translateY(-2px);
 }
 
-.download-block__icon {
+.press-detail .download-block__icon {
     width: 48px;
     height: 48px;
     flex-shrink: 0;
@@ -1038,23 +1038,23 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-.download-block__info {
+.press-detail .download-block__info {
     flex: 1;
 }
 
-.download-block__title {
+.press-detail .download-block__title {
     font-weight: 700;
     color: #1e293b;
     margin-bottom: 4px;
     display: block;
 }
 
-.download-block__meta {
+.press-detail .download-block__meta {
     font-size: 0.85rem;
     color: #64748b;
 }
 
-.download-btn {
+.press-detail .download-btn {
     padding: 10px 20px;
     background: var(--brand-blue, #1C5CFF);
     color: white;
@@ -1066,26 +1066,26 @@
     white-space: nowrap;
 }
 
-.download-btn:hover {
+.press-detail .download-btn:hover {
     background: #1545cc;
     color: white;
 }
 
 @media (max-width: 640px) {
-    .download-block {
+    .press-detail .download-block {
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
     }
 
-    .download-btn {
+    .press-detail .download-btn {
         width: 100%;
         text-align: center;
     }
 }
 
 /* Content Body */
-.prensa-detail__content {
+.press-detail .prensa-detail__content {
     font-size: 1.125rem;
     /* 18px */
     line-height: 1.8;
@@ -1095,12 +1095,12 @@
     margin: 0 auto;
 }
 
-.prensa-detail__content p {
+.press-detail .prensa-detail__content p {
     margin-bottom: 2rem;
 }
 
-.prensa-detail__content h2,
-.prensa-detail__content h3 {
+.press-detail .prensa-detail__content h2,
+.press-detail .prensa-detail__content h3 {
     color: #0f172a;
     font-weight: 700;
     margin-top: 3.5rem;
@@ -1109,31 +1109,31 @@
     letter-spacing: -0.01em;
 }
 
-.prensa-detail__content h2 {
+.press-detail .prensa-detail__content h2 {
     font-size: 1.8rem;
 }
 
-.prensa-detail__content h3 {
+.press-detail .prensa-detail__content h3 {
     font-size: 1.5rem;
 }
 
-.prensa-detail__content ul,
-.prensa-detail__content ol {
+.press-detail .prensa-detail__content ul,
+.press-detail .prensa-detail__content ol {
     margin-bottom: 2rem;
     padding-left: 1.5rem;
 }
 
-.prensa-detail__content li {
+.press-detail .prensa-detail__content li {
     margin-bottom: 0.75rem;
     padding-left: 0.5rem;
 }
 
-.prensa-detail__content li::marker {
+.press-detail .prensa-detail__content li::marker {
     color: var(--brand-magenta, #9F57A7);
     font-weight: bold;
 }
 
-.prensa-detail__content blockquote {
+.press-detail .prensa-detail__content blockquote {
     margin: 3rem 0;
     padding: 2rem;
     background: #fefcfd;
@@ -1145,24 +1145,24 @@
     color: #4B5563;
 }
 
-.prensa-detail__content a {
+.press-detail .prensa-detail__content a {
     color: var(--brand-blue);
     text-decoration: underline;
     text-underline-offset: 4px;
     font-weight: 500;
 }
 
-.prensa-detail__content a:hover {
+.press-detail .prensa-detail__content a:hover {
     color: var(--brand-magenta);
 }
 
-.prensa-detail__content strong {
+.press-detail .prensa-detail__content strong {
     color: #0f172a;
     font-weight: 700;
 }
 
 /* Helper: Callout */
-.prensa-callout {
+.press-detail .prensa-callout {
     background: linear-gradient(135deg, rgba(159, 87, 167, 0.05), rgba(28, 92, 255, 0.05));
     border: 1px solid rgba(159, 87, 167, 0.1);
     border-radius: 16px;
@@ -1170,7 +1170,7 @@
     margin: 2.5rem 0;
 }
 
-.prensa-callout__title {
+.press-detail .prensa-callout__title {
     font-weight: 800;
     color: var(--brand-magenta);
     margin-bottom: 12px;
@@ -1181,7 +1181,7 @@
 }
 
 /* Footer Actions */
-.prensa-footer-actions {
+.press-detail .prensa-footer-actions {
     margin-top: 4rem;
     padding-top: 2rem;
     border-top: 1px solid #f0f0f4;
@@ -1192,20 +1192,20 @@
     gap: 20px;
 }
 
-.prensa-share {
+.press-detail .prensa-share {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.prensa-share__label {
+.press-detail .prensa-share__label {
     font-size: 0.9rem;
     font-weight: 600;
     color: #64748b;
     text-transform: uppercase;
 }
 
-.share-btn {
+.press-detail .share-btn {
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -1217,29 +1217,29 @@
     font-size: 1rem;
 }
 
-.share-btn:hover {
+.press-detail .share-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.share-btn--wa {
+.press-detail .share-btn--wa {
     background: #25D366;
 }
 
-.share-btn--x {
+.press-detail .share-btn--x {
     background: #000;
 }
 
-.share-btn--fb {
+.press-detail .share-btn--fb {
     background: #1877F2;
 }
 
-.share-btn--link {
+.press-detail .share-btn--link {
     background: #64748b;
 }
 
 /* Lightbox */
-.lightbox {
+.press-detail .lightbox {
     position: fixed;
     inset: 0;
     z-index: 9999;
@@ -1254,12 +1254,12 @@
     padding: 24px;
 }
 
-.lightbox.is-open {
+.press-detail .lightbox.is-open {
     opacity: 1;
     visibility: visible;
 }
 
-.lightbox__img {
+.press-detail .lightbox__img {
     max-width: 100%;
     max-height: 90vh;
     border-radius: 12px;
@@ -1268,11 +1268,11 @@
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.lightbox.is-open .lightbox__img {
+.press-detail .lightbox.is-open .lightbox__img {
     transform: scale(1);
 }
 
-.lightbox__close {
+.press-detail .lightbox__close {
     position: absolute;
     top: 24px;
     right: 24px;
@@ -1289,18 +1289,18 @@
     transition: background 0.2s;
 }
 
-.lightbox__close:hover {
+.press-detail .lightbox__close:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
 /* Latest News Section (Below Card) */
-.latest-news-section {
+.press-detail .latest-news-section {
     padding-top: 4rem;
     max-width: 1100px;
     margin: 0 auto;
 }
 
-.latest-news__title {
+.press-detail .latest-news__title {
     font-family: 'Outfit', sans-serif;
     font-size: 1.75rem;
     font-weight: 700;
@@ -1311,7 +1311,7 @@
 }
 
 /* Spinner */
-.loading-spinner {
+.press-detail .loading-spinner {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #9F57A7;
     border-radius: 50%;
@@ -1342,26 +1342,26 @@
 }
 
 /* Badge as gradient pill */
-.prensa-detail__brand-chip {
+.press-detail .prensa-detail__brand-chip {
     background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
     color: white;
 }
 
 /* Override specific chip classes to use gradient or keep distinct */
-.prensa-detail__brand-chip.chip--noticia {
+.press-detail .prensa-detail__brand-chip.chip--noticia {
     background: var(--brand-blue, #1C5CFF);
 }
 
-.prensa-detail__brand-chip.chip--comunicado {
+.press-detail .prensa-detail__brand-chip.chip--comunicado {
     background: var(--brand-magenta, #9F57A7);
 }
 
-.prensa-detail__brand-chip.chip--proyecto {
+.press-detail .prensa-detail__brand-chip.chip--proyecto {
     background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
 }
 
 /* Meta row responsive with wrap */
-.prensa-detail__meta {
+.press-detail .prensa-detail__meta {
     display: flex;
     flex-wrap: wrap;
     gap: 10px 14px;
@@ -1369,20 +1369,20 @@
 }
 
 /* Long link word-break for body content */
-.prensa-detail__content a {
+.press-detail .prensa-detail__content a {
     overflow-wrap: anywhere;
     word-break: break-word;
 }
 
 /* Share block touch-friendly */
-.prensa-share {
+.press-detail .prensa-share {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     align-items: center;
 }
 
-.share-btn {
+.press-detail .share-btn {
     min-width: 44px;
     min-height: 44px;
     width: 44px;
@@ -1401,110 +1401,110 @@
     }
 
     /* Card wrapper with soft shadow */
-    .press-article {
+    .press-detail .press-article {
         padding: 18px;
         border-radius: 24px;
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
     }
 
     /* Fluid title typography */
-    .prensa-detail__title {
+    .press-detail .prensa-detail__title {
         font-size: clamp(28px, 5.6vw, 48px);
         line-height: 1.08;
         margin-bottom: 1rem;
     }
 
     /* Subtitle adjustments */
-    .prensa-detail__subtitle {
+    .press-detail .prensa-detail__subtitle {
         font-size: 1rem;
         max-width: 100%;
         margin-bottom: 1.5rem;
     }
 
     /* Header section spacing */
-    .prensa-detail__header {
+    .press-detail .prensa-detail__header {
         margin-bottom: 2rem;
         padding-bottom: 1.5rem;
     }
 
     /* Content body prose style */
-    .prensa-detail__content {
+    .press-detail .prensa-detail__content {
         font-size: 17px;
         line-height: 1.75;
         max-width: 72ch;
     }
 
-    .prensa-detail__content p {
+    .press-detail .prensa-detail__content p {
         margin-bottom: 1.5rem;
     }
 
-    .prensa-detail__content h2 {
+    .press-detail .prensa-detail__content h2 {
         font-size: 1.5rem;
         margin-top: 2.5rem;
     }
 
-    .prensa-detail__content h3 {
+    .press-detail .prensa-detail__content h3 {
         font-size: 1.25rem;
         margin-top: 2rem;
     }
 
     /* Featured image responsive constraints */
-    .prensa-detail__image-container {
+    .press-detail .prensa-detail__image-container {
         margin-bottom: 2rem;
         border-radius: 18px;
     }
 
-    .prensa-detail__image {
+    .press-detail .prensa-detail__image {
         max-height: 55vh;
         border-radius: 18px;
     }
 
     /* Placeholder icon smaller */
-    .prensa-detail__placeholder {
+    .press-detail .prensa-detail__placeholder {
         padding: 40px 20px;
         margin-bottom: 2rem;
     }
 
-    .prensa-detail__placeholder-icon {
+    .press-detail .prensa-detail__placeholder-icon {
         width: 64px;
         height: 64px;
     }
 
     /* Download block stacked */
-    .download-block {
+    .press-detail .download-block {
         margin-bottom: 2rem;
     }
 
     /* Footer actions */
-    .prensa-footer-actions {
+    .press-detail .prensa-footer-actions {
         margin-top: 2rem;
         flex-direction: column;
         align-items: flex-start;
     }
 
     /* Latest news section 1-column */
-    .latest-news-section {
+    .press-detail .latest-news-section {
         padding-top: 2.5rem;
     }
 
-    .latest-news__title {
+    .press-detail .latest-news__title {
         font-size: 1.4rem;
         margin-bottom: 1.5rem;
     }
 
-    .latest-news-section .prensa-grid {
+    .press-detail .latest-news-section .prensa-grid {
         grid-template-columns: 1fr;
         gap: 16px;
     }
 
     /* Card image aspect ratio */
-    .latest-news-section .prensa-card .aspect-video,
-    .latest-news-section .prensa-card [class*="aspect-video"] {
+    .press-detail .latest-news-section .prensa-card .aspect-video,
+    .press-detail .latest-news-section .prensa-card [class*="aspect-video"] {
         aspect-ratio: 16/9;
     }
 
     /* Back button smaller */
-    .press-detail__back {
+    .press-detail .press-detail__back {
         padding: 8px 16px;
         font-size: 0.875rem;
         margin-bottom: 1.5rem;
@@ -1517,7 +1517,7 @@
         padding-top: calc(var(--header-h, 88px) + 20px);
     }
 
-    .latest-news-section .prensa-grid {
+    .press-detail .latest-news-section .prensa-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
