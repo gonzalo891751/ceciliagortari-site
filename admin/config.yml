@@ -1,36 +1,40 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: gonzalo891751/ceciliagortari-site
   branch: main
-
-publish_mode: simple
+  base_url: https://PLACEHOLDER_WORKER_URL_HERE # CHANGE THIS to your deployed Worker URL
+  auth_endpoint: /auth
 
 media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
+publish_mode: simple
+
 collections:
   - name: "prensa"
-    label: "Prensa"
+    label: "Prensa/Comunicados"
+    editor:
+      preview: true
     files:
-      - file: "content/prensa.json"
+      - name: "items"
         label: "Publicaciones"
-        name: "publicaciones"
-        format: "json"
+        file: "content/prensa.json"
+        
+        # Structure: { "items": [ ... ] }
         fields:
-          - label: "Items"
-            name: "items"
+          - name: "items"
+            label: "Artículos"
+            label_singular: "Artículo"
             widget: "list"
             collapsed: true
-            add_to_top: true
-            allow_reorder: true
-            allow_remove: true
-            summary: "{{fields.fecha}} — {{fields.titulo}}"
-            label_singular: "Publicación"
+            summary: "{{fecha}} — {{titulo}}"
             fields:
-              - { label: "ID", name: "id", widget: "string", hint: "Ej: 2025-12-18-cuentas-inversion" }
+              - { label: "ID", name: "id", widget: "string", required: true, hint: "Identificador único (ej: 2025-10-12-titulo-nota)" }
               - { label: "Fecha", name: "fecha", widget: "datetime" }
               - { label: "Título", name: "titulo", widget: "string" }
-              - { label: "Subtítulo", name: "subtitulo", widget: "string" }
-              - { label: "Etiqueta", name: "etiqueta", widget: "select", options: ["Documento", "Nota", "Entrevista", "Actividad"] }
+              - { label: "Subtítulo", name: "subtitulo", widget: "text", required: false }
+              - { label: "Etiqueta", name: "etiqueta", widget: "select", options: ["Documento", "Actividad", "Prensa", "Novedad", "Proyecto presentado"], default: "Novedad" }
               - { label: "Imagen", name: "imagen", widget: "image", required: false }
-              - { label: "Documento", name: "documento", widget: "file", choose_url: false, required: false }
+              - { label: "Archivo/Documento (PDF/DOCX)", name: "archivo", widget: "file", required: false, hint: "Subir archivo adjunto (PDF, DOCX)." }
+              - { label: "Documento (Legacy)", name: "documento", widget: "string", required: false, hint: "Campo 'documento' antiguo. No editar manualmente salvo para migración.", hidden: true }
               - { label: "Cuerpo", name: "cuerpo", widget: "markdown", required: false }
