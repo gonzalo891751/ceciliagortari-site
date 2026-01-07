@@ -2,6 +2,7 @@
  * Prensa Feed Script
  * Fetches content/prensa.json and renders items in Home and Prensa pages.
  * Handles detail view navigation via ?id= query parameter.
+ * Adds Search and Filter functionality.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,18 +14,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const gridContainer = document.getElementById("prensa-grid"); // The grid itself
   const detailContainer = document.getElementById("prensa-detalle");
 
+  // Filter UI
+  const searchInput = document.getElementById("prensa-search");
+  const categorySelect = document.getElementById("prensa-category-select");
+  const resultsCount = document.getElementById("prensa-results-count");
+  const countShown = document.getElementById("count-shown");
+  const countTotal = document.getElementById("count-total");
+
+  let allItems = []; // Store all fetched items
+
+  // Helper: Normalize Category (Legacy Handling)
+  function normalizeCategory(etiqueta) {
+    if (!etiqueta) return "Noticia";
+    const lower = etiqueta.toLowerCase().trim();
+    if (lower === "prensa" || lower === "novedad") return "Noticia";
+    return etiqueta; // Return original if it matches new schema or isn't a mapped legacy one
+  }
+
   // Helper: Get Badge Color Class
   function getBadgeClass(etiqueta) {
+    const norm = normalizeCategory(etiqueta);
     const map = {
       "Noticia": "badge-blue",
-      "Nota": "badge-purple",
-      "Comunicado": "badge-magenta",
-      "Documento": "badge-gray",
-      "Proyecto presentado": "badge-gradient",
-      "Actividad": "badge-blue",
-      "Entrevista": "badge-purple"
+      "Nota": "badge-blue", // Fallback
+      "Comunicado": "badge-magenta", // Maybe map to Opinión? User didn't specify "Comunicado" but "Opinión" is magenta.
+      "Opinión": "badge-magenta", // New Requirement
+      "Documento": "badge-purple", // User req: "violeta (o un tono frío sobrio)" - using purple class if exists, or custom style
+      "Proyecto presentado": "badge-orange", // User req: "naranja/amarillo"
+      "Actividad": "badge-green", // User req: "verde o turquesa"
+      "Escuela de emprendedores": "badge-cyan" // User req: "celeste o degradé especial"
     };
-    return map[etiqueta] || "badge-blue";
+
+    // Default to blue if not found
+    return map[norm] || "badge-blue";
   }
 
   // Helper: Parse Query Params
@@ -80,7 +102,23 @@ document.addEventListener("DOMContentLoaded", () => {
     container.innerHTML = "";
 
     if (items.length === 0) {
-      container.innerHTML = "<p class='text-gray-500'>No hay publicaciones recientes.</p>";
+      container.innerHTML = `
+        <div class="col-span-full text-center py-12">
+            <p class="text-gray-500 text-lg mb-4">No encontramos publicaciones con ese criterio.</p>
+            <button id="btn-clear-filters" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
+                Limpiar filtros
+            </button>
+        </div>
+      `;
+      // Attach listener to new button
+      const btnClear = document.getElementById("btn-clear-filters");
+      if (btnClear) {
+        btnClear.addEventListener("click", () => {
+          if (searchInput) searchInput.value = "";
+          if (categorySelect) categorySelect.value = "";
+          applyFilters();
+        });
+      }
       return;
     }
 
@@ -104,8 +142,10 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
       }
 
-      // Badge Class
-      const badgeClass = getBadgeClass(item.etiqueta);
+      // Handle Category & Badge
+      const normalizedCat = normalizeCategory(item.etiqueta);
+      const displayTag = normalizedCat; // Display the normalized name (e.g., Noticia instead of Prensa)
+      const badgeClass = getBadgeClass(normalizedCat);
 
       // Format Date
       let dateStr = "";
@@ -120,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ${imageHtml}
       </div>
       <div class="prensa-card__body">
-        <span class="prensa-card__badge ${badgeClass}">${item.etiqueta || 'Novedad'}</span>
+        <span class="prensa-card__badge ${badgeClass}">${displayTag}</span>
         <h3 class="prensa-card__title group-hover:text-brand-blue transition-colors">${item.titulo || 'Sin título'}</h3>
         ${item.subtitulo ? `<p class="prensa-card__excerpt">${item.subtitulo}</p>` : ''}
         <span class="prensa-card__date">${dateStr}</span>
@@ -139,9 +179,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderDetail(item) {
     if (!detailContainer) return;
 
-    // Show detail, Hide Grid if we want a clean view (User asked for "Volver al listado")
-    // To mimic "Bulletproof" detail page, we hide the main grid list while in detail.
+    // Show detail, Hide Grid + Toolbar
     if (mainGrid) mainGrid.classList.add("hidden");
+
+    // Hide Search/Filters if they are outside main-grid (they are inside .prensa-section container in HTML, but check layout)
+    // Actually the logic hides the whole section where filters are, so that's fine.
 
     // Show container
     detailContainer.classList.remove("hidden");
@@ -155,7 +197,8 @@ document.addEventListener("DOMContentLoaded", () => {
       dateStr = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
     }
 
-    const badgeClass = getBadgeClass(item.etiqueta);
+    const normalizedCat = normalizeCategory(item.etiqueta);
+    const badgeClass = getBadgeClass(normalizedCat);
     const bodyContent = parseMarkdown(item.body || item.cuerpo || item.contenido || "");
 
     let imageHtml = "";
@@ -232,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <header class="mb-8">
                     <span class="inline-block px-3 py-1 mb-4 rounded-full text-sm font-semibold text-white ${badgeClass}">
-                        ${item.etiqueta || 'Novedad'}
+                        ${normalizedCat}
                     </span>
                     <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-brand-dark leading-tight mb-4">
                         ${item.titulo}
@@ -289,6 +332,52 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  // Apply Filter Logic
+  function applyFilters() {
+    if (!gridContainer) return; // Only apply if in list view
+
+    const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+    const category = categorySelect ? categorySelect.value : "";
+
+    const filtered = allItems.filter(item => {
+      // 1. Check Category (Exact Match - Case Insensitive on inputs but data is usually consistent, we use normalized)
+      if (category) {
+        const itemCat = normalizeCategory(item.etiqueta);
+        if (itemCat !== category) return false;
+      }
+
+      // 2. Check Search Text
+      if (query) {
+        const title = (item.titulo || "").toLowerCase();
+        const sub = (item.subtitulo || "").toLowerCase();
+        const body = (item.body || item.cuerpo || item.contenido || "").toLowerCase();
+
+        if (!title.includes(query) && !sub.includes(query) && !body.includes(query)) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+
+    // Update Counts (Optional)
+    if (resultsCount && countShown && countTotal) {
+      countShown.textContent = filtered.length;
+      countTotal.textContent = allItems.length;
+      if (allItems.length > 0) resultsCount.classList.remove("hidden");
+    }
+
+    renderItems(filtered, gridContainer);
+  }
+
+  // SETUP EVENTS
+  if (searchInput) {
+    searchInput.addEventListener("input", applyFilters);
+  }
+  if (categorySelect) {
+    categorySelect.addEventListener("change", applyFilters);
+  }
+
   // MAIN EXECUTION
   fetch(prensaUrl, { cache: "no-store" })
     .then((response) => {
@@ -296,28 +385,27 @@ document.addEventListener("DOMContentLoaded", () => {
       return response.json();
     })
     .then((data) => {
-      let items = data.items || [];
+      allItems = data.items || [];
 
       // Sort by date desc
-      items.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+      allItems.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
       const currentId = getQueryParam('id');
 
       // Render Home (First 3)
       if (homeGrid) {
-        renderItems(items.slice(0, 3), homeGrid);
+        renderItems(allItems.slice(0, 3), homeGrid);
       }
 
       // Render Page Logic
       if (gridContainer) {
-        // Always render items first (so they are there when we go back)
-        // If we want to hide them immediately we can, but logic below handles visibility
-        renderItems(items, gridContainer);
+        // Init Filters
+        applyFilters();
 
         // Logic: specific item ID requested?
         if (currentId) {
           // Find item by ID or fallback generated ID
-          const selectedItem = items.find(i => generateId(i) === currentId);
+          const selectedItem = allItems.find(i => generateId(i) === currentId);
 
           if (selectedItem) {
             renderDetail(selectedItem);
