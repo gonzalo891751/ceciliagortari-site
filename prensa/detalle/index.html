@@ -31,102 +31,7 @@
         }
     </script>
     <link rel="stylesheet" href="/assets/css/site.css">
-    <style>
-        /* Estilos específicos para el detalle si no están en additions.css */
-        .prensa-detail {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 4rem 1rem;
-        }
-
-        .prensa-detail__back {
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: #1C5CFF;
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .prensa-detail__back:hover {
-            color: #9F57A7;
-        }
-
-        .prensa-detail__header {
-            margin-bottom: 2rem;
-        }
-
-        .prensa-detail__badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            color: white;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .prensa-detail__title {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 800;
-            line-height: 1.1;
-            color: #2C2C31;
-            margin-bottom: 1rem;
-        }
-
-        .prensa-detail__subtitle {
-            font-size: 1.25rem;
-            color: #4B5563;
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
-        }
-
-        .prensa-detail__date {
-            display: block;
-            color: #6B7280;
-            font-size: 0.875rem;
-            margin-bottom: 2rem;
-        }
-
-        .prensa-detail__image {
-            width: 100%;
-            height: auto;
-            border-radius: 1rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
-        }
-
-        .prensa-detail__content {
-            font-size: 1.125rem;
-            line-height: 1.8;
-            color: #374151;
-        }
-
-        .prensa-detail__content p {
-            margin-bottom: 1.5rem;
-        }
-
-        /* Spinner */
-        .loading-spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #9F57A7;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 2rem auto;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    <!-- Styles moved to additions.css -->
 </head>
 
 <body class="font-sans text-brand-dark bg-brand-light antialiased flex flex-col min-h-screen">
@@ -184,14 +89,14 @@
     </nav>
 
     <!-- CONTENT -->
-    <main class="flex-grow">
-        <section class="prensa-detail">
-            <a href="/prensa/" class="prensa-detail__back">← Volver a Prensa</a>
-
-            <div id="prensa-detail-container">
+    <main class="press-detail flex-grow">
+        <div class="press-detail__bg"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <a href="/prensa/" class="press-detail__back">← Volver a Prensa</a>
+            <article class="press-article" id="prensa-detail-container">
                 <div class="loading-spinner"></div>
-            </div>
-        </section>
+            </article>
+        </div>
     </main>
 
     <!-- FOOTER -->

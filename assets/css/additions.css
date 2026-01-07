@@ -755,3 +755,182 @@
     color: white;
     font-weight: 600;
 }
+
+/* ==========================================================================
+   PRESS DETAIL PAGE STYLES - 2026 Redesign
+   ========================================================================== */
+.press-detail {
+    position: relative;
+    padding: 60px 24px;
+    min-height: 80vh;
+    background-color: #fcfcfd;
+}
+
+.press-detail__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60vh;
+    background: linear-gradient(180deg, rgba(159, 87, 167, 0.03) 0%, rgba(28, 92, 255, 0.03) 100%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.press-detail__back {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2rem;
+    padding: 10px 20px;
+    background: white;
+    border-radius: 100px;
+    font-weight: 600;
+    color: var(--brand-dark, #2C2C31);
+    text-decoration: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+}
+
+.press-detail__back:hover {
+    transform: translateX(-4px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    color: var(--brand-blue, #1C5CFF);
+}
+
+.press-article {
+    position: relative;
+    z-index: 2;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+    padding: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .press-article {
+        padding: 24px;
+        border-radius: 16px;
+    }
+}
+
+.prensa-detail__header {
+    text-align: left;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 2rem;
+}
+
+.prensa-detail__badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+}
+
+.prensa-detail__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: #111827;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.prensa-detail__subtitle {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #4B5563;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.prensa-detail__date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #9CA3AF;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.prensa-detail__image {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    margin-bottom: 3.5rem;
+}
+
+.prensa-detail__content {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #374151;
+    max-width: 100%;
+}
+
+.prensa-detail__content p {
+    margin-bottom: 2rem;
+}
+
+.prensa-detail__content h2, 
+.prensa-detail__content h3 {
+    color: #111827;
+    font-weight: 700;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.prensa-detail__content h2 { font-size: 1.75rem; }
+.prensa-detail__content h3 { font-size: 1.5rem; }
+
+.prensa-detail__content blockquote {
+    border-left: 4px solid var(--brand-magenta, #9F57A7);
+    padding-left: 1.5rem;
+    font-style: italic;
+    color: #4B5563;
+    font-size: 1.25rem;
+    margin: 2rem 0;
+}
+
+.prensa-detail__content strong {
+    font-weight: 700;
+    color: #111827;
+}
+
+.prensa-detail__content ul, 
+.prensa-detail__content ol {
+    margin-bottom: 2rem;
+    padding-left: 2rem;
+}
+
+.prensa-detail__content li {
+    margin-bottom: 0.75rem;
+}
+
+/* Spinner (Re-added since we removed inline styles) */
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #9F57A7;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 4rem auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
