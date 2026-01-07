@@ -1332,67 +1332,67 @@
 }
 
 /* ==========================================================================
-   MOBILE PRESS DETAIL ENHANCEMENTS - 2026
-   ========================================================================== */
-
-/* Dynamic header offset using CSS variable */
-.press-detail {
-    padding-top: calc(var(--header-h, 88px) + 16px + env(safe-area-inset-top, 0px));
-    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-}
-
-/* Badge as gradient pill */
-.prensa-detail__brand-chip {
-    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
-    color: white;
-}
-
-/* Override specific chip classes to use gradient or keep distinct */
-.prensa-detail__brand-chip.chip--noticia {
-    background: var(--brand-blue, #1C5CFF);
-}
-
-.prensa-detail__brand-chip.chip--comunicado {
-    background: var(--brand-magenta, #9F57A7);
-}
-
-.prensa-detail__brand-chip.chip--proyecto {
-    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
-}
-
-/* Meta row responsive with wrap */
-.prensa-detail__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 14px;
-    align-items: center;
-}
-
-/* Long link word-break for body content */
-.prensa-detail__content a {
-    overflow-wrap: anywhere;
-    word-break: break-word;
-}
-
-/* Share block touch-friendly */
-.prensa-share {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
-}
-
-.share-btn {
-    min-width: 44px;
-    min-height: 44px;
-    width: 44px;
-    height: 44px;
-}
-
-/* ==========================================================================
    MOBILE BREAKPOINT (≤640px)
    ========================================================================== */
 @media (max-width: 640px) {
+
+    /* ==========================================================================
+       MOBILE PRESS DETAIL ENHANCEMENTS - 2026
+       ========================================================================== */
+
+    /* Dynamic header offset using CSS variable */
+    .press-detail {
+        padding-top: calc(var(--header-h, 88px) + 16px + env(safe-area-inset-top, 0px));
+        padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* Badge as gradient pill */
+    .press-detail .prensa-detail__brand-chip {
+        background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+        color: white;
+    }
+
+    /* Override specific chip classes to use gradient or keep distinct */
+    .press-detail .prensa-detail__brand-chip.chip--noticia {
+        background: var(--brand-blue, #1C5CFF);
+    }
+
+    .press-detail .prensa-detail__brand-chip.chip--comunicado {
+        background: var(--brand-magenta, #9F57A7);
+    }
+
+    .press-detail .prensa-detail__brand-chip.chip--proyecto {
+        background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+    }
+
+    /* Meta row responsive with wrap */
+    .press-detail .prensa-detail__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+        align-items: center;
+    }
+
+    /* Long link word-break for body content */
+    .press-detail .prensa-detail__content a {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    /* Share block touch-friendly */
+    .press-detail .prensa-share {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .press-detail .share-btn {
+        min-width: 44px;
+        min-height: 44px;
+        width: 44px;
+        height: 44px;
+    }
 
     /* Main container background */
     .press-detail {
