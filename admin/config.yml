@@ -2,7 +2,7 @@ backend:
   name: github
   repo: gonzalo891751/ceciliagortari-site
   branch: main
-  base_url: "" # Uses relative path to functions
+  base_url: https://ceciliagortari.com.ar # Pointing to the domain where Pages Functions live
   auth_endpoint: /auth
 
 media_folder: "assets/uploads"
