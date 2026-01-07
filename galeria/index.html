@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería | Cecilia Gortari</title>
+    <meta name="description" content="Fotos de recorridas, eventos y actividades legislativas.">
+    <link rel="icon" type="image/png" href="/assets/img/logo-cecilia.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['Outfit', 'sans-serif'] }, colors: { brand: { magenta: '#9F57A7', blue: '#1C5CFF', turquoise: '#24BCDE', orange: '#FBA85F', dark: '#2C2C31', light: '#F7F7FD' } } } }
+        }
+    </script>
+    <link rel="stylesheet" href="/assets/css/site.css">
+</head>
+
+<body class="font-sans text-brand-dark bg-brand-light antialiased">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar__inner">
+            <!-- Brand Group: Logo + Home Icon - more to the left -->
+            <div class="navbar__brand-group--left">
+                <a href="/" aria-label="Inicio">
+                    <img src="/assets/img/logo-cecilia.png" alt="Cecilia Gortari" class="navbar__logo--v2">
+                </a>
+                <a href="/" class="navbar__home-icon" aria-label="Inicio">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                </a>
+            </div>
+
+            <ul class="navbar__menu">
+                <li><a href="/" class="navbar__link">Ir al inicio →</a></li>
+                <li><a href="/biografia/" class="navbar__link">Biografía</a></li>
+                <li><a href="/proyectos/" class="navbar__link">Proyectos</a></li>
+                <li><a href="/escuela/" class="navbar__link navbar__link--highlight">Escuela de Emprendedores</a></li>
+                <li><a href="/prensa/" class="navbar__link">Prensa</a></li>
+                <li><a href="/galeria/" class="navbar__link">Galería</a></li>
+                <li><a href="/contacto/" class="navbar__link">Contacto</a></li>
+            </ul>
+
+            <a href="/contacto/" class="navbar__cta navbar__cta--primary">Sumate al proyecto</a>
+
+            <button class="navbar__toggle" aria-label="Men&uacute;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="navbar__mobile">
+            <ul class="navbar__mobile-menu">
+                <li><a href="/" class="text-gray-300 hover:text-white">Ir al inicio →</a></li>
+                <li><a href="/biografia/" class="text-gray-300 hover:text-white">Biografía</a></li>
+                <li><a href="/proyectos/" class="text-gray-300 hover:text-white">Proyectos</a></li>
+                <li><a href="/escuela/" class="text-gray-300 hover:text-white">Escuela de Emprendedores</a></li>
+                <li><a href="/prensa/" class="text-gray-300 hover:text-white">Prensa</a></li>
+                <li><a href="/galeria/" class="text-gray-300 hover:text-white">Galería</a></li>
+                <li><a href="/contacto/" class="text-gray-300 hover:text-white">Contacto</a></li>
+            </ul>
+            <a href="/contacto/" class="navbar__mobile-cta">Sumate al proyecto</a>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-16 bg-white">
+        <div class="container text-center">
+            <h1 class="text-brand-blue fade-in">Galería</h1>
+            <p class="text-xl text-gray-500 max-w-2xl mx-auto mt-4 fade-in">Recorridas, eventos y momentos del trabajo
+                legislativo.</p>
+        </div>
+    </header>
+
+    <section class="section bg-brand-light">
+        <div class="container">
+            <div class="gallery-grid">
+                <!-- Placeholder images usando la imagen de hero como ejemplo -->
+                <div class="gallery-item fade-in">
+                    <img src="/assets/img/cecilia-hero.png" alt="Recorrida en Goya">
+                    <div class="gallery-item__overlay"><span class="gallery-item__caption">Recorrida en Goya</span>
+                    </div>
+                </div>
+                <div class="gallery-item fade-in">
+                    <img src="/assets/img/cecilia-hero.png" alt="Sesión legislativa">
+                    <div class="gallery-item__overlay"><span class="gallery-item__caption">Sesión legislativa</span>
+                    </div>
+                </div>
+                <div class="gallery-item fade-in">
+                    <img src="/assets/img/cecilia-hero.png" alt="Escuela de Emprendedores">
+                    <div class="gallery-item__overlay"><span class="gallery-item__caption">Escuela de
+                            Emprendedores</span></div>
+                </div>
+                <div class="gallery-item fade-in">
+                    <img src="/assets/img/cecilia-hero.png" alt="Visita a escuelas rurales">
+                    <div class="gallery-item__overlay"><span class="gallery-item__caption">Visita a escuelas
+                            rurales</span></div>
+                </div>
+                <div class="gallery-item fade-in">
+                    <img src="/assets/img/cecilia-hero.png" alt="Reunión con productores">
+                    <div class="gallery-item__overlay"><span class="gallery-item__caption">Reunión con
+                            productores</span></div>
+                </div>
+                <div class="gallery-item fade-in">
+                    <img src="/assets/img/cecilia-hero.png" alt="Evento comunitario">
+                    <div class="gallery-item__overlay"><span class="gallery-item__caption">Evento comunitario</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox">
+        <div class="lightbox__content">
+            <button class="lightbox__close" aria-label="Cerrar">&times;</button>
+            <button class="lightbox__nav lightbox__nav--prev" aria-label="Anterior">‹</button>
+            <img src="" alt="" class="lightbox__img">
+            <button class="lightbox__nav lightbox__nav--next" aria-label="Siguiente">›</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__bottom">
+                <p>&copy; 2026 Cecilia Gortari.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="/assets/js/site.js"></script>
+</body>
+
+</html>

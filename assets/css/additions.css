@@ -1,0 +1,681 @@
+/* ==========================================================================
+   ADDITIONAL STYLES - 2026 Updates
+   ========================================================================== */
+
+/* IMPACT SECTION WITH LOGO + 2 COUNTERS */
+.impact-grid--new {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .impact-grid--new {
+        flex-direction: row;
+        justify-content: center;
+        gap: var(--spacing-2xl);
+    }
+}
+
+.impact-logo {
+    flex-shrink: 0;
+}
+
+.impact-logo img {
+    height: clamp(64px, 10vw, 120px);
+    width: auto;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+/* @media (min-width: 768px) block removed as clamp handles it */
+
+.impact-counters {
+    display: flex;
+    gap: var(--spacing-xl);
+    justify-content: center;
+}
+
+.impact-item--with-icon {
+    text-align: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.impact-item__icon {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* ESCUELA HORIZONTAL CAROUSEL */
+.escuela-home__carousel {
+    display: flex;
+    gap: var(--spacing-md);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: var(--spacing-sm) 0;
+}
+
+.escuela-home__carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.escuela-home__carousel-item {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition-base);
+}
+
+@media (min-width: 768px) {
+    .escuela-home__carousel-item {
+        flex: 0 0 340px;
+    }
+}
+
+.escuela-home__carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.escuela-home__carousel-item:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.escuela-home__carousel-item:hover img {
+    transform: scale(1.05);
+}
+
+/* BIOGRAFIA GRADIENT TITLE */
+.bio-home__title--gradient {
+    background: linear-gradient(135deg, var(--color-magenta) 0%, var(--color-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+}
+
+/* ESCUELA CTA BUTTON STYLES */
+.escuela-home__cta--secondary {
+    background: var(--color-blue);
+    color: white !important;
+    border: none;
+}
+
+.escuela-home__cta--secondary:hover {
+    color: white !important;
+    box-shadow: 0 8px 25px rgba(28, 92, 255, 0.4);
+}
+
+.escuela-home__cta--tertiary {
+    background: var(--color-magenta);
+    color: white !important;
+    border: none;
+}
+
+.escuela-home__cta--tertiary:hover {
+    color: white !important;
+    box-shadow: 0 8px 25px rgba(159, 87, 167, 0.4);
+}
+
+/* ==========================================================================
+   ESCUELA SHOWCASE (Modern Carousel) - Added via additions.css
+   ========================================================================== */
+.escuela-showcase {
+    width: 100%;
+    margin-top: var(--spacing-xl);
+}
+
+.escuela-showcase__frame {
+    position: relative;
+    width: 100%;
+    /* Default starting height to minimize CLS */
+    height: 360px;
+    /* Aspect ratio removed here to let JS control height */
+    max-height: 600px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #f0f0f5;
+
+    /* Animation */
+    transition: height 0.6s ease, transform 0.6s ease, box-shadow 0.6s ease;
+    will-change: height;
+}
+
+.escuela-showcase__frame.is-resizing {
+    transform: scale(0.995);
+    /* Very subtle "breath" effect */
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .escuela-showcase__frame {
+        transition: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .escuela-showcase__frame {
+        aspect-ratio: 4/3;
+        /* Taller for mobile */
+        max-height: 380px;
+        border-radius: 16px;
+    }
+}
+
+.escuela-showcase__track {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.escuela-showcase__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 600ms ease-in-out;
+    visibility: hidden;
+}
+
+.escuela-showcase__slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+/* BLURRED BACKGROUND IMAGE (To fill space) */
+.escuela-showcase__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(18px);
+    transform: scale(1.15);
+    /* Zoom in to hide blurred edges */
+    opacity: 0.35;
+    z-index: 1;
+}
+
+/* MAIN IMAGE (Contained, sharp) */
+.escuela-showcase__img {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* KEY: Never crop the main subject */
+    display: block;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+/* NAVIGATION ARROWS */
+.escuela-showcase__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    border: none;
+    color: var(--color-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+    opacity: 0;
+    /* Hidden by default until hover */
+}
+
+.escuela-showcase__frame:hover .escuela-showcase__nav {
+    opacity: 1;
+}
+
+.escuela-showcase__nav:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.1);
+    color: var(--color-magenta);
+}
+
+.escuela-showcase__nav--prev {
+    left: 20px;
+}
+
+.escuela-showcase__nav--next {
+    right: 20px;
+}
+
+@media (max-width: 768px) {
+    .escuela-showcase__nav {
+        display: none;
+        /* Hide arrows on mobile, use swipe or just dots */
+    }
+}
+
+/* DOTS */
+.escuela-showcase__dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.escuela-showcase__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.escuela-showcase__dot.is-active {
+    background: white;
+    transform: scale(1.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   ESCUELA BACKGROUND IMAGE (Added via additions.css)
+   ========================================================================== */
+.section-escuela--bg {
+    position: relative;
+    overflow: hidden;
+    background: transparent;
+    /* KEY: Avoid solid white to let bg show */
+}
+
+/* Background Image Layer */
+.section-escuela--bg::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    /* Avoid borders */
+    background-image: url('../img/escuela/bg-pink.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.95;
+    filter: saturate(1.08) contrast(1.05);
+    /* Enhance visibility */
+    z-index: 0;
+}
+
+/* Overlay Layer for Readability (Subtle) */
+.section-escuela--bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Much lighter overlay to reveal texture */
+    background: radial-gradient(circle at 30% 20%,
+            rgba(255, 255, 255, 0.35) 0%,
+            rgba(255, 255, 255, 0.12) 45%,
+            rgba(255, 255, 255, 0.06) 70%,
+            rgba(255, 255, 255, 0.10) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Ensure content is above background */
+.section-escuela--bg>.container {
+    position: relative;
+    z-index: 2;
+    background: transparent !important;
+    /* Override potential white bg */
+}
+
+/* Mobile Adjustment */
+@media (max-width: 640px) {
+    .section-escuela--bg::after {
+        background: radial-gradient(circle at 30% 20%,
+                rgba(255, 255, 255, 0.45) 0%,
+                rgba(255, 255, 255, 0.18) 50%,
+                rgba(255, 255, 255, 0.10) 100%);
+    }
+}
+
+/* ==========================================================================
+   ESCUELA HEADING HIERARCHY
+   ========================================================================== */
+/* ==========================================================================
+   ESCUELA HEADING HIERARCHY & ACTIONS
+   ========================================================================== */
+:root {
+    /* Fallback if missing */
+    --brand-yellow: #FFD24A;
+    --brand-magenta: #e4007c;
+    /* Brand Magenta approximation if missing */
+}
+
+/* Heading Wrapper */
+.escuela-heading {
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    /* Center everything */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center items horizontally */
+    gap: 8px;
+    /* Slightly increased gap for visual breath */
+    width: 100%;
+}
+
+/* Top: Just Title (Icon removed) */
+.escuela-heading__top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* No Icon Styles Needed - Removed from HTML */
+
+/* Title: Uppercase + Magenta->Blue + Centered */
+.escuela-heading__title {
+    font-weight: 900;
+    line-height: 1.05;
+    /* Tighter line-height */
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-align: center;
+    /* Gradient: Magenta -> Blue */
+    background: linear-gradient(90deg, var(--color-magenta, #e4007c), var(--color-blue, #1c5cff));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+}
+
+/* Subtitle: Centered below title block */
+.escuela-heading__subtitle {
+    font-weight: 600;
+    margin: 0;
+    color: #2b2b2b;
+    opacity: 0.9;
+    font-size: 1.125rem;
+    width: 100%;
+    text-align: center;
+}
+
+/* Buttons Layout: Single Row */
+.escuela-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: nowrap;
+    /* Single row desktop */
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: var(--spacing-md);
+}
+
+.escuela-actions>* {
+    flex: 0 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+    .escuela-actions {
+        flex-wrap: wrap;
+        /* Wrap on tablet if needed */
+    }
+}
+
+@media (max-width: 640px) {
+    .escuela-heading__title {
+        font-size: clamp(20px, 5vw, 28px);
+        word-break: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        max-width: 100%;
+    }
+
+    .escuela-heading__subtitle {
+        font-size: 1rem;
+        text-align: left;
+        /* Maybe left aligns better on mobile? Or keep center? User said center. */
+        text-align: center;
+        margin-left: 0;
+    }
+
+    .escuela-actions {
+        justify-content: center;
+        /* Center buttons on mobile */
+        flex-wrap: wrap;
+    }
+
+    .escuela-actions>* {
+        width: 100%;
+        /* Full width buttons on tiny screens? Or keep natural? */
+        /* width: min(320px, 100%); Optional nice stacking */
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   PROJECTS SECTION (Redesign nested in Bio Background)
+   ========================================================================== */
+
+/* Spacer between Bio content and Projects */
+.bio-projects-spacer {
+    height: clamp(60px, 8vw, 100px);
+    width: 100%;
+}
+
+.projects-container {
+    position: relative;
+    z-index: 10;
+}
+
+/* Header */
+.projects-header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.projects-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.1;
+    padding-bottom: 10px;
+    /* Prevent descenders cut by gradient clip */
+}
+
+.projects-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    font-weight: 500;
+    line-height: 1.6;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* Grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+}
+
+@media (min-width: 640px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
+}
+
+/* Card */
+.project-card {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Accent top bar */
+.project-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #9F57A7, #1C5CFF);
+    opacity: 0.7;
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(159, 87, 167, 0.1);
+}
+
+.project-card:hover::before {
+    height: 6px;
+    opacity: 1;
+}
+
+.project-card__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.project-card__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: rgba(159, 87, 167, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9F57A7;
+    margin-bottom: 24px;
+    transition: all 0.4s ease;
+}
+
+.project-card:hover .project-card__icon {
+    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+    color: white;
+    transform: rotate(-10deg) scale(1.1);
+    box-shadow: 0 8px 15px rgba(159, 87, 167, 0.3);
+}
+
+.project-card__title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-dark);
+    margin-bottom: 12px;
+    line-height: 1.25;
+}
+
+.project-card__desc {
+    font-size: 1rem;
+    color: var(--color-gray-600);
+    margin-bottom: 24px;
+    flex: 1;
+    /* Pushes link to bottom if cards have fixed height, but here auto height */
+    line-height: 1.6;
+}
+
+.project-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #1C5CFF;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    padding: 8px 0;
+}
+
+.project-card__link:hover {
+    color: #9F57A7;
+    padding-left: 4px;
+}
+
+.project-card__link:focus-visible {
+    outline: 2px solid #1C5CFF;
+    border-radius: 4px;
+}
+
+/* Button "Ver todos" */
+.projects-footer {
+    text-align: center;
+    margin-top: var(--spacing-md);
+}
+
+.projects-btn-all {
+    display: inline-block;
+    padding: 16px 36px;
+    background: white;
+    /* Clean pill */
+    color: var(--color-dark);
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.projects-btn-all:hover {
+    background: var(--color-dark);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-color: transparent;
+}
