@@ -1330,3 +1330,194 @@
         transform: rotate(360deg);
     }
 }
+
+/* ==========================================================================
+   MOBILE PRESS DETAIL ENHANCEMENTS - 2026
+   ========================================================================== */
+
+/* Dynamic header offset using CSS variable */
+.press-detail {
+    padding-top: calc(var(--header-h, 88px) + 16px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Badge as gradient pill */
+.prensa-detail__brand-chip {
+    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+    color: white;
+}
+
+/* Override specific chip classes to use gradient or keep distinct */
+.prensa-detail__brand-chip.chip--noticia {
+    background: var(--brand-blue, #1C5CFF);
+}
+
+.prensa-detail__brand-chip.chip--comunicado {
+    background: var(--brand-magenta, #9F57A7);
+}
+
+.prensa-detail__brand-chip.chip--proyecto {
+    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+}
+
+/* Meta row responsive with wrap */
+.prensa-detail__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    align-items: center;
+}
+
+/* Long link word-break for body content */
+.prensa-detail__content a {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* Share block touch-friendly */
+.prensa-share {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.share-btn {
+    min-width: 44px;
+    min-height: 44px;
+    width: 44px;
+    height: 44px;
+}
+
+/* ==========================================================================
+   MOBILE BREAKPOINT (≤640px)
+   ========================================================================== */
+@media (max-width: 640px) {
+
+    /* Main container background */
+    .press-detail {
+        padding: calc(var(--header-h, 88px) + 16px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px));
+        background: #f6f7fb;
+    }
+
+    /* Card wrapper with soft shadow */
+    .press-article {
+        padding: 18px;
+        border-radius: 24px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Fluid title typography */
+    .prensa-detail__title {
+        font-size: clamp(28px, 5.6vw, 48px);
+        line-height: 1.08;
+        margin-bottom: 1rem;
+    }
+
+    /* Subtitle adjustments */
+    .prensa-detail__subtitle {
+        font-size: 1rem;
+        max-width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Header section spacing */
+    .prensa-detail__header {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+    }
+
+    /* Content body prose style */
+    .prensa-detail__content {
+        font-size: 17px;
+        line-height: 1.75;
+        max-width: 72ch;
+    }
+
+    .prensa-detail__content p {
+        margin-bottom: 1.5rem;
+    }
+
+    .prensa-detail__content h2 {
+        font-size: 1.5rem;
+        margin-top: 2.5rem;
+    }
+
+    .prensa-detail__content h3 {
+        font-size: 1.25rem;
+        margin-top: 2rem;
+    }
+
+    /* Featured image responsive constraints */
+    .prensa-detail__image-container {
+        margin-bottom: 2rem;
+        border-radius: 18px;
+    }
+
+    .prensa-detail__image {
+        max-height: 55vh;
+        border-radius: 18px;
+    }
+
+    /* Placeholder icon smaller */
+    .prensa-detail__placeholder {
+        padding: 40px 20px;
+        margin-bottom: 2rem;
+    }
+
+    .prensa-detail__placeholder-icon {
+        width: 64px;
+        height: 64px;
+    }
+
+    /* Download block stacked */
+    .download-block {
+        margin-bottom: 2rem;
+    }
+
+    /* Footer actions */
+    .prensa-footer-actions {
+        margin-top: 2rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Latest news section 1-column */
+    .latest-news-section {
+        padding-top: 2.5rem;
+    }
+
+    .latest-news__title {
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .latest-news-section .prensa-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    /* Card image aspect ratio */
+    .latest-news-section .prensa-card .aspect-video,
+    .latest-news-section .prensa-card [class*="aspect-video"] {
+        aspect-ratio: 16/9;
+    }
+
+    /* Back button smaller */
+    .press-detail__back {
+        padding: 8px 16px;
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Tablet adjustments (641px - 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .press-detail {
+        padding-top: calc(var(--header-h, 88px) + 20px);
+    }
+
+    .latest-news-section .prensa-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
