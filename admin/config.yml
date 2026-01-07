@@ -2,7 +2,7 @@ backend:
   name: github
   repo: gonzalo891751/ceciliagortari-site
   branch: main
-  base_url: https://ceciliagortari.com.ar # Pointing to the domain where Pages Functions live
+  base_url: https://sveltia-cms-auth.gonzalo891751.workers.dev # Pointing to the domain where Pages Functions live
   auth_endpoint: /auth
 
 media_folder: "assets/uploads"
