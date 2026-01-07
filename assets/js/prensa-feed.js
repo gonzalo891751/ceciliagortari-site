@@ -204,8 +204,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let imageHtml = "";
     if (item.imagen) {
       imageHtml = `
-                <div class="mb-8 rounded-2xl overflow-hidden shadow-lg">
-                    <img src="${item.imagen}" alt="${item.titulo}" class="w-full h-auto object-cover max-h-[600px]">
+                <div class="mb-8 rounded-2xl overflow-hidden shadow-lg bg-gray-50 flex justify-center items-center">
+                    <img src="${item.imagen}" 
+                         alt="${item.titulo}" 
+                         class="block max-w-full h-auto max-h-[80vh] object-contain mx-auto"
+                         loading="eager">
                 </div>
             `;
     }
