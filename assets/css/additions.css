@@ -930,22 +930,30 @@
 .prensa-detail__image-container {
     position: relative;
     margin-bottom: 3.5rem;
-    border-radius: 20px;
+    border-radius: 18px;
     overflow: hidden;
+    /* Ensures border-radius clips content but we use overflow:visible on image if needed, though strictly container clips usually. */
+    /* UPDATED Strategy: Grid + Place Center */
+    display: grid;
+    place-items: center;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.04);
+    /* letterbox soft bg */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     cursor: zoom-in;
-    /* Fix: Allow natural aspect ratio */
-    width: 100%;
-    background: rgba(0, 0, 0, 0.02);
 }
 
 .prensa-detail__image {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
     display: block;
-    max-height: 80vh;
-    margin: 0 auto;
+    max-width: 100%;
+    max-height: 70vh;
+    /* Limit vertical height to avoid scrolling */
+    width: auto;
+    /* Allow width to shrink */
+    height: auto;
+    /* Maintain aspect ratio */
+    object-fit: contain;
+    border-radius: 18px;
     transition: transform 0.5s ease;
 }
 

@@ -324,17 +324,30 @@ function getIconForTag(tag) {
 function parseContent(content) {
     if (!content) return "";
 
-    // If marked is loaded, use it
+    // 1. Try using marked + DOMPurify
     if (typeof marked !== 'undefined' && marked.parse) {
-        // Configure to treat newlines as breaks (optional, depends on preference)
-        // marked.parse(content, { breaks: true });
-        return marked.parse(content);
+        try {
+            // Configure marked options if needed (defaults are usually fine for basic usage)
+            // marked.setOptions({ breaks: true, gfm: true }); // example
+
+            const rawHtml = marked.parse(content, { breaks: true, gfm: true });
+
+            if (typeof DOMPurify !== 'undefined') {
+                return DOMPurify.sanitize(rawHtml);
+            }
+            return rawHtml;
+        } catch (e) {
+            console.error("Error parsing markdown:", e);
+        }
     }
 
-    // Fallback logic
-    if (content.trim().startsWith("<")) return content;
+    // 2. Fallback: simple text formatting
+    if (content.trim().startsWith("<")) return content; // Already HTML?
 
     let html = content
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
         .replace(/(?:\r\n|\r|\n){2,}/g, '</p><p>')
