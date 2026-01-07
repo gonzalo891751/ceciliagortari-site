@@ -323,14 +323,17 @@ function getIconForTag(tag) {
 
 function parseContent(content) {
     if (!content) return "";
-    // Basic Markdown parser or pass-through if HTML
-    // Handling simple markdown bold/italic/links if needed, but assuming HTML or simple MD
-    // Converting newlines to paragraphs if plaintext
 
-    // Check if it looks like HTML
+    // If marked is loaded, use it
+    if (typeof marked !== 'undefined' && marked.parse) {
+        // Configure to treat newlines as breaks (optional, depends on preference)
+        // marked.parse(content, { breaks: true });
+        return marked.parse(content);
+    }
+
+    // Fallback logic
     if (content.trim().startsWith("<")) return content;
 
-    // Convert Markdown-like **bold** to <strong>
     let html = content
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
