@@ -7,10 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Calculate header height and set CSS variable for content offset
     function updateHeaderHeight() {
         const header = document.querySelector('.navbar');
-        if (header) {
-            const height = header.offsetHeight;
-            document.documentElement.style.setProperty('--header-h', height + 'px');
-        }
+        const height = header ? header.offsetHeight : 0;
+        document.documentElement.style.setProperty(
+            '--header-h',
+            height ? height + 'px' : '88px'
+        );
     }
 
     // Initialize and listen for resize/orientation changes
