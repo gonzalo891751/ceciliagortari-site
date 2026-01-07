@@ -679,3 +679,79 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     border-color: transparent;
 }
+/* =========================================
+   DYNAMIC PRENSA GRID
+   ========================================= */
+.prensa-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 24px;
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .prensa-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .prensa-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* Card Styles Reuse/Tweaks */
+.prensa-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.prensa-card__image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Fallback Placeholder */
+.prensa-card__placeholder {
+    width: 100%;
+    height: 200px;
+    background-color: var(--color-brand-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #cbd5e1;
+}
+
+.prensa-card__placeholder-icon {
+    font-size: 2rem;
+}
+
+/* BADGES MAPPING */
+.badge-blue {
+    background-color: #DBEAFE; 
+    color: #1E40AF; 
+}
+
+.badge-purple {
+    background-color: #F3E8FF; 
+    color: #6B21A8; 
+}
+
+.badge-magenta {
+    background-color: #FCE7F3; 
+    color: #9D174D; 
+}
+
+.badge-gray {
+    background-color: #F3F4F6; 
+    color: #374151; 
+}
+
+.badge-gradient {
+    background: linear-gradient(135deg, var(--color-brand-magenta), var(--color-brand-blue));
+    color: white;
+    font-weight: 600;
+}

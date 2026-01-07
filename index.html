@@ -613,69 +613,10 @@
                 <p class="prensa-home__subtitle">Comunicados, entrevistas y actividad reciente.</p>
             </div>
 
-            <div class="prensa-carousel">
-                <div class="prensa-carousel__track" id="prensa-carousel-track">
-                    <!-- Card 1 -->
-                    <div class="prensa-carousel__item">
-                        <a href="#" class="prensa-card">
-                            <div class="prensa-card__image-container">
-                                <span class="prensa-card__placeholder-icon">📰</span>
-                            </div>
-                            <div class="prensa-card__body">
-                                <span class="prensa-card__badge">NOTICIA</span>
-                                <h3 class="prensa-card__title">Noticia 1</h3>
-                                <p class="prensa-card__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Sed do eiusmod tempor incididunt ut labore.</p>
-                                <span class="prensa-card__date">Diciembre 2025</span>
-                                <span class="prensa-card__cta">Leer más &rarr;</span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="prensa-carousel__item">
-                        <a href="#" class="prensa-card">
-                            <div class="prensa-card__image-container">
-                                <span class="prensa-card__placeholder-icon">📰</span>
-                            </div>
-                            <div class="prensa-card__body">
-                                <span class="prensa-card__badge">NOTICIA</span>
-                                <h3 class="prensa-card__title">Noticia 2</h3>
-                                <p class="prensa-card__excerpt">Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo.</p>
-                                <span class="prensa-card__date">Diciembre 2025</span>
-                                <span class="prensa-card__cta">Leer más &rarr;</span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Card 3 -->
-                    <div class="prensa-carousel__item">
-                        <a href="#" class="prensa-card">
-                            <div class="prensa-card__image-container">
-                                <span class="prensa-card__placeholder-icon">📰</span>
-                            </div>
-                            <div class="prensa-card__body">
-                                <span class="prensa-card__badge">NOTICIA</span>
-                                <h3 class="prensa-card__title">Noticia 3</h3>
-                                <p class="prensa-card__excerpt">Duis aute irure dolor in reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                                <span class="prensa-card__date">Diciembre 2025</span>
-                                <span class="prensa-card__cta">Leer más &rarr;</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="prensa-carousel__nav">
-                    <button class="prensa-carousel__btn" id="prensa-prev" aria-label="Ver anterior">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <button class="prensa-carousel__btn" id="prensa-next" aria-label="Ver siguiente">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-                </div>
+            <!-- Dynamic Grid (JS Rendered) -->
+            <div id="prensa-home-grid" class="prensa-grid">
+                <!-- Javascript will load items here -->
+                <div class="text-center w-full py-8 text-gray-500">Cargando novedades...</div>
             </div>
 
             <div class="prensa-home__footer fade-in">
@@ -796,7 +737,8 @@
     </footer>
 
     <!-- Prensa Data + Site JS -->
-    <script src="/assets/js/prensa-data.js"></script>
+    <!-- <script src="/assets/js/prensa-data.js"></script> --> <!-- Deprecated -->
+    <script defer src="/assets/js/prensa-feed.js"></script>
     <script src="/assets/js/site.js"></script>
 
 </body>
