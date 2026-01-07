@@ -762,7 +762,8 @@
    ========================================================================== */
 .press-detail {
     position: relative;
-    padding: 60px 24px 100px;
+    padding: 120px 24px 100px;
+    /* Added top offset for fixed navbar */
     min-height: 80vh;
     background-color: #f9f9fb;
     /* Clean base */
@@ -959,6 +960,31 @@
 
 .prensa-detail__image-container:hover .prensa-detail__image {
     transform: scale(1.02);
+}
+
+/* Placeholder for missing image */
+.prensa-detail__placeholder {
+    display: grid;
+    place-items: center;
+    padding: 56px 24px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #f3f4f6 50%, #eef0f2 100%);
+    border-radius: 18px;
+    margin-bottom: 3.5rem;
+    border: 1px dashed #d1d5db;
+}
+
+.prensa-detail__placeholder-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.3;
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.prensa-detail__placeholder-text {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    font-weight: 500;
 }
 
 .prensa-detail__image-overlay {

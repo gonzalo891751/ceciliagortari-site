@@ -148,12 +148,29 @@ function renderDetail(item, container) {
             </div>
         </header>
 
-        ${item.imagen ? `
-            <div class="prensa-detail__image-container" id="zoom-trigger">
-                <img src="${item.imagen}" alt="${item.titulo}" class="prensa-detail__image">
-                <div class="prensa-detail__image-overlay">Click para ampliar</div>
-            </div>
-        ` : ''}
+        ${(() => {
+            // Robust image field fallback
+            const img = item.imagen || item.image || item.featuredImage ||
+                item.featured_image || item.cover || item.thumbnail || "";
+
+            if (img) {
+                return `
+                    <div class="prensa-detail__image-container" id="zoom-trigger">
+                        <img src="${img}" alt="${item.titulo}" class="prensa-detail__image">
+                        <div class="prensa-detail__image-overlay">Click para ampliar</div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="prensa-detail__placeholder">
+                        <svg class="prensa-detail__placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="prensa-detail__placeholder-text">Sin imagen destacada</span>
+                    </div>
+                `;
+            }
+        })()}
 
         ${instagramBlock}
 
