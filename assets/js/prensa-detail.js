@@ -156,7 +156,7 @@ function renderDetail(item, container) {
         ${documentBlock}
 
         <div class="prensa-detail__content">
-            ${parseContent(item.body || item.cuerpo || item.contenido)}
+            ${parseContent(item.cuerpo || item["cuerpo_legacy"] || item.contenido || item.body)}
         </div>
 
 
