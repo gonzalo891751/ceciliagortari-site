@@ -51,6 +51,13 @@
     <!-- Site CSS -->
     <link rel="stylesheet" href="/assets/css/site.css">
     <link rel="stylesheet" href="/assets/css/additions.css">
+    <!-- Netlify Identity & Redirect -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+        if (window.location.hash.includes("recovery_token") || window.location.hash.includes("invite_token")) {
+            window.location.href = "/admin/" + window.location.hash;
+        }
+    </script>
 </head>
 
 <body class="font-sans text-brand-dark bg-brand-light antialiased">
@@ -489,14 +496,14 @@
 
     <!-- Behold Widget Script (Loaded once) -->
     <script>
-            (() => {
-                if (!document.querySelector('script[src="https://w.behold.so/widget.js"]')) {
-                    const d = document, s = d.createElement("script");
-                    s.type = "module";
-                    s.src = "https://w.behold.so/widget.js";
-                    d.head.append(s);
-                }
-            })();
+        (() => {
+            if (!document.querySelector('script[src="https://w.behold.so/widget.js"]')) {
+                const d = document, s = d.createElement("script");
+                s.type = "module";
+                s.src = "https://w.behold.so/widget.js";
+                d.head.append(s);
+            }
+        })();
     </script>
 
     <!-- Instagram Embed Script (async for performance) -->
