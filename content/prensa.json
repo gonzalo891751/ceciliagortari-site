@@ -1,6 +1,16 @@
 {
   "items": [
     {
+      "fecha": "2026-01-07T10:00:00.000Z",
+      "id": "2026-01-07-prueba-cms-revertido",
+      "titulo": "Prueba de CMS Revertido",
+      "subtitulo": "Esta es una nota de prueba para verificar que el campo cuerpo se ve.",
+      "etiqueta": "Novedad",
+      "imagen": "",
+      "cuerpo": "Este es el contenido del cuerpo. Si ves esto en la web, el revert funcionó correctamente. **Texto en negrita** y lista:\n\n* Item 1\n* Item 2",
+      "documento": ""
+    },
+    {
       "fecha": "2025-12-18T02:35:00.000-03:00",
       "titulo": "Solicitamos mediante nota la remisión de Cuentas de Inversión adeudadas al Gobernador J.P. Valdés",
       "subtitulo": "Se pidió enviar a la Legislatura la documentación de los últimos dos ejercicios fiscales para su análisis y tratamiento, en el marco del debate del Presupuesto 2026.",

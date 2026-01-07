@@ -29,17 +29,11 @@ collections:
             collapsed: true
             summary: "{{fecha}} — {{titulo}}"
             fields:
-              # Visible Fields (Ordered)
               - { label: "Fecha", name: "fecha", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ss.000Z", date_format: "DD/MM/YYYY", time_format: "HH:mm" }
+              - { label: "ID (Manual)", name: "id", widget: "string", required: true, hint: "Escribir ID único (ej: 2024-01-01-titulo-nota)" }
               - { label: "Título", name: "titulo", widget: "string" }
               - { label: "Subtítulo / Bajada", name: "subtitulo", widget: "text", required: false }
               - { label: "Etiqueta", name: "etiqueta", widget: "select", options: ["Documento", "Actividad", "Prensa", "Novedad", "Proyecto presentado"], default: "Novedad" }
               - { label: "Imagen destacada", name: "imagen", widget: "image", required: false }
-              - { label: "Archivo/Documento (PDF/DOCX)", name: "archivo", widget: "file", required: false, hint: "Subir archivo adjunto." }
-              - { label: "URL de Instagram", name: "instagram_url", widget: "string", required: false, hint: "Pegar la URL del post o reel." }
-              - { label: "Contenido (Cuerpo)", name: "body", widget: "markdown", required: false }
-
-              # Hidden / Legacy / Auto Fields
-              - { label: "ID (Automático)", name: "id", widget: "string", required: false, hidden: true }
-              - { label: "Cuerpo (Legacy)", name: "cuerpo", widget: "markdown", required: false, hidden: true }
-              - { label: "Documento (Legacy)", name: "documento", widget: "string", required: false, hidden: true }
+              - { label: "Contenido / Cuerpo", name: "cuerpo", widget: "markdown", required: false }
+              - { label: "Documento adjunto (Legacy)", name: "documento", widget: "file", required: false }
