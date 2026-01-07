@@ -5,12 +5,13 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
     const slug = params.get("slug");
     const container = document.getElementById("prensa-detail-container");
 
     if (!container) return;
 
-    if (!slug) {
+    if (!id && !slug) {
         renderError(container, "Publicación no especificada.");
         return;
     }
@@ -23,9 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((data) => {
             const items = data.items || [];
 
-            // Find item by slug (either explicit or generated)
+            // Find item by ID or Slug
             const item = items.find(i => {
+                const itemId = i.id || generateSlug(i); // Fallback to slug-like ID if no ID field
                 const itemSlug = i.slug || generateSlug(i);
+
+                if (id) return itemId === id || itemSlug === id; // Match ID
                 return itemSlug === slug;
             });
 
@@ -203,8 +207,8 @@ function renderLatestNews(items, currentItem) {
     sectionContainer.classList.remove("hidden");
 
     listContainer.innerHTML = others.map(item => {
-        const itemSlug = item.slug || generateSlug(item);
-        const permalink = `/prensa/detalle/?slug=${itemSlug}`;
+        const itemId = item.id || generateSlug(item);
+        const permalink = `/prensa/detalle/?id=${itemId}`;
         const dateStr = formatDate(item.fecha);
         const badgeClass = getBadgeClass(item.etiqueta);
 

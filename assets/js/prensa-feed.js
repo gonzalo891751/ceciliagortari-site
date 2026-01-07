@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     items.forEach((item) => {
       const itemId = generateId(item); // Ensure we always have an ID
-      const detailUrl = `/prensa/?id=${itemId}`;
+      const detailUrl = `/prensa/detalle/?id=${itemId}`;
 
       const card = document.createElement("a");
       card.href = detailUrl;
