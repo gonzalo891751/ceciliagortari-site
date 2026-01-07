@@ -1,3 +1,20 @@
 {
-  "items": []
+  "items": [
+    {
+      "titulo": "Cecilia Gortari presentó proyecto para impulsar emprendedores",
+      "subtitulo": "La diputada provincial busca fomentar el desarrollo local a través de nuevas herramientas legislativas.",
+      "fecha": "2024-05-15",
+      "etiqueta": "Proyecto presentado",
+      "imagen": "https://picsum.photos/seed/cecilia1/800/600",
+      "contenido": "<p>La diputada provincial Cecilia Gortari presentó hoy un nuevo proyecto de ley destinado a fortalecer el ecosistema emprendedor de la provincia. La iniciativa busca brindar beneficios fiscales y acceso a créditos blandos para quienes inicien su primera actividad comercial.</p><p>'Es fundamental apoyar a quienes generan trabajo genuino', destacó Gortari durante la presentación en la Legislatura.</p><p>El proyecto contempla también la creación de una incubadora de empresas estatal que brinde asesoramiento técnico y legal gratuito.</p>"
+    },
+    {
+      "titulo": "Visita a la Escuela de Robótica de Goya",
+      "subtitulo": "Recorrida institucional junto a docentes y alumnos para conocer los avances en educación tecnológica.",
+      "fecha": "2024-04-20",
+      "etiqueta": "Noticia",
+      "imagen": "https://picsum.photos/seed/cecilia2/800/600",
+      "contenido": "<p>En el marco de sus visitas territoriales, Cecilia Gortari recorrió las instalaciones de la Escuela de Robótica de Goya. Allí pudo conversar con los estudiantes sobre sus proyectos de innovación.</p><p>La educación tecnológica es una prioridad en la agenda de la diputada, quien se comprometió a gestionar recursos para ampliar el equipamiento de la institución.</p>"
+    }
+  ]
 }
