@@ -246,6 +246,43 @@
     </header>
 
     <!-- ========================================================================
+         A.1 PRENSA Y NOVEDADES SECTION (Moved after Hero)
+         ======================================================================== -->
+    <section class="prensa-home prensa-home--dark" id="prensa-novedades">
+        <div class="container">
+            <div class="prensa-home__header" data-scroll-reveal>
+                <h2 class="prensa-home__title">
+                    <span class="highlight">Novedades</span>
+                    <div class="prensa-icon-anim" aria-hidden="true">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                    </div>
+                </h2>
+                <p class="prensa-home__subtitle">Comunicados, entrevistas y actividad reciente.</p>
+            </div>
+
+            <!-- Dynamic Grid (JS Rendered) - Mobile Carousel -->
+            <div id="prensa-home-grid" class="prensa-grid prensa-grid--carousel" data-scroll-reveal>
+                <!-- Javascript will load items here -->
+                <div class="text-center w-full py-8 text-gray-500">Cargando novedades...</div>
+            </div>
+
+            <div class="prensa-home__footer" data-scroll-reveal>
+                <a href="/prensa/" class="prensa-home__cta">
+                    Ver todas las novedades
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================
          D. BIOGRAFÍA SECTION (Redesign)
          ======================================================================== -->
     <section class="bio-section" id="bio-preview">
@@ -506,12 +543,11 @@
         <div class="ig-background"></div>
         <div class="container relative z-10">
             <!-- Section Header -->
-            <div class="text-center mb-12 fade-in">
-                <h2 class="ig-title">ÚLTIMAS ACTIVIDADES</h2>
-                <p class="ig-subtitle">
-                    Si querés enterarte lo último, seguime en Instagram: es el medio que usamos para comunicar y
-                    mostrar
-                    nuestro trabajo en territorio.
+            <div class="text-center mb-12">
+                <h2 class="ig-title ig-title--playful" data-scroll-reveal>Seguime en Instagram</h2>
+                <p class="ig-subtitle ig-subtitle--new">
+                    ¡Seguime para enterarte de las últimas actividades! Este es el medio que usamos para comunicar y
+                    mostrar nuestro trabajo en el territorio. ¡Cada día somos más!
                 </p>
             </div>
 
@@ -577,134 +613,136 @@
     <script async src="//www.instagram.com/embed.js"></script>
 
     <!-- ========================================================================
-         E. PROYECTOS SECTION (Separated from Bio)
+         E. PROYECTOS LEGISLATIVOS SECTION (Redesigned with Switch)
          ======================================================================== -->
-    <section class="proyectos-section" id="proyectos-preview">
-        <!-- Background Elements: Same style as bio-section for continuity -->
-        <div class="bio-section__bg-wash"></div>
-        <div class="bio-section__bg-texture"></div>
-
-        <div class="container projects-container">
-            <div class="projects-header fade-in fade-up">
-                <h2 class="projects-title">Proyectos presentados</h2>
-                <p class="projects-subtitle">
-                    Estas son algunas de las iniciativas que presentamos en la Cámara de Diputados
-                </p>
-            </div>
-
-            <div class="projects-grid fade-in fade-up delay-100">
-                <!-- Card 1 -->
-                <div class="project-card">
-                    <div class="project-card__content">
-                        <div class="project-card__icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                                <polyline points="14 2 14 8 20 8" />
-                                <line x1="16" y1="13" x2="8" y2="13" />
-                                <line x1="16" y1="17" x2="8" y2="17" />
-                                <polyline points="10 9 9 9 8 9" />
-                            </svg>
-                        </div>
-                        <h3 class="project-card__title">Proyecto de Ley de Emprendedores</h3>
-                        <p class="project-card__desc">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-                            incididunt ut labore et dolore magna aliqua.
-                        </p>
-                        <a href="#" class="project-card__link">
-                            Ver proyecto &rarr;
-                        </a>
-                    </div>
-                </div>
-                <!-- Card 2 -->
-                <div class="project-card">
-                    <div class="project-card__content">
-                        <div class="project-card__icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                                <circle cx="9" cy="7" r="4" />
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                            </svg>
-                        </div>
-                        <h3 class="project-card__title">Ley de Inclusión Laboral Juvenil</h3>
-                        <p class="project-card__desc">
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat.
-                        </p>
-                        <a href="#" class="project-card__link">
-                            Ver proyecto &rarr;
-                        </a>
-                    </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="project-card">
-                    <div class="project-card__content">
-                        <div class="project-card__icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                                <polyline points="9 22 9 12 15 12 15 22" />
-                            </svg>
-                        </div>
-                        <h3 class="project-card__title">Programa de Vivienda Joven</h3>
-                        <p class="project-card__desc">
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                            nulla
-                            pariatur.
-                        </p>
-                        <a href="#" class="project-card__link">
-                            Ver proyecto &rarr;
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="projects-footer fade-in fade-up delay-100">
-                <a href="/proyectos/" class="projects-btn-all">
-                    Ver todos los proyectos
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========================================================================
-         G. PRENSA Y NOVEDADES SECTION (Carousel)
-         ======================================================================== -->
-    <section class="prensa-home" id="prensa-novedades">
+    <section class="proyectos-home" id="proyectos-preview">
         <div class="container">
-            <div class="prensa-home__header fade-in">
-                <h2 class="prensa-home__title">
-                    <span class="highlight">Prensa y novedades</span>
-                    <div class="prensa-icon-anim" aria-hidden="true">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                        </svg>
+            <!-- Header -->
+            <div class="proyectos-home__header" data-scroll-reveal>
+                <h2 class="proyectos-home__title">Proyectos Legislativos</h2>
+                <p class="proyectos-home__subtitle">Algunas de las iniciativas impulsadas</p>
+            </div>
+
+            <!-- Segmented Switch Control -->
+            <div class="proyectos-switch" data-scroll-reveal>
+                <button class="proyectos-switch__btn is-active" data-panel="panel-concejo" aria-pressed="true">
+                    HCD Goya
+                </button>
+                <button class="proyectos-switch__btn" data-panel="panel-diputados" aria-pressed="false">
+                    Cámara de Diputados
+                </button>
+            </div>
+
+            <!-- Panel 1: HCD Goya -->
+            <div class="proyectos-panel is-active" id="panel-concejo" data-scroll-reveal>
+                <div class="proyectos-home__grid">
+                    <!-- Card 1 -->
+                    <div class="proyectos-home__card">
+                        <span class="proyectos-home__card-badge proyectos-home__card-badge--ordenanza">Ordenanza</span>
+                        <h3 class="proyectos-home__card-title">Banco de herramientas</h3>
+                        <p class="proyectos-home__card-desc">
+                            Creación de un banco municipal de herramientas y equipos para impulsar microemprendimientos
+                            locales.
+                        </p>
+                        <a href="/proyectos/#concejo" class="proyectos-home__card-link">
+                            Ver más
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
                     </div>
-                </h2>
-                <p class="prensa-home__subtitle">Comunicados, entrevistas y actividad reciente.</p>
+                    <!-- Card 2 -->
+                    <div class="proyectos-home__card">
+                        <span
+                            class="proyectos-home__card-badge proyectos-home__card-badge--resolucion">Resolución</span>
+                        <h3 class="proyectos-home__card-title">Programa de capacitaciones</h3>
+                        <p class="proyectos-home__card-desc">
+                            Promoción de cursos y talleres gratuitos para fortalecer habilidades laborales en la
+                            comunidad.
+                        </p>
+                        <a href="/proyectos/#concejo" class="proyectos-home__card-link">
+                            Ver más
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="proyectos-home__card">
+                        <span class="proyectos-home__card-badge proyectos-home__card-badge--informe">Pedido de
+                            Informe</span>
+                        <h3 class="proyectos-home__card-title">Obras y servicios</h3>
+                        <p class="proyectos-home__card-desc">
+                            Solicitud de información sobre el estado de infraestructura y servicios públicos en barrios.
+                        </p>
+                        <a href="/proyectos/#concejo" class="proyectos-home__card-link">
+                            Ver más
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Dynamic Grid (JS Rendered) -->
-            <div id="prensa-home-grid" class="prensa-grid">
-                <!-- Javascript will load items here -->
-                <div class="text-center w-full py-8 text-gray-500">Cargando novedades...</div>
-            </div>
-
-            <div class="prensa-home__footer fade-in">
-                <a href="/prensa/" class="prensa-home__cta">
-                    Ver todas las novedades
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                </a>
+            <!-- Panel 2: Cámara de Diputados -->
+            <div class="proyectos-panel" id="panel-diputados">
+                <div class="proyectos-home__grid">
+                    <!-- Card 1 -->
+                    <div class="proyectos-home__card">
+                        <span class="proyectos-home__card-badge proyectos-home__card-badge--ley">Proyecto de Ley</span>
+                        <h3 class="proyectos-home__card-title">Fortalecimiento de emprendedores</h3>
+                        <p class="proyectos-home__card-desc">
+                            Iniciativa para crear un marco de apoyo provincial a emprendedores y pequeñas empresas.
+                        </p>
+                        <a href="/proyectos/#diputados" class="proyectos-home__card-link">
+                            Ver más
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="proyectos-home__card">
+                        <span
+                            class="proyectos-home__card-badge proyectos-home__card-badge--declaracion">Declaración</span>
+                        <h3 class="proyectos-home__card-title">Interés provincial</h3>
+                        <p class="proyectos-home__card-desc">
+                            Declaración de interés provincial para eventos y programas de impacto social y cultural.
+                        </p>
+                        <a href="/proyectos/#diputados" class="proyectos-home__card-link">
+                            Ver más
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="proyectos-home__card">
+                        <span class="proyectos-home__card-badge proyectos-home__card-badge--informe">Pedido de
+                            Informe</span>
+                        <h3 class="proyectos-home__card-title">Infraestructura</h3>
+                        <p class="proyectos-home__card-desc">
+                            Solicitud de información sobre el estado de obras de infraestructura en la provincia.
+                        </p>
+                        <a href="/proyectos/#diputados" class="proyectos-home__card-link">
+                            Ver más
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
 
     <!-- ========================================================================
          H. PARTICIPÁ SECTION
@@ -816,6 +854,7 @@
     <!-- <script src="/assets/js/prensa-data.js?v=202503061200"></script> --> <!-- Deprecated -->
     <script defer src="/assets/js/prensa-feed.js?v=202503061200"></script>
     <script defer src="/assets/js/bio-animations.js?v=202503061200"></script>
+    <script defer src="/assets/js/home-redesign.js?v=202601081200"></script>
     <script src="/assets/js/site.js?v=202503061200"></script>
 
 </body>
