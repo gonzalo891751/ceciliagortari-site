@@ -442,42 +442,27 @@
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const panel = hero.querySelector('.hero-new__panel');
 
-    // Optional: Debug overlay (set to true for development)
-    const debug = false;
-    let debugEl;
-    if (debug) {
-      debugEl = document.createElement('div');
-      debugEl.style.cssText = 'position:fixed; top:10px; right:10px; background:rgba(0,0,0,0.85); color:lime; padding:8px 12px; z-index:9999; font-family:monospace; font-size:11px; border-radius:6px;';
-      document.body.appendChild(debugEl);
-    }
+    // ═══════════════════════════════════════════════════════════════════════
+    // CONFIGURABLE: Adjust this value to tune how many pixels of scroll
+    // are needed to complete the reveal animation (0 → 1).
+    // Recommended range: 110–140px. Default: 120px.
+    // PIN_RANGE is set in CSS (additions.css) — currently 180px.
+    // ═══════════════════════════════════════════════════════════════════════
+    const REVEAL_RANGE = 120;
 
     function updateScrollProgress() {
       const scrollY = window.scrollY;
-      const heroTop = hero.offsetTop;
-      const heroHeight = hero.offsetHeight;
-      const viewportHeight = window.innerHeight;
-
-      // Mobile check (matches CSS breakpoint)
       const isMobile = window.innerWidth <= 768;
 
       let progress = 0;
 
       if (isMobile) {
-        // GOLDEN RULE: progress = (scrollY - wrapperTop) / (wrapperHeight - viewportHeight)
-        // This ensures:
-        // - progress = 0 when wrapper starts
-        // - progress = 1 exactly when wrapper ends (sticky releases naturally)
-
-        const range = heroHeight - viewportHeight;
-
-        if (range > 0) {
-          progress = (scrollY - heroTop) / range;
-        } else {
-          // Fallback for unexpectedly short hero
-          progress = scrollY / (heroHeight * 0.8);
-        }
+        // Simple and robust: progress = scrollY / REVEAL_RANGE
+        // No wrappers, no tricks, no scroll-jacking
+        progress = scrollY / REVEAL_RANGE;
       } else {
         // Desktop Logic (Standard Parallax/Blur - unchanged)
+        const heroHeight = hero.offsetHeight;
         progress = scrollY / (heroHeight * 0.8);
       }
 
@@ -490,10 +475,6 @@
       // Toggle pointer-events on panel when animation is nearly complete
       if (panel && isMobile) {
         panel.style.pointerEvents = progress >= 0.95 ? 'auto' : 'none';
-      }
-
-      if (debug && debugEl) {
-        debugEl.innerHTML = `Progress: ${progress.toFixed(3)}<br>Scroll: ${Math.round(scrollY)}px<br>Hero H: ${heroHeight}px<br>Range: ${heroHeight - viewportHeight}px`;
       }
     }
 
@@ -511,6 +492,48 @@
       hero.style.setProperty('--scroll-progress', 1);
       if (panel) panel.style.pointerEvents = 'auto';
     }
+
+  }
+
+  // --------------------------------------------------------------------------
+  // HERO SCROLL INDICATOR ("Deslizá") - Mobile only, runs independently
+  // --------------------------------------------------------------------------
+  function initScrollIndicator() {
+    const indicator = document.querySelector('.hero-scroll-indicator');
+    if (!indicator) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.innerWidth <= 768;
+
+    // Only show on mobile, remove if desktop or reduced motion
+    if (!isMobile || prefersReducedMotion) {
+      indicator.remove();
+      return;
+    }
+
+    let hidden = false;
+    const SCROLL_THRESHOLD = 40; // px
+    const AUTO_HIDE_DELAY = 5000; // 5 seconds
+
+    function hideIndicator() {
+      if (hidden) return;
+      hidden = true;
+      indicator.classList.add('is-hidden');
+      // Remove from DOM after fade-out animation
+      setTimeout(() => indicator.remove(), 500);
+    }
+
+    // Hide on scroll > threshold
+    function onScroll() {
+      if (window.scrollY > SCROLL_THRESHOLD) {
+        hideIndicator();
+        window.removeEventListener('scroll', onScroll);
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Auto-hide after delay (whichever comes first)
+    setTimeout(hideIndicator, AUTO_HIDE_DELAY);
   }
 
   // --------------------------------------------------------------------------
@@ -1162,6 +1185,7 @@
     initActiveNavLink();
     // New home redesign functions
     initHeroScrollEffect();
+    initScrollIndicator(); // Scroll indicator (mobile "Deslizá")
     initImpactMetrics();  // Replaced initImpactCounters
     initFeaturedProjects();
     initInstagramFallback();

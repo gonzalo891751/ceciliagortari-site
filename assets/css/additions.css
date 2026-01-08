@@ -1330,3 +1330,286 @@
         transform: rotate(360deg);
     }
 }
+
+/* ==========================================================================
+   HERO MOBILE SCROLL INDICATOR
+   ========================================================================== */
+.hero-scroll-indicator {
+    position: fixed;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    z-index: 100;
+    display: none;
+    /* Desktop: hidden */
+    pointer-events: none;
+
+    opacity: 1;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.hero-scroll-indicator.is-hidden {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+@media (max-width: 768px) {
+    .hero-scroll-indicator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+}
+
+.hero-scroll-indicator__circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse-ring 2s ease-out infinite;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.hero-scroll-indicator__icon {
+    color: white;
+    animation: bounce-up 1.2s ease-in-out infinite;
+}
+
+.hero-scroll-indicator__text {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 12px rgba(255, 255, 255, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+@keyframes bounce-up {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .hero-scroll-indicator__circle,
+    .hero-scroll-indicator__icon {
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   CHALK UNDERLINE EFFECT (for "Corrientes" word)
+   ========================================================================== */
+.chalk-underline {
+    position: relative;
+    display: inline-block;
+    color: #fff !important;
+    /* WHITE for max legibility */
+    z-index: 1;
+}
+
+.chalk-underline::after {
+    content: '';
+    position: absolute;
+    left: -2%;
+    right: -2%;
+    bottom: 0.05em;
+    height: 0.18em;
+    background: #9F57A7;
+    /* Brand magenta */
+    opacity: 0.85;
+    z-index: -1;
+    transform: rotate(-1deg) skewX(-2deg);
+    border-radius: 2px 4px 3px 5px;
+    /* Irregular edges */
+    /* Rough texture effect */
+    filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/></filter></svg>#rough');
+}
+
+/* Second paragraph styling for mobile */
+.hero-new__subtitle--second {
+    margin-top: 0.6em;
+}
+
+.hero-new__subtitle--second strong {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   HERO PANEL - iOS LIQUID GLASS (Mobile) - REFINED
+   ========================================================================== */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONFIGURABLE VALUES:
+   - PIN_RANGE: How long the content stays "pinned" (in px). Default: 180px
+   - REVEAL_RANGE: Set in JS (site.js). Default: 120px
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+
+    /* === STICKY PIN EFFECT ===
+       The hero wrapper is 100vh + PIN_RANGE.
+       The stage is position:sticky so content "sticks" briefly.
+       PIN_RANGE = 180px (adjust below if needed) */
+    .hero-new {
+        height: calc(100vh + 180px) !important;
+        /* PIN_RANGE = 180px */
+        min-height: calc(100vh + 180px) !important;
+        max-height: none !important;
+    }
+
+    .hero-new__stage {
+        position: sticky !important;
+        top: 0 !important;
+        height: 100vh !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* === LIGHTER LIQUID GLASS PANEL === */
+    .hero-new__panel {
+        background: rgba(255, 255, 255, 0.06) !important;
+        backdrop-filter: blur(14px) saturate(1.2) !important;
+        -webkit-backdrop-filter: blur(14px) saturate(1.2) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 20px !important;
+        box-shadow:
+            0 4px 24px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+        padding: 22px 18px !important;
+        max-width: calc(100% - 24px);
+        margin: 0 auto;
+    }
+
+    /* === IMPROVED LEGIBILITY (especially "Corrientes") === */
+    .hero-new__title {
+        text-shadow:
+            0 2px 12px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .hero-new__subtitle {
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* "Corrientes" word - stronger contrast */
+    .hero-new__title .highlight,
+    .hero-new__title em,
+    .hero-new__title span[style*="color"],
+    .hero-new__title a {
+        text-shadow:
+            0 2px 8px rgba(0, 0, 0, 0.6),
+            0 0 20px rgba(0, 0, 0, 0.4),
+            0 0 40px currentColor !important;
+        -webkit-text-stroke: 0.3px rgba(255, 255, 255, 0.2);
+    }
+
+    /* === BUTTON HOVER STATES === */
+
+    /* Novedades button - gray translucent on hover */
+    .btn--novedades:hover {
+        background: rgba(255, 255, 255, 0.12) !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        color: #fff !important;
+        transform: translateY(-1px);
+    }
+
+    /* Instagram button - gradient hover with VISIBLE TEXT */
+    .btn--instagram {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .btn--instagram::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(45deg,
+                #f09433 0%,
+                #e6683c 25%,
+                #dc2743 50%,
+                #cc2366 75%,
+                #bc1888 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+        border-radius: inherit;
+    }
+
+    .btn--instagram:hover::before {
+        opacity: 1;
+    }
+
+    .btn--instagram:hover {
+        border-color: transparent !important;
+        color: #fff !important;
+        /* TEXT STAYS WHITE - CRITICAL FIX */
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Ensure text and icon stay visible on hover */
+    .btn--instagram:hover span,
+    .btn--instagram:hover svg,
+    .btn--instagram:hover .btn__icon {
+        color: #fff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+}
+
+/* Desktop hover states for buttons (non-mobile) */
+@media (min-width: 769px) {
+    .btn--novedades:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        color: #fff !important;
+    }
+
+    .btn--instagram:hover {
+        background: linear-gradient(45deg,
+                #f09433 0%,
+                #e6683c 25%,
+                #dc2743 50%,
+                #cc2366 75%,
+                #bc1888 100%) !important;
+        border-color: transparent !important;
+        color: #fff !important;
+    }
+
+    .btn--instagram:hover span,
+    .btn--instagram:hover svg {
+        color: #fff !important;
+        opacity: 1 !important;
+    }
+}
