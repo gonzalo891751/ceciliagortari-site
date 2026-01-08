@@ -2545,7 +2545,7 @@
         scroll-snap-align: start;
         scroll-snap-stop: always;
         /* CRITICAL: Allow vertical scroll when touching the card */
-        touch-action: pan-y pinch-zoom;
+        touch-action: pan-x pan-y;
     }
 
     /* End spacer to ensure last card is fully visible */
