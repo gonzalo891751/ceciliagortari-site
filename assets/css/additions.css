@@ -2569,7 +2569,7 @@
    ========================================================================== */
 
 /* Tablet: 2 columns */
-@media (min-width: 640px) and (max-width: 1023px) {
+@media (min-width: 769px) and (max-width: 1023px) {
     .prensa-grid--carousel {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr);
