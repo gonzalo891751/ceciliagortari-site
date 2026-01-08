@@ -139,39 +139,6 @@
     }
 
     // =========================================================================
-    // NOVEDADES CAROUSEL CTA (Mobile Only)
-    // Reveals "Ver más →" CTA near the end of the scroll
-    // =========================================================================
-    function initCarouselCta() {
-        const track = document.querySelector('.prensa-grid--carousel');
-        const cta = document.getElementById('cg-news-more-cta');
-
-        if (!track || !cta) return;
-
-        // Only on mobile (≤768px)
-        if (window.innerWidth > 768) return;
-
-        let hasRevealed = false;
-
-        const revealCta = () => {
-            if (hasRevealed) return;
-            cta.classList.add('is-visible');
-            hasRevealed = true;
-        };
-
-        const onScroll = () => {
-            const nearEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 24;
-            if (nearEnd) {
-                revealCta();
-                track.removeEventListener('scroll', onScroll);
-            }
-        };
-
-        track.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
-    }
-
-    // =========================================================================
     // INITIALIZATION
     // =========================================================================
     function init() {
@@ -188,7 +155,6 @@
         initProyectosSwitch();
         initInstagramTitleAnimation();
         initCarouselHint();
-        initCarouselCta();
 
         // Log initialization for debugging (remove in production)
         // console.log('Home redesign JS initialized');
