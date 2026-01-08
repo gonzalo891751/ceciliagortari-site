@@ -2942,49 +2942,6 @@
 }
 
 /* ==========================================================================
-   "Ver más" CTA (Mobile Only) - Appears near end of carousel
-   ========================================================================== */
-.cg-news-more-cta {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    .cg-news-more-cta {
-        display: flex;
-        justify-content: center;
-        margin: 10px 0 6px;
-        opacity: 0;
-        transform: translateY(12px);
-        transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .cg-news-more-cta.is-visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .cg-news-more-cta a {
-        font-family: 'Outfit', sans-serif;
-        font-weight: 600;
-        color: #ffffff;
-        text-decoration: none;
-        letter-spacing: 0.01em;
-    }
-
-    .cg-news-more-cta a:focus-visible {
-        outline: 2px solid rgba(255, 255, 255, 0.95);
-        outline-offset: 4px;
-        border-radius: 4px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .cg-news-more-cta {
-        transition: none;
-    }
-}
-
-/* ==========================================================================
    HOME REDESIGN 2026 - Task C: Instagram Section Playful Title
    ========================================================================== */
 
