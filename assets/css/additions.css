@@ -373,6 +373,17 @@
     /* Brand Magenta approximation if missing */
 }
 
+/* Utilities */
+.only-mobile {
+    display: none;
+}
+
+@media (max-width: 480px) {
+    .only-mobile {
+        display: inline;
+    }
+}
+
 /* Heading Wrapper */
 .escuela-heading {
     margin-bottom: var(--spacing-md);
@@ -410,6 +421,8 @@
     background: linear-gradient(90deg, var(--color-magenta, #e4007c), var(--color-blue, #1c5cff));
     -webkit-background-clip: text;
     background-clip: text;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
     color: transparent;
     font-size: clamp(1.75rem, 5vw, 2.5rem);
 }
@@ -477,6 +490,18 @@
         /* width: min(320px, 100%); Optional nice stacking */
         display: flex;
         justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .escuela-heading__title {
+        white-space: normal !important;
+        overflow-wrap: anywhere;
+        max-width: 100%;
+        min-width: 0;
+        text-align: center;
+        font-size: clamp(1.45rem, 5.2vw, 2.1rem);
+        line-height: 1.05;
     }
 }
 
