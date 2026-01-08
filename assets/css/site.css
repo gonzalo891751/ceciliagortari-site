@@ -1133,16 +1133,12 @@ p {
 
 /* METRICS REFINEMENTS */
 .impact-logo img {
-  height: 56px;
-  /* Mobile */
+  max-width: clamp(140px, 30vw, 220px);
+  width: 100%;
+  height: auto;
   object-fit: contain;
-}
-
-@media (min-width: 768px) {
-  .impact-logo img {
-    height: 72px;
-    /* Desktop */
-  }
+  display: block;
+  margin: 0 auto;
 }
 
 /* SCHOOL SECTION REFINEMENTS */
@@ -7840,4 +7836,3 @@ details[open] summary~* {
     border-radius: 18px;
     transition: transform 0.5s ease;
 }
-
