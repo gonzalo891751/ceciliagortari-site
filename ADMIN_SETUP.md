@@ -2,6 +2,10 @@
 
 Para activar el login en `/admin`, usamos **Cloudflare Pages Functions** (ya incluidas en la carpeta `functions/`). No necesitas desplegar un Worker separado.
 
+## Headers y caché
+
+El sitio usa el archivo `_headers` para definir headers en Cloudflare Pages (seguridad y políticas de caché para HTML y assets versionados).
+
 ## 1. Crear OAuth App en GitHub
 
 1.  Ve a [GitHub Developer Settings > OAuth Apps](https://github.com/settings/developers).
