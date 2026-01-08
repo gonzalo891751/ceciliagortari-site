@@ -2240,55 +2240,62 @@
 }
 
 /* ==========================================================================
-   HOME REDESIGN 2026 - Task A: Novedades Section Premium Liquid Glass
+   HOME REDESIGN 2026 - Task A: Novedades Section Premium Dark Theme
+   Comprehensive redesign with:
+   - Dark gradient background with subtle depth
+   - Floral ornaments (very subtle, line-art)
+   - Noise texture for premium feel
+   - Premium card effects with ambient glow
+   - Mobile carousel with touch-action fix
    ========================================================================== */
 
 .prensa-home--dark {
-    /* Base dark gradient for depth */
-    background: linear-gradient(180deg, #0E0F14 0%, #14141A 50%, #0E0F14 100%);
+    /* Rich dark gradient with depth */
+    background:
+        radial-gradient(ellipse 120% 80% at 50% 0%, rgba(20, 22, 30, 1) 0%, transparent 70%),
+        linear-gradient(180deg, #0D0E13 0%, #11121A 40%, #0F1016 70%, #0D0E13 100%);
     position: relative;
     overflow: hidden;
-    padding: 6rem 0 5rem;
-    /* Extra top padding for transition overlap */
+    padding: 5rem 0 4rem;
+    isolation: isolate;
 }
 
-/* Top Transition Fade: Smooth blend from Hero */
-.prensa-home--dark .novedades-top-fade {
+/* Noise texture overlay for premium depth */
+.prensa-home--dark .cg-news-noise {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 180px;
-    background: linear-gradient(to bottom,
-            rgba(14, 15, 20, 0) 0%,
-            rgba(14, 15, 20, 0.5) 40%,
-            rgba(14, 15, 20, 0.85) 70%,
-            rgba(14, 15, 20, 1) 100%);
+    inset: 0;
     z-index: 1;
     pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    mix-blend-mode: overlay;
 }
 
-/* Floral Pattern Overlay (Subtle, gris/blanco, stroke-only) */
+/* Floral Pattern Overlay - Very subtle grey line-art */
 .prensa-home--dark::before {
     content: "";
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.8'%3E%3C!-- Flor abstracta 1 --%3E%3Cpath d='M80 260 Q130 200 180 260 T280 260' opacity='0.06'/%3E%3Cpath d='M80 260 Q130 320 180 260' opacity='0.05'/%3E%3Ccircle cx='130' cy='260' r='12' opacity='0.04'/%3E%3C!-- Flor abstracta 2 --%3E%3Cpath d='M350 120 C380 80 420 80 450 120 C480 160 480 200 450 240 C420 280 380 280 350 240 C320 200 320 160 350 120' opacity='0.05'/%3E%3Ccircle cx='400' cy='180' r='8' opacity='0.04'/%3E%3C!-- Curvas florales --%3E%3Cpath d='M200 400 Q260 340 320 400 T440 400' opacity='0.05'/%3E%3Cpath d='M40 80 Q100 30 160 80 T280 80' opacity='0.04'/%3E%3C!-- Pétalos sueltos --%3E%3Cellipse cx='480' cy='380' rx='35' ry='18' transform='rotate(-20 480 380)' opacity='0.045'/%3E%3Cellipse cx='60' cy='420' rx='30' ry='14' transform='rotate(15 60 420)' opacity='0.04'/%3E%3C!-- Espirales pequeñas --%3E%3Cpath d='M420 480 Q440 460 460 480 Q480 500 460 520' opacity='0.04'/%3E%3Cpath d='M100 180 Q120 160 140 180 Q160 200 140 220' opacity='0.045'/%3E%3C!-- Círculos decorativos --%3E%3Ccircle cx='300' cy='60' r='20' opacity='0.035'/%3E%3Ccircle cx='500' cy='260' r='15' opacity='0.04'/%3E%3Ccircle cx='180' cy='480' r='22' opacity='0.035'/%3E%3C/g%3E%3C/svg%3E");
-    background-size: 520px 520px;
+    /* More subtle floral pattern with blur for softer appearance */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.6'%3E%3C!-- Flor autoctona estilizada 1 (esquina superior izquierda) --%3E%3Cpath d='M60 80 Q90 40 120 80 Q150 120 120 160 Q90 200 60 160 Q30 120 60 80' opacity='0.045'/%3E%3Cpath d='M90 80 Q110 60 130 80 Q150 100 130 120 Q110 140 90 120 Q70 100 90 80' opacity='0.035'/%3E%3Ccircle cx='110' cy='100' r='6' opacity='0.03'/%3E%3C!-- Flor autoctona estilizada 2 (centro derecha) --%3E%3Cpath d='M480 280 Q520 240 560 280 Q600 320 560 360 Q520 400 480 360 Q440 320 480 280' opacity='0.04'/%3E%3Cpath d='M510 290 Q535 265 560 290 Q585 315 560 340 Q535 365 510 340 Q485 315 510 290' opacity='0.03'/%3E%3Ccircle cx='535' cy='315' r='8' opacity='0.025'/%3E%3C!-- Flor autoctona estilizada 3 (esquina inferior izquierda) --%3E%3Cpath d='M80 480 Q120 440 160 480 Q200 520 160 560 Q120 600 80 560 Q40 520 80 480' opacity='0.04'/%3E%3Ccircle cx='120' cy='520' r='10' opacity='0.03'/%3E%3C!-- Pétalos sueltos decorativos --%3E%3Cellipse cx='300' cy='60' rx='45' ry='15' transform='rotate(25 300 60)' opacity='0.03'/%3E%3Cellipse cx='550' cy='500' rx='40' ry='12' transform='rotate(-15 550 500)' opacity='0.035'/%3E%3C!-- Curvas orgánicas --%3E%3Cpath d='M200 200 Q260 160 320 200 T440 200' opacity='0.03'/%3E%3Cpath d='M100 350 Q180 310 260 350 T400 350' opacity='0.025'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 600px 600px;
+    filter: blur(1px);
     opacity: 1;
     z-index: 0;
     pointer-events: none;
 }
 
-/* Subtle brand glow for depth */
+/* Subtle brand color glows for depth */
 .prensa-home--dark::after {
     content: "";
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse 60% 40% at 15% 20%, rgba(159, 87, 167, 0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 35% at 85% 75%, rgba(28, 92, 255, 0.05) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 30% at 50% 90%, rgba(159, 87, 167, 0.04) 0%, transparent 50%);
+        radial-gradient(ellipse 70% 50% at 10% 15%, rgba(159, 87, 167, 0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 45% at 90% 80%, rgba(28, 92, 255, 0.04) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(159, 87, 167, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 30% at 70% 30%, rgba(28, 92, 255, 0.025) 0%, transparent 45%);
     z-index: 0;
     pointer-events: none;
 }
@@ -2494,11 +2501,12 @@
 
 /* ==========================================================================
    HOME REDESIGN 2026 - Task B: Mobile Carousel for Novedades
+   CRITICAL FIX: Allows vertical page scroll when touching cards
    ========================================================================== */
 
 @media (max-width: 768px) {
 
-    /* FIX: Force carousel to be horizontal scrollable on mobile */
+    /* Main carousel container: horizontal scroll with snap */
     .prensa-home--dark .prensa-grid--carousel {
         display: flex !important;
         flex-wrap: nowrap !important;
@@ -2510,15 +2518,15 @@
         scroll-behavior: smooth;
         padding-left: 16px;
         padding-right: 16px;
-        padding-bottom: 28px;
-        /* Extra space for glow visibility */
+        padding-bottom: 32px;
+        padding-top: 8px;
         scroll-padding-inline: 16px;
         margin: 0;
         box-sizing: border-box;
         width: 100%;
-        touch-action: pan-x;
-        /* CRITICAL: Allow horizontal swipe */
+        /* Allow horizontal panning on the container */
         overscroll-behavior-x: contain;
+        /* Prevent back/forward navigation gesture */
 
         /* Hide scrollbar elegantly */
         scrollbar-width: none;
@@ -2529,12 +2537,15 @@
         display: none;
     }
 
+    /* CRITICAL FIX: Cards allow vertical page scrolling */
     .prensa-home--dark .prensa-grid--carousel .prensa-card {
         flex: 0 0 auto;
-        width: clamp(280px, 86vw, 360px);
+        width: clamp(280px, 85vw, 340px);
         min-width: 0;
         scroll-snap-align: start;
         scroll-snap-stop: always;
+        /* CRITICAL: Allow vertical scroll when touching the card */
+        touch-action: pan-y pinch-zoom;
     }
 
     /* End spacer to ensure last card is fully visible */
@@ -2554,133 +2565,233 @@
 }
 
 /* ==========================================================================
-   SOLID WHITE Cards with Animated Glow Behind
+   Premium Card Styles with Ambient Glow + Shine Sweep
    ========================================================================== */
 
-/* Desktop: Grid allows glow visibility */
-@media (min-width: 769px) {
-    .prensa-home--dark .prensa-grid {
-        overflow: visible;
+/* Tablet: 2 columns */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .prensa-grid--carousel {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
 }
 
-/* Main card wrapper: Uses isolation for proper z-index stacking */
+/* Desktop: 3 columns, visible glow */
+@media (min-width: 1024px) {
+    .prensa-home--dark .prensa-grid {
+        overflow: visible;
+    }
+
+    .prensa-grid--carousel {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+}
+
+/* ==========================================================================
+   Card Base: White card with ambient glow
+   ========================================================================== */
 .prensa-home--dark .prensa-card {
     position: relative;
     z-index: 1;
     isolation: isolate;
-    /* Creates stacking context for glow */
-    background: #FFFFFF !important;
-    border: 1px solid rgba(15, 18, 25, 0.08);
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 20px;
-    /* Remove overflow:hidden to allow glow visibility */
-    overflow: visible;
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    /* Clip shine sweep */
+    transition:
+        transform 0.28s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.28s ease;
+    /* AMBIENT GLOW: Always visible, magenta+blue subtle */
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.06),
+        0 0 24px rgba(159, 87, 167, 0.08),
+        0 0 28px rgba(28, 92, 255, 0.06);
 }
 
+/* Hover: Lift + scale + enhanced glow */
 .prensa-home--dark .prensa-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
+    transform: translateY(-6px) scale(1.015);
+    box-shadow:
+        0 16px 48px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 0 32px rgba(159, 87, 167, 0.15),
+        0 0 36px rgba(28, 92, 255, 0.12);
 }
 
-/* Animated white glow BEHIND the card */
+/* Focus-visible for keyboard navigation */
+.prensa-home--dark .prensa-card:focus-visible {
+    outline: 3px solid #1C5CFF;
+    outline-offset: 4px;
+    transform: translateY(-4px);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.22),
+        0 0 0 3px rgba(28, 92, 255, 0.3);
+}
+
+/* Reduced motion: simpler transforms */
+@media (prefers-reduced-motion: reduce) {
+
+    .prensa-home--dark .prensa-card,
+    .prensa-home--dark .prensa-card:hover {
+        transition: box-shadow 0.2s ease;
+        transform: none !important;
+    }
+}
+
+/* ==========================================================================
+   Gradient Border (::before - bottom of card)
+   ========================================================================== */
 .prensa-home--dark .prensa-card::before {
     content: "";
     position: absolute;
-    inset: -16px;
-    z-index: -1;
-    border-radius: 28px;
-    background: radial-gradient(closest-side,
-            rgba(255, 255, 255, 0.65) 0%,
-            rgba(255, 255, 255, 0.25) 50%,
-            rgba(255, 255, 255, 0) 100%);
-    filter: blur(18px);
-    opacity: 0.5;
-    transform: translateY(6px) scale(0.97);
-    animation: newsGlowFloat 4s ease-in-out infinite;
-    pointer-events: none;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #9F57A7, #1C5CFF);
+    opacity: 0.7;
+    transition: height 0.25s ease, opacity 0.25s ease;
+    z-index: 10;
 }
 
-@keyframes newsGlowFloat {
-
-    0%,
-    100% {
-        opacity: 0.45;
-        transform: translateY(8px) scale(0.97);
-    }
-
-    50% {
-        opacity: 0.7;
-        transform: translateY(3px) scale(1.01);
-    }
-}
-
-/* Glow intensifies on hover */
 .prensa-home--dark .prensa-card:hover::before {
-    opacity: 0.85;
-    filter: blur(22px);
+    height: 4px;
+    opacity: 1;
 }
 
-/* Reduced motion: no animation */
-@media (prefers-reduced-motion: reduce) {
-    .prensa-home--dark .prensa-card::before {
-        animation: none;
-        opacity: 0.5;
-        transform: translateY(4px) scale(0.98);
-    }
-}
-
-/* Top accent gradient line */
+/* ==========================================================================
+   Shine Sweep Effect (::after)
+   ========================================================================== */
 .prensa-home--dark .prensa-card::after {
     content: "";
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #9F57A7, #1C5CFF);
-    z-index: 2;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(105deg,
+            transparent 40%,
+            rgba(255, 255, 255, 0.12) 50%,
+            transparent 60%);
+    z-index: 5;
+    pointer-events: none;
+    transition: none;
 }
 
-/* Card body: white background with rounded bottom corners */
+.prensa-home--dark .prensa-card:hover::after {
+    animation: shine-sweep 0.7s ease-out forwards;
+}
+
+@keyframes shine-sweep {
+    from {
+        left: -100%;
+    }
+
+    to {
+        left: 150%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .prensa-home--dark .prensa-card:hover::after {
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   Card Image Container & Handling
+   ========================================================================== */
+.prensa-home--dark .prensa-card__image-container {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f0f0f5 0%, #e8e8f0 100%);
+    /* Consistent aspect ratio for all images */
+    aspect-ratio: 16 / 9;
+}
+
+.prensa-home--dark .prensa-card__image-container img,
+.prensa-home--dark .prensa-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Image zoom on hover */
+.prensa-home--dark .prensa-card:hover .prensa-card__image-container img,
+.prensa-home--dark .prensa-card:hover .prensa-card__img {
+    transform: scale(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .prensa-home--dark .prensa-card:hover .prensa-card__image-container img,
+    .prensa-home--dark .prensa-card:hover .prensa-card__img {
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   Card Body Styling
+   ========================================================================== */
 .prensa-home--dark .prensa-card__body {
-    background: #FFFFFF !important;
+    background: #FFFFFF;
     padding: 20px 22px 24px;
-    border-radius: 0 0 20px 20px;
-    /* Match card radius for bottom corners */
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
-/* Card title: DARK and BOLD for legibility */
+/* Card title: Bold and dark for legibility */
 .prensa-home--dark .prensa-card__title {
     color: #0D0F14 !important;
+    font-family: 'Outfit', sans-serif;
     font-weight: 700;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     line-height: 1.35;
-    margin-bottom: 10px;
-    opacity: 1 !important;
+    margin-bottom: 8px;
 }
 
-/* Card excerpt: Dark readable text */
+/* Card excerpt: Readable dark text */
 .prensa-home--dark .prensa-card__excerpt {
-    color: #2B2F3A !important;
-    font-size: 0.92rem;
+    color: #3B4252 !important;
+    font-size: 0.9rem;
     line-height: 1.55;
-    opacity: 1 !important;
+    margin-bottom: 12px;
+    flex: 1;
+    /* Limit to 3 lines with ellipsis */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    /* Standard property for compatibility */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-/* Card date: Muted but readable */
+/* Card date: Muted */
 .prensa-home--dark .prensa-card__date {
-    color: #5B6272 !important;
-    font-size: 0.82rem;
-    opacity: 1 !important;
+    color: #6B7280 !important;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
 }
 
-/* Card CTA link: Brand magenta */
+/* Card CTA link */
 .prensa-home--dark .prensa-card__cta {
     color: #9F57A7 !important;
     font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     transition: color 0.2s ease, gap 0.2s ease;
+    margin-top: auto;
 }
 
 .prensa-home--dark .prensa-card:hover .prensa-card__cta {
@@ -2688,54 +2799,46 @@
     gap: 10px;
 }
 
-/* Card badge: Solid white with brand color */
+/* ==========================================================================
+   Card Badge (Category Pill)
+   ========================================================================== */
 .prensa-home--dark .prensa-card__badge {
-    background: #FFFFFF !important;
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.12), rgba(28, 92, 255, 0.12));
     color: #9F57A7 !important;
-    border: 1px solid rgba(159, 87, 167, 0.25);
+    border: 1px solid rgba(159, 87, 167, 0.2);
+    font-family: 'Outfit', sans-serif;
     font-weight: 700;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     padding: 5px 12px;
     border-radius: 50px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    width: fit-content;
 }
 
-/* Card image container: clean with rounded top corners */
-.prensa-home--dark .prensa-card__image-container {
-    position: relative;
-    overflow: hidden;
-    background: #f0f0f5;
-    border-radius: 20px 20px 0 0;
-    /* Match card radius for top corners */
-}
-
-/* Remove any dark overlay that might exist */
-.prensa-home--dark .prensa-card__image-container::after {
-    display: none !important;
-}
-
-/* Card image zoom on hover */
-.prensa-home--dark .prensa-card:hover .prensa-card__image {
-    transform: scale(1.03);
-}
-
-.prensa-home--dark .prensa-card__image {
-    transition: transform 0.4s ease;
-}
-
-/* Placeholder styling */
+/* ==========================================================================
+   Placeholder for missing images
+   ========================================================================== */
 .prensa-home--dark .prensa-card__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(135deg, #f8f0fa 0%, #f0f4ff 100%);
 }
 
 .prensa-home--dark .prensa-card__placeholder-icon {
+    font-size: 2.5rem;
     color: #9F57A7;
-    opacity: 0.3;
+    opacity: 0.25;
 }
 
-/* Card stagger animation on reveal */
+/* ==========================================================================
+   Card Stagger Animation on Reveal
+   ========================================================================== */
 .prensa-home--dark .prensa-grid.is-visible .prensa-card {
     animation: card-stagger-in 0.45s ease forwards;
     opacity: 0;
@@ -2768,7 +2871,7 @@
 @keyframes card-stagger-in {
     0% {
         opacity: 0;
-        transform: translateY(18px);
+        transform: translateY(20px);
     }
 
     100% {
@@ -2781,6 +2884,68 @@
     .prensa-home--dark .prensa-grid.is-visible .prensa-card {
         animation: none;
         opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   Swipe Hint Indicator (Mobile Only)
+   Shows a "Deslizá para ver más →" hint that nudges right 4 times
+   ========================================================================== */
+.cg-news-swipe-hint {
+    display: none;
+    /* Hidden on desktop */
+}
+
+@media (max-width: 768px) {
+    .cg-news-swipe-hint {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 0;
+        margin-bottom: 8px;
+        color: rgba(255, 255, 255, 0.6);
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 500;
+        position: relative;
+    }
+
+    .cg-news-swipe-hint__text {
+        opacity: 0.8;
+    }
+
+    .cg-news-swipe-hint__icon {
+        display: inline-block;
+        font-size: 1.1rem;
+        animation: swipe-nudge 1.5s ease-in-out 4;
+        /* Run 4 times then stop */
+    }
+
+    @keyframes swipe-nudge {
+
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+
+        50% {
+            transform: translateX(8px);
+        }
+    }
+
+    /* Fade out after animation completes */
+    .cg-news-swipe-hint.is-done {
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+}
+
+/* Reduced motion: no nudge animation */
+@media (prefers-reduced-motion: reduce) {
+    .cg-news-swipe-hint__icon {
+        animation: none !important;
     }
 }
 

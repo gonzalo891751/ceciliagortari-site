@@ -249,6 +249,9 @@
          A.1 PRENSA Y NOVEDADES SECTION (Moved after Hero)
          ======================================================================== -->
     <section class="prensa-home prensa-home--dark" id="prensa-novedades">
+        <!-- Noise texture for premium feel -->
+        <div class="cg-news-noise" aria-hidden="true"></div>
+        
         <div class="container">
             <div class="prensa-home__header" data-scroll-reveal>
                 <div class="prensa-home__title-row">
@@ -264,6 +267,12 @@
                     </span>
                 </div>
                 <p class="prensa-home__subtitle">Comunicados, entrevistas y actividad reciente.</p>
+            </div>
+
+            <!-- Swipe hint for mobile (hidden on desktop) -->
+            <div class="cg-news-swipe-hint" id="cg-news-swipe-hint" aria-hidden="true">
+                <span class="cg-news-swipe-hint__text">Deslizá para ver más</span>
+                <span class="cg-news-swipe-hint__icon">→</span>
             </div>
 
             <!-- Dynamic Grid (JS Rendered) - Mobile Carousel -->
