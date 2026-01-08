@@ -4607,10 +4607,23 @@ details[open] summary~* {
   gap: var(--spacing-lg);
 }
 
+.impact-grid--new {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  text-align: center;
+  justify-items: center;
+}
+
 @media (min-width: 768px) {
   .impact-grid {
     grid-template-columns: repeat(4, 1fr);
     gap: var(--spacing-xl);
+  }
+
+  .impact-grid--new {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
   }
 }
 
