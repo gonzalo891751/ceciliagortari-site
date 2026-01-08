@@ -2240,36 +2240,55 @@
 }
 
 /* ==========================================================================
-   HOME REDESIGN 2026 - Task A: Novedades Section Dark Background + Floral
+   HOME REDESIGN 2026 - Task A: Novedades Section Premium Liquid Glass
    ========================================================================== */
 
 .prensa-home--dark {
-    background: #14141A;
+    /* Base dark gradient for depth */
+    background: linear-gradient(180deg, #0E0F14 0%, #14141A 50%, #0E0F14 100%);
     position: relative;
     overflow: hidden;
-    padding: 5rem 0;
+    padding: 6rem 0 5rem;
+    /* Extra top padding for transition overlap */
 }
 
-/* Floral/Abstract SVG Pattern Overlay */
+/* Top Transition Fade: Smooth blend from Hero */
+.prensa-home--dark .novedades-top-fade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 180px;
+    background: linear-gradient(to bottom,
+            rgba(14, 15, 20, 0) 0%,
+            rgba(14, 15, 20, 0.5) 40%,
+            rgba(14, 15, 20, 0.85) 70%,
+            rgba(14, 15, 20, 1) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Floral Pattern Overlay (Subtle, gris/blanco, stroke-only) */
 .prensa-home--dark::before {
     content: "";
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%239F57A7' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%231C5CFF' stop-opacity='0.3'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23g1)' stroke-width='1'%3E%3Cpath d='M50 200 Q100 150 150 200 T250 200' opacity='0.6'/%3E%3Cpath d='M100 100 Q150 50 200 100 T300 100' opacity='0.5'/%3E%3Ccircle cx='80' cy='280' r='30' opacity='0.4'/%3E%3Ccircle cx='320' cy='120' r='25' opacity='0.3'/%3E%3Cpath d='M200 300 Q250 250 300 300 T400 300' opacity='0.5'/%3E%3Cpath d='M0 350 Q50 300 100 350 T200 350' opacity='0.4'/%3E%3Cellipse cx='350' cy='280' rx='40' ry='25' opacity='0.35'/%3E%3Cpath d='M150 50 C180 20 220 20 250 50 C280 80 280 120 250 150 C220 180 180 180 150 150 C120 120 120 80 150 50' opacity='0.3'/%3E%3Cpath d='M280 200 Q310 170 340 200 Q370 230 340 260 Q310 290 280 260 Q250 230 280 200' opacity='0.35'/%3E%3Cpath d='M30 150 Q60 120 90 150 Q120 180 90 210 Q60 240 30 210 Q0 180 30 150' opacity='0.4'/%3E%3C/g%3E%3C/svg%3E");
-    background-size: 400px 400px;
-    opacity: 0.08;
-    mix-blend-mode: screen;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' viewBox='0 0 520 520'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.8'%3E%3C!-- Flor abstracta 1 --%3E%3Cpath d='M80 260 Q130 200 180 260 T280 260' opacity='0.06'/%3E%3Cpath d='M80 260 Q130 320 180 260' opacity='0.05'/%3E%3Ccircle cx='130' cy='260' r='12' opacity='0.04'/%3E%3C!-- Flor abstracta 2 --%3E%3Cpath d='M350 120 C380 80 420 80 450 120 C480 160 480 200 450 240 C420 280 380 280 350 240 C320 200 320 160 350 120' opacity='0.05'/%3E%3Ccircle cx='400' cy='180' r='8' opacity='0.04'/%3E%3C!-- Curvas florales --%3E%3Cpath d='M200 400 Q260 340 320 400 T440 400' opacity='0.05'/%3E%3Cpath d='M40 80 Q100 30 160 80 T280 80' opacity='0.04'/%3E%3C!-- Pétalos sueltos --%3E%3Cellipse cx='480' cy='380' rx='35' ry='18' transform='rotate(-20 480 380)' opacity='0.045'/%3E%3Cellipse cx='60' cy='420' rx='30' ry='14' transform='rotate(15 60 420)' opacity='0.04'/%3E%3C!-- Espirales pequeñas --%3E%3Cpath d='M420 480 Q440 460 460 480 Q480 500 460 520' opacity='0.04'/%3E%3Cpath d='M100 180 Q120 160 140 180 Q160 200 140 220' opacity='0.045'/%3E%3C!-- Círculos decorativos --%3E%3Ccircle cx='300' cy='60' r='20' opacity='0.035'/%3E%3Ccircle cx='500' cy='260' r='15' opacity='0.04'/%3E%3Ccircle cx='180' cy='480' r='22' opacity='0.035'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 520px 520px;
+    opacity: 1;
     z-index: 0;
     pointer-events: none;
 }
 
-/* Optional blur layer for depth */
+/* Subtle brand glow for depth */
 .prensa-home--dark::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 20% 30%, rgba(159, 87, 167, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 70%, rgba(28, 92, 255, 0.06) 0%, transparent 50%);
+    background:
+        radial-gradient(ellipse 60% 40% at 15% 20%, rgba(159, 87, 167, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 35% at 85% 75%, rgba(28, 92, 255, 0.05) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 30% at 50% 90%, rgba(159, 87, 167, 0.04) 0%, transparent 50%);
     z-index: 0;
     pointer-events: none;
 }
@@ -2277,43 +2296,173 @@
 /* Ensure content is above overlays */
 .prensa-home--dark>.container {
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
-/* Light text for dark background */
+/* ==========================================================================
+   Title Row: Icon inline with text
+   ========================================================================== */
+
+.prensa-home--dark .prensa-home__title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
 .prensa-home--dark .prensa-home__title {
     color: #fff;
+    margin: 0;
 }
 
+/* "Novedades" text: WHITE (not gradient) */
 .prensa-home--dark .prensa-home__title .highlight {
-    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #FFFFFF;
+    background: none;
+    -webkit-text-fill-color: #FFFFFF;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
 }
+
+/* Animated shimmer underline */
+.prensa-home--dark .prensa-home__title .highlight::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 5px;
+    border-radius: 999px;
+    background: linear-gradient(90deg,
+            #9F57A7 0%,
+            #C76BD1 25%,
+            #1C5CFF 50%,
+            #C76BD1 75%,
+            #9F57A7 100%);
+    background-size: 200% 100%;
+    animation: novedades-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes novedades-shimmer {
+    0% {
+        background-position: 100% 0;
+    }
+
+    50% {
+        background-position: 0% 0;
+    }
+
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+/* Mobile: wider underline */
+@media (max-width: 768px) {
+    .prensa-home--dark .prensa-home__title .highlight::after {
+        width: 90%;
+    }
+}
+
+/* Reduced motion: static underline */
+@media (prefers-reduced-motion: reduce) {
+    .prensa-home--dark .prensa-home__title .highlight::after {
+        animation: none;
+        background: linear-gradient(90deg, #9F57A7 0%, #1C5CFF 100%);
+        background-size: 100% 100%;
+    }
+}
+
+/* ==========================================================================
+   Icon "Diario" Micro-animation
+   ========================================================================== */
+
+.prensa-home--dark .prensa-icon-anim {
+    color: #FFFFFF;
+    transition: transform 0.4s ease;
+}
+
+.prensa-home--dark .prensa-home__header.is-visible .prensa-icon-anim {
+    animation: prensa-icon-bounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s 1;
+}
+
+@keyframes prensa-icon-bounce {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    30% {
+        transform: rotate(-8deg) scale(1.1);
+    }
+
+    60% {
+        transform: rotate(4deg) scale(1.05);
+    }
+
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .prensa-home--dark .prensa-home__header.is-visible .prensa-icon-anim {
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   Subtitle styling
+   ========================================================================== */
 
 .prensa-home--dark .prensa-home__subtitle {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 500;
 }
 
+/* ==========================================================================
+   CTA Button: Glass/Outline with Gradient Border
+   ========================================================================== */
+
 .prensa-home--dark .prensa-home__cta {
-    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
-    color: #fff;
-    border: none;
+    position: relative;
+    background: transparent;
+    color: #FFFFFF;
+    border: 2px solid transparent;
+    background-image: linear-gradient(#14141A, #14141A),
+        linear-gradient(90deg, #9F57A7 0%, #1C5CFF 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    font-weight: 600;
+    padding: 14px 32px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
 }
 
 .prensa-home--dark .prensa-home__cta:hover {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)),
+        linear-gradient(90deg, #C76BD1 0%, #4080FF 100%);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(159, 87, 167, 0.3);
+    box-shadow: 0 8px 24px rgba(159, 87, 167, 0.25),
+        0 0 0 1px rgba(159, 87, 167, 0.3);
 }
 
-/* Scroll Reveal Animation for Novedades */
+.prensa-home--dark .prensa-home__cta svg {
+    stroke: #FFFFFF;
+}
+
+/* ==========================================================================
+   Scroll Reveal Animation for Novedades
+   ========================================================================== */
+
 .prensa-home--dark .prensa-home__header,
 .prensa-home--dark .prensa-grid,
 .prensa-home--dark .prensa-home__footer {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(25px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .prensa-home--dark .prensa-home__header.is-visible,
@@ -2325,11 +2474,11 @@
 
 /* Staggered delays */
 .prensa-home--dark .prensa-grid.is-visible {
-    transition-delay: 0.15s;
+    transition-delay: 0.12s;
 }
 
 .prensa-home--dark .prensa-home__footer.is-visible {
-    transition-delay: 0.3s;
+    transition-delay: 0.24s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2348,41 +2497,50 @@
    ========================================================================== */
 
 @media (max-width: 768px) {
-    .prensa-grid--carousel {
+
+    /* FIX: Force carousel to be horizontal scrollable on mobile */
+    .prensa-home--dark .prensa-grid--carousel {
         display: flex !important;
-        flex-wrap: nowrap;
+        flex-wrap: nowrap !important;
         gap: 16px;
-        overflow-x: auto;
+        overflow-x: auto !important;
+        overflow-y: visible !important;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         scroll-behavior: smooth;
-        padding: 0 1rem 1rem;
-        margin: 0 -1rem;
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-bottom: 28px;
+        /* Extra space for glow visibility */
+        scroll-padding-inline: 16px;
+        margin: 0;
+        box-sizing: border-box;
+        width: 100%;
+        touch-action: pan-x;
+        /* CRITICAL: Allow horizontal swipe */
+        overscroll-behavior-x: contain;
 
         /* Hide scrollbar elegantly */
         scrollbar-width: none;
         -ms-overflow-style: none;
     }
 
-    .prensa-grid--carousel::-webkit-scrollbar {
+    .prensa-home--dark .prensa-grid--carousel::-webkit-scrollbar {
         display: none;
     }
 
-    .prensa-grid--carousel .prensa-card {
-        flex: 0 0 85%;
-        min-width: 85%;
+    .prensa-home--dark .prensa-grid--carousel .prensa-card {
+        flex: 0 0 auto;
+        width: clamp(280px, 86vw, 360px);
+        min-width: 0;
         scroll-snap-align: start;
+        scroll-snap-stop: always;
     }
 
-    /* First card peek padding */
-    .prensa-grid--carousel::before {
+    /* End spacer to ensure last card is fully visible */
+    .prensa-home--dark .prensa-grid--carousel::after {
         content: "";
-        flex: 0 0 0.5rem;
-    }
-
-    .prensa-grid--carousel::after {
-        content: "";
-        flex: 0 0 0.5rem;
+        flex: 0 0 16px;
     }
 }
 
@@ -2395,44 +2553,235 @@
     }
 }
 
-/* Card styling for dark background */
+/* ==========================================================================
+   SOLID WHITE Cards with Animated Glow Behind
+   ========================================================================== */
+
+/* Desktop: Grid allows glow visibility */
+@media (min-width: 769px) {
+    .prensa-home--dark .prensa-grid {
+        overflow: visible;
+    }
+}
+
+/* Main card wrapper: Uses isolation for proper z-index stacking */
 .prensa-home--dark .prensa-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+    /* Creates stacking context for glow */
+    background: #FFFFFF !important;
+    border: 1px solid rgba(15, 18, 25, 0.08);
     border-radius: 20px;
-    overflow: hidden;
-    transition: all 0.3s ease;
+    /* Remove overflow:hidden to allow glow visibility */
+    overflow: visible;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
 }
 
 .prensa-home--dark .prensa-card:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(159, 87, 167, 0.3);
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
 }
 
+/* Animated white glow BEHIND the card */
+.prensa-home--dark .prensa-card::before {
+    content: "";
+    position: absolute;
+    inset: -16px;
+    z-index: -1;
+    border-radius: 28px;
+    background: radial-gradient(closest-side,
+            rgba(255, 255, 255, 0.65) 0%,
+            rgba(255, 255, 255, 0.25) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    filter: blur(18px);
+    opacity: 0.5;
+    transform: translateY(6px) scale(0.97);
+    animation: newsGlowFloat 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes newsGlowFloat {
+
+    0%,
+    100% {
+        opacity: 0.45;
+        transform: translateY(8px) scale(0.97);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: translateY(3px) scale(1.01);
+    }
+}
+
+/* Glow intensifies on hover */
+.prensa-home--dark .prensa-card:hover::before {
+    opacity: 0.85;
+    filter: blur(22px);
+}
+
+/* Reduced motion: no animation */
+@media (prefers-reduced-motion: reduce) {
+    .prensa-home--dark .prensa-card::before {
+        animation: none;
+        opacity: 0.5;
+        transform: translateY(4px) scale(0.98);
+    }
+}
+
+/* Top accent gradient line */
+.prensa-home--dark .prensa-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #9F57A7, #1C5CFF);
+    z-index: 2;
+}
+
+/* Card body: white background with rounded bottom corners */
 .prensa-home--dark .prensa-card__body {
-    background: transparent;
+    background: #FFFFFF !important;
+    padding: 20px 22px 24px;
+    border-radius: 0 0 20px 20px;
+    /* Match card radius for bottom corners */
 }
 
+/* Card title: DARK and BOLD for legibility */
 .prensa-home--dark .prensa-card__title {
-    color: #fff;
+    color: #0D0F14 !important;
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.35;
+    margin-bottom: 10px;
+    opacity: 1 !important;
 }
 
+/* Card excerpt: Dark readable text */
 .prensa-home--dark .prensa-card__excerpt {
-    color: rgba(255, 255, 255, 0.65);
+    color: #2B2F3A !important;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    opacity: 1 !important;
 }
 
+/* Card date: Muted but readable */
 .prensa-home--dark .prensa-card__date {
-    color: rgba(255, 255, 255, 0.5);
+    color: #5B6272 !important;
+    font-size: 0.82rem;
+    opacity: 1 !important;
 }
 
+/* Card CTA link: Brand magenta */
 .prensa-home--dark .prensa-card__cta {
-    color: #9F57A7;
+    color: #9F57A7 !important;
+    font-weight: 600;
+    transition: color 0.2s ease, gap 0.2s ease;
 }
 
-.prensa-home--dark .prensa-card__cta:hover {
-    color: #1C5CFF;
+.prensa-home--dark .prensa-card:hover .prensa-card__cta {
+    color: #1C5CFF !important;
+    gap: 10px;
+}
+
+/* Card badge: Solid white with brand color */
+.prensa-home--dark .prensa-card__badge {
+    background: #FFFFFF !important;
+    color: #9F57A7 !important;
+    border: 1px solid rgba(159, 87, 167, 0.25);
+    font-weight: 700;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 5px 12px;
+    border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Card image container: clean with rounded top corners */
+.prensa-home--dark .prensa-card__image-container {
+    position: relative;
+    overflow: hidden;
+    background: #f0f0f5;
+    border-radius: 20px 20px 0 0;
+    /* Match card radius for top corners */
+}
+
+/* Remove any dark overlay that might exist */
+.prensa-home--dark .prensa-card__image-container::after {
+    display: none !important;
+}
+
+/* Card image zoom on hover */
+.prensa-home--dark .prensa-card:hover .prensa-card__image {
+    transform: scale(1.03);
+}
+
+.prensa-home--dark .prensa-card__image {
+    transition: transform 0.4s ease;
+}
+
+/* Placeholder styling */
+.prensa-home--dark .prensa-card__placeholder {
+    background: linear-gradient(135deg, #f8f0fa 0%, #f0f4ff 100%);
+}
+
+.prensa-home--dark .prensa-card__placeholder-icon {
+    color: #9F57A7;
+    opacity: 0.3;
+}
+
+/* Card stagger animation on reveal */
+.prensa-home--dark .prensa-grid.is-visible .prensa-card {
+    animation: card-stagger-in 0.45s ease forwards;
+    opacity: 0;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(3) {
+    animation-delay: 0.16s;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(4) {
+    animation-delay: 0.24s;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(5) {
+    animation-delay: 0.32s;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(6) {
+    animation-delay: 0.40s;
+}
+
+@keyframes card-stagger-in {
+    0% {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .prensa-home--dark .prensa-grid.is-visible .prensa-card {
+        animation: none;
+        opacity: 1;
+    }
 }
 
 /* ==========================================================================
