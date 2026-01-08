@@ -121,7 +121,7 @@
 
     // =========================================================================
     // NOVEDADES CAROUSEL SWIPE HINT (Mobile Only)
-    // Shows hint, hides after animation or first scroll
+    // Shows hint only on mobile
     // =========================================================================
     function initCarouselHint() {
         const carousel = document.querySelector('.prensa-grid--carousel');
@@ -135,27 +135,7 @@
             return;
         }
 
-        // Add initial hint class that fades out after first scroll
-        carousel.classList.add('has-scroll-hint');
-
-        const hideHint = () => {
-            if (swipeHint) swipeHint.classList.add('is-done');
-            carousel.classList.remove('has-scroll-hint');
-        };
-
-        // Hide on first scroll (passive listener for performance)
-        const removeHintOnScroll = () => {
-            hideHint();
-            carousel.removeEventListener('scroll', removeHintOnScroll);
-        };
-        carousel.addEventListener('scroll', removeHintOnScroll, { passive: true });
-
-        // Also hide after animation completes (~6 seconds = 4 cycles of 1.5s)
-        if (!prefersReducedMotion && swipeHint) {
-            setTimeout(() => {
-                hideHint();
-            }, 6500);
-        }
+        if (swipeHint) swipeHint.style.display = '';
     }
 
     // =========================================================================

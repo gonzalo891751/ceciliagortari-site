@@ -2902,11 +2902,11 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        padding: 12px 0;
+        padding: 14px 0;
         margin-bottom: 8px;
         color: rgba(255, 255, 255, 0.6);
         font-family: 'Outfit', sans-serif;
-        font-size: 0.85rem;
+        font-size: 0.95rem;
         font-weight: 500;
         position: relative;
     }
@@ -2917,9 +2917,8 @@
 
     .cg-news-swipe-hint__icon {
         display: inline-block;
-        font-size: 1.1rem;
-        animation: swipe-nudge 1.5s ease-in-out 4;
-        /* Run 4 times then stop */
+        font-size: 1.2rem;
+        animation: swipe-nudge 2.4s ease-in-out infinite;
     }
 
     @keyframes swipe-nudge {
@@ -2930,15 +2929,8 @@
         }
 
         50% {
-            transform: translateX(8px);
+            transform: translateX(6px);
         }
-    }
-
-    /* Fade out after animation completes */
-    .cg-news-swipe-hint.is-done {
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        pointer-events: none;
     }
 }
 
