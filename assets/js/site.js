@@ -441,9 +441,6 @@
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const panel = hero.querySelector('.hero-new__panel');
-    const scrollHint = hero.querySelector('.hero-new__scroll-hint');
-    let hintHidden = false;
-    let hintTimeoutId;
 
     // Optional: Debug overlay (set to true for development)
     const debug = false;
@@ -452,16 +449,6 @@
       debugEl = document.createElement('div');
       debugEl.style.cssText = 'position:fixed; top:10px; right:10px; background:rgba(0,0,0,0.85); color:lime; padding:8px 12px; z-index:9999; font-family:monospace; font-size:11px; border-radius:6px;';
       document.body.appendChild(debugEl);
-    }
-
-    function hideScrollHint() {
-      if (!scrollHint || hintHidden) return;
-      scrollHint.classList.add('is-hidden');
-      hintHidden = true;
-      if (hintTimeoutId) {
-        window.clearTimeout(hintTimeoutId);
-        hintTimeoutId = null;
-      }
     }
 
     function updateScrollProgress() {
@@ -481,12 +468,10 @@
         // - progress = 0 when wrapper starts
         // - progress = 1 exactly when wrapper ends (sticky releases naturally)
 
-        // Adjust scroll distance (in px) for mobile animation completion.
-        const scrollRange = 120;
-        const range = scrollRange;
+        const range = heroHeight - viewportHeight;
 
         if (range > 0) {
-          progress = Math.max(0, scrollY - heroTop) / range;
+          progress = (scrollY - heroTop) / range;
         } else {
           // Fallback for unexpectedly short hero
           progress = scrollY / (heroHeight * 0.8);
@@ -507,10 +492,6 @@
         panel.style.pointerEvents = progress >= 0.95 ? 'auto' : 'none';
       }
 
-      if (scrollY > 40) {
-        hideScrollHint();
-      }
-
       if (debug && debugEl) {
         debugEl.innerHTML = `Progress: ${progress.toFixed(3)}<br>Scroll: ${Math.round(scrollY)}px<br>Hero H: ${heroHeight}px<br>Range: ${heroHeight - viewportHeight}px`;
       }
@@ -529,21 +510,6 @@
       // For reduced motion, set progress to 1 (final state)
       hero.style.setProperty('--scroll-progress', 1);
       if (panel) panel.style.pointerEvents = 'auto';
-    }
-
-    if (scrollHint) {
-      hintTimeoutId = window.setTimeout(hideScrollHint, 5000);
-      if (window.scrollY > 40) {
-        hideScrollHint();
-      }
-
-      if (prefersReducedMotion) {
-        window.addEventListener('scroll', () => {
-          if (window.scrollY > 40) {
-            hideScrollHint();
-          }
-        }, { passive: true });
-      }
     }
   }
 
