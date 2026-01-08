@@ -496,7 +496,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // HERO SCROLL INDICATOR ("Deslizá") - Mobile only, runs independently
+  // HERO SCROLL INDICATOR ("Deslizá") - Mobile only, scroll-based visibility
   // --------------------------------------------------------------------------
   function initScrollIndicator() {
     const indicator = document.querySelector('.hero-scroll-indicator');
@@ -511,29 +511,21 @@
       return;
     }
 
-    let hidden = false;
-    const SCROLL_THRESHOLD = 40; // px
-    const AUTO_HIDE_DELAY = 5000; // 5 seconds
+    const SCROLL_THRESHOLD = 24; // Hide when scrolled past this (px)
 
-    function hideIndicator() {
-      if (hidden) return;
-      hidden = true;
-      indicator.classList.add('is-hidden');
-      // Remove from DOM after fade-out animation
-      setTimeout(() => indicator.remove(), 500);
-    }
-
-    // Hide on scroll > threshold
+    // Show/hide based on scroll position - no auto-fade
     function onScroll() {
       if (window.scrollY > SCROLL_THRESHOLD) {
-        hideIndicator();
-        window.removeEventListener('scroll', onScroll);
+        indicator.classList.add('is-hidden');
+      } else {
+        indicator.classList.remove('is-hidden');
       }
     }
+
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // Auto-hide after delay (whichever comes first)
-    setTimeout(hideIndicator, AUTO_HIDE_DELAY);
+    // Initial check
+    onScroll();
   }
 
   // --------------------------------------------------------------------------

@@ -1361,7 +1361,7 @@
    ========================================================================== */
 .hero-scroll-indicator {
     position: fixed;
-    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 40px);
     right: calc(16px + env(safe-area-inset-right, 0px));
     z-index: 100;
     display: none;
@@ -1374,7 +1374,8 @@
 
 .hero-scroll-indicator.is-hidden {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateX(-50%) translateY(8px);
+    pointer-events: none;
 }
 
 @media (max-width: 768px) {
@@ -1383,8 +1384,13 @@
         flex-direction: column;
         align-items: center;
         gap: 6px;
+        /* Center horizontally on mobile */
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%);
     }
 }
+
 
 .hero-scroll-indicator__circle {
     width: 52px;
@@ -3337,5 +3343,38 @@
         opacity: 1;
         transform: none;
         transition: none;
+    }
+}
+
+/* ==========================================================================
+   MOBILE MENU SPLASH ANIMATION (from top-right corner)
+   ========================================================================== */
+@media (max-width: 1023px) {
+    .navbar__mobile {
+        display: block !important;
+        opacity: 0;
+        transform: translateY(-10px);
+        clip-path: circle(0% at calc(100% - 40px) 32px);
+        pointer-events: none;
+        transition:
+            opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            clip-path 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar__mobile.active {
+        opacity: 1;
+        transform: translateY(0);
+        clip-path: circle(150% at calc(100% - 40px) 32px);
+        pointer-events: auto;
+    }
+}
+
+/* Reduced motion: simple fade */
+@media (prefers-reduced-motion: reduce) {
+    .navbar__mobile {
+        clip-path: none !important;
+        transition: opacity 0.2s ease !important;
+        transform: none !important;
     }
 }
