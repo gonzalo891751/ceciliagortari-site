@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    ADDITIONAL STYLES - 2026 Updates
    ========================================================================== */
 
@@ -1454,25 +1454,63 @@
     filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/></filter></svg>#rough');
 }
 
-/* Second paragraph styling for mobile */
-.hero-new__subtitle--second {
-    margin-top: 0.6em;
+/* ==========================================================================
+   HERO TEXT SPACING FIX - Compact layout to prevent overflow
+   ========================================================================== */
+
+/* "Corrientes" in BLACK (extra bold) */
+.hero-new__corrientes {
+    font-weight: 900 !important;
 }
 
-.hero-new__subtitle--second strong {
+/* Fix paragraph spacing - remove giant gaps */
+.hero-new__subtitle {
+    margin: 0 0 8px 0 !important;
+    line-height: 1.45 !important;
+}
+
+.hero-new__subtitle:last-of-type {
+    margin-bottom: 0 !important;
+}
+
+/* Bold styling for hero text */
+.hero-new__subtitle strong {
     color: #fff;
-    font-weight: 600;
+    font-weight: 700;
+}
+
+/* Panel layout fix - reduce gap if flex */
+.hero-new__panel {
+    gap: 12px !important;
+}
+
+/* Ensure actions have controlled spacing */
+.hero-new__actions-container {
+    margin-top: 16px !important;
+}
+
+/* Desktop fine-tuning */
+@media (min-width: 769px) {
+    .hero-new__subtitle {
+        font-size: clamp(0.95rem, 1.5vw, 1.1rem) !important;
+        max-width: 600px;
+    }
+
+    .hero-new__panel {
+        padding: 28px 32px !important;
+        gap: 14px !important;
+    }
 }
 
 /* ==========================================================================
    HERO PANEL - iOS LIQUID GLASS (Mobile) - REFINED
    ========================================================================== */
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CONFIGURABLE VALUES:
    - PIN_RANGE: How long the content stays "pinned" (in px). Default: 180px
    - REVEAL_RANGE: Set in JS (site.js). Default: 120px
-   ═══════════════════════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 @media (max-width: 768px) {
 
@@ -1613,3 +1651,269 @@
         opacity: 1 !important;
     }
 }
+
+/* ==========================================================================
+   BIO SECTION - DYNAMIC CHIPS REDESIGN (2026)
+   ========================================================================== */
+
+/* Title with gradient text */
+.bio-title--gradient {
+    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+/* Subtitle soft gray */
+.bio-subtitle--soft {
+    color: #6b7280;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+/* Dynamic Chips Grid */
+.bio-chips--dynamic {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 2rem;
+}
+
+@media (min-width: 640px) {
+    .bio-chips--dynamic {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .bio-chips--dynamic {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+/* Dynamic Chip Base */
+.bio-chip--dynamic {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.04),
+        0 1px 3px rgba(0, 0, 0, 0.03);
+    border: 1px solid transparent;
+    transition:
+        transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+    overflow: hidden;
+
+    /* Initial state for animation */
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Gradient border via pseudo-element */
+.bio-chip--dynamic::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1.5px;
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.3), rgba(28, 92, 255, 0.3));
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+/* Hover State */
+.bio-chip--dynamic:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 12px 32px rgba(159, 87, 167, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.bio-chip--dynamic:hover::before {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.6), rgba(28, 92, 255, 0.6));
+}
+
+/* Shine Effect */
+.bio-chip__shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            transparent);
+    transform: skewX(-20deg);
+    pointer-events: none;
+    transition: left 0.5s ease;
+}
+
+.bio-chip--dynamic:hover .bio-chip__shine {
+    left: 150%;
+}
+
+/* Icon Wrapper with Gradient Background */
+.bio-chip__icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.1), rgba(28, 92, 255, 0.1));
+    color: #9F57A7;
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.bio-chip--dynamic:hover .bio-chip__icon-wrap {
+    background: linear-gradient(135deg, #9F57A7, #1C5CFF);
+    color: white;
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px rgba(159, 87, 167, 0.35);
+}
+
+/* Alternate icon colors for variety */
+.bio-chip--dynamic:nth-child(even) .bio-chip__icon-wrap {
+    background: linear-gradient(135deg, rgba(28, 92, 255, 0.1), rgba(159, 87, 167, 0.1));
+    color: #1C5CFF;
+}
+
+.bio-chip--dynamic:nth-child(even):hover .bio-chip__icon-wrap {
+    background: linear-gradient(135deg, #1C5CFF, #9F57A7);
+    color: white;
+    box-shadow: 0 4px 16px rgba(28, 92, 255, 0.35);
+}
+
+/* Featured Card (Last one - Actualmente diputada) */
+.bio-chip--featured {
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.05), rgba(28, 92, 255, 0.05));
+    border: 1px solid rgba(159, 87, 167, 0.15);
+}
+
+.bio-chip--featured::before {
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.5), rgba(28, 92, 255, 0.5));
+    opacity: 0.7;
+}
+
+.bio-chip--featured .bio-chip__icon-wrap {
+    background: linear-gradient(135deg, #9F57A7, #1C5CFF);
+    color: white;
+    box-shadow: 0 4px 12px rgba(159, 87, 167, 0.25);
+}
+
+.bio-chip--featured:hover .bio-chip__icon-wrap {
+    transform: scale(1.12) rotate(-5deg);
+    box-shadow: 0 6px 20px rgba(159, 87, 167, 0.4);
+}
+
+/* Animation visible state */
+.bio-chip--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered entry delays */
+.bio-chip--dynamic:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.bio-chip--dynamic:nth-child(2) {
+    transition-delay: 0.10s;
+}
+
+.bio-chip--dynamic:nth-child(3) {
+    transition-delay: 0.15s;
+}
+
+.bio-chip--dynamic:nth-child(4) {
+    transition-delay: 0.20s;
+}
+
+.bio-chip--dynamic:nth-child(5) {
+    transition-delay: 0.25s;
+}
+
+.bio-chip--dynamic:nth-child(6) {
+    transition-delay: 0.30s;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .bio-chip--dynamic {
+        opacity: 1;
+        transform: none;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .bio-chip--dynamic:hover {
+        transform: none;
+    }
+
+    .bio-chip__shine {
+        display: none;
+    }
+
+    .bio-chip__icon-wrap {
+        transition: none;
+    }
+
+    .bio-chip--dynamic:hover .bio-chip__icon-wrap {
+        transform: none;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 639px) {
+    .bio-chip--dynamic {
+        padding: 16px 18px;
+        gap: 14px;
+    }
+
+    .bio-chip__icon-wrap {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        border-radius: 12px;
+    }
+
+    .bio-title--gradient {
+        text-align: center;
+    }
+
+    .bio-subtitle--soft {
+        text-align: center;
+    }
+}
+
+/* FIX: Escuela Section Mobile Overflow */
+.escuela-home { width: 100%; max-width: 100%; overflow-x: hidden; }
+.escuela-home .container { padding-left: 1.5rem; padding-right: 1.5rem; box-sizing: border-box; }
+@media (max-width: 768px) { .escuela-heading { text-align: center; padding-left: 1rem; padding-right: 1rem; } .escuela-heading__title { word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; } .escuela-home__content { text-align: center; } }
