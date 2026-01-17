@@ -31,15 +31,12 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
     return ctx.next();
   }
 
-  // IT IS A BOT - We match the logic requested: do NOT return ctx.next()
-  // We must return a response now.
-
+  // IT IS A BOT - Return minimal HTML
   const id = url.searchParams.get("id") || "";
   let found = false;
   let post: PressItem | undefined;
 
   // 2. Try to fetch data
-  // We try fetching from /data/prensa-index.json (root based)
   const indexUrl = new URL("/data/prensa-index.json", url.origin);
 
   try {
@@ -57,20 +54,14 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
     console.error("Error fetching prensa-index.json", err);
   }
 
-  // 3. Construct Data (Found or Fallback)
-  // Canonical URL always includes the ID if present
+  // 3. Construct Data
   const canonicalUrl = id
     ? `${CANONICAL_DOMAIN}/prensa/detalle/?id=${encodeURIComponent(id)}`
     : `${CANONICAL_DOMAIN}/prensa/detalle/`;
 
   let title = "Prensa | Cecilia Gortari";
   let description = "Detalle de la publicación.";
-  let imageUrl = `${CANONICAL_DOMAIN}/assets/images/hero-diputados.jpg`; // Default generic image if you have one, or keep whatever was default
-  // Use a sensible default image if specific one not found. 
-  // If the user didn't specify a fallback image in the prompt, we use the one they mentioned as current default 'hero-diputados.jpg' or similar. 
-  // Let's assume 'hero-diputados.jpg' is at /assets/images/ or root. 
-  // The user prompt said: "og:image = hero-diputados.jpg" (relative).
-  // I will try to make it absolute.
+  let imageUrl = `${CANONICAL_DOMAIN}/assets/images/hero-diputados.jpg`;
 
   if (found && post) {
     title = post.title;
@@ -82,11 +73,9 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
   if (imageUrl.startsWith("/")) {
     imageUrl = `${CANONICAL_DOMAIN}${imageUrl}`;
   } else if (!imageUrl.startsWith("http")) {
-    // It's a relative path without leading slash?
     imageUrl = `${CANONICAL_DOMAIN}/${imageUrl}`;
   }
 
-  // Escape HTML
   const safeTitle = esc(title);
   const safeDesc = esc(description);
   const safeImage = esc(imageUrl);
@@ -128,7 +117,6 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       "Content-Type": "text/html; charset=utf-8",
       "Cache-Control": "public, max-age=300",
       "Vary": "User-Agent",
-      // Debug headers
       "x-og-function": "hit",
       "x-og-found": found.toString(),
       "x-og-id": id,
