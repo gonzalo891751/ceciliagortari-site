@@ -120,6 +120,7 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
       "x-og-function": "hit",
       "x-og-found": found.toString(),
       "x-og-id": id,
+      "x-og-image": safeImage,
     },
   });
 };
