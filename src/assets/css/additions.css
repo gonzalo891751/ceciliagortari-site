@@ -1,0 +1,3380 @@
+﻿/* ==========================================================================
+   ADDITIONAL STYLES - 2026 Updates
+   ========================================================================== */
+
+/* IMPACT SECTION WITH LOGO + 2 COUNTERS */
+.impact-grid--new {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .impact-grid--new {
+        flex-direction: row;
+        justify-content: center;
+        gap: var(--spacing-2xl);
+    }
+}
+
+.impact-logo {
+    flex-shrink: 0;
+}
+
+.impact-logo img {
+    height: clamp(64px, 10vw, 120px);
+    width: auto;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+/* @media (min-width: 768px) block removed as clamp handles it */
+
+.impact-counters {
+    display: flex;
+    gap: var(--spacing-xl);
+    justify-content: center;
+}
+
+.impact-item--with-icon {
+    text-align: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.impact-item__icon {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* ESCUELA HORIZONTAL CAROUSEL */
+.escuela-home__carousel {
+    display: flex;
+    gap: var(--spacing-md);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: var(--spacing-sm) 0;
+}
+
+.escuela-home__carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.escuela-home__carousel-item {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition-base);
+}
+
+@media (min-width: 768px) {
+    .escuela-home__carousel-item {
+        flex: 0 0 340px;
+    }
+}
+
+.escuela-home__carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.escuela-home__carousel-item:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.escuela-home__carousel-item:hover img {
+    transform: scale(1.05);
+}
+
+/* BIOGRAFIA GRADIENT TITLE */
+.bio-home__title--gradient {
+    background: linear-gradient(135deg, var(--color-magenta) 0%, var(--color-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+}
+
+/* ESCUELA CTA BUTTON STYLES */
+.escuela-home__cta--secondary {
+    background: var(--color-blue);
+    color: white !important;
+    border: none;
+}
+
+.escuela-home__cta--secondary:hover {
+    color: white !important;
+    box-shadow: 0 8px 25px rgba(28, 92, 255, 0.4);
+}
+
+.escuela-home__cta--tertiary {
+    background: var(--color-magenta);
+    color: white !important;
+    border: none;
+}
+
+.escuela-home__cta--tertiary:hover {
+    color: white !important;
+    box-shadow: 0 8px 25px rgba(159, 87, 167, 0.4);
+}
+
+/* ==========================================================================
+   ESCUELA SHOWCASE (Modern Carousel) - Added via additions.css
+   ========================================================================== */
+.escuela-showcase {
+    width: 100%;
+    margin-top: var(--spacing-xl);
+}
+
+.escuela-showcase__frame {
+    position: relative;
+    width: 100%;
+    /* Default starting height to minimize CLS */
+    height: 360px;
+    /* Aspect ratio removed here to let JS control height */
+    max-height: 600px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #f0f0f5;
+
+    /* Animation */
+    transition: height 0.6s ease, transform 0.6s ease, box-shadow 0.6s ease;
+    will-change: height;
+}
+
+.escuela-showcase__frame.is-resizing {
+    transform: scale(0.995);
+    /* Very subtle "breath" effect */
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .escuela-showcase__frame {
+        transition: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .escuela-showcase__frame {
+        aspect-ratio: 4/3;
+        /* Taller for mobile */
+        max-height: 380px;
+        border-radius: 16px;
+    }
+}
+
+.escuela-showcase__track {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.escuela-showcase__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 600ms ease-in-out;
+    visibility: hidden;
+}
+
+.escuela-showcase__slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+/* BLURRED BACKGROUND IMAGE (To fill space) */
+.escuela-showcase__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(18px);
+    transform: scale(1.15);
+    /* Zoom in to hide blurred edges */
+    opacity: 0.35;
+    z-index: 1;
+}
+
+/* MAIN IMAGE (Contained, sharp) */
+.escuela-showcase__img {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* KEY: Never crop the main subject */
+    display: block;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+/* NAVIGATION ARROWS */
+.escuela-showcase__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    border: none;
+    color: var(--color-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+    opacity: 0;
+    /* Hidden by default until hover */
+}
+
+.escuela-showcase__frame:hover .escuela-showcase__nav {
+    opacity: 1;
+}
+
+.escuela-showcase__nav:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.1);
+    color: var(--color-magenta);
+}
+
+.escuela-showcase__nav--prev {
+    left: 20px;
+}
+
+.escuela-showcase__nav--next {
+    right: 20px;
+}
+
+@media (max-width: 768px) {
+    .escuela-showcase__nav {
+        display: none;
+        /* Hide arrows on mobile, use swipe or just dots */
+    }
+}
+
+/* DOTS */
+.escuela-showcase__dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.escuela-showcase__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.escuela-showcase__dot.is-active {
+    background: white;
+    transform: scale(1.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   ESCUELA BACKGROUND IMAGE (Added via additions.css)
+   ========================================================================== */
+.section-escuela--bg {
+    position: relative;
+    overflow: hidden;
+    background: transparent;
+    /* KEY: Avoid solid white to let bg show */
+}
+
+/* Background Image Layer */
+.section-escuela--bg::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    /* Avoid borders */
+    background-image: url('../img/escuela/bg-pink.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.95;
+    filter: saturate(1.08) contrast(1.05);
+    /* Enhance visibility */
+    z-index: 0;
+}
+
+/* Overlay Layer for Readability (Subtle) */
+.section-escuela--bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Much lighter overlay to reveal texture */
+    background: radial-gradient(circle at 30% 20%,
+            rgba(255, 255, 255, 0.35) 0%,
+            rgba(255, 255, 255, 0.12) 45%,
+            rgba(255, 255, 255, 0.06) 70%,
+            rgba(255, 255, 255, 0.10) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Ensure content is above background */
+.section-escuela--bg>.container {
+    position: relative;
+    z-index: 2;
+    background: transparent !important;
+    /* Override potential white bg */
+}
+
+/* Mobile Adjustment */
+@media (max-width: 640px) {
+    .section-escuela--bg::after {
+        background: radial-gradient(circle at 30% 20%,
+                rgba(255, 255, 255, 0.45) 0%,
+                rgba(255, 255, 255, 0.18) 50%,
+                rgba(255, 255, 255, 0.10) 100%);
+    }
+}
+
+/* ==========================================================================
+   ESCUELA HEADING HIERARCHY
+   ========================================================================== */
+/* ==========================================================================
+   ESCUELA HEADING HIERARCHY & ACTIONS
+   ========================================================================== */
+:root {
+    /* Fallback if missing */
+    --brand-yellow: #FFD24A;
+    --brand-magenta: #e4007c;
+    /* Brand Magenta approximation if missing */
+}
+
+/* Utilities */
+.only-mobile {
+    display: none;
+}
+
+@media (max-width: 480px) {
+    .only-mobile {
+        display: inline;
+    }
+}
+
+/* Heading Wrapper */
+.escuela-heading {
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    /* Center everything */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center items horizontally */
+    gap: 8px;
+    /* Slightly increased gap for visual breath */
+    width: 100%;
+}
+
+/* Top: Just Title (Icon removed) */
+.escuela-heading__top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* No Icon Styles Needed - Removed from HTML */
+
+/* Title: Uppercase + Magenta->Blue + Centered */
+.escuela-heading__title {
+    font-weight: 900;
+    line-height: 1.05;
+    /* Tighter line-height */
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-align: center;
+    /* Gradient: Magenta -> Blue */
+    background: linear-gradient(90deg, var(--color-magenta, #e4007c), var(--color-blue, #1c5cff));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    color: transparent;
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+}
+
+/* Subtitle: Centered below title block */
+.escuela-heading__subtitle {
+    font-weight: 600;
+    margin: 0;
+    color: #2b2b2b;
+    opacity: 0.9;
+    font-size: 1.125rem;
+    width: 100%;
+    text-align: center;
+}
+
+/* Buttons Layout: Single Row */
+.escuela-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: nowrap;
+    /* Single row desktop */
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: var(--spacing-md);
+}
+
+.escuela-actions>* {
+    flex: 0 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+    .escuela-actions {
+        flex-wrap: wrap;
+        /* Wrap on tablet if needed */
+    }
+}
+
+@media (max-width: 640px) {
+    .escuela-heading__title {
+        font-size: clamp(20px, 5vw, 28px);
+        word-break: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        max-width: 100%;
+    }
+
+    .escuela-heading__subtitle {
+        font-size: 1rem;
+        text-align: left;
+        /* Maybe left aligns better on mobile? Or keep center? User said center. */
+        text-align: center;
+        margin-left: 0;
+    }
+
+    .escuela-actions {
+        justify-content: center;
+        /* Center buttons on mobile */
+        flex-wrap: wrap;
+    }
+
+    .escuela-actions>* {
+        width: 100%;
+        /* Full width buttons on tiny screens? Or keep natural? */
+        /* width: min(320px, 100%); Optional nice stacking */
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .escuela-heading__title {
+        white-space: normal !important;
+        overflow-wrap: anywhere;
+        max-width: 100%;
+        min-width: 0;
+        text-align: center;
+        font-size: clamp(1.45rem, 5.2vw, 2.1rem);
+        line-height: 1.05;
+    }
+}
+
+/* ==========================================================================
+   PROJECTS SECTION (Redesign nested in Bio Background)
+   ========================================================================== */
+
+/* Spacer between Bio content and Projects */
+.bio-projects-spacer {
+    height: clamp(60px, 8vw, 100px);
+    width: 100%;
+}
+
+.projects-container {
+    position: relative;
+    z-index: 10;
+}
+
+/* Header */
+.projects-header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.projects-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.1;
+    padding-bottom: 10px;
+    /* Prevent descenders cut by gradient clip */
+}
+
+.projects-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    font-weight: 500;
+    line-height: 1.6;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* Grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+}
+
+@media (min-width: 640px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
+}
+
+/* Card */
+.project-card {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Accent top bar */
+.project-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #9F57A7, #1C5CFF);
+    opacity: 0.7;
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(159, 87, 167, 0.1);
+}
+
+.project-card:hover::before {
+    height: 6px;
+    opacity: 1;
+}
+
+.project-card__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.project-card__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: rgba(159, 87, 167, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9F57A7;
+    margin-bottom: 24px;
+    transition: all 0.4s ease;
+}
+
+.project-card:hover .project-card__icon {
+    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+    color: white;
+    transform: rotate(-10deg) scale(1.1);
+    box-shadow: 0 8px 15px rgba(159, 87, 167, 0.3);
+}
+
+.project-card__title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-dark);
+    margin-bottom: 12px;
+    line-height: 1.25;
+}
+
+.project-card__desc {
+    font-size: 1rem;
+    color: var(--color-gray-600);
+    margin-bottom: 24px;
+    flex: 1;
+    /* Pushes link to bottom if cards have fixed height, but here auto height */
+    line-height: 1.6;
+}
+
+.project-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #1C5CFF;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    padding: 8px 0;
+}
+
+.project-card__link:hover {
+    color: #9F57A7;
+    padding-left: 4px;
+}
+
+.project-card__link:focus-visible {
+    outline: 2px solid #1C5CFF;
+    border-radius: 4px;
+}
+
+/* Button "Ver todos" */
+.projects-footer {
+    text-align: center;
+    margin-top: var(--spacing-md);
+}
+
+.projects-btn-all {
+    display: inline-block;
+    padding: 16px 36px;
+    background: white;
+    /* Clean pill */
+    color: var(--color-dark);
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.projects-btn-all:hover {
+    background: var(--color-dark);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-color: transparent;
+}
+
+/* =========================================
+   DYNAMIC PRENSA GRID
+   ========================================= */
+.prensa-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 24px;
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .prensa-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .prensa-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* Card Styles Reuse/Tweaks */
+.prensa-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.prensa-card__image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Fallback Placeholder */
+.prensa-card__placeholder {
+    width: 100%;
+    height: 200px;
+    background-color: var(--color-brand-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #cbd5e1;
+}
+
+.prensa-card__placeholder-icon {
+    font-size: 2rem;
+}
+
+/* BADGES MAPPING */
+.badge-blue {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+}
+
+.badge-purple {
+    background-color: #F3E8FF;
+    color: #6B21A8;
+}
+
+.badge-magenta {
+    background-color: #FCE7F3;
+    color: #9D174D;
+}
+
+.badge-gray {
+    background-color: #F3F4F6;
+    color: #374151;
+}
+
+.badge-gradient {
+    background: linear-gradient(135deg, var(--color-brand-magenta), var(--color-brand-blue));
+    color: white;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   PRESS DETAIL PAGE STYLES - 2026 Redesign (Enhanced)
+   ========================================================================== */
+.press-detail {
+    position: relative;
+    padding: 120px 24px 100px;
+    /* Added top offset for fixed navbar */
+    min-height: 80vh;
+    background-color: #f9f9fb;
+    /* Clean base */
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    /* Subtle noise texture */
+}
+
+/* Background Atmosphere */
+.press-detail__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70vh;
+    background: radial-gradient(circle at 0% 0%, rgba(159, 87, 167, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 100% 0%, rgba(28, 92, 255, 0.08) 0%, transparent 40%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Back Button */
+.press-detail__back {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2rem;
+    padding: 10px 24px;
+    background: white;
+    border-radius: 100px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--brand-dark, #2C2C31);
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    transition: all 0.25s ease;
+}
+
+.press-detail__back:hover {
+    transform: translateX(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    color: var(--brand-blue, #1C5CFF);
+}
+
+/* Main Card */
+.press-article {
+    position: relative;
+    z-index: 2;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    padding: 60px 80px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+    .press-article {
+        padding: 40px;
+    }
+}
+
+@media (max-width: 640px) {
+    .press-detail {
+        padding: 40px 16px;
+    }
+
+    .press-article {
+        padding: 24px 20px;
+        border-radius: 20px;
+    }
+}
+
+/* Header Section */
+.prensa-detail__header {
+    text-align: left;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid #f0f0f4;
+    padding-bottom: 2.5rem;
+}
+
+.prensa-detail__brand-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.5rem;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for specific chips are reused from badges or defined here if needing gradients */
+.chip--noticia {
+    background: var(--brand-blue, #1C5CFF);
+}
+
+.chip--documento {
+    background: #64748b;
+}
+
+.chip--comunicado {
+    background: var(--brand-magenta, #9F57A7);
+}
+
+.chip--nota {
+    background: #9333ea;
+}
+
+.chip--proyecto {
+    background: linear-gradient(135deg, #9F57A7, #1C5CFF);
+}
+
+.prensa-detail__title {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: #1a1a1f;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+.prensa-detail__subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    line-height: 1.5;
+    color: #555b6e;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    max-width: 90%;
+}
+
+.prensa-detail__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    color: #94a3b8;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-family: sans-serif;
+    /* Clean meta font */
+}
+
+.prensa-detail__meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.prensa-detail__meta-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Feature Image */
+.prensa-detail__image-container {
+    position: relative;
+    margin-bottom: 3.5rem;
+    border-radius: 18px;
+    overflow: hidden;
+    /* Ensures border-radius clips content but we use overflow:visible on image if needed, though strictly container clips usually. */
+    /* UPDATED Strategy: Grid + Place Center */
+    display: grid;
+    place-items: center;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.04);
+    /* letterbox soft bg */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    cursor: zoom-in;
+}
+
+.prensa-detail__image {
+    display: block;
+    max-width: 100%;
+    max-height: 70vh;
+    /* Limit vertical height to avoid scrolling */
+    width: auto;
+    /* Allow width to shrink */
+    height: auto;
+    /* Maintain aspect ratio */
+    object-fit: contain;
+    border-radius: 18px;
+    transition: transform 0.5s ease;
+}
+
+.prensa-detail__image-container:hover .prensa-detail__image {
+    transform: scale(1.02);
+}
+
+/* Placeholder for missing image */
+.prensa-detail__placeholder {
+    display: grid;
+    place-items: center;
+    padding: 56px 24px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #f3f4f6 50%, #eef0f2 100%);
+    border-radius: 18px;
+    margin-bottom: 3.5rem;
+    border: 1px dashed #d1d5db;
+}
+
+.prensa-detail__placeholder-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.3;
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.prensa-detail__placeholder-text {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.prensa-detail__image-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    backdrop-filter: blur(2px);
+}
+
+.prensa-detail__image-container:hover .prensa-detail__image-overlay {
+    opacity: 1;
+}
+
+/* Download Block */
+.download-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 3.5rem;
+    transition: all 0.2s ease;
+}
+
+.download-block:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+}
+
+.download-block__icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-blue, #1C5CFF);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.download-block__info {
+    flex: 1;
+}
+
+.download-block__title {
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.download-block__meta {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.download-btn {
+    padding: 10px 20px;
+    background: var(--brand-blue, #1C5CFF);
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.download-btn:hover {
+    background: #1545cc;
+    color: white;
+}
+
+@media (max-width: 640px) {
+    .download-block {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .download-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Content Body */
+.prensa-detail__content {
+    font-size: 1.125rem;
+    /* 18px */
+    line-height: 1.8;
+    color: #334155;
+    max-width: 720px;
+    /* Optional optimal reading width */
+    margin: 0 auto;
+}
+
+.prensa-detail__content p {
+    margin-bottom: 2rem;
+}
+
+.prensa-detail__content h2,
+.prensa-detail__content h3 {
+    color: #0f172a;
+    font-weight: 700;
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+}
+
+.prensa-detail__content h2 {
+    font-size: 1.8rem;
+}
+
+.prensa-detail__content h3 {
+    font-size: 1.5rem;
+}
+
+.prensa-detail__content ul,
+.prensa-detail__content ol {
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+}
+
+.prensa-detail__content li {
+    margin-bottom: 0.75rem;
+    padding-left: 0.5rem;
+}
+
+.prensa-detail__content li::marker {
+    color: var(--brand-magenta, #9F57A7);
+    font-weight: bold;
+}
+
+.prensa-detail__content blockquote {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: #fefcfd;
+    /* Warm tint */
+    border-left: 4px solid var(--brand-magenta);
+    border-radius: 0 16px 16px 0;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: #4B5563;
+}
+
+.prensa-detail__content a {
+    color: var(--brand-blue);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: 500;
+}
+
+.prensa-detail__content a:hover {
+    color: var(--brand-magenta);
+}
+
+.prensa-detail__content strong {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+/* Helper: Callout */
+.prensa-callout {
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.05), rgba(28, 92, 255, 0.05));
+    border: 1px solid rgba(159, 87, 167, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 2.5rem 0;
+}
+
+.prensa-callout__title {
+    font-weight: 800;
+    color: var(--brand-magenta);
+    margin-bottom: 12px;
+    display: block;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+/* Footer Actions */
+.prensa-footer-actions {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid #f0f0f4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.prensa-share {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.prensa-share__label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.share-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: 1rem;
+}
+
+.share-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.share-btn--wa {
+    background: #25D366;
+}
+
+.share-btn--x {
+    background: #000;
+}
+
+.share-btn--fb {
+    background: #1877F2;
+}
+
+.share-btn--link {
+    background: #64748b;
+}
+
+/* Lightbox */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(15, 23, 42, 0.9);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 24px;
+}
+
+.lightbox.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox__img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 25px 100px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lightbox.is-open .lightbox__img {
+    transform: scale(1);
+}
+
+.lightbox__close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.lightbox__close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Latest News Section (Below Card) */
+.latest-news-section {
+    padding-top: 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.latest-news__title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #1a1a1f;
+    border-left: 6px solid var(--brand-magenta);
+    padding-left: 1rem;
+}
+
+/* Spinner */
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #9F57A7;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 4rem auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================================================
+   HERO MOBILE SCROLL INDICATOR
+   ========================================================================== */
+.hero-scroll-indicator {
+    position: fixed;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 40px);
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    z-index: 100;
+    display: none;
+    /* Desktop: hidden */
+    pointer-events: none;
+
+    opacity: 1;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.hero-scroll-indicator.is-hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px);
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .hero-scroll-indicator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        /* Center horizontally on mobile */
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%);
+    }
+}
+
+
+.hero-scroll-indicator__circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse-ring 2s ease-out infinite;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.hero-scroll-indicator__icon {
+    color: white;
+    animation: bounce-up 1.2s ease-in-out infinite;
+}
+
+.hero-scroll-indicator__text {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 12px rgba(255, 255, 255, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+@keyframes bounce-up {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .hero-scroll-indicator__circle,
+    .hero-scroll-indicator__icon {
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   CHALK UNDERLINE EFFECT (for "Corrientes" word)
+   ========================================================================== */
+.chalk-underline {
+    position: relative;
+    display: inline-block;
+    color: #fff !important;
+    /* WHITE for max legibility */
+    z-index: 1;
+}
+
+.chalk-underline::after {
+    content: '';
+    position: absolute;
+    left: -2%;
+    right: -2%;
+    bottom: 0.05em;
+    height: 0.18em;
+    background: #9F57A7;
+    /* Brand magenta */
+    opacity: 0.85;
+    z-index: -1;
+    transform: rotate(-1deg) skewX(-2deg);
+    border-radius: 2px 4px 3px 5px;
+    /* Irregular edges */
+    /* Rough texture effect */
+    filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/></filter></svg>#rough');
+}
+
+/* ==========================================================================
+   HERO TEXT SPACING FIX - Compact layout to prevent overflow
+   ========================================================================== */
+
+/* "Corrientes" in BLACK (extra bold) */
+.hero-new__corrientes {
+    font-weight: 900 !important;
+}
+
+/* Fix paragraph spacing - remove giant gaps */
+.hero-new__subtitle {
+    margin: 0 0 8px 0 !important;
+    line-height: 1.45 !important;
+}
+
+.hero-new__subtitle:last-of-type {
+    margin-bottom: 0 !important;
+}
+
+/* Bold styling for hero text */
+.hero-new__subtitle strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+/* Panel layout fix - reduce gap if flex */
+.hero-new__panel {
+    gap: 12px !important;
+}
+
+/* Ensure actions have controlled spacing */
+.hero-new__actions-container {
+    margin-top: 16px !important;
+}
+
+/* Desktop fine-tuning */
+@media (min-width: 769px) {
+    .hero-new__subtitle {
+        font-size: clamp(0.95rem, 1.5vw, 1.1rem) !important;
+        max-width: 600px;
+    }
+
+    .hero-new__panel {
+        padding: 28px 32px !important;
+        gap: 14px !important;
+    }
+}
+
+/* ==========================================================================
+   HERO PANEL - iOS LIQUID GLASS (Mobile) - REFINED
+   ========================================================================== */
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CONFIGURABLE VALUES:
+   - PIN_RANGE: How long the content stays "pinned" (in px). Default: 180px
+   - REVEAL_RANGE: Set in JS (site.js). Default: 120px
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+
+@media (max-width: 768px) {
+
+    /* === STICKY PIN EFFECT ===
+       The hero wrapper is 100vh + PIN_RANGE.
+       The stage is position:sticky so content "sticks" briefly.
+       PIN_RANGE = 180px (adjust below if needed) */
+    .hero-new {
+        height: calc(100vh + 180px) !important;
+        /* PIN_RANGE = 180px */
+        min-height: calc(100vh + 180px) !important;
+        max-height: none !important;
+    }
+
+    .hero-new__stage {
+        position: sticky !important;
+        top: 0 !important;
+        height: 100vh !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* === LIGHTER LIQUID GLASS PANEL === */
+    .hero-new__panel {
+        background: rgba(255, 255, 255, 0.06) !important;
+        backdrop-filter: blur(14px) saturate(1.2) !important;
+        -webkit-backdrop-filter: blur(14px) saturate(1.2) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 20px !important;
+        box-shadow:
+            0 4px 24px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+        padding: 22px 18px !important;
+        max-width: calc(100% - 24px);
+        margin: 0 auto;
+    }
+
+    /* === IMPROVED LEGIBILITY (especially "Corrientes") === */
+    .hero-new__title {
+        text-shadow:
+            0 2px 12px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .hero-new__subtitle {
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* "Corrientes" word - stronger contrast */
+    .hero-new__title .highlight,
+    .hero-new__title em,
+    .hero-new__title span[style*="color"],
+    .hero-new__title a {
+        text-shadow:
+            0 2px 8px rgba(0, 0, 0, 0.6),
+            0 0 20px rgba(0, 0, 0, 0.4),
+            0 0 40px currentColor !important;
+        -webkit-text-stroke: 0.3px rgba(255, 255, 255, 0.2);
+    }
+
+    /* === BUTTON HOVER STATES === */
+
+    /* Novedades button - gray translucent on hover */
+    .btn--novedades:hover {
+        background: rgba(255, 255, 255, 0.12) !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        color: #fff !important;
+        transform: translateY(-1px);
+    }
+
+    /* Instagram button - gradient hover with VISIBLE TEXT */
+    .btn--instagram {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .btn--instagram::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(45deg,
+                #f09433 0%,
+                #e6683c 25%,
+                #dc2743 50%,
+                #cc2366 75%,
+                #bc1888 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+        border-radius: inherit;
+    }
+
+    .btn--instagram:hover::before {
+        opacity: 1;
+    }
+
+    .btn--instagram:hover {
+        border-color: transparent !important;
+        color: #fff !important;
+        /* TEXT STAYS WHITE - CRITICAL FIX */
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Ensure text and icon stay visible on hover */
+    .btn--instagram:hover span,
+    .btn--instagram:hover svg,
+    .btn--instagram:hover .btn__icon {
+        color: #fff !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+}
+
+/* Desktop hover states for buttons (non-mobile) */
+@media (min-width: 769px) {
+    .btn--novedades:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        color: #fff !important;
+    }
+
+    .btn--instagram:hover {
+        background: linear-gradient(45deg,
+                #f09433 0%,
+                #e6683c 25%,
+                #dc2743 50%,
+                #cc2366 75%,
+                #bc1888 100%) !important;
+        border-color: transparent !important;
+        color: #fff !important;
+    }
+
+    .btn--instagram:hover span,
+    .btn--instagram:hover svg {
+        color: #fff !important;
+        opacity: 1 !important;
+    }
+}
+
+/* ==========================================================================
+   BIO SECTION - DYNAMIC CHIPS REDESIGN (2026)
+   ========================================================================== */
+
+/* Title with gradient text */
+.bio-title--gradient {
+    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+/* Subtitle soft gray */
+.bio-subtitle--soft {
+    color: #6b7280;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+/* Dynamic Chips Grid */
+.bio-chips--dynamic {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 2rem;
+}
+
+@media (min-width: 640px) {
+    .bio-chips--dynamic {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .bio-chips--dynamic {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+/* Dynamic Chip Base */
+.bio-chip--dynamic {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.04),
+        0 1px 3px rgba(0, 0, 0, 0.03);
+    border: 1px solid transparent;
+    transition:
+        transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+    overflow: hidden;
+
+    /* Initial state for animation */
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Gradient border via pseudo-element */
+.bio-chip--dynamic::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1.5px;
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.3), rgba(28, 92, 255, 0.3));
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+/* Hover State */
+.bio-chip--dynamic:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 12px 32px rgba(159, 87, 167, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.bio-chip--dynamic:hover::before {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.6), rgba(28, 92, 255, 0.6));
+}
+
+/* Shine Effect */
+.bio-chip__shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            transparent);
+    transform: skewX(-20deg);
+    pointer-events: none;
+    transition: left 0.5s ease;
+}
+
+.bio-chip--dynamic:hover .bio-chip__shine {
+    left: 150%;
+}
+
+/* Icon Wrapper with Gradient Background */
+.bio-chip__icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.1), rgba(28, 92, 255, 0.1));
+    color: #9F57A7;
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.bio-chip--dynamic:hover .bio-chip__icon-wrap {
+    background: linear-gradient(135deg, #9F57A7, #1C5CFF);
+    color: white;
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px rgba(159, 87, 167, 0.35);
+}
+
+/* Alternate icon colors for variety */
+.bio-chip--dynamic:nth-child(even) .bio-chip__icon-wrap {
+    background: linear-gradient(135deg, rgba(28, 92, 255, 0.1), rgba(159, 87, 167, 0.1));
+    color: #1C5CFF;
+}
+
+.bio-chip--dynamic:nth-child(even):hover .bio-chip__icon-wrap {
+    background: linear-gradient(135deg, #1C5CFF, #9F57A7);
+    color: white;
+    box-shadow: 0 4px 16px rgba(28, 92, 255, 0.35);
+}
+
+/* Featured Card (Last one - Actualmente diputada) */
+.bio-chip--featured {
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.05), rgba(28, 92, 255, 0.05));
+    border: 1px solid rgba(159, 87, 167, 0.15);
+}
+
+.bio-chip--featured::before {
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.5), rgba(28, 92, 255, 0.5));
+    opacity: 0.7;
+}
+
+.bio-chip--featured .bio-chip__icon-wrap {
+    background: linear-gradient(135deg, #9F57A7, #1C5CFF);
+    color: white;
+    box-shadow: 0 4px 12px rgba(159, 87, 167, 0.25);
+}
+
+.bio-chip--featured:hover .bio-chip__icon-wrap {
+    transform: scale(1.12) rotate(-5deg);
+    box-shadow: 0 6px 20px rgba(159, 87, 167, 0.4);
+}
+
+/* Animation visible state */
+.bio-chip--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered entry delays */
+.bio-chip--dynamic:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.bio-chip--dynamic:nth-child(2) {
+    transition-delay: 0.10s;
+}
+
+.bio-chip--dynamic:nth-child(3) {
+    transition-delay: 0.15s;
+}
+
+.bio-chip--dynamic:nth-child(4) {
+    transition-delay: 0.20s;
+}
+
+.bio-chip--dynamic:nth-child(5) {
+    transition-delay: 0.25s;
+}
+
+.bio-chip--dynamic:nth-child(6) {
+    transition-delay: 0.30s;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .bio-chip--dynamic {
+        opacity: 1;
+        transform: none;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .bio-chip--dynamic:hover {
+        transform: none;
+    }
+
+    .bio-chip__shine {
+        display: none;
+    }
+
+    .bio-chip__icon-wrap {
+        transition: none;
+    }
+
+    .bio-chip--dynamic:hover .bio-chip__icon-wrap {
+        transform: none;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 639px) {
+    .bio-chip--dynamic {
+        padding: 16px 18px;
+        gap: 14px;
+    }
+
+    .bio-chip__icon-wrap {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        border-radius: 12px;
+    }
+
+    .bio-title--gradient {
+        text-align: center;
+    }
+
+    .bio-subtitle--soft {
+        text-align: center;
+    }
+}
+
+/* FIX: Escuela Section Mobile Overflow */
+.escuela-home {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.escuela-home .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .escuela-heading {
+        text-align: center;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .escuela-heading__title {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+
+    .escuela-home__content {
+        text-align: center;
+    }
+}
+
+/* ==========================================================================
+   PROJECT CARD BADGES (Concejo Deliberante)
+   ========================================================================== */
+.project-card__badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.project-card__badge--ordenanza {
+    background: rgba(159, 87, 167, 0.1);
+    color: #9F57A7;
+}
+
+.project-card__badge--resolucion {
+    background: rgba(28, 92, 255, 0.1);
+    color: #1C5CFF;
+}
+
+.project-card__badge--informe {
+    background: rgba(36, 188, 222, 0.1);
+    color: #0891B2;
+}
+
+/* ==========================================================================
+   PROJECTS BUTTON OUTLINE (Secondary CTA)
+   ========================================================================== */
+.projects-btn-outline {
+    display: inline-block;
+    padding: 16px 36px;
+    background: transparent;
+    color: var(--color-dark, #2C2C31);
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(159, 87, 167, 0.25);
+    margin-left: 12px;
+}
+
+.projects-btn-outline:hover {
+    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(159, 87, 167, 0.25);
+}
+
+.projects-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+    .projects-footer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .projects-btn-outline {
+        margin-left: 0;
+        margin-top: 8px;
+    }
+}
+
+/* ==========================================================================
+   PROYECTOS PAGE TABS (Concejo / Diputados)
+   ========================================================================== */
+.proyectos-nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 3rem;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 100px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.proyectos-tab {
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-gray-600, #6B7280);
+    background: transparent;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.proyectos-tab:hover {
+    color: var(--color-dark, #2C2C31);
+}
+
+.proyectos-tab.is-active {
+    background: white;
+    color: var(--color-dark, #2C2C31);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.proyectos-section-panel {
+    display: none;
+}
+
+.proyectos-section-panel.is-active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Section Headers (Solemn style) */
+.proyectos-section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.proyectos-section-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--color-dark, #2C2C31);
+    margin-bottom: 0.5rem;
+}
+
+.proyectos-section-subtitle {
+    font-size: 1.1rem;
+    color: var(--color-gray-500, #6B7280);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Concejo Project Cards (More solemn) */
+.concejo-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .concejo-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1200px) {
+    .concejo-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.concejo-card {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.concejo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+    border-color: rgba(159, 87, 167, 0.2);
+}
+
+.concejo-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 12px;
+}
+
+.concejo-card__category {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.concejo-card__category--ordenanza {
+    background: rgba(159, 87, 167, 0.1);
+    color: #9F57A7;
+}
+
+.concejo-card__category--resolucion {
+    background: rgba(28, 92, 255, 0.1);
+    color: #1C5CFF;
+}
+
+.concejo-card__category--informe {
+    background: rgba(36, 188, 222, 0.1);
+    color: #0891B2;
+}
+
+.concejo-card__status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.concejo-card__status--aprobado {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.concejo-card__status--comision {
+    background: rgba(245, 158, 11, 0.1);
+    color: #D97706;
+}
+
+.concejo-card__status--presentado {
+    background: rgba(107, 114, 128, 0.1);
+    color: #4B5563;
+}
+
+.concejo-card__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-dark, #2C2C31);
+    margin-bottom: 8px;
+    line-height: 1.35;
+}
+
+.concejo-card__desc {
+    font-size: 0.95rem;
+    color: var(--color-gray-600, #6B7280);
+    line-height: 1.5;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .proyectos-section-panel.is-active {
+        animation: none;
+    }
+
+    .concejo-card:hover,
+    .project-card:hover {
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   HOME REDESIGN 2026 - Task A: Novedades Section Premium Dark Theme
+   Comprehensive redesign with:
+   - Dark gradient background with subtle depth
+   - Floral ornaments (very subtle, line-art)
+   - Noise texture for premium feel
+   - Premium card effects with ambient glow
+   - Mobile carousel with touch-action fix
+   ========================================================================== */
+
+.prensa-home--dark {
+    /* Rich dark gradient with depth */
+    background:
+        radial-gradient(ellipse 120% 80% at 50% 0%, rgba(20, 22, 30, 1) 0%, transparent 70%),
+        linear-gradient(180deg, #0D0E13 0%, #11121A 40%, #0F1016 70%, #0D0E13 100%);
+    position: relative;
+    overflow: hidden;
+    padding: 5rem 0 4rem;
+    isolation: isolate;
+}
+
+/* Noise texture overlay for premium depth */
+.prensa-home--dark .cg-news-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    mix-blend-mode: overlay;
+}
+
+/* Floral Pattern Overlay - Very subtle grey line-art */
+.prensa-home--dark::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* More subtle floral pattern with blur for softer appearance */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.6'%3E%3C!-- Flor autoctona estilizada 1 (esquina superior izquierda) --%3E%3Cpath d='M60 80 Q90 40 120 80 Q150 120 120 160 Q90 200 60 160 Q30 120 60 80' opacity='0.045'/%3E%3Cpath d='M90 80 Q110 60 130 80 Q150 100 130 120 Q110 140 90 120 Q70 100 90 80' opacity='0.035'/%3E%3Ccircle cx='110' cy='100' r='6' opacity='0.03'/%3E%3C!-- Flor autoctona estilizada 2 (centro derecha) --%3E%3Cpath d='M480 280 Q520 240 560 280 Q600 320 560 360 Q520 400 480 360 Q440 320 480 280' opacity='0.04'/%3E%3Cpath d='M510 290 Q535 265 560 290 Q585 315 560 340 Q535 365 510 340 Q485 315 510 290' opacity='0.03'/%3E%3Ccircle cx='535' cy='315' r='8' opacity='0.025'/%3E%3C!-- Flor autoctona estilizada 3 (esquina inferior izquierda) --%3E%3Cpath d='M80 480 Q120 440 160 480 Q200 520 160 560 Q120 600 80 560 Q40 520 80 480' opacity='0.04'/%3E%3Ccircle cx='120' cy='520' r='10' opacity='0.03'/%3E%3C!-- Pétalos sueltos decorativos --%3E%3Cellipse cx='300' cy='60' rx='45' ry='15' transform='rotate(25 300 60)' opacity='0.03'/%3E%3Cellipse cx='550' cy='500' rx='40' ry='12' transform='rotate(-15 550 500)' opacity='0.035'/%3E%3C!-- Curvas orgánicas --%3E%3Cpath d='M200 200 Q260 160 320 200 T440 200' opacity='0.03'/%3E%3Cpath d='M100 350 Q180 310 260 350 T400 350' opacity='0.025'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 600px 600px;
+    filter: blur(1px);
+    opacity: 1;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Subtle brand color glows for depth */
+.prensa-home--dark::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 70% 50% at 10% 15%, rgba(159, 87, 167, 0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 45% at 90% 80%, rgba(28, 92, 255, 0.04) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(159, 87, 167, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 30% at 70% 30%, rgba(28, 92, 255, 0.025) 0%, transparent 45%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Ensure content is above overlays */
+.prensa-home--dark>.container {
+    position: relative;
+    z-index: 2;
+}
+
+/* ==========================================================================
+   Title Row: Icon inline with text
+   ========================================================================== */
+
+.prensa-home--dark .prensa-home__title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.prensa-home--dark .prensa-home__title {
+    color: #fff;
+    margin: 0;
+}
+
+/* "Novedades" text: WHITE (not gradient) */
+.prensa-home--dark .prensa-home__title .highlight {
+    color: #FFFFFF;
+    background: none;
+    -webkit-text-fill-color: #FFFFFF;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+/* Animated shimmer underline */
+.prensa-home--dark .prensa-home__title .highlight::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 5px;
+    border-radius: 999px;
+    background: linear-gradient(90deg,
+            #9F57A7 0%,
+            #C76BD1 25%,
+            #1C5CFF 50%,
+            #C76BD1 75%,
+            #9F57A7 100%);
+    background-size: 200% 100%;
+    animation: novedades-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes novedades-shimmer {
+    0% {
+        background-position: 100% 0;
+    }
+
+    50% {
+        background-position: 0% 0;
+    }
+
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+/* Mobile: wider underline */
+@media (max-width: 768px) {
+    .prensa-home--dark .prensa-home__title .highlight::after {
+        width: 90%;
+    }
+}
+
+/* Reduced motion: static underline */
+@media (prefers-reduced-motion: reduce) {
+    .prensa-home--dark .prensa-home__title .highlight::after {
+        animation: none;
+        background: linear-gradient(90deg, #9F57A7 0%, #1C5CFF 100%);
+        background-size: 100% 100%;
+    }
+}
+
+/* ==========================================================================
+   Icon "Diario" Micro-animation
+   ========================================================================== */
+
+.prensa-home--dark .prensa-icon-anim {
+    color: #FFFFFF;
+    transition: transform 0.4s ease;
+}
+
+.prensa-home--dark .prensa-home__header.is-visible .prensa-icon-anim {
+    animation: prensa-icon-bounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s 1;
+}
+
+@keyframes prensa-icon-bounce {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    30% {
+        transform: rotate(-8deg) scale(1.1);
+    }
+
+    60% {
+        transform: rotate(4deg) scale(1.05);
+    }
+
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .prensa-home--dark .prensa-home__header.is-visible .prensa-icon-anim {
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   Subtitle styling
+   ========================================================================== */
+
+.prensa-home--dark .prensa-home__subtitle {
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   CTA Button: Glass/Outline with Gradient Border
+   ========================================================================== */
+
+.prensa-home--dark .prensa-home__cta {
+    position: relative;
+    background: transparent;
+    color: #FFFFFF;
+    border: 2px solid transparent;
+    background-image: linear-gradient(#14141A, #14141A),
+        linear-gradient(90deg, #9F57A7 0%, #1C5CFF 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    font-weight: 600;
+    padding: 14px 32px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.prensa-home--dark .prensa-home__cta:hover {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)),
+        linear-gradient(90deg, #C76BD1 0%, #4080FF 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(159, 87, 167, 0.25),
+        0 0 0 1px rgba(159, 87, 167, 0.3);
+}
+
+.prensa-home--dark .prensa-home__cta svg {
+    stroke: #FFFFFF;
+}
+
+/* ==========================================================================
+   Scroll Reveal Animation for Novedades
+   ========================================================================== */
+
+.prensa-home--dark .prensa-home__header,
+.prensa-home--dark .prensa-grid,
+.prensa-home--dark .prensa-home__footer {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.prensa-home--dark .prensa-home__header.is-visible,
+.prensa-home--dark .prensa-grid.is-visible,
+.prensa-home--dark .prensa-home__footer.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered delays */
+.prensa-home--dark .prensa-grid.is-visible {
+    transition-delay: 0.12s;
+}
+
+.prensa-home--dark .prensa-home__footer.is-visible {
+    transition-delay: 0.24s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .prensa-home--dark .prensa-home__header,
+    .prensa-home--dark .prensa-grid,
+    .prensa-home--dark .prensa-home__footer {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   HOME REDESIGN 2026 - Task B: Mobile Carousel for Novedades
+   CRITICAL FIX: Allows vertical page scroll when touching cards
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+    /* Main carousel container: horizontal scroll with snap */
+    .prensa-home--dark .prensa-grid--carousel {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        gap: 16px;
+        overflow-x: auto !important;
+        overflow-y: visible !important;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-bottom: 32px;
+        padding-top: 8px;
+        scroll-padding-inline: 16px;
+        margin: 0;
+        box-sizing: border-box;
+        width: 100%;
+        /* Allow horizontal panning on the container */
+        overscroll-behavior-x: contain;
+        /* Prevent back/forward navigation gesture */
+
+        /* Hide scrollbar elegantly */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .prensa-home--dark .prensa-grid--carousel::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* CRITICAL FIX: Cards allow vertical page scrolling */
+    .prensa-home--dark .prensa-grid--carousel .prensa-card {
+        flex: 0 0 auto;
+        width: clamp(280px, 85vw, 340px);
+        min-width: 0;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        /* CRITICAL: Allow vertical scroll when touching the card */
+        touch-action: pan-x pan-y;
+    }
+
+    /* End spacer to ensure last card is fully visible */
+    .prensa-home--dark .prensa-grid--carousel::after {
+        content: "";
+        flex: 0 0 16px;
+    }
+}
+
+/* Desktop: Keep grid layout */
+@media (min-width: 769px) {
+    .prensa-grid--carousel {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+}
+
+/* ==========================================================================
+   Premium Card Styles with Ambient Glow + Shine Sweep
+   ========================================================================== */
+
+/* Tablet: 2 columns */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .prensa-grid--carousel {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Desktop: 3 columns, visible glow */
+@media (min-width: 1024px) {
+    .prensa-home--dark .prensa-grid {
+        overflow: visible;
+    }
+
+    .prensa-grid--carousel {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+}
+
+/* ==========================================================================
+   Card Base: White card with ambient glow
+   ========================================================================== */
+.prensa-home--dark .prensa-card {
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    overflow: hidden;
+    /* Clip shine sweep */
+    transition:
+        transform 0.28s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.28s ease;
+    /* AMBIENT GLOW: Always visible, magenta+blue subtle */
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.06),
+        0 0 24px rgba(159, 87, 167, 0.08),
+        0 0 28px rgba(28, 92, 255, 0.06);
+}
+
+/* Hover: Lift + scale + enhanced glow */
+.prensa-home--dark .prensa-card:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow:
+        0 16px 48px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 0 32px rgba(159, 87, 167, 0.15),
+        0 0 36px rgba(28, 92, 255, 0.12);
+}
+
+/* Focus-visible for keyboard navigation */
+.prensa-home--dark .prensa-card:focus-visible {
+    outline: 3px solid #1C5CFF;
+    outline-offset: 4px;
+    transform: translateY(-4px);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.22),
+        0 0 0 3px rgba(28, 92, 255, 0.3);
+}
+
+/* Reduced motion: simpler transforms */
+@media (prefers-reduced-motion: reduce) {
+
+    .prensa-home--dark .prensa-card,
+    .prensa-home--dark .prensa-card:hover {
+        transition: box-shadow 0.2s ease;
+        transform: none !important;
+    }
+}
+
+/* ==========================================================================
+   Gradient Border (::before - bottom of card)
+   ========================================================================== */
+.prensa-home--dark .prensa-card::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #9F57A7, #1C5CFF);
+    opacity: 0.7;
+    transition: height 0.25s ease, opacity 0.25s ease;
+    z-index: 10;
+}
+
+.prensa-home--dark .prensa-card:hover::before {
+    height: 4px;
+    opacity: 1;
+}
+
+/* ==========================================================================
+   Shine Sweep Effect (::after)
+   ========================================================================== */
+.prensa-home--dark .prensa-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(105deg,
+            transparent 40%,
+            rgba(255, 255, 255, 0.12) 50%,
+            transparent 60%);
+    z-index: 5;
+    pointer-events: none;
+    transition: none;
+}
+
+.prensa-home--dark .prensa-card:hover::after {
+    animation: shine-sweep 0.7s ease-out forwards;
+}
+
+@keyframes shine-sweep {
+    from {
+        left: -100%;
+    }
+
+    to {
+        left: 150%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .prensa-home--dark .prensa-card:hover::after {
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   Card Image Container & Handling
+   ========================================================================== */
+.prensa-home--dark .prensa-card__image-container {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f0f0f5 0%, #e8e8f0 100%);
+    /* Consistent aspect ratio for all images */
+    aspect-ratio: 16 / 9;
+}
+
+.prensa-home--dark .prensa-card__image-container img,
+.prensa-home--dark .prensa-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Image zoom on hover */
+.prensa-home--dark .prensa-card:hover .prensa-card__image-container img,
+.prensa-home--dark .prensa-card:hover .prensa-card__img {
+    transform: scale(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .prensa-home--dark .prensa-card:hover .prensa-card__image-container img,
+    .prensa-home--dark .prensa-card:hover .prensa-card__img {
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   Card Body Styling
+   ========================================================================== */
+.prensa-home--dark .prensa-card__body {
+    background: #FFFFFF;
+    padding: 20px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Card title: Bold and dark for legibility */
+.prensa-home--dark .prensa-card__title {
+    color: #0D0F14 !important;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.35;
+    margin-bottom: 8px;
+}
+
+/* Card excerpt: Readable dark text */
+.prensa-home--dark .prensa-card__excerpt {
+    color: #3B4252 !important;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin-bottom: 12px;
+    flex: 1;
+    /* Limit to 3 lines with ellipsis */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    /* Standard property for compatibility */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Card date: Muted */
+.prensa-home--dark .prensa-card__date {
+    color: #6B7280 !important;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+}
+
+/* Card CTA link */
+.prensa-home--dark .prensa-card__cta {
+    color: #9F57A7 !important;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease, gap 0.2s ease;
+    margin-top: auto;
+}
+
+.prensa-home--dark .prensa-card:hover .prensa-card__cta {
+    color: #1C5CFF !important;
+    gap: 10px;
+}
+
+/* ==========================================================================
+   Card Badge (Category Pill)
+   ========================================================================== */
+.prensa-home--dark .prensa-card__badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.12), rgba(28, 92, 255, 0.12));
+    color: #9F57A7 !important;
+    border: 1px solid rgba(159, 87, 167, 0.2);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 5px 12px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+/* ==========================================================================
+   Placeholder for missing images
+   ========================================================================== */
+.prensa-home--dark .prensa-card__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f8f0fa 0%, #f0f4ff 100%);
+}
+
+.prensa-home--dark .prensa-card__placeholder-icon {
+    font-size: 2.5rem;
+    color: #9F57A7;
+    opacity: 0.25;
+}
+
+/* ==========================================================================
+   Card Stagger Animation on Reveal
+   ========================================================================== */
+.prensa-home--dark .prensa-grid.is-visible .prensa-card {
+    animation: card-stagger-in 0.45s ease forwards;
+    opacity: 0;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(3) {
+    animation-delay: 0.16s;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(4) {
+    animation-delay: 0.24s;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(5) {
+    animation-delay: 0.32s;
+}
+
+.prensa-home--dark .prensa-grid.is-visible .prensa-card:nth-child(6) {
+    animation-delay: 0.40s;
+}
+
+@keyframes card-stagger-in {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .prensa-home--dark .prensa-grid.is-visible .prensa-card {
+        animation: none;
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   Swipe Hint Indicator (Mobile Only)
+   Shows a "Deslizá para ver más →" hint that nudges right 4 times
+   ========================================================================== */
+.cg-news-swipe-hint {
+    display: none;
+    /* Hidden on desktop */
+}
+
+@media (max-width: 768px) {
+    .cg-news-swipe-hint {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px 0;
+        margin-bottom: 8px;
+        color: rgba(255, 255, 255, 0.6);
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 500;
+        position: relative;
+    }
+
+    .cg-news-swipe-hint__text {
+        opacity: 0.8;
+    }
+
+    .cg-news-swipe-hint__icon {
+        display: inline-block;
+        font-size: 1.2rem;
+        animation: swipe-nudge 2.4s ease-in-out infinite;
+    }
+
+    @keyframes swipe-nudge {
+
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+
+        50% {
+            transform: translateX(6px);
+        }
+    }
+}
+
+/* Reduced motion: no nudge animation */
+@media (prefers-reduced-motion: reduce) {
+    .cg-news-swipe-hint__icon {
+        animation: none !important;
+    }
+}
+
+/* ==========================================================================
+   HOME REDESIGN 2026 - Task C: Instagram Section Playful Title
+   ========================================================================== */
+
+.ig-title--playful {
+    position: relative;
+    display: inline-block;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--color-dark, #2C2C31);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+/* Instagram gradient underline */
+.ig-title--playful::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #F58529, #DD2A7B, #8134AF, #515BD4);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ig-title--playful.is-visible::after {
+    transform: scaleX(1);
+}
+
+/* Reduced motion: show immediately */
+@media (prefers-reduced-motion: reduce) {
+    .ig-title--playful::after {
+        transform: scaleX(1);
+        transition: none;
+    }
+}
+
+/* Subtitle styling */
+.ig-subtitle--new {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--color-gray-600, #6B7280);
+    max-width: 650px;
+    margin: 1rem auto 0;
+    line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+    .ig-subtitle--new {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+}
+
+/* ==========================================================================
+   HOME REDESIGN 2026 - Task D: Proyectos Legislativos Section
+   ========================================================================== */
+
+.proyectos-home {
+    background: linear-gradient(180deg, #F7F7FD 0%, #FFFFFF 100%);
+    position: relative;
+    padding: 5rem 0;
+    overflow: hidden;
+}
+
+/* Subtle pattern overlay */
+.proyectos-home::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239F57A7' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 1;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.proyectos-home>.container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Section Header */
+.proyectos-home__header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.proyectos-home__title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3rem);
+    background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    line-height: 1.15;
+}
+
+.proyectos-home__subtitle {
+    font-size: 1.1rem;
+    color: var(--color-gray-600, #6B7280);
+    font-weight: 500;
+}
+
+/* Segmented Switch Control */
+.proyectos-switch {
+    display: flex;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 100px;
+    padding: 5px;
+    width: fit-content;
+    margin: 0 auto 2.5rem;
+    position: relative;
+}
+
+.proyectos-switch__btn {
+    position: relative;
+    padding: 12px 28px;
+    border: none;
+    background: transparent;
+    border-radius: 100px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-gray-600, #6B7280);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 1;
+}
+
+.proyectos-switch__btn:hover {
+    color: var(--color-dark, #2C2C31);
+}
+
+.proyectos-switch__btn.is-active {
+    color: var(--color-dark, #2C2C31);
+    background: white;
+    box-shadow: 0 4px 16px rgba(159, 87, 167, 0.12), 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* Animated pill indicator */
+.proyectos-switch__btn.is-active::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 100px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(159, 87, 167, 0.4), rgba(28, 92, 255, 0.4));
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+/* Mobile responsive switch */
+@media (max-width: 480px) {
+    .proyectos-switch__btn {
+        padding: 10px 18px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Content Panels */
+.proyectos-panel {
+    display: none;
+}
+
+.proyectos-panel.is-active {
+    display: block;
+    animation: proyectosFadeIn 0.4s ease;
+}
+
+@keyframes proyectosFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .proyectos-panel.is-active {
+        animation: none;
+    }
+}
+
+/* Project Cards Grid - Desktop */
+.proyectos-home__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 1024px) {
+    .proyectos-home__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile: Horizontal Carousel */
+@media (max-width: 768px) {
+    .proyectos-home__grid {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 16px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        padding: 0 1rem 1rem;
+        margin: 0 -1rem 2rem;
+
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .proyectos-home__grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .proyectos-home__grid .proyectos-home__card {
+        flex: 0 0 85%;
+        min-width: 85%;
+        scroll-snap-align: start;
+    }
+}
+
+/* Project Card Styling */
+.proyectos-home__card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Gradient top accent */
+.proyectos-home__card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #9F57A7, #1C5CFF);
+    opacity: 0.6;
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.proyectos-home__card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(159, 87, 167, 0.12);
+    border-color: rgba(159, 87, 167, 0.15);
+}
+
+.proyectos-home__card:hover::before {
+    height: 5px;
+    opacity: 1;
+}
+
+.proyectos-home__card-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    width: fit-content;
+}
+
+.proyectos-home__card-badge--ordenanza {
+    background: rgba(159, 87, 167, 0.1);
+    color: #9F57A7;
+}
+
+.proyectos-home__card-badge--resolucion {
+    background: rgba(28, 92, 255, 0.1);
+    color: #1C5CFF;
+}
+
+.proyectos-home__card-badge--informe {
+    background: rgba(36, 188, 222, 0.1);
+    color: #0891B2;
+}
+
+.proyectos-home__card-badge--ley {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.proyectos-home__card-badge--declaracion {
+    background: rgba(251, 168, 95, 0.1);
+    color: #D97706;
+}
+
+.proyectos-home__card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-dark, #2C2C31);
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.proyectos-home__card-desc {
+    font-size: 0.95rem;
+    color: var(--color-gray-600, #6B7280);
+    line-height: 1.55;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.proyectos-home__card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1C5CFF;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-top: auto;
+}
+
+.proyectos-home__card-link:hover {
+    color: #9F57A7;
+    gap: 10px;
+}
+
+.proyectos-home__card-link svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+}
+
+.proyectos-home__card-link:hover svg {
+    transform: translateX(3px);
+}
+
+/* Scroll reveal for proyectos section */
+.proyectos-home__header,
+.proyectos-switch,
+.proyectos-panel {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.proyectos-home__header.is-visible,
+.proyectos-switch.is-visible,
+.proyectos-panel.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.proyectos-switch.is-visible {
+    transition-delay: 0.1s;
+}
+
+.proyectos-panel.is-visible {
+    transition-delay: 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .proyectos-home__header,
+    .proyectos-switch,
+    .proyectos-panel {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   MOBILE MENU SPLASH ANIMATION (from top-right corner)
+   ========================================================================== */
+@media (max-width: 1023px) {
+    .navbar__mobile {
+        display: block !important;
+        opacity: 0;
+        transform: translateY(-10px);
+        clip-path: circle(0% at calc(100% - 40px) 32px);
+        pointer-events: none;
+        transition:
+            opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            clip-path 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar__mobile.active {
+        opacity: 1;
+        transform: translateY(0);
+        clip-path: circle(150% at calc(100% - 40px) 32px);
+        pointer-events: auto;
+    }
+}
+
+/* Reduced motion: simple fade */
+@media (prefers-reduced-motion: reduce) {
+    .navbar__mobile {
+        clip-path: none !important;
+        transition: opacity 0.2s ease !important;
+        transform: none !important;
+    }
+}

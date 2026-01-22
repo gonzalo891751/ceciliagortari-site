@@ -1,0 +1,15 @@
+{
+    "name": "ceciliagortari-site",
+    "version": "1.0.0",
+    "description": "Sitio web de Cecilia Gortari",
+    "scripts": {
+        "dev": "eleventy --serve",
+        "build": "eleventy"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@11ty/eleventy": "^3.0.0"
+    }
+}

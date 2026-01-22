@@ -1,0 +1,39 @@
+backend:
+  name: github
+  repo: gonzalo891751/ceciliagortari-site
+  branch: main
+  base_url: https://sveltia-cms-auth.gonzalo891751.workers.dev
+  auth_endpoint: /auth
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+publish_mode: simple
+
+collections:
+  - name: "prensa"
+    label: "Prensa/Comunicados"
+    editor:
+      preview: true
+    files:
+      - name: "items"
+        label: "Publicaciones"
+        file: "content/prensa.json"
+        
+        # Structure: { "items": [ ... ] }
+        fields:
+          - name: "items"
+            label: "Artículos"
+            label_singular: "Artículo"
+            widget: "list"
+            collapsed: true
+            summary: "{{fecha}} — {{titulo}}"
+            fields:
+              - { label: "Fecha", name: "fecha", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ss.000Z", date_format: "DD/MM/YYYY", time_format: "HH:mm" }
+              - { label: "ID (Manual)", name: "id", widget: "string", required: true, hint: "Escribir ID único (ej: 2024-01-01-titulo-nota)" }
+              - { label: "Título", name: "titulo", widget: "string" }
+              - { label: "Subtítulo / Bajada", name: "subtitulo", widget: "text", required: false }
+              - { label: "Etiqueta", name: "etiqueta", widget: "select", options: ["Noticia", "Documento", "Opinión", "Actividad", "Proyecto presentado", "Escuela de emprendedores"], default: "Noticia" }
+              - { label: "Imagen destacada", name: "imagen", widget: "image", required: false }
+              - { label: "Contenido / Cuerpo", name: "cuerpo", widget: "markdown", required: false }
+              - { label: "Documento adjunto (Legacy)", name: "documento", widget: "file", required: false }
