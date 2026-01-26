@@ -18,7 +18,7 @@ collections:
     files:
       - name: "items"
         label: "Publicaciones"
-        file: "content/prensa.json"
+        file: "src/content/prensa.json"
         
         # Structure: { "items": [ ... ] }
         fields:
