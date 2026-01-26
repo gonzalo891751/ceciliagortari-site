@@ -33,3 +33,20 @@
   - git status -sb
   - git ls-files | find dist
 
+
+## CHECKPOINT
+- Objetivo: Agregar SSR de metadatos OG/Twitter/canonical para detalle de prensa con ?id= sin romper el render cliente.
+- Archivos tocados:
+  - src/functions/prensa/detalle/index.ts
+- Cambios realizados:
+  - Se actualizo la function para leer /content/prensa.json via ASSETS (con fallback fetch), buscar item por id/slug y construir metadatos dinamicos.
+  - Se normalizo og:image a URL absoluta con encodeURI y se agregaron twitter tags y canonical.
+  - Se devolvio HTML completo con el mismo markup base y scripts del detalle para no afectar el cliente.
+- Pendientes:
+  - [ ] Ejecutar npm run dev y probar el HTML servido por la function con un User-Agent de bot.
+  - [ ] Verificar en entorno Cloudflare Pages con WhatsApp/FB Debugger.
+- Como validar:
+  - npm run build
+  - npm run dev
+  - curl -A "facebookexternalhit/1.1" "http://localhost:8080/prensa/detalle/?id=<id>" | rg "og:title|og:image|twitter:title|canonical"
+  - Abrir en navegador /prensa/detalle/?id=<id> y confirmar render normal
