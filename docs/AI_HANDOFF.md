@@ -67,3 +67,16 @@
 - Cómo validar en Prod:
   - `curl -A "facebookexternalhit/1.1" "https://www.ceciliagortari.com.ar/prensa/detalle/?id=2026-01-26-solidaridad-alal-goya-despidos"`
   - Verificar que devuelve `<meta property="og:title" content="...">` dinámico.
+
+## CHECKPOINT (DEPLOY CONFIGURATION)
+- Objetivo: Hacer deploy reproducible de Pages + Functions, evitando errores manuales.
+- Archivos tocados:
+  - `wrangler.toml` (NUEVO: Configuración base para Pages).
+  - `package.json` (Script `deploy:pages`).
+  - `DEPLOY_PAGES_FUNCTIONS.md` (NUEVO: Documentación de despliegue).
+- Cambios realizados:
+  - Se estandarizó la configuración de Pages para usar la raíz como context y `dist` como output.
+  - Se documentó cómo hacer deploy manual con Wrangler CLI incluyendo Functions.
+- Pendientes:
+  - [ ] Ejecutar `npm run deploy:pages` (requiere login).
+  - [ ] Validar en producción.
