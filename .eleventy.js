@@ -3,7 +3,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/admin");
   eleventyConfig.addPassthroughCopy("src/data");
-  eleventyConfig.addPassthroughCopy("src/functions");
+
   eleventyConfig.addPassthroughCopy("src/content"); // If exists
 
   // Root files passthrough

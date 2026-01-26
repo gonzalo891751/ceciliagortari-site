@@ -50,3 +50,20 @@
   - npm run dev
   - curl -A "facebookexternalhit/1.1" "http://localhost:8080/prensa/detalle/?id=<id>" | rg "og:title|og:image|twitter:title|canonical"
   - Abrir en navegador /prensa/detalle/?id=<id> y confirmar render normal
+
+## CHECKPOINT (SOCIAL PREVIEW FIX - FINAL)
+- Objetivo: Solucionar que Cloudflare Pages no ejecutaba la Function de prensa/detalle por estar en carpeta incorrecta (`src/functions`) y ser opacada por archivo estático.
+- Archivos tocados:
+  - `.eleventy.js` (se eliminó `addPassthroughCopy("src/functions")`)
+  - `functions/prensa/detalle.ts` (NUEVO, movido desde `src/functions`)
+- Cambios realizados:
+  - Se creó carpeta `/functions` en la raíz (estándar de CF Pages).
+  - Se implementó la lógica de detección de bots y generación de OG tags en `/functions/prensa/detalle.ts`.
+  - Se eliminó la copia de `src/functions` hacia `dist` para evitar conflictos.
+  - Se limpió `dist` para asegurar build limpio.
+- Validación realizada:
+  - `npm run build` genera `dist` limpio (SIN `dist/functions`).
+  - `dist/prensa/detalle/index.html` existe para usuarios normales.
+- Cómo validar en Prod:
+  - `curl -A "facebookexternalhit/1.1" "https://www.ceciliagortari.com.ar/prensa/detalle/?id=2026-01-26-solidaridad-alal-goya-despidos"`
+  - Verificar que devuelve `<meta property="og:title" content="...">` dinámico.
