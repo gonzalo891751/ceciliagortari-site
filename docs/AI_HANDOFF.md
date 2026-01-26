@@ -21,3 +21,15 @@
   - Abrir http://localhost:8080/ (Home - Novedades)
   - Abrir http://localhost:8080/prensa/detalle/?id=<id>
 
+## CHECKPOINT
+- Objetivo: Dejar de trackear dist/ para evitar conflictos binarios en GitHub Desktop.
+- Archivos tocados:
+  - .gitignore
+- Comandos ejecutados:
+  - git checkout --ours src/content/prensa.json
+  - git add src/content/prensa.json
+  - git rm -r --cached dist
+- Cómo validar:
+  - git status -sb
+  - git ls-files | find dist
+
