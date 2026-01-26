@@ -133,7 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
       // Fallback Image
       let imageHtml = "";
       if (item.imagen) {
-        imageHtml = `<img src="${item.imagen}" alt="${item.titulo}" class="prensa-card__img" loading="lazy">`;
+        const imageUrl = encodeURI(item.imagen);
+        imageHtml = `<img src="${imageUrl}" alt="${item.titulo}" class="prensa-card__img" loading="lazy">`;
       } else {
         imageHtml = `
             <div class="prensa-card__placeholder">
@@ -203,9 +204,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let imageHtml = "";
     if (item.imagen) {
+      const imageUrl = encodeURI(item.imagen);
       imageHtml = `
                 <div class="mb-8 rounded-2xl overflow-hidden shadow-lg bg-gray-50 flex justify-center items-center">
-                    <img src="${item.imagen}" 
+                    <img src="${imageUrl}" 
                          alt="${item.titulo}" 
                          class="block max-w-full h-auto max-h-[80vh] object-contain mx-auto"
                          loading="eager">
@@ -216,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Document Download Block
     let documentBtnHtml = "";
     if (item.documento || item.archivo) { // Support both fields
-      const docUrl = item.archivo || item.documento;
+      const docUrl = encodeURI(item.archivo || item.documento);
       documentBtnHtml = `
                 <div class="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200 flex items-center justify-between flex-wrap gap-4">
                     <div class="flex items-center gap-3">

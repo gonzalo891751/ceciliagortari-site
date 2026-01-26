@@ -5,7 +5,7 @@ backend:
   base_url: https://sveltia-cms-auth.gonzalo891751.workers.dev
   auth_endpoint: /auth
 
-media_folder: "assets/uploads"
+media_folder: "src/assets/uploads"
 public_folder: "/assets/uploads"
 
 publish_mode: simple

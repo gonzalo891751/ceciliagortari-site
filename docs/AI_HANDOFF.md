@@ -1,22 +1,23 @@
 # AI Handoff
 
 ## CHECKPOINT
-- Objetivo actual: Alinear CMS con la ruta real de contenido para que /admin publique en src/content/prensa.json y se refleje en /prensa y home.
+- Objetivo: Corregir rutas de uploads del CMS para que los archivos queden en src/assets/uploads, se copien a dist, y asegurar URLs con espacios en prensa.
 - Archivos tocados:
   - src/admin/config.yml
+  - src/assets/js/prensa-feed.js
+  - src/assets/js/prensa-detail.js
 - Cambios realizados:
-  - Se corrigio la ruta del archivo de prensa para que el CMS escriba en src/content/prensa.json.
-- Nota:
-  - No existe content/prensa.json en la raiz del repo (no hay duplicado).
+  - Se actualizó media_folder del CMS a src/assets/uploads (public_folder se mantiene en /assets/uploads).
+  - Se migraron uploads desde assets/uploads a src/assets/uploads (imagen destacada y PDF).
+  - Se agregó encodeURI en imágenes y enlaces de documentos para soportar URLs con espacios.
 - Pendientes:
-  - [ ] Publicar desde /admin y verificar commit en main.
+  - [ ] Ejecutar npm run dev y validar en navegador los endpoints de prensa.
   - [ ] Verificar deploy en Cloudflare Pages.
-- Como validar:
+- Cómo validar:
   - npm run build
   - npm run dev
-  - Abrir http://localhost:8080/content/prensa.json y http://localhost:8080/prensa/
-- Que hacer en produccion:
-  - Merge/push a main.
-  - Re-deploy Cloudflare Pages.
-  - Probar /content/prensa.json en produccion con cache bust (?v=timestamp).
+  - Abrir http://localhost:8080/content/prensa.json
+  - Abrir http://localhost:8080/assets/uploads/<archivo>
+  - Abrir http://localhost:8080/ (Home - Novedades)
+  - Abrir http://localhost:8080/prensa/detalle/?id=<id>
 

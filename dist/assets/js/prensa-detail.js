@@ -68,6 +68,7 @@ function renderDetail(item, container) {
     let documentBlock = "";
     if (item.documento || item.archivo) {
         const docPath = item.archivo || item.documento;
+        const safeDocPath = encodeURI(docPath);
         const docName = docPath.split('/').pop();
         documentBlock = `
             <div class="download-block">
@@ -84,7 +85,7 @@ function renderDetail(item, container) {
                     <span class="download-block__title">Documento adjunto</span>
                     <span class="download-block__meta">${docName}</span>
                 </div>
-                <a href="${docPath}" class="download-btn" download target="_blank">
+                <a href="${safeDocPath}" class="download-btn" download target="_blank">
                     Descargar PDF
                 </a>
             </div>
@@ -154,9 +155,10 @@ function renderDetail(item, container) {
                 item.featured_image || item.cover || item.thumbnail || "";
 
             if (img) {
+                const safeImg = encodeURI(img);
                 return `
                     <div class="prensa-detail__image-container" id="zoom-trigger">
-                        <img src="${img}" alt="${item.titulo}" class="prensa-detail__image">
+                        <img src="${safeImg}" alt="${item.titulo}" class="prensa-detail__image">
                         <div class="prensa-detail__image-overlay">Click para ampliar</div>
                     </div>
                 `;
@@ -233,7 +235,7 @@ function renderLatestNews(items, currentItem) {
             <article class="prensa-card group h-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300">
                 <a href="${permalink}" class="block relative aspect-video overflow-hidden">
                     ${item.imagen
-                ? `<img src="${item.imagen}" alt="${item.titulo}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">`
+                ? `<img src="${encodeURI(item.imagen)}" alt="${item.titulo}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">`
                 : `<div class="w-full h-full bg-brand-light flex items-center justify-center text-gray-300"><span class="text-4xl">📄</span></div>`
             }
                     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
