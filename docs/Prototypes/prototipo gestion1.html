@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Proyectos - Cecilia Gortari</title>
+    
+    <!-- Tipografía Oficial: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           1. BRAND TOKENS & CSS VARIABLES
+           ========================================= */
+        :root {
+            /* Colores solicitados */
+            --magenta: #EA3C88;
+            --blue: #1768C5;
+            --accent: #72D8FE;
+            
+            /* Neutros y Fondos */
+            --bg-body: #F7F7FD;
+            --bg-surface: #FFFFFF;
+            --text-main: #2C2C31;
+            --text-muted: #6E6E74;
+            --border-light: #E7E8FF;
+            
+            /* Feedback / Badges */
+            --badge-gray-bg: #F3F4F6;
+            --badge-gray-text: #374151;
+            --badge-blue-bg: #DBEAFE;
+            --badge-blue-text: #1E40AF;
+            --badge-green-bg: #D1FAE5;
+            --badge-green-text: #065F46;
+            --badge-yellow-bg: #FEF3C7;
+            --badge-yellow-text: #92400E;
+            --badge-red-bg: #FEE2E2;
+            --badge-red-text: #991B1B;
+            --badge-purple-bg: #F3E8FF;
+            --badge-purple-text: #6B21A8;
+
+            /* Tipografía */
+            --font-main: 'Outfit', sans-serif;
+            
+            /* UI Elements */
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* =========================================
+           2. RESET & BASE
+           ========================================= */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+        button, input, select, textarea {
+            font-family: inherit;
+        }
+
+        /* =========================================
+           3. LOGIN / PIN SCREEN
+           ========================================= */
+        #pin-screen {
+            position: fixed;
+            inset: 0;
+            background-color: var(--bg-body);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .pin-card {
+            background: var(--bg-surface);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        .pin-card h2 { color: var(--magenta); margin-bottom: 0.5rem; }
+        .pin-card p { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem; }
+        
+        .input-group { margin-bottom: 1rem; text-align: left; }
+        .input-group label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.25rem; }
+        .input-control {
+            width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border-light);
+            border-radius: var(--radius-md); font-size: 1rem; transition: all 0.2s;
+        }
+        .input-control:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(23, 104, 197, 0.1); }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 0.6rem 1.2rem; border-radius: var(--radius-md); font-weight: 600;
+            font-size: 0.9rem; cursor: pointer; transition: all 0.2s; border: none; gap: 0.5rem;
+        }
+        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+        
+        /* Botones de acción rápidos (Iconos) */
+        .btn-icon {
+            background: transparent; border: 1px solid var(--border-light);
+            border-radius: var(--radius-md); width: 32px; height: 32px;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1rem; transition: all 0.2s;
+            margin-left: 0.25rem; color: var(--text-main);
+        }
+        .btn-icon:hover { background: var(--badge-gray-bg); border-color: var(--text-muted); }
+
+        .btn-primary { background-color: var(--magenta); color: white; }
+        .btn-primary:hover { background-color: #d12d76; }
+        .btn-secondary { background-color: var(--blue); color: white; }
+        .btn-secondary:hover { background-color: #1255a3; }
+        .btn-outline { background-color: transparent; border: 1px solid var(--border-light); color: var(--text-main); }
+        .btn-outline:hover { background-color: var(--badge-gray-bg); }
+        .btn-danger { background-color: var(--badge-red-bg); color: var(--badge-red-text); }
+        .btn-danger:hover { background-color: #fca5a5; }
+
+        /* =========================================
+           4. APP LAYOUT & HEADER
+           ========================================= */
+        #app-container { display: none; }
+        .header {
+            background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);
+            position: sticky; top: 0; z-index: 100; padding: 1rem 2rem; box-shadow: var(--shadow-sm);
+        }
+        .header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+        .brand { display: flex; align-items: center; gap: 0.5rem; }
+        .brand-title { font-size: 1.25rem; font-weight: 700; color: var(--blue); }
+        .brand-subtitle { font-size: 0.85rem; color: var(--magenta); font-weight: 500; }
+        .save-indicator { font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.25rem; }
+        .header-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+        .search-bar {
+            padding: 0.5rem 1rem; border: 1px solid var(--border-light);
+            border-radius: var(--radius-full); font-size: 0.9rem; width: 250px; background: var(--bg-body);
+        }
+        
+        main { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+        .section-title {
+            font-size: 1.25rem; color: var(--blue); margin: 2rem 0 1rem;
+            display: flex; align-items: center; gap: 0.75rem; font-weight: 700;
+        }
+        .section-title:first-child { margin-top: 0; }
+
+        /* =========================================
+           5. DATA TABLE (Desktop)
+           ========================================= */
+        .table-container { background: var(--bg-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); overflow-x: auto; margin-bottom: 2rem; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th {
+            background-color: var(--bg-body); color: var(--text-muted); font-weight: 600;
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;
+            padding: 1rem; border-bottom: 1px solid var(--border-light); white-space: nowrap;
+        }
+        td { padding: 1rem; border-bottom: 1px solid var(--border-light); font-size: 0.95rem; vertical-align: middle; }
+        tr { cursor: pointer; transition: background-color 0.15s; }
+        tr:hover { background-color: #f8fafc; }
+        
+        .project-title { font-weight: 600; color: var(--blue); margin-bottom: 0.25rem;}
+        .project-desc { font-size: 0.85rem; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .project-date-item { font-size: 0.8rem; margin-bottom: 0.2rem; }
+        .project-date-item strong { font-weight: 600; }
+        
+        /* Badges */
+        .badge { display: inline-block; padding: 0.25rem 0.6rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+        .badge-pendiente { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
+        .badge-trabajo { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+        .badge-presentado { background: var(--badge-green-bg); color: var(--badge-green-text); }
+        
+        .badge-comisiones { background: var(--badge-purple-bg); color: var(--badge-purple-text); }
+        .badge-tratamiento { background: var(--badge-yellow-bg); color: var(--badge-yellow-text); }
+        .badge-aprobado { background: var(--badge-green-bg); color: var(--badge-green-text); }
+        .badge-rechazado { background: var(--badge-red-bg); color: var(--badge-red-text); }
+        
+        .overdue-alert { display: inline-flex; align-items: center; gap: 0.25rem; color: var(--badge-red-text); font-size: 0.8rem; font-weight: 600; margin-top: 0.25rem; }
+
+        /* =========================================
+           6. CARDS (Mobile)
+           ========================================= */
+        .cards-container { display: none; margin-bottom: 2rem; }
+        .mobile-card {
+            background: var(--bg-surface); border-radius: var(--radius-lg); padding: 1.25rem;
+            margin-bottom: 1rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); cursor: pointer;
+        }
+        .mobile-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+        .mobile-card-id { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+        .mobile-card-meta { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 1rem; }
+        
+        .action-container { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-light); display: flex; justify-content: flex-end; gap: 0.5rem;}
+
+        /* =========================================
+           7. MODALS
+           ========================================= */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none;
+            align-items: center; justify-content: center; z-index: 1000; padding: 1rem;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            background: var(--bg-surface); border-radius: var(--radius-lg); width: 100%;
+            max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); position: relative;
+        }
+        .modal-content.sm { max-width: 400px; }
+        .modal-header {
+            padding: 1.5rem; border-bottom: 1px solid var(--border-light); display: flex;
+            justify-content: space-between; align-items: center; position: sticky; top: 0; background: var(--bg-surface); z-index: 10;
+        }
+        .modal-header h3 { color: var(--blue); }
+        .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+        .modal-body { padding: 1.5rem; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .full-width { grid-column: 1 / -1; }
+        .modal-footer {
+            padding: 1.5rem; border-top: 1px solid var(--border-light); display: flex;
+            justify-content: space-between; background: var(--bg-body);
+        }
+        .footer-right { display: flex; gap: 0.5rem; }
+
+        /* =========================================
+           8. RESPONSIVE
+           ========================================= */
+        @media (max-width: 768px) {
+            .table-container { display: none; }
+            .cards-container { display: block; }
+            .header { padding: 1rem; }
+            .header-top { flex-direction: column; align-items: flex-start; }
+            .header-controls { width: 100%; }
+            .search-bar { width: 100%; }
+            .form-grid { grid-template-columns: 1fr; }
+            main { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA DE ACCESO (PIN) -->
+    <div id="pin-screen">
+        <div class="pin-card">
+            <h2>Acceso Privado</h2>
+            <p>Gestor de Proyectos - Cecilia Gortari</p>
+            <div class="input-group">
+                <label for="pin-input">PIN de seguridad</label>
+                <input type="password" id="pin-input" class="input-control" placeholder="Ingrese el PIN..." onkeyup="if(event.key === 'Enter') login()">
+            </div>
+            <button class="btn btn-primary" style="width: 100%" onclick="login()">Ingresar</button>
+            <p style="margin-top: 1rem; font-size: 0.75rem; color: var(--text-muted);">Demo PIN: 1234</p>
+        </div>
+    </div>
+
+    <!-- APLICACIÓN PRINCIPAL -->
+    <div id="app-container">
+        <header class="header">
+            <div class="header-top">
+                <div class="brand">
+                    <div>
+                        <div class="brand-title">Gestión de Proyectos</div>
+                        <div class="brand-subtitle">Cecilia Gortari (Privado)</div>
+                    </div>
+                </div>
+                <div class="header-controls">
+                    <span id="save-indicator" class="save-indicator">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Guardado
+                    </span>
+                    <button class="btn btn-primary" onclick="openModal()">+ Nuevo</button>
+                    <button class="btn btn-outline" onclick="exportJSON()">Exportar</button>
+                    <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">Importar</button>
+                    <input type="file" id="import-file" style="display:none" accept=".json" onchange="importJSON(event)">
+                </div>
+            </div>
+            <div class="header-controls" style="margin-top: 0.5rem;">
+                <input type="text" id="search-input" class="search-bar" placeholder="Buscar por título, área..." oninput="filterData()">
+                
+                <select id="filter-tipo" class="input-control" style="width: auto;" onchange="filterData()">
+                    <option value="">Todos los Tipos</option>
+                    <option value="Proyecto de Ley">Proyecto de Ley</option>
+                    <option value="Proyecto de Resolución">Proyecto de Resolución</option>
+                    <option value="Proyecto de Declaración">Proyecto de Declaración</option>
+                </select>
+
+                <select id="filter-responsable" class="input-control" style="width: auto;" onchange="filterData()">
+                    <option value="">Cualquier Responsable</option>
+                    <option value="Sin asignar">Sin asignar</option>
+                    <option value="Gonzalo">Gonzalo</option>
+                    <option value="Tomás">Tomás</option>
+                    <option value="Tamara">Tamara</option>
+                    <option value="Rosalina">Rosalina</option>
+                    <option value="Sonia">Sonia</option>
+                </select>
+                
+                <button class="btn btn-outline" onclick="loadDemoData()" title="Cargar datos de prueba">Demo</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- SECCIÓN 1: PENDIENTES Y EN TRABAJO -->
+            <h2 class="section-title">Pendientes y En trabajo <span class="badge badge-pendiente" id="count-pendientes">0</span></h2>
+            
+            <div class="table-container" id="table-wrap-pendientes">
+                <table id="table-pendientes">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Proyecto</th>
+                            <th>Tipo & Área</th>
+                            <th>Responsable</th>
+                            <th>Preparación</th>
+                            <th>Fechas (Creación / Obj)</th>
+                            <th style="text-align:right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-pendientes"></tbody>
+                </table>
+            </div>
+            <div class="cards-container" id="cards-pendientes"></div>
+
+            <!-- SECCIÓN 2: PRESENTADOS -->
+            <h2 class="section-title">Presentados <span class="badge badge-presentado" id="count-presentados">0</span></h2>
+            
+            <div class="table-container" id="table-wrap-presentados">
+                <table id="table-presentados">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Proyecto</th>
+                            <th>Tipo & Área</th>
+                            <th>Responsable</th>
+                            <th>Trámite</th>
+                            <th>Fechas</th>
+                            <th>Actualizado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-presentados"></tbody>
+                </table>
+            </div>
+            <div class="cards-container" id="cards-presentados"></div>
+        </main>
+    </div>
+
+    <!-- MODAL NUEVO/EDITAR (Principal) -->
+    <div class="modal-overlay" id="project-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Nuevo Proyecto</h3>
+                <button class="close-btn" onclick="closeModal('project-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="project-form" class="form-grid">
+                    <input type="hidden" id="f-id">
+                    
+                    <div class="input-group full-width">
+                        <label for="f-titulo">Título del Proyecto *</label>
+                        <input type="text" id="f-titulo" class="input-control" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="f-tipo">Tipo</label>
+                        <select id="f-tipo" class="input-control">
+                            <option value="Proyecto de Ley">Proyecto de Ley</option>
+                            <option value="Proyecto de Resolución">Proyecto de Resolución</option>
+                            <option value="Proyecto de Declaración">Proyecto de Declaración</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="f-responsable">Responsable</label>
+                        <select id="f-responsable" class="input-control">
+                            <option value="Sin asignar">Sin asignar</option>
+                            <option value="Gonzalo">Gonzalo</option>
+                            <option value="Tomás">Tomás</option>
+                            <option value="Tamara">Tamara</option>
+                            <option value="Rosalina">Rosalina</option>
+                            <option value="Sonia">Sonia</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="f-area">Área / Tema</label>
+                        <input type="text" id="f-area" class="input-control" placeholder="Ej: Salud, Educación...">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="f-fecha-obj">Fecha Objetivo (Presentación)</label>
+                        <input type="date" id="f-fecha-obj" class="input-control">
+                    </div>
+
+                    <div class="input-group full-width">
+                        <label for="f-resumen">Resumen</label>
+                        <textarea id="f-resumen" class="input-control" rows="2"></textarea>
+                    </div>
+
+                    <div class="input-group full-width" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 0.5rem;">
+                        <label for="f-estado-prep">Estado de Preparación</label>
+                        <select id="f-estado-prep" class="input-control" onchange="handlePrepChange()">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En trabajo">En trabajo</option>
+                            <option value="Presentado">Presentado</option>
+                        </select>
+                    </div>
+
+                    <!-- Campos condicionales (Solo si está presentado) -->
+                    <div class="input-group conditional-field" style="display: none;">
+                        <label for="f-fecha-presentacion">Fecha de presentación *</label>
+                        <input type="date" id="f-fecha-presentacion" class="input-control">
+                    </div>
+
+                    <div class="input-group conditional-field" style="display: none;">
+                        <label for="f-estado-tramite">Resultado / Trámite actual</label>
+                        <select id="f-estado-tramite" class="input-control">
+                            <option value="">(Seleccionar)</option>
+                            <option value="En comisiones">En comisiones</option>
+                            <option value="En tratamiento">En tratamiento</option>
+                            <option value="Aprobado">Aprobado</option>
+                            <option value="No aprobado">No aprobado</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btn-delete" style="display:none;" onclick="quickDelete(null, event)">Eliminar</button>
+                <div style="flex-grow: 1;"></div>
+                <div class="footer-right">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('project-modal')">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProject()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL "MARCAR COMO PRESENTADO" (Rápido) -->
+    <div class="modal-overlay" id="quick-presentar-modal">
+        <div class="modal-content sm">
+            <div class="modal-header">
+                <h3 style="color: var(--blue)">Proyecto Presentado</h3>
+                <button class="close-btn" onclick="closeModal('quick-presentar-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="quick-form-presentar">
+                    <input type="hidden" id="qp-id">
+                    <p style="margin-bottom:1rem; font-size:0.9rem; color:var(--text-muted)">El proyecto pasará a la lista de "Presentados".</p>
+                    
+                    <div class="input-group">
+                        <label for="qp-fecha-presentacion">Fecha de presentación *</label>
+                        <input type="date" id="qp-fecha-presentacion" class="input-control" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="qp-tramite">Estado inicial del trámite</label>
+                        <select id="qp-tramite" class="input-control">
+                            <option value="En comisiones" selected>En comisiones</option>
+                            <option value="En tratamiento">En tratamiento</option>
+                            <option value="Aprobado">Aprobado</option>
+                            <option value="No aprobado">No aprobado</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('quick-presentar-modal')">Cancelar</button>
+                <button type="button" class="btn btn-secondary" onclick="saveQuickPresentar()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL "AGREGAR RESPONSABLE" (Rápido) -->
+    <div class="modal-overlay" id="quick-responsable-modal">
+        <div class="modal-content sm">
+            <div class="modal-header">
+                <h3 style="color: var(--blue)">Asignar Responsable</h3>
+                <button class="close-btn" onclick="closeModal('quick-responsable-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="quick-form-responsable">
+                    <input type="hidden" id="qr-id">
+                    <div class="input-group">
+                        <label for="qr-responsable">Seleccionar integrante</label>
+                        <select id="qr-responsable" class="input-control">
+                            <option value="Sin asignar">Sin asignar</option>
+                            <option value="Gonzalo">Gonzalo</option>
+                            <option value="Tomás">Tomás</option>
+                            <option value="Tamara">Tamara</option>
+                            <option value="Rosalina">Rosalina</option>
+                            <option value="Sonia">Sonia</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('quick-responsable-modal')">Cancelar</button>
+                <button type="button" class="btn btn-secondary" onclick="saveQuickResponsable()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* =========================================
+           ESTADO Y CONFIGURACIÓN
+           ========================================= */
+        const DB_KEY = 'cg_proyectos_db';
+        const PIN_KEY = 'cg_pin_acceso';
+        const DEFAULT_PIN = '1234';
+        
+        let projects = [];
+        let debounceTimer;
+
+        // Inicialización
+        window.onload = () => {
+            document.getElementById('pin-input').focus();
+        };
+
+        /* =========================================
+           SEGURIDAD BÁSICA (PIN)
+           ========================================= */
+        function login() {
+            const input = document.getElementById('pin-input').value;
+            const validPin = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
+            if (input === validPin) {
+                document.getElementById('pin-screen').style.display = 'none';
+                document.getElementById('app-container').style.display = 'block';
+                loadData();
+            } else {
+                alert('PIN incorrecto. El PIN por defecto es 1234.');
+            }
+        }
+
+        /* =========================================
+           PERSISTENCIA Y MIGRACIÓN
+           ========================================= */
+        function loadData() {
+            const data = localStorage.getItem(DB_KEY);
+            if (data) {
+                let parsedData = JSON.parse(data);
+                // MIGRACIÓN DE DATOS
+                projects = parsedData.map(p => {
+                    // Migrar fecha real a fecha presentacion si existe
+                    if (p.fecha_presentacion_real && !p.fecha_presentacion) {
+                        p.fecha_presentacion = p.fecha_presentacion_real;
+                    }
+                    delete p.fecha_presentacion_real;
+
+                    return {
+                        ...p,
+                        responsable: p.responsable || 'Sin asignar',
+                        estado_tramite: p.estado_tramite || '',
+                        created_at: p.created_at || p.updated_at || new Date().toISOString()
+                    };
+                });
+            }
+            renderUI();
+        }
+
+        function triggerSave() {
+            const indicator = document.getElementById('save-indicator');
+            indicator.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Guardando...`;
+            indicator.style.color = 'var(--blue)';
+
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                localStorage.setItem(DB_KEY, JSON.stringify(projects));
+                indicator.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
+                indicator.style.color = 'var(--badge-green-text)';
+                setTimeout(() => { indicator.style.color = 'var(--text-muted)'; }, 2000);
+            }, 300);
+        }
+
+        /* =========================================
+           LÓGICA DE NEGOCIO Y RENDER
+           ========================================= */
+        function generateID() {
+            if (projects.length === 0) return 'P-0001';
+            const ids = projects.map(p => parseInt(p.id.split('-')[1]));
+            const max = Math.max(...ids);
+            return `P-${String(max + 1).padStart(4, '0')}`;
+        }
+
+        function filterData() {
+            renderUI();
+        }
+
+        function isOverdue(targetDate, state) {
+            if (!targetDate || state === 'Presentado') return false;
+            return new Date(targetDate) < new Date(new Date().setHours(0,0,0,0));
+        }
+
+        function getBadgeClass(type, value) {
+            const map = {
+                prep: {
+                    'Pendiente': 'badge-pendiente',
+                    'En trabajo': 'badge-trabajo',
+                    'Presentado': 'badge-presentado'
+                },
+                tramite: {
+                    'En comisiones': 'badge-comisiones',
+                    'En tratamiento': 'badge-tratamiento',
+                    'Aprobado': 'badge-aprobado',
+                    'No aprobado': 'badge-rechazado'
+                }
+            };
+            return map[type][value] || 'badge-pendiente';
+        }
+
+        // Formateador robusto: Solo DD/MM/AAAA (sin hora)
+        function formatDateOnly(dateStr) {
+            if (!dateStr) return null;
+            // Manejar string simple YYYY-MM-DD para evitar corrimientos de zona horaria
+            if (typeof dateStr === 'string' && dateStr.length === 10 && dateStr.includes('-')) {
+                const [y, m, d] = dateStr.split('-');
+                return `${d}/${m}/${y}`;
+            }
+            try {
+                const d = new Date(dateStr);
+                if (isNaN(d.getTime())) return null;
+                const day = String(d.getDate()).padStart(2, '0');
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const year = d.getFullYear();
+                return `${day}/${month}/${year}`;
+            } catch(e) {
+                return null;
+            }
+        }
+
+        function renderUI() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const filterTipo = document.getElementById('filter-tipo').value;
+            const filterResp = document.getElementById('filter-responsable').value;
+
+            // Ordenamiento por actualización
+            let filtered = projects.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+
+            // Filtros globales
+            filtered = filtered.filter(p => {
+                const matchSearch = p.titulo.toLowerCase().includes(searchTerm) || 
+                                    (p.resumen && p.resumen.toLowerCase().includes(searchTerm)) ||
+                                    (p.area_tema && p.area_tema.toLowerCase().includes(searchTerm));
+                const matchTipo = filterTipo === '' || p.tipo === filterTipo;
+                const matchResp = filterResp === '' || p.responsable === filterResp;
+                return matchSearch && matchTipo && matchResp;
+            });
+
+            // Separar en dos tablas
+            const pendientes = filtered.filter(p => p.estado_preparacion !== 'Presentado');
+            const presentados = filtered.filter(p => p.estado_preparacion === 'Presentado');
+
+            document.getElementById('count-pendientes').innerText = pendientes.length;
+            document.getElementById('count-presentados').innerText = presentados.length;
+            
+            renderTable('tbody-pendientes', 'cards-pendientes', pendientes, false);
+            renderTable('tbody-presentados', 'cards-presentados', presentados, true);
+        }
+
+        function renderTable(tbodyId, cardsId, dataArray, isPresentadoTable) {
+            const tbody = document.getElementById(tbodyId);
+            const cardsContainer = document.getElementById(cardsId);
+            tbody.innerHTML = '';
+            cardsContainer.innerHTML = '';
+
+            if (dataArray.length === 0) {
+                const emptyMsg = `<tr><td colspan="7" style="text-align:center; color: var(--text-muted); padding: 2rem;">No se encontraron proyectos en esta categoría.</td></tr>`;
+                tbody.innerHTML = emptyMsg;
+                cardsContainer.innerHTML = `<div style="text-align:center; color: var(--text-muted); padding: 2rem;">Vacío.</div>`;
+                return;
+            }
+
+            dataArray.forEach(p => {
+                const overdue = isOverdue(p.fecha_objetivo_presentacion, p.estado_preparacion);
+                const overdueHtml = overdue ? `<div class="overdue-alert"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Atrasado</div>` : '';
+                
+                const tramiteBadge = p.estado_tramite ? `<span class="badge ${getBadgeClass('tramite', p.estado_tramite)}">${p.estado_tramite}</span>` : '<span style="color:#aaa; font-size:0.8rem">-</span>';
+                const respText = (p.responsable && p.responsable !== 'Sin asignar') ? `👤 ${p.responsable}` : '<span style="color:var(--text-muted)">—</span>';
+                
+                // --- Desktop Row ---
+                const tr = document.createElement('tr');
+                tr.onclick = () => openModal(p.id);
+                
+                let tdContent = `
+                    <td style="font-weight:600; color:var(--text-muted)">${p.id}</td>
+                    <td>
+                        <div class="project-title">${p.titulo}</div>
+                        <div class="project-desc">${p.resumen || 'Sin resumen'}</div>
+                    </td>
+                    <td>
+                        <div style="font-size:0.85rem; font-weight:500;">${p.tipo}</div>
+                        <div style="font-size:0.8rem; color:var(--text-muted)">${p.area_tema || '-'}</div>
+                    </td>
+                    <td style="font-size:0.9rem; font-weight:500">${respText}</td>
+                `;
+
+                if (!isPresentadoTable) {
+                    tdContent += `
+                        <td>
+                            <span class="badge ${getBadgeClass('prep', p.estado_preparacion)}">${p.estado_preparacion}</span>
+                            ${overdueHtml}
+                        </td>
+                        <td class="project-date-item">
+                            <div style="color:var(--text-muted); font-size:0.75rem;">Creado: ${formatDateOnly(p.created_at)}</div>
+                            ${p.fecha_objetivo_presentacion ? `<div>Obj: <strong>${formatDateOnly(p.fecha_objetivo_presentacion)}</strong></div>` : ''}
+                        </td>
+                        <td style="text-align:right; white-space:nowrap;">
+                            <button class="btn-icon" title="Proyecto presentado" onclick="openQuickPresentar('${p.id}', event)">✅</button>
+                            <button class="btn-icon" title="Agregar responsable" onclick="openQuickResponsable('${p.id}', event)">👤</button>
+                            <button class="btn-icon" title="Eliminar proyecto" onclick="quickDelete('${p.id}', event)">🗑️</button>
+                        </td>
+                    `;
+                } else {
+                    tdContent += `
+                        <td>${tramiteBadge}</td>
+                        <td class="project-date-item">
+                            <div style="color:var(--magenta);">Presentado: <strong>${formatDateOnly(p.fecha_presentacion)}</strong></div>
+                            ${p.fecha_objetivo_presentacion ? `<div style="color:var(--text-muted)">Obj: ${formatDateOnly(p.fecha_objetivo_presentacion)}</div>` : ''}
+                            <div style="color:var(--text-muted); font-size:0.75rem; margin-top:2px;">Creado: ${formatDateOnly(p.created_at)}</div>
+                        </td>
+                        <td style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">${formatDateOnly(p.updated_at)}</td>
+                    `;
+                }
+                tr.innerHTML = tdContent;
+                tbody.appendChild(tr);
+
+                // --- Mobile Card ---
+                const card = document.createElement('div');
+                card.className = 'mobile-card';
+                card.onclick = () => openModal(p.id);
+                
+                let cardHtml = `
+                    <div class="mobile-card-header">
+                        <span class="mobile-card-id">${p.id}</span>
+                        ${!isPresentadoTable ? `<span class="badge ${getBadgeClass('prep', p.estado_preparacion)}">${p.estado_preparacion}</span>` : tramiteBadge}
+                    </div>
+                    <div class="project-title">${p.titulo}</div>
+                    <div class="project-desc" style="margin-bottom:0.5rem">${p.resumen || 'Sin resumen'}</div>
+                    <div style="font-size:0.8rem; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="color:var(--text-muted);">${p.tipo} • ${p.area_tema || 'Sin área'}</span>
+                        <span style="font-weight:600; color:var(--text-main)">${respText}</span>
+                    </div>
+                    ${overdueHtml}
+                `;
+
+                if (!isPresentadoTable) {
+                    cardHtml += `
+                        <div class="mobile-card-meta">
+                            <span style="font-size:0.75rem; color:var(--text-muted);">Creado: ${formatDateOnly(p.created_at)}</span>
+                            ${p.fecha_objetivo_presentacion ? `<span style="font-size:0.8rem; font-weight:600;">🎯 Obj: ${formatDateOnly(p.fecha_objetivo_presentacion)}</span>` : ''}
+                        </div>
+                        <div class="action-container">
+                            <button class="btn-icon" title="Proyecto presentado" onclick="openQuickPresentar('${p.id}', event)">✅</button>
+                            <button class="btn-icon" title="Agregar responsable" onclick="openQuickResponsable('${p.id}', event)">👤</button>
+                            <button class="btn-icon" title="Eliminar proyecto" onclick="quickDelete('${p.id}', event)">🗑️</button>
+                        </div>
+                    `;
+                } else {
+                    cardHtml += `
+                        <div class="mobile-card-meta">
+                            <span style="font-size:0.85rem; font-weight:600; color:var(--magenta);">📅 Presentado: ${formatDateOnly(p.fecha_presentacion)}</span>
+                            <span style="font-size:0.75rem; color:var(--text-muted);">Actualizado: ${formatDateOnly(p.updated_at)}</span>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = cardHtml;
+                cardsContainer.appendChild(card);
+            });
+        }
+
+        /* =========================================
+           MODALS (NUEVO/EDITAR)
+           ========================================= */
+        function openModal(id = null) {
+            const modal = document.getElementById('project-modal');
+            const form = document.getElementById('project-form');
+            form.reset();
+            handlePrepChange(); // Reset conditional fields
+
+            if (id) {
+                document.getElementById('modal-title').innerText = 'Editar Proyecto';
+                document.getElementById('btn-delete').style.display = 'block';
+                
+                const p = projects.find(x => x.id === id);
+                if (p) {
+                    document.getElementById('f-id').value = p.id;
+                    document.getElementById('f-titulo').value = p.titulo;
+                    document.getElementById('f-tipo').value = p.tipo;
+                    document.getElementById('f-responsable').value = p.responsable || 'Sin asignar';
+                    document.getElementById('f-area').value = p.area_tema;
+                    document.getElementById('f-resumen').value = p.resumen;
+                    document.getElementById('f-estado-prep').value = p.estado_preparacion;
+                    document.getElementById('f-fecha-obj').value = p.fecha_objetivo_presentacion || '';
+                    
+                    handlePrepChange();
+                    document.getElementById('f-fecha-presentacion').value = p.fecha_presentacion || '';
+                    document.getElementById('f-estado-tramite').value = p.estado_tramite || '';
+                }
+            } else {
+                document.getElementById('modal-title').innerText = 'Nuevo Proyecto';
+                document.getElementById('f-id').value = '';
+                document.getElementById('btn-delete').style.display = 'none';
+                
+                // Defaults
+                document.getElementById('f-estado-prep').value = 'Pendiente';
+                document.getElementById('f-responsable').value = 'Sin asignar';
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function handlePrepChange() {
+            const prepVal = document.getElementById('f-estado-prep').value;
+            const condFields = document.querySelectorAll('.conditional-field');
+            const tramiteSelect = document.getElementById('f-estado-tramite');
+            const fechaPresInput = document.getElementById('f-fecha-presentacion');
+            
+            if (prepVal === 'Presentado') {
+                condFields.forEach(el => el.style.display = 'block');
+            } else {
+                condFields.forEach(el => el.style.display = 'none');
+                tramiteSelect.value = '';
+                fechaPresInput.value = '';
+            }
+        }
+
+        function saveProject() {
+            const form = document.getElementById('project-form');
+            
+            // Validación para fecha de presentación si está presentado
+            const estadoPrep = document.getElementById('f-estado-prep').value;
+            const fechaPresInput = document.getElementById('f-fecha-presentacion');
+            
+            if (estadoPrep === 'Presentado' && !fechaPresInput.value) {
+                alert("Si el proyecto está Presentado, la fecha de presentación es obligatoria.");
+                fechaPresInput.focus();
+                return;
+            }
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const id = document.getElementById('f-id').value;
+            const now = new Date().toISOString();
+
+            const projectData = {
+                titulo: document.getElementById('f-titulo').value.trim(),
+                tipo: document.getElementById('f-tipo').value,
+                responsable: document.getElementById('f-responsable').value,
+                area_tema: document.getElementById('f-area').value.trim(),
+                resumen: document.getElementById('f-resumen').value.trim(),
+                estado_preparacion: estadoPrep,
+                fecha_objetivo_presentacion: document.getElementById('f-fecha-obj').value,
+                fecha_presentacion: fechaPresInput.value,
+                estado_tramite: estadoPrep === 'Presentado' ? document.getElementById('f-estado-tramite').value : '',
+                updated_at: now
+            };
+
+            if (id) {
+                const index = projects.findIndex(p => p.id === id);
+                if (index > -1) {
+                    projects[index] = { ...projects[index], ...projectData };
+                }
+            } else {
+                projectData.id = generateID();
+                projectData.created_at = now;
+                projects.push(projectData);
+            }
+
+            closeModal('project-modal');
+            renderUI();
+            triggerSave();
+        }
+
+        /* =========================================
+           ACCIONES RÁPIDAS (Botones en fila)
+           ========================================= */
+        function openQuickPresentar(id, event) {
+            event.stopPropagation();
+            const p = projects.find(x => x.id === id);
+            if(!p) return;
+            
+            document.getElementById('quick-form-presentar').reset();
+            document.getElementById('qp-id').value = id;
+            document.getElementById('qp-tramite').value = 'En comisiones';
+            
+            document.getElementById('quick-presentar-modal').classList.add('active');
+        }
+
+        function saveQuickPresentar() {
+            const form = document.getElementById('quick-form-presentar');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const id = document.getElementById('qp-id').value;
+            const now = new Date().toISOString();
+            
+            const index = projects.findIndex(p => p.id === id);
+            if (index > -1) {
+                projects[index].estado_preparacion = 'Presentado';
+                projects[index].fecha_presentacion = document.getElementById('qp-fecha-presentacion').value;
+                projects[index].estado_tramite = document.getElementById('qp-tramite').value;
+                projects[index].updated_at = now;
+            }
+
+            closeModal('quick-presentar-modal');
+            renderUI();
+            triggerSave();
+        }
+
+        function openQuickResponsable(id, event) {
+            event.stopPropagation();
+            const p = projects.find(x => x.id === id);
+            if(!p) return;
+
+            document.getElementById('quick-form-responsable').reset();
+            document.getElementById('qr-id').value = id;
+            document.getElementById('qr-responsable').value = p.responsable || 'Sin asignar';
+            
+            document.getElementById('quick-responsable-modal').classList.add('active');
+        }
+
+        function saveQuickResponsable() {
+            const id = document.getElementById('qr-id').value;
+            const newResp = document.getElementById('qr-responsable').value;
+            const now = new Date().toISOString();
+            
+            const index = projects.findIndex(p => p.id === id);
+            if (index > -1) {
+                projects[index].responsable = newResp;
+                projects[index].updated_at = now;
+            }
+
+            closeModal('quick-responsable-modal');
+            renderUI();
+            triggerSave();
+        }
+
+        function quickDelete(directId, event) {
+            if (event) event.stopPropagation();
+            const id = directId || document.getElementById('f-id').value;
+            
+            if(confirm('¿Estás seguro de eliminar este proyecto? Esta acción no se puede deshacer.')) {
+                projects = projects.filter(p => p.id !== id);
+                closeModal('project-modal'); // Por si estaba el modal general abierto
+                renderUI();
+                triggerSave();
+            }
+        }
+
+        /* =========================================
+           UTILIDADES (EXPORTAR / IMPORTAR / DEMO)
+           ========================================= */
+        function loadDemoData() {
+            if(projects.length > 0 && !confirm('Esto agregará datos de prueba a los existentes. ¿Continuar?')) return;
+            
+            const demo = [
+                { id: generateID(), tipo: 'Proyecto de Ley', responsable: 'Sin asignar', titulo: 'Mejora en la Iluminación Pública Zona Sur', area_tema: 'Infraestructura', resumen: 'Plan para modernizar la iluminación con tecnología LED.', estado_preparacion: 'En trabajo', fecha_objetivo_presentacion: '2026-03-15', estado_tramite: '', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+                { id: generateID() + 'X', tipo: 'Proyecto de Ley', responsable: 'Tomás', titulo: 'Programa de Reciclaje Barrial', area_tema: 'Medio Ambiente', resumen: 'Establecer puntos verdes móviles.', estado_preparacion: 'Pendiente', fecha_objetivo_presentacion: '2026-05-20', estado_tramite: '', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+                { id: generateID() + 'A', tipo: 'Proyecto de Resolución', responsable: 'Tamara', titulo: 'Pedido de Informe sobre Obras Hídricas', area_tema: 'Obras Públicas', resumen: 'Solicitud de estado de avance de las obras hídricas en la ciudad.', estado_preparacion: 'Presentado', fecha_objetivo_presentacion: '2026-01-10', fecha_presentacion: '2026-01-15', estado_tramite: 'En tratamiento', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+                { id: generateID() + 'B', tipo: 'Proyecto de Declaración', responsable: 'Rosalina', titulo: 'Declaración de Interés Cultural Festival del Surubí', area_tema: 'Cultura', resumen: 'Apoyo institucional a la fiesta magna de Goya.', estado_preparacion: 'Pendiente', fecha_objetivo_presentacion: '2026-04-01', estado_tramite: '', created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+                { id: generateID() + 'C', tipo: 'Proyecto de Ley', responsable: 'Sonia', titulo: 'Digitalización de Trámites Municipales', area_tema: 'Modernización', resumen: 'Pasar a plataforma online los trámites de comercio.', estado_preparacion: 'Presentado', fecha_objetivo_presentacion: '2025-11-01', fecha_presentacion: '2025-11-05', estado_tramite: 'Aprobado', created_at: new Date().toISOString(), updated_at: new Date().toISOString() }
+            ];
+            projects = [...projects, ...demo];
+            renderUI();
+            triggerSave();
+        }
+
+        function exportJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projects, null, 2));
+            const dlAnchorElem = document.createElement('a');
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", `proyectos_cg_${new Date().toISOString().split('T')[0]}.json`);
+            dlAnchorElem.click();
+        }
+
+        function importJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        projects = imported;
+                        // Forzar migración en la importación
+                        projects = projects.map(p => {
+                            if (p.fecha_presentacion_real && !p.fecha_presentacion) p.fecha_presentacion = p.fecha_presentacion_real;
+                            delete p.fecha_presentacion_real;
+                            return { ...p, responsable: p.responsable || 'Sin asignar', created_at: p.created_at || new Date().toISOString() };
+                        });
+                        renderUI();
+                        triggerSave();
+                        alert('Datos importados correctamente. Responsables y fechas migrados si aplicaba.');
+                    } else {
+                        alert('Formato de archivo inválido.');
+                    }
+                } catch (err) {
+                    alert('Error al leer el archivo JSON.');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // Reset input
+        }
+
+    </script>
+</body>
+</html>
