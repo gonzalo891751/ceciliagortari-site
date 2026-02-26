@@ -511,9 +511,13 @@ permalink: gestionproyectos/index.html
         const DB_KEY = 'cg_proyectos_db';
         const PIN_KEY = 'cg_pin_acceso';
         const DEFAULT_PIN = '1234';
+        const API_BASE = '/api/projects';
+        const SYNC_INTERVAL = 30000; // 30 segundos
 
         let projects = [];
         let debounceTimer;
+        let syncTimer;
+        let apiAvailable = false;
 
         // Inicialización
         window.onload = () => {
@@ -536,43 +540,164 @@ permalink: gestionproyectos/index.html
         }
 
         /* =========================================
-           PERSISTENCIA Y MIGRACIÓN
+           API HELPERS
            ========================================= */
-        function loadData() {
-            const data = localStorage.getItem(DB_KEY);
-            if (data) {
-                let parsedData = JSON.parse(data);
-                // MIGRACIÓN DE DATOS
-                projects = parsedData.map(p => {
-                    // Migrar fecha real a fecha presentacion si existe
-                    if (p.fecha_presentacion_real && !p.fecha_presentacion) {
-                        p.fecha_presentacion = p.fecha_presentacion_real;
-                    }
-                    delete p.fecha_presentacion_real;
-
-                    return {
-                        ...p,
-                        responsable: p.responsable || 'Sin asignar',
-                        estado_tramite: p.estado_tramite || '',
-                        created_at: p.created_at || p.updated_at || new Date().toISOString()
-                    };
-                });
+        async function apiFetch(projects_from_server) {
+            try {
+                const res = await fetch(API_BASE);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                apiAvailable = true;
+                return data;
+            } catch (e) {
+                apiAvailable = false;
+                return null;
             }
-            renderUI();
         }
 
-        function triggerSave() {
+        async function apiSave(project) {
+            try {
+                const res = await fetch(API_BASE, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(project)
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                apiAvailable = true;
+                return true;
+            } catch (e) {
+                apiAvailable = false;
+                return false;
+            }
+        }
+
+        async function apiDelete(id) {
+            try {
+                const res = await fetch(`${API_BASE}/${encodeURIComponent(id)}`, {
+                    method: 'DELETE'
+                });
+                if (!res.ok && res.status !== 404) throw new Error(`HTTP ${res.status}`);
+                apiAvailable = true;
+                return true;
+            } catch (e) {
+                apiAvailable = false;
+                return false;
+            }
+        }
+
+        function updateSyncBadge(synced) {
+            const indicator = document.getElementById('save-indicator');
+            if (synced) {
+                indicator.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Sincronizado`;
+                indicator.style.color = 'var(--badge-green-text)';
+            } else {
+                indicator.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle><line x1="12" y1="8" x2="12" y2="12" stroke-width="2"></line><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"></line></svg> Sin sincronizar`;
+                indicator.style.color = 'var(--badge-yellow-text)';
+            }
+            setTimeout(() => { indicator.style.color = 'var(--text-muted)'; }, 3000);
+        }
+
+        /* =========================================
+           PERSISTENCIA Y MIGRACIÓN
+           ========================================= */
+        function migrateProject(p) {
+            if (p.fecha_presentacion_real && !p.fecha_presentacion) {
+                p.fecha_presentacion = p.fecha_presentacion_real;
+            }
+            delete p.fecha_presentacion_real;
+            return {
+                ...p,
+                responsable: p.responsable || 'Sin asignar',
+                estado_tramite: p.estado_tramite || '',
+                created_at: p.created_at || p.updated_at || new Date().toISOString()
+            };
+        }
+
+        async function loadData() {
+            // Intentar cargar desde API primero
+            const remoteData = await apiFetch();
+
+            if (remoteData && Array.isArray(remoteData)) {
+                projects = remoteData.map(migrateProject);
+                // Actualizar cache local
+                localStorage.setItem(DB_KEY, JSON.stringify(projects));
+                updateSyncBadge(true);
+            } else {
+                // Fallback: cargar desde localStorage
+                const data = localStorage.getItem(DB_KEY);
+                if (data) {
+                    projects = JSON.parse(data).map(migrateProject);
+                }
+                updateSyncBadge(false);
+            }
+
+            renderUI();
+            startAutoSync();
+        }
+
+        function triggerSave(changedProject, isDelete) {
             const indicator = document.getElementById('save-indicator');
             indicator.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Guardando...`;
             indicator.style.color = 'var(--blue)';
 
             clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
+            debounceTimer = setTimeout(async () => {
+                // Siempre guardar en localStorage
                 localStorage.setItem(DB_KEY, JSON.stringify(projects));
-                indicator.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
-                indicator.style.color = 'var(--badge-green-text)';
-                setTimeout(() => { indicator.style.color = 'var(--text-muted)'; }, 2000);
+
+                // Intentar sincronizar con API
+                let synced = false;
+                if (changedProject && isDelete) {
+                    synced = await apiDelete(changedProject);
+                } else if (changedProject) {
+                    synced = await apiSave(changedProject);
+                }
+
+                if (synced) {
+                    indicator.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Sincronizado`;
+                    indicator.style.color = 'var(--badge-green-text)';
+                } else {
+                    indicator.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado local`;
+                    indicator.style.color = 'var(--badge-yellow-text)';
+                }
+                setTimeout(() => { indicator.style.color = 'var(--text-muted)'; }, 3000);
             }, 300);
+        }
+
+        /* =========================================
+           AUTO-SYNC (cada 30s si no hay modal)
+           ========================================= */
+        function isAnyModalOpen() {
+            return document.querySelector('.modal-overlay.active') !== null;
+        }
+
+        function startAutoSync() {
+            if (syncTimer) clearInterval(syncTimer);
+            syncTimer = setInterval(async () => {
+                if (isAnyModalOpen()) return;
+                const remoteData = await apiFetch();
+                if (!remoteData || !Array.isArray(remoteData)) return;
+
+                // Comparar: si hay diferencias por updated_at, refrescar
+                const remoteMap = {};
+                remoteData.forEach(p => { remoteMap[p.id] = p.updated_at; });
+                const localMap = {};
+                projects.forEach(p => { localMap[p.id] = p.updated_at; });
+
+                let changed = remoteData.length !== projects.length;
+                if (!changed) {
+                    for (const id in remoteMap) {
+                        if (remoteMap[id] !== localMap[id]) { changed = true; break; }
+                    }
+                }
+
+                if (changed) {
+                    projects = remoteData.map(migrateProject);
+                    localStorage.setItem(DB_KEY, JSON.stringify(projects));
+                    renderUI();
+                    updateSyncBadge(true);
+                }
+            }, SYNC_INTERVAL);
         }
 
         /* =========================================
@@ -870,16 +995,18 @@ permalink: gestionproyectos/index.html
                 const index = projects.findIndex(p => p.id === id);
                 if (index > -1) {
                     projects[index] = { ...projects[index], ...projectData };
+                    closeModal('project-modal');
+                    renderUI();
+                    triggerSave(projects[index], false);
                 }
             } else {
                 projectData.id = generateID();
                 projectData.created_at = now;
                 projects.push(projectData);
+                closeModal('project-modal');
+                renderUI();
+                triggerSave(projectData, false);
             }
-
-            closeModal('project-modal');
-            renderUI();
-            triggerSave();
         }
 
         /* =========================================
@@ -917,7 +1044,7 @@ permalink: gestionproyectos/index.html
 
             closeModal('quick-presentar-modal');
             renderUI();
-            triggerSave();
+            triggerSave(index > -1 ? projects[index] : null, false);
         }
 
         function openQuickResponsable(id, event) {
@@ -945,7 +1072,7 @@ permalink: gestionproyectos/index.html
 
             closeModal('quick-responsable-modal');
             renderUI();
-            triggerSave();
+            triggerSave(index > -1 ? projects[index] : null, false);
         }
 
         function quickDelete(directId, event) {
@@ -954,9 +1081,9 @@ permalink: gestionproyectos/index.html
 
             if(confirm('¿Estás seguro de eliminar este proyecto? Esta acción no se puede deshacer.')) {
                 projects = projects.filter(p => p.id !== id);
-                closeModal('project-modal'); // Por si estaba el modal general abierto
+                closeModal('project-modal');
                 renderUI();
-                triggerSave();
+                triggerSave(id, true);
             }
         }
 
@@ -979,16 +1106,12 @@ permalink: gestionproyectos/index.html
                 try {
                     const imported = JSON.parse(e.target.result);
                     if (Array.isArray(imported)) {
-                        projects = imported;
-                        // Forzar migración en la importación
-                        projects = projects.map(p => {
-                            if (p.fecha_presentacion_real && !p.fecha_presentacion) p.fecha_presentacion = p.fecha_presentacion_real;
-                            delete p.fecha_presentacion_real;
-                            return { ...p, responsable: p.responsable || 'Sin asignar', created_at: p.created_at || new Date().toISOString() };
-                        });
+                        projects = imported.map(migrateProject);
                         renderUI();
-                        triggerSave();
-                        alert('Datos importados correctamente. Responsables y fechas migrados si aplicaba.');
+                        // Guardar local + sync cada proyecto a la API
+                        localStorage.setItem(DB_KEY, JSON.stringify(projects));
+                        syncAllToApi();
+                        alert('Datos importados correctamente.');
                     } else {
                         alert('Formato de archivo inválido.');
                     }
@@ -998,6 +1121,18 @@ permalink: gestionproyectos/index.html
             };
             reader.readAsText(file);
             event.target.value = ''; // Reset input
+        }
+
+        /* =========================================
+           SYNC MASIVO (para importación)
+           ========================================= */
+        async function syncAllToApi() {
+            let allOk = true;
+            for (const p of projects) {
+                const ok = await apiSave(p);
+                if (!ok) { allOk = false; break; }
+            }
+            updateSyncBadge(allOk);
         }
 
     </script>
