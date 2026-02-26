@@ -1,3 +1,8 @@
 name = "ceciliagortari-site"
 compatibility_date = "2026-01-26"
 pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "gestionproyectos"
+database_id = "72124dc1-c97a-45c6-8f75-006d9ca62714"
