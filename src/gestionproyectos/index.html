@@ -277,6 +277,7 @@ permalink: gestionproyectos/index.html
                         Guardado
                     </span>
                     <button class="btn btn-primary" onclick="openModal()">+ Nuevo</button>
+                    <button class="btn btn-outline" id="btn-refresh" onclick="manualRefresh()">&#x21bb; Actualizar</button>
                     <button class="btn btn-outline" onclick="exportJSON()">Exportar</button>
                     <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">Importar</button>
                     <input type="file" id="import-file" style="display:none" accept=".json" onchange="importJSON(event)">
@@ -698,6 +699,40 @@ permalink: gestionproyectos/index.html
                     updateSyncBadge(true);
                 }
             }, SYNC_INTERVAL);
+        }
+
+        /* =========================================
+           ACTUALIZACIÓN MANUAL
+           ========================================= */
+        async function manualRefresh() {
+            if (isAnyModalOpen()) {
+                alert('Cerrá el modal para actualizar.');
+                return;
+            }
+
+            const btn = document.getElementById('btn-refresh');
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+
+            const indicator = document.getElementById('save-indicator');
+            indicator.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Actualizando...`;
+            indicator.style.color = 'var(--blue)';
+
+            const remoteData = await apiFetch();
+
+            if (remoteData && Array.isArray(remoteData)) {
+                projects = remoteData.map(migrateProject);
+                localStorage.setItem(DB_KEY, JSON.stringify(projects));
+                renderUI();
+                updateSyncBadge(true);
+            } else {
+                indicator.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle><line x1="12" y1="8" x2="12" y2="12" stroke-width="2"></line><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"></line></svg> Error al actualizar`;
+                indicator.style.color = 'var(--badge-yellow-text)';
+                setTimeout(() => { indicator.style.color = 'var(--text-muted)'; }, 3000);
+            }
+
+            btn.disabled = false;
+            btn.style.opacity = '1';
         }
 
         /* =========================================
