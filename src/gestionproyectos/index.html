@@ -234,19 +234,75 @@ permalink: gestionproyectos/index.html
         /* =========================================
            8. RESPONSIVE
            ========================================= */
+        /* =========================================
+           8b. MOBILE COMPACT BAR
+           ========================================= */
+        #mobileCompactBar {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .table-container { display: none; }
             .cards-container { display: block; }
-            .header { padding: 1rem; }
+            .header { padding: 1rem; position: static; }
             .header-top { flex-direction: column; align-items: flex-start; }
             .header-controls { width: 100%; }
             .search-bar { width: 100%; }
             .form-grid { grid-template-columns: 1fr; }
             main { padding: 1rem; }
+
+            #mobileCompactBar {
+                display: flex;
+                position: fixed;
+                top: 0; left: 0; right: 0;
+                z-index: 200;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.5rem 1rem;
+                padding-top: calc(0.5rem + env(safe-area-inset-top, 0px));
+                background: rgba(255, 255, 255, 0.92);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border-bottom: 1px solid var(--border-light);
+                box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+                transform: translateY(-110%);
+                opacity: 0;
+                pointer-events: none;
+                transition: transform 0.25s ease, opacity 0.25s ease;
+            }
+            #mobileCompactBar.is-visible {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .mcb-brand {
+                font-size: 0.95rem;
+                font-weight: 700;
+                color: var(--blue);
+                white-space: nowrap;
+            }
+            .mcb-actions {
+                display: flex;
+                gap: 0.4rem;
+                flex-shrink: 0;
+            }
+            .mcb-actions .btn {
+                padding: 0.35rem 0.7rem;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- MOBILE COMPACT BAR (sticky en mobile al scrollear) -->
+    <div id="mobileCompactBar">
+        <span class="mcb-brand">Cecilia Gortari</span>
+        <div class="mcb-actions">
+            <button class="btn btn-primary" onclick="openModal()">+ Nuevo</button>
+            <button class="btn btn-outline" onclick="manualRefresh()">&#x21bb;</button>
+        </div>
+    </div>
 
     <!-- PANTALLA DE ACCESO (PIN) -->
     <div id="pin-screen">
@@ -278,7 +334,8 @@ permalink: gestionproyectos/index.html
                     </span>
                     <button class="btn btn-primary" onclick="openModal()">+ Nuevo</button>
                     <button class="btn btn-outline" id="btn-refresh" onclick="manualRefresh()">&#x21bb; Actualizar</button>
-                    <button class="btn btn-outline" onclick="exportJSON()">Exportar</button>
+                    <button class="btn btn-outline" onclick="exportReportPDF()">Exportar</button>
+                    <button class="btn btn-outline btn-sm" onclick="exportJSON()" title="Exportar datos en formato JSON">JSON</button>
                     <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">Importar</button>
                     <input type="file" id="import-file" style="display:none" accept=".json" onchange="importJSON(event)">
                 </div>
@@ -1127,6 +1184,158 @@ permalink: gestionproyectos/index.html
         /* =========================================
            UTILIDADES (EXPORTAR / IMPORTAR)
            ========================================= */
+        function exportReportPDF() {
+            const indicator = document.getElementById('save-indicator');
+            indicator.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Generando informe...`;
+            indicator.style.color = 'var(--blue)';
+
+            // Obtener datos filtrados (misma lógica que renderUI)
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const filterTipo = document.getElementById('filter-tipo').value;
+            const filterResp = document.getElementById('filter-responsable').value;
+
+            let filtered = [...projects].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+            filtered = filtered.filter(p => {
+                const matchSearch = p.titulo.toLowerCase().includes(searchTerm) ||
+                                    (p.resumen && p.resumen.toLowerCase().includes(searchTerm)) ||
+                                    (p.area_tema && p.area_tema.toLowerCase().includes(searchTerm));
+                const matchTipo = filterTipo === '' || p.tipo === filterTipo;
+                const matchResp = filterResp === '' || p.responsable === filterResp;
+                return matchSearch && matchTipo && matchResp;
+            });
+
+            const pendientes = filtered.filter(p => p.estado_preparacion !== 'Presentado');
+            const presentados = filtered.filter(p => p.estado_preparacion === 'Presentado');
+
+            // Filtros activos
+            const filtrosActivos = [];
+            if (searchTerm) filtrosActivos.push(`Búsqueda: "${document.getElementById('search-input').value}"`);
+            if (filterTipo) filtrosActivos.push(`Tipo: ${filterTipo}`);
+            if (filterResp) filtrosActivos.push(`Responsable: ${filterResp}`);
+            const filtrosTexto = filtrosActivos.length > 0 ? filtrosActivos.join(' | ') : 'Ninguno';
+
+            // Fecha/hora
+            const now = new Date();
+            const fechaGen = formatDateOnly(now.toISOString().split('T')[0]);
+            const horaGen = now.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+
+            // Helpers
+            function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+            function truncate(s, max) { if (!s) return '—'; return s.length > max ? s.substring(0, max) + '...' : s; }
+
+            function buildPendientesRows(data) {
+                if (data.length === 0) return '<tr><td colspan="8" style="text-align:center;color:#6E6E74;padding:1.5rem;">Sin proyectos en esta categoría.</td></tr>';
+                return data.map((p, i) => `
+                    <tr style="background:${i % 2 === 0 ? '#fff' : '#f8f9ff'};">
+                        <td>${esc(p.id)}</td>
+                        <td>${esc(p.tipo)}</td>
+                        <td style="max-width:200px;">${esc(truncate(p.titulo, 60))}</td>
+                        <td>${esc(p.area_tema || '—')}</td>
+                        <td>${esc(p.responsable || 'Sin asignar')}</td>
+                        <td><span style="background:${p.estado_preparacion === 'En trabajo' ? '#DBEAFE;color:#1E40AF' : '#F3F4F6;color:#374151'};padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600;">${esc(p.estado_preparacion)}</span></td>
+                        <td style="white-space:nowrap;font-size:0.8rem;">${formatDateOnly(p.created_at) || '—'}${p.fecha_objetivo_presentacion ? '<br>Obj: ' + formatDateOnly(p.fecha_objetivo_presentacion) : ''}</td>
+                        <td style="font-size:0.8rem;">${formatDateOnly(p.updated_at) || '—'}</td>
+                    </tr>
+                `).join('');
+            }
+
+            function buildPresentadosRows(data) {
+                if (data.length === 0) return '<tr><td colspan="8" style="text-align:center;color:#6E6E74;padding:1.5rem;">Sin proyectos en esta categoría.</td></tr>';
+                return data.map((p, i) => {
+                    const tramiteColors = {
+                        'En comisiones': 'background:#F3E8FF;color:#6B21A8',
+                        'En tratamiento': 'background:#FEF3C7;color:#92400E',
+                        'Aprobado': 'background:#D1FAE5;color:#065F46',
+                        'No aprobado': 'background:#FEE2E2;color:#991B1B'
+                    };
+                    const tStyle = tramiteColors[p.estado_tramite] || 'background:#F3F4F6;color:#374151';
+                    return `
+                    <tr style="background:${i % 2 === 0 ? '#fff' : '#f8f9ff'};">
+                        <td>${esc(p.id)}</td>
+                        <td>${esc(p.tipo)}</td>
+                        <td style="max-width:200px;">${esc(truncate(p.titulo, 60))}</td>
+                        <td>${esc(p.area_tema || '—')}</td>
+                        <td>${esc(p.responsable || 'Sin asignar')}</td>
+                        <td>${p.estado_tramite ? `<span style="${tStyle};padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600;">${esc(p.estado_tramite)}</span>` : '—'}</td>
+                        <td style="white-space:nowrap;font-size:0.8rem;">${formatDateOnly(p.fecha_presentacion) ? 'Pres: ' + formatDateOnly(p.fecha_presentacion) : '—'}${p.fecha_objetivo_presentacion ? '<br>Obj: ' + formatDateOnly(p.fecha_objetivo_presentacion) : ''}<br><span style="color:#6E6E74;">Creado: ${formatDateOnly(p.created_at) || '—'}</span></td>
+                        <td style="font-size:0.8rem;">${formatDateOnly(p.updated_at) || '—'}</td>
+                    </tr>
+                    `;
+                }).join('');
+            }
+
+            const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Informe - Gestión de Proyectos - Cecilia Gortari</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', 'Segoe UI', Arial, sans-serif; color: #2C2C31; line-height: 1.4; padding: 2rem; }
+    .report-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 3px solid #1768C5; }
+    .report-title { font-size: 1.6rem; font-weight: 700; color: #1768C5; margin-bottom: 0.25rem; }
+    .report-subtitle { font-size: 1rem; color: #EA3C88; font-weight: 500; margin-bottom: 0.75rem; }
+    .report-meta { font-size: 0.8rem; color: #6E6E74; }
+    .report-meta span { margin: 0 0.5rem; }
+    .section { margin-bottom: 2rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; color: #1768C5; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; padding-bottom: 0.4rem; border-bottom: 2px solid #E7E8FF; }
+    .section-count { background: #F3F4F6; color: #374151; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+    .section-count.green { background: #D1FAE5; color: #065F46; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-bottom: 1rem; }
+    thead th { background: #f0f1ff; color: #6E6E74; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.6rem 0.5rem; text-align: left; border-bottom: 2px solid #E7E8FF; }
+    td { padding: 0.5rem; border-bottom: 1px solid #E7E8FF; vertical-align: top; }
+    tr { page-break-inside: avoid; }
+    .filters-line { font-size: 0.8rem; color: #6E6E74; margin-bottom: 1.5rem; text-align: center; }
+    .filters-line strong { color: #2C2C31; }
+    @media print {
+        body { padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        @page { size: A4 portrait; margin: 15mm 12mm; }
+        .section { page-break-inside: auto; }
+        .section-title { page-break-after: avoid; }
+        thead { display: table-header-group; }
+    }
+</style>
+</head>
+<body>
+    <div class="report-header">
+        <div class="report-title">Informe &mdash; Gestión de Proyectos</div>
+        <div class="report-subtitle">Cecilia Gortari (Privado)</div>
+        <div class="report-meta">Generado el <strong>${fechaGen}</strong><span>&bull;</span>${horaGen} hs</div>
+    </div>
+    <div class="filters-line"><strong>Filtros aplicados:</strong> ${esc(filtrosTexto)}</div>
+
+    <div class="section">
+        <div class="section-title">Pendientes y En trabajo <span class="section-count">${pendientes.length}</span></div>
+        <table>
+            <thead><tr><th>ID</th><th>Tipo</th><th>Título</th><th>Área</th><th>Responsable</th><th>Preparación</th><th>Fechas</th><th>Actualizado</th></tr></thead>
+            <tbody>${buildPendientesRows(pendientes)}</tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Presentados <span class="section-count green">${presentados.length}</span></div>
+        <table>
+            <thead><tr><th>ID</th><th>Tipo</th><th>Título</th><th>Área</th><th>Responsable</th><th>Trámite</th><th>Fechas</th><th>Actualizado</th></tr></thead>
+            <tbody>${buildPresentadosRows(presentados)}</tbody>
+        </table>
+    </div>
+</body>
+</html>`;
+
+            const w = window.open('', '_blank');
+            if (!w) {
+                alert('Habilitá popups para exportar el informe como PDF.');
+                indicator.style.color = 'var(--text-muted)';
+                return;
+            }
+            w.document.write(html);
+            w.document.close();
+            w.onload = () => { w.focus(); w.print(); };
+
+            updateSyncBadge(apiAvailable);
+        }
+
         function exportJSON() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projects, null, 2));
             const dlAnchorElem = document.createElement('a');
@@ -1171,6 +1380,34 @@ permalink: gestionproyectos/index.html
             }
             updateSyncBadge(allOk);
         }
+
+        /* =========================================
+           MOBILE COMPACT BAR (scroll listener)
+           ========================================= */
+        (function() {
+            const bar = document.getElementById('mobileCompactBar');
+            const mq = window.matchMedia('(max-width: 768px)');
+            let ticking = false;
+
+            function onScroll() {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        if (mq.matches) {
+                            bar.classList.toggle('is-visible', window.scrollY > 80);
+                        } else {
+                            bar.classList.remove('is-visible');
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            mq.addEventListener('change', () => {
+                if (!mq.matches) bar.classList.remove('is-visible');
+            });
+        })();
 
     </script>
 </body>
