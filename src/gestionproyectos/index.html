@@ -291,6 +291,271 @@ permalink: gestionproyectos/index.html
                 font-size: 0.8rem;
             }
         }
+
+        /* =========================================
+           9. TABS (Proyectos / Dashboard)
+           ========================================= */
+        .tabs-bar {
+            display: flex;
+            gap: 0;
+            background: var(--bg-surface);
+            border-bottom: 2px solid var(--border-light);
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .tab-btn {
+            padding: 0.85rem 1.5rem;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+            margin-bottom: -2px;
+        }
+        .tab-btn:hover { color: var(--blue); }
+        .tab-btn.active {
+            color: var(--blue);
+            border-bottom-color: var(--magenta);
+        }
+        .tab-view {
+            opacity: 0;
+            display: none;
+            transition: opacity 0.25s ease;
+        }
+        .tab-view.active {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .tabs-bar { padding: 0 1rem; }
+            .tab-btn { padding: 0.7rem 1rem; font-size: 0.85rem; }
+        }
+
+        /* =========================================
+           10. DASHBOARD
+           ========================================= */
+        .dash-section { margin-bottom: 2rem; }
+        .dash-section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .kpi-card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            text-align: center;
+            transition: box-shadow 0.2s;
+        }
+        .kpi-card:hover { box-shadow: var(--shadow-md); }
+        .kpi-number {
+            font-size: 2.25rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+        }
+        .kpi-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .kpi-color-total .kpi-number { color: var(--blue); }
+        .kpi-color-pendiente .kpi-number { color: var(--badge-gray-text); }
+        .kpi-color-trabajo .kpi-number { color: var(--badge-blue-text); }
+        .kpi-color-presentado .kpi-number { color: var(--badge-green-text); }
+        .kpi-color-aprobado .kpi-number { color: var(--badge-green-text); }
+        .kpi-color-noaprobado .kpi-number { color: var(--badge-red-text); }
+        .kpi-color-tramite .kpi-number { color: var(--badge-purple-text); }
+
+        /* Weekly goal */
+        .weekly-card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            margin-bottom: 1.5rem;
+        }
+        .weekly-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        .weekly-title {
+            font-weight: 700;
+            color: var(--blue);
+            font-size: 0.95rem;
+        }
+        .weekly-meta-edit {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .weekly-meta-edit input {
+            width: 48px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 0.2rem;
+            font-family: var(--font-main);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .weekly-big {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--magenta);
+            margin-bottom: 0.5rem;
+        }
+        .progress-bar-wrap {
+            background: var(--badge-gray-bg);
+            border-radius: var(--radius-full);
+            height: 12px;
+            overflow: hidden;
+            margin-bottom: 0.4rem;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: var(--radius-full);
+            background: linear-gradient(90deg, var(--blue), var(--magenta));
+            transition: width 0.4s ease;
+        }
+        .weekly-hint {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Charts */
+        .chart-card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            margin-bottom: 1.5rem;
+        }
+        .chart-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 1rem;
+        }
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .charts-row { grid-template-columns: 1fr; }
+        }
+
+        /* Dashboard filters */
+        .dash-filters {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            margin-bottom: 1.5rem;
+        }
+        .dash-filters-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: flex-end;
+        }
+        .dash-filters-row .input-group { margin-bottom: 0; min-width: 140px; }
+        .dash-filters-row .input-group label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+        .dash-filters-row .input-control { font-size: 0.85rem; padding: 0.5rem 0.75rem; }
+        .dash-filter-actions { display: flex; gap: 0.5rem; align-items: flex-end; }
+        .dash-applied-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+        }
+        .filtered-section-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--magenta);
+            margin-bottom: 0.75rem;
+        }
+
+        /* Topic suggestion hint */
+        .topic-hint {
+            display: none;
+            font-size: 0.8rem;
+            color: var(--badge-yellow-text);
+            background: var(--badge-yellow-bg);
+            padding: 0.4rem 0.75rem;
+            border-radius: var(--radius-md);
+            margin-top: 0.35rem;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .topic-hint.visible { display: flex; }
+        .topic-hint-btn {
+            background: none;
+            border: none;
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: underline;
+            font-family: var(--font-main);
+            padding: 0;
+        }
+        .topic-hint-btn:hover { color: var(--magenta); }
+
+        /* Top Temas table */
+        .top-temas-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .top-temas-table th {
+            background: var(--bg-body);
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid var(--border-light);
+        }
+        .top-temas-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+        }
+        .top-temas-table tr:hover { background: #f8fafc; }
+        .top-temas-table .tema-name {
+            font-weight: 600;
+            color: var(--blue);
+        }
     </style>
 </head>
 <body>
@@ -335,9 +600,6 @@ permalink: gestionproyectos/index.html
                     <button class="btn btn-primary" onclick="openModal()">+ Nuevo</button>
                     <button class="btn btn-outline" id="btn-refresh" onclick="manualRefresh()">&#x21bb; Actualizar</button>
                     <button class="btn btn-outline" onclick="exportReportPDF()">Exportar</button>
-                    <button class="btn btn-outline btn-sm" onclick="exportJSON()" title="Exportar datos en formato JSON">JSON</button>
-                    <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">Importar</button>
-                    <input type="file" id="import-file" style="display:none" accept=".json" onchange="importJSON(event)">
                 </div>
             </div>
             <div class="header-controls" style="margin-top: 0.5rem;">
@@ -364,48 +626,168 @@ permalink: gestionproyectos/index.html
             </div>
         </header>
 
+        <!-- TABS -->
+        <div class="tabs-bar">
+            <button class="tab-btn active" id="tab-proyectos" onclick="switchTab('proyectos')">Proyectos</button>
+            <button class="tab-btn" id="tab-dashboard" onclick="switchTab('dashboard')">Dashboard</button>
+        </div>
+
         <main>
-            <!-- SECCIÓN 1: PENDIENTES Y EN TRABAJO -->
-            <h2 class="section-title">Pendientes y En trabajo <span class="badge badge-pendiente" id="count-pendientes">0</span></h2>
+            <!-- === VISTA PROYECTOS === -->
+            <div id="projectsView" class="tab-view active">
+                <h2 class="section-title">Pendientes y En trabajo <span class="badge badge-pendiente" id="count-pendientes">0</span></h2>
 
-            <div class="table-container" id="table-wrap-pendientes">
-                <table id="table-pendientes">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Proyecto</th>
-                            <th>Tipo & Área</th>
-                            <th>Responsable</th>
-                            <th>Preparación</th>
-                            <th>Fechas (Creación / Obj)</th>
-                            <th style="text-align:right">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-pendientes"></tbody>
-                </table>
+                <div class="table-container" id="table-wrap-pendientes">
+                    <table id="table-pendientes">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Proyecto</th>
+                                <th>Tipo & Área</th>
+                                <th>Responsable</th>
+                                <th>Preparación</th>
+                                <th>Fechas (Creación / Obj)</th>
+                                <th style="text-align:right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-pendientes"></tbody>
+                    </table>
+                </div>
+                <div class="cards-container" id="cards-pendientes"></div>
+
+                <h2 class="section-title">Presentados <span class="badge badge-presentado" id="count-presentados">0</span></h2>
+
+                <div class="table-container" id="table-wrap-presentados">
+                    <table id="table-presentados">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Proyecto</th>
+                                <th>Tipo & Área</th>
+                                <th>Responsable</th>
+                                <th>Trámite</th>
+                                <th>Fechas</th>
+                                <th>Actualizado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-presentados"></tbody>
+                    </table>
+                </div>
+                <div class="cards-container" id="cards-presentados"></div>
             </div>
-            <div class="cards-container" id="cards-pendientes"></div>
 
-            <!-- SECCIÓN 2: PRESENTADOS -->
-            <h2 class="section-title">Presentados <span class="badge badge-presentado" id="count-presentados">0</span></h2>
+            <!-- === VISTA DASHBOARD === -->
+            <div id="dashboardView" class="tab-view">
+                <!-- A) KPI Totales Generales -->
+                <div class="dash-section">
+                    <div class="dash-section-title">Totales generales</div>
+                    <div class="kpi-grid" id="kpi-global"></div>
+                </div>
 
-            <div class="table-container" id="table-wrap-presentados">
-                <table id="table-presentados">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Proyecto</th>
-                            <th>Tipo & Área</th>
-                            <th>Responsable</th>
-                            <th>Trámite</th>
-                            <th>Fechas</th>
-                            <th>Actualizado</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-presentados"></tbody>
-                </table>
+                <!-- B) Meta semanal -->
+                <div class="dash-section">
+                    <div class="weekly-card" id="weekly-card"></div>
+                </div>
+
+                <!-- C) Estado de trámite (solo presentados) -->
+                <div class="dash-section">
+                    <div class="dash-section-title">Estado de trámite (presentados)</div>
+                    <div class="kpi-grid" id="kpi-tramite"></div>
+                </div>
+
+                <!-- D & E) Gráficos -->
+                <div class="dash-section">
+                    <div class="charts-row">
+                        <div class="chart-card">
+                            <div class="chart-title">Presentados por mes (últimos 12 meses)</div>
+                            <canvas id="chartBarMonthly" height="260"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-title">Distribución por estado</div>
+                            <canvas id="chartDonut" height="260"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros del Dashboard -->
+                <div class="dash-section">
+                    <div class="dash-section-title">Filtros del dashboard</div>
+                    <div class="dash-filters">
+                        <div class="dash-filters-row">
+                            <div class="input-group">
+                                <label for="dash-filter-mes">Mes de presentación</label>
+                                <select id="dash-filter-mes" class="input-control"></select>
+                            </div>
+                            <div class="input-group">
+                                <label for="dash-filter-responsable">Responsable</label>
+                                <select id="dash-filter-responsable" class="input-control">
+                                    <option value="">Todos</option>
+                                    <option value="Sin asignar">Sin asignar</option>
+                                    <option value="Gonzalo">Gonzalo</option>
+                                    <option value="Tomás">Tomás</option>
+                                    <option value="Tamara">Tamara</option>
+                                    <option value="Rosalina">Rosalina</option>
+                                    <option value="Sonia">Sonia</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="dash-filter-tipo">Tipo</label>
+                                <select id="dash-filter-tipo" class="input-control">
+                                    <option value="">Todos</option>
+                                    <option value="Proyecto de Ley">Proyecto de Ley</option>
+                                    <option value="Proyecto de Resolución">Proyecto de Resolución</option>
+                                    <option value="Proyecto de Declaración">Proyecto de Declaración</option>
+                                    <option value="Nota">Nota</option>
+                                    <option value="Pedido de informe">Pedido de informe</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="dash-filter-estado">Estado</label>
+                                <select id="dash-filter-estado" class="input-control">
+                                    <option value="">Todos</option>
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="En trabajo">En trabajo</option>
+                                    <option value="Presentado">Presentado</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="dash-filter-tema">Tema</label>
+                                <select id="dash-filter-tema" class="input-control"></select>
+                            </div>
+                            <div class="dash-filter-actions">
+                                <button class="btn btn-secondary btn-sm" onclick="applyDashFilters()">Aplicar</button>
+                                <button class="btn btn-outline btn-sm" onclick="clearDashFilters()">Limpiar</button>
+                            </div>
+                        </div>
+                        <div class="dash-applied-text" id="dash-applied-text">Sin filtros</div>
+                    </div>
+                </div>
+
+                <!-- Vista filtrada -->
+                <div class="dash-section" id="dash-filtered-section" style="display:none;">
+                    <div class="filtered-section-label">Vista filtrada</div>
+                    <div class="kpi-grid" id="kpi-filtered"></div>
+                </div>
+
+                <!-- Top Temas -->
+                <div class="dash-section">
+                    <div class="dash-section-title" id="top-temas-title">Top Temas (total general)</div>
+                    <div class="chart-card" style="padding:0; overflow:hidden;">
+                        <table class="top-temas-table" id="top-temas-table">
+                            <thead>
+                                <tr>
+                                    <th>Tema</th>
+                                    <th>Total</th>
+                                    <th>Presentados</th>
+                                    <th>Pendientes</th>
+                                    <th>En trabajo</th>
+                                </tr>
+                            </thead>
+                            <tbody id="top-temas-body"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="cards-container" id="cards-presentados"></div>
         </main>
     </div>
 
@@ -448,7 +830,9 @@ permalink: gestionproyectos/index.html
 
                     <div class="input-group">
                         <label for="f-area">Área / Tema</label>
-                        <input type="text" id="f-area" class="input-control" placeholder="Ej: Salud, Educación...">
+                        <input type="text" id="f-area" class="input-control" list="topicSuggestions" placeholder="Ej: Salud, Educación..." autocomplete="off" oninput="checkTopicTypo()">
+                        <datalist id="topicSuggestions"></datalist>
+                        <div class="topic-hint" id="topic-hint"></div>
                     </div>
 
                     <div class="input-group">
@@ -578,6 +962,147 @@ permalink: gestionproyectos/index.html
         let debounceTimer;
         let syncTimer;
         let apiAvailable = false;
+        let knownTopicsCache = [];
+
+        const SEED_TOPICS = [
+            'Salud', 'Educación', 'Economía', 'Finanzas', 'Infraestructura',
+            'Vialidad', 'Seguridad', 'Ambiente', 'Producción', 'Desarrollo Social',
+            'Turismo', 'Cultura', 'Deportes'
+        ];
+
+        /* =========================================
+           TOPIC INTELLIGENCE
+           ========================================= */
+        function normalizeTopic(str) {
+            if (!str) return '';
+            return str.trim().toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/\s+/g, ' ');
+        }
+
+        function levenshtein(a, b) {
+            const an = a.length, bn = b.length;
+            if (an === 0) return bn;
+            if (bn === 0) return an;
+            const matrix = [];
+            for (let i = 0; i <= bn; i++) matrix[i] = [i];
+            for (let j = 0; j <= an; j++) matrix[0][j] = j;
+            for (let i = 1; i <= bn; i++) {
+                for (let j = 1; j <= an; j++) {
+                    const cost = b.charAt(i - 1) === a.charAt(j - 1) ? 0 : 1;
+                    matrix[i][j] = Math.min(
+                        matrix[i - 1][j] + 1,
+                        matrix[i][j - 1] + 1,
+                        matrix[i - 1][j - 1] + cost
+                    );
+                }
+            }
+            return matrix[bn][an];
+        }
+
+        function toTitleCase(str) {
+            return str.replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        function buildKnownTopics() {
+            const normMap = new Map(); // normalized -> canonical form
+            // Seed topics first (these define canonical casing)
+            SEED_TOPICS.forEach(t => {
+                normMap.set(normalizeTopic(t), t);
+            });
+            // Project topics (only add if not already seeded)
+            projects.forEach(p => {
+                const raw = (p.area_tema || '').trim();
+                if (!raw) return;
+                const norm = normalizeTopic(raw);
+                if (norm && !normMap.has(norm)) {
+                    normMap.set(norm, raw);
+                }
+            });
+            // Sort alphabetically by canonical name
+            knownTopicsCache = [...normMap.entries()]
+                .sort((a, b) => a[1].localeCompare(b[1], 'es'))
+                .map(([norm, canon]) => ({ norm, canon }));
+            return knownTopicsCache;
+        }
+
+        function getCanonicalTopic(input) {
+            const trimmed = (input || '').trim();
+            if (!trimmed) return '';
+            const norm = normalizeTopic(trimmed);
+            const match = knownTopicsCache.find(t => t.norm === norm);
+            if (match) return match.canon;
+            // New topic: title case
+            return toTitleCase(trimmed.toLowerCase());
+        }
+
+        function getClosestTopic(input) {
+            const trimmed = (input || '').trim();
+            if (!trimmed) return null;
+            const norm = normalizeTopic(trimmed);
+            // Check exact match first
+            if (knownTopicsCache.find(t => t.norm === norm)) return null;
+            // Find closest by Levenshtein
+            let bestDist = Infinity;
+            let bestTopic = null;
+            const maxDist = trimmed.length <= 4 ? 1 : 2;
+            knownTopicsCache.forEach(t => {
+                const dist = levenshtein(norm, t.norm);
+                if (dist <= maxDist && dist < bestDist) {
+                    bestDist = dist;
+                    bestTopic = t.canon;
+                }
+            });
+            return bestTopic;
+        }
+
+        function refreshTopicSuggestions() {
+            buildKnownTopics();
+            // Update datalist in modal
+            const dl = document.getElementById('topicSuggestions');
+            if (dl) {
+                dl.innerHTML = knownTopicsCache.map(t =>
+                    `<option value="${t.canon}">`
+                ).join('');
+            }
+            // Update dashboard tema filter
+            const sel = document.getElementById('dash-filter-tema');
+            if (sel) {
+                const current = sel.value;
+                let html = '<option value="">Todos</option>';
+                knownTopicsCache.forEach(t => {
+                    html += `<option value="${t.canon}">${t.canon}</option>`;
+                });
+                sel.innerHTML = html;
+                if (current) sel.value = current;
+            }
+        }
+
+        let topicHintTimer;
+        function checkTopicTypo() {
+            clearTimeout(topicHintTimer);
+            topicHintTimer = setTimeout(() => {
+                const input = document.getElementById('f-area');
+                const hint = document.getElementById('topic-hint');
+                const val = input.value.trim();
+                if (!val || val.length < 3) {
+                    hint.classList.remove('visible');
+                    return;
+                }
+                const suggestion = getClosestTopic(val);
+                if (suggestion) {
+                    hint.innerHTML = `¿Quisiste decir "<strong>${suggestion}</strong>"? <button class="topic-hint-btn" type="button" onclick="acceptTopicSuggestion('${suggestion.replace(/'/g, "\\'")}')">Usar ${suggestion}</button>`;
+                    hint.classList.add('visible');
+                } else {
+                    hint.classList.remove('visible');
+                }
+            }, 300);
+        }
+
+        function acceptTopicSuggestion(topic) {
+            document.getElementById('f-area').value = topic;
+            document.getElementById('topic-hint').classList.remove('visible');
+        }
 
         // Inicialización
         window.onload = () => {
@@ -691,6 +1216,7 @@ permalink: gestionproyectos/index.html
                 updateSyncBadge(false);
             }
 
+            refreshTopicSuggestions();
             renderUI();
             startAutoSync();
         }
@@ -754,6 +1280,7 @@ permalink: gestionproyectos/index.html
                 if (changed) {
                     projects = remoteData.map(migrateProject);
                     localStorage.setItem(DB_KEY, JSON.stringify(projects));
+                    refreshTopicSuggestions();
                     renderUI();
                     updateSyncBadge(true);
                 }
@@ -782,6 +1309,7 @@ permalink: gestionproyectos/index.html
             if (remoteData && Array.isArray(remoteData)) {
                 projects = remoteData.map(migrateProject);
                 localStorage.setItem(DB_KEY, JSON.stringify(projects));
+                refreshTopicSuggestions();
                 renderUI();
                 updateSyncBadge(true);
             } else {
@@ -998,6 +1526,7 @@ permalink: gestionproyectos/index.html
             const modal = document.getElementById('project-modal');
             const form = document.getElementById('project-form');
             form.reset();
+            document.getElementById('topic-hint').classList.remove('visible');
             handlePrepChange(); // Reset conditional fields
 
             if (id) {
@@ -1076,7 +1605,7 @@ permalink: gestionproyectos/index.html
                 titulo: document.getElementById('f-titulo').value.trim(),
                 tipo: document.getElementById('f-tipo').value,
                 responsable: document.getElementById('f-responsable').value,
-                area_tema: document.getElementById('f-area').value.trim(),
+                area_tema: getCanonicalTopic(document.getElementById('f-area').value),
                 resumen: document.getElementById('f-resumen').value.trim(),
                 estado_preparacion: estadoPrep,
                 fecha_objetivo_presentacion: document.getElementById('f-fecha-obj').value,
@@ -1090,6 +1619,7 @@ permalink: gestionproyectos/index.html
                 if (index > -1) {
                     projects[index] = { ...projects[index], ...projectData };
                     closeModal('project-modal');
+                    refreshTopicSuggestions();
                     renderUI();
                     triggerSave(projects[index], false);
                 }
@@ -1098,6 +1628,7 @@ permalink: gestionproyectos/index.html
                 projectData.created_at = now;
                 projects.push(projectData);
                 closeModal('project-modal');
+                refreshTopicSuggestions();
                 renderUI();
                 triggerSave(projectData, false);
             }
@@ -1182,7 +1713,7 @@ permalink: gestionproyectos/index.html
         }
 
         /* =========================================
-           UTILIDADES (EXPORTAR / IMPORTAR)
+           EXPORTAR INFORME PDF
            ========================================= */
         function exportReportPDF() {
             const indicator = document.getElementById('save-indicator');
@@ -1336,50 +1867,462 @@ permalink: gestionproyectos/index.html
             updateSyncBadge(apiAvailable);
         }
 
-        function exportJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projects, null, 2));
-            const dlAnchorElem = document.createElement('a');
-            dlAnchorElem.setAttribute("href", dataStr);
-            dlAnchorElem.setAttribute("download", `proyectos_cg_${new Date().toISOString().split('T')[0]}.json`);
-            dlAnchorElem.click();
-        }
 
-        function importJSON(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    if (Array.isArray(imported)) {
-                        projects = imported.map(migrateProject);
-                        renderUI();
-                        // Guardar local + sync cada proyecto a la API
-                        localStorage.setItem(DB_KEY, JSON.stringify(projects));
-                        syncAllToApi();
-                        alert('Datos importados correctamente.');
-                    } else {
-                        alert('Formato de archivo inválido.');
-                    }
-                } catch (err) {
-                    alert('Error al leer el archivo JSON.');
+        /* =========================================
+           TABS SWITCHING
+           ========================================= */
+        function switchTab(tab) {
+            const tabs = ['proyectos', 'dashboard'];
+            tabs.forEach(t => {
+                document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+                const view = document.getElementById(t === 'proyectos' ? 'projectsView' : 'dashboardView');
+                if (t === tab) {
+                    view.style.display = 'block';
+                    requestAnimationFrame(() => { view.classList.add('active'); });
+                } else {
+                    view.classList.remove('active');
+                    view.style.display = 'none';
                 }
-            };
-            reader.readAsText(file);
-            event.target.value = ''; // Reset input
+            });
+            if (tab === 'dashboard') renderDashboard();
         }
 
         /* =========================================
-           SYNC MASIVO (para importación)
+           DASHBOARD LOGIC
            ========================================= */
-        async function syncAllToApi() {
-            let allOk = true;
-            for (const p of projects) {
-                const ok = await apiSave(p);
-                if (!ok) { allOk = false; break; }
-            }
-            updateSyncBadge(allOk);
+        const WEEKLY_META_KEY = 'cg_weekly_meta';
+
+        function getWeeklyMeta() {
+            return parseInt(localStorage.getItem(WEEKLY_META_KEY)) || 5;
         }
+
+        function setWeeklyMeta(val) {
+            const n = Math.max(1, parseInt(val) || 5);
+            localStorage.setItem(WEEKLY_META_KEY, n);
+            return n;
+        }
+
+        function getISOWeekRange() {
+            const now = new Date();
+            const day = now.getDay(); // 0=Sun
+            const diffToMonday = (day === 0 ? -6 : 1) - day;
+            const monday = new Date(now);
+            monday.setDate(now.getDate() + diffToMonday);
+            monday.setHours(0, 0, 0, 0);
+            const sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
+            sunday.setHours(23, 59, 59, 999);
+            return { monday, sunday };
+        }
+
+        function calculateGlobalStats() {
+            const total = projects.length;
+            const pendientes = projects.filter(p => p.estado_preparacion === 'Pendiente').length;
+            const enTrabajo = projects.filter(p => p.estado_preparacion === 'En trabajo').length;
+            const presentados = projects.filter(p => p.estado_preparacion === 'Presentado').length;
+            return { total, pendientes, enTrabajo, presentados };
+        }
+
+        function calculateWeeklyStats() {
+            const { monday, sunday } = getISOWeekRange();
+            const meta = getWeeklyMeta();
+            const presentadosEstaSemana = projects.filter(p => {
+                if (p.estado_preparacion !== 'Presentado' || !p.fecha_presentacion) return false;
+                const d = new Date(p.fecha_presentacion + 'T00:00:00');
+                return d >= monday && d <= sunday;
+            }).length;
+            return { presentadosEstaSemana, meta };
+        }
+
+        function calculateTramiteStats() {
+            const presentados = projects.filter(p => p.estado_preparacion === 'Presentado');
+            const aprobados = presentados.filter(p => p.estado_tramite === 'Aprobado').length;
+            const noAprobados = presentados.filter(p => p.estado_tramite === 'No aprobado').length;
+            const enTramite = presentados.length - aprobados - noAprobados;
+            return { aprobados, noAprobados, enTramite };
+        }
+
+        function calculateMonthlyStats() {
+            const now = new Date();
+            const months = [];
+            for (let i = 11; i >= 0; i--) {
+                const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+                const label = d.toLocaleString('es', { month: 'short', year: '2-digit' });
+                months.push({ key, label, count: 0 });
+            }
+            projects.forEach(p => {
+                if (p.estado_preparacion !== 'Presentado' || !p.fecha_presentacion) return;
+                const parts = p.fecha_presentacion.split('-');
+                const mk = parts[0] + '-' + parts[1];
+                const m = months.find(x => x.key === mk);
+                if (m) m.count++;
+            });
+            return months;
+        }
+
+        function calculateFilteredStats(filtered) {
+            const total = filtered.length;
+            const pendientes = filtered.filter(p => p.estado_preparacion === 'Pendiente').length;
+            const enTrabajo = filtered.filter(p => p.estado_preparacion === 'En trabajo').length;
+            const presentados = filtered.filter(p => p.estado_preparacion === 'Presentado').length;
+            return { total, pendientes, enTrabajo, presentados };
+        }
+
+        function buildKpiCard(number, label, colorClass) {
+            return `<div class="kpi-card ${colorClass}"><div class="kpi-number">${number}</div><div class="kpi-label">${label}</div></div>`;
+        }
+
+        function populateDashMonthFilter() {
+            const sel = document.getElementById('dash-filter-mes');
+            const current = sel.value;
+            const monthsSet = new Set();
+            projects.forEach(p => {
+                if (p.fecha_presentacion) {
+                    const parts = p.fecha_presentacion.split('-');
+                    monthsSet.add(parts[0] + '-' + parts[1]);
+                }
+            });
+            const sorted = [...monthsSet].sort().reverse();
+            let html = '<option value="">Todos</option>';
+            sorted.forEach(m => {
+                const [y, mo] = m.split('-');
+                const d = new Date(parseInt(y), parseInt(mo) - 1, 1);
+                const label = d.toLocaleString('es', { month: 'long', year: 'numeric' });
+                html += `<option value="${m}">${label.charAt(0).toUpperCase() + label.slice(1)}</option>`;
+            });
+            sel.innerHTML = html;
+            if (current && sorted.includes(current)) sel.value = current;
+        }
+
+        function renderDashboard() {
+            // Global KPIs
+            const gs = calculateGlobalStats();
+            document.getElementById('kpi-global').innerHTML =
+                buildKpiCard(gs.total, 'Total proyectos', 'kpi-color-total') +
+                buildKpiCard(gs.pendientes, 'Pendientes', 'kpi-color-pendiente') +
+                buildKpiCard(gs.enTrabajo, 'En trabajo', 'kpi-color-trabajo') +
+                buildKpiCard(gs.presentados, 'Presentados', 'kpi-color-presentado');
+
+            // Weekly
+            const ws = calculateWeeklyStats();
+            const pct = ws.meta > 0 ? Math.min(100, Math.round((ws.presentadosEstaSemana / ws.meta) * 100)) : 0;
+            document.getElementById('weekly-card').innerHTML = `
+                <div class="weekly-header">
+                    <span class="weekly-title">Presentados esta semana</span>
+                    <div class="weekly-meta-edit">
+                        Meta: <input type="number" id="weeklyMetaInput" value="${ws.meta}" min="1" max="99" onchange="onWeeklyMetaChange(this.value)">
+                    </div>
+                </div>
+                <div class="weekly-big">${ws.presentadosEstaSemana} / ${ws.meta}</div>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+                <div class="weekly-hint">Meta sugerida &mdash; solo informativo (${pct}%)</div>
+            `;
+
+            // Tramite KPIs
+            const ts = calculateTramiteStats();
+            document.getElementById('kpi-tramite').innerHTML =
+                buildKpiCard(ts.aprobados, 'Aprobados', 'kpi-color-aprobado') +
+                buildKpiCard(ts.noAprobados, 'No aprobados', 'kpi-color-noaprobado') +
+                buildKpiCard(ts.enTramite, 'En trámite', 'kpi-color-tramite');
+
+            // Populate month filter
+            populateDashMonthFilter();
+
+            // Charts
+            drawBarChart();
+            drawDonutChart(gs);
+
+            // Top Temas
+            renderTopTemas(projects);
+        }
+
+        function onWeeklyMetaChange(val) {
+            setWeeklyMeta(val);
+            renderDashboard();
+        }
+
+        /* =========================================
+           DASHBOARD FILTERS
+           ========================================= */
+        function getDashFilterValues() {
+            return {
+                mes: document.getElementById('dash-filter-mes').value,
+                responsable: document.getElementById('dash-filter-responsable').value,
+                tipo: document.getElementById('dash-filter-tipo').value,
+                estado: document.getElementById('dash-filter-estado').value,
+                tema: document.getElementById('dash-filter-tema').value
+            };
+        }
+
+        function applyDashFilters() {
+            const f = getDashFilterValues();
+            const labels = [];
+            let filtered = [...projects];
+
+            if (f.mes) {
+                filtered = filtered.filter(p => {
+                    if (!p.fecha_presentacion) return false;
+                    const parts = p.fecha_presentacion.split('-');
+                    return (parts[0] + '-' + parts[1]) === f.mes;
+                });
+                const [y, mo] = f.mes.split('-');
+                const d = new Date(parseInt(y), parseInt(mo) - 1, 1);
+                labels.push('Mes: ' + d.toLocaleString('es', { month: 'long', year: 'numeric' }));
+            }
+            if (f.responsable) {
+                filtered = filtered.filter(p => p.responsable === f.responsable);
+                labels.push('Responsable: ' + f.responsable);
+            }
+            if (f.tipo) {
+                filtered = filtered.filter(p => p.tipo === f.tipo);
+                labels.push('Tipo: ' + f.tipo);
+            }
+            if (f.estado) {
+                filtered = filtered.filter(p => p.estado_preparacion === f.estado);
+                labels.push('Estado: ' + f.estado);
+            }
+            if (f.tema) {
+                filtered = filtered.filter(p => p.area_tema === f.tema);
+                labels.push('Tema: ' + f.tema);
+            }
+
+            const textEl = document.getElementById('dash-applied-text');
+            const section = document.getElementById('dash-filtered-section');
+
+            if (labels.length === 0) {
+                textEl.textContent = 'Sin filtros';
+                section.style.display = 'none';
+                renderTopTemas(projects);
+                document.getElementById('top-temas-title').textContent = 'Top Temas (total general)';
+                return;
+            }
+
+            textEl.innerHTML = '<strong>Filtros aplicados:</strong> ' + labels.join(' | ');
+            const fs = calculateFilteredStats(filtered);
+            document.getElementById('kpi-filtered').innerHTML =
+                buildKpiCard(fs.total, 'Total', 'kpi-color-total') +
+                buildKpiCard(fs.pendientes, 'Pendientes', 'kpi-color-pendiente') +
+                buildKpiCard(fs.enTrabajo, 'En trabajo', 'kpi-color-trabajo') +
+                buildKpiCard(fs.presentados, 'Presentados', 'kpi-color-presentado');
+            section.style.display = 'block';
+            renderTopTemas(filtered);
+            document.getElementById('top-temas-title').textContent = 'Top Temas (vista filtrada)';
+        }
+
+        function renderTopTemas(dataSet) {
+            const temaMap = {};
+            dataSet.forEach(p => {
+                const tema = (p.area_tema || '').trim();
+                if (!tema) return;
+                if (!temaMap[tema]) temaMap[tema] = { total: 0, presentados: 0, pendientes: 0, enTrabajo: 0 };
+                temaMap[tema].total++;
+                if (p.estado_preparacion === 'Presentado') temaMap[tema].presentados++;
+                else if (p.estado_preparacion === 'En trabajo') temaMap[tema].enTrabajo++;
+                else temaMap[tema].pendientes++;
+            });
+            const sorted = Object.entries(temaMap).sort((a, b) => b[1].total - a[1].total);
+            const tbody = document.getElementById('top-temas-body');
+            if (sorted.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:1.5rem;">Sin datos de temas.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = sorted.map(([tema, s]) => `
+                <tr>
+                    <td class="tema-name">${tema}</td>
+                    <td><strong>${s.total}</strong></td>
+                    <td><span class="badge badge-presentado">${s.presentados}</span></td>
+                    <td><span class="badge badge-pendiente">${s.pendientes}</span></td>
+                    <td><span class="badge badge-trabajo">${s.enTrabajo}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function clearDashFilters() {
+            document.getElementById('dash-filter-mes').value = '';
+            document.getElementById('dash-filter-responsable').value = '';
+            document.getElementById('dash-filter-tipo').value = '';
+            document.getElementById('dash-filter-estado').value = '';
+            document.getElementById('dash-filter-tema').value = '';
+            document.getElementById('dash-applied-text').textContent = 'Sin filtros';
+            document.getElementById('dash-filtered-section').style.display = 'none';
+            renderTopTemas(projects);
+        }
+
+        /* =========================================
+           CHARTS (Canvas nativo)
+           ========================================= */
+        function drawBarChart() {
+            const canvas = document.getElementById('chartBarMonthly');
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const w = rect.width - 48; // padding
+            canvas.width = w * dpr;
+            canvas.height = 260 * dpr;
+            canvas.style.width = w + 'px';
+            canvas.style.height = '260px';
+            ctx.scale(dpr, dpr);
+
+            const months = calculateMonthlyStats();
+            const maxVal = Math.max(1, ...months.map(m => m.count));
+
+            const padL = 36, padR = 12, padT = 16, padB = 50;
+            const chartW = w - padL - padR;
+            const chartH = 260 - padT - padB;
+            const barW = Math.min(36, (chartW / months.length) - 6);
+            const gap = (chartW - barW * months.length) / (months.length);
+
+            ctx.clearRect(0, 0, w, 260);
+
+            // Y gridlines
+            ctx.strokeStyle = '#E7E8FF';
+            ctx.lineWidth = 1;
+            ctx.fillStyle = '#6E6E74';
+            ctx.font = '11px Outfit, sans-serif';
+            ctx.textAlign = 'right';
+            const steps = Math.min(maxVal, 5);
+            for (let i = 0; i <= steps; i++) {
+                const val = Math.round((maxVal / steps) * i);
+                const y = padT + chartH - (chartH * val / maxVal);
+                ctx.beginPath();
+                ctx.moveTo(padL, y);
+                ctx.lineTo(w - padR, y);
+                ctx.stroke();
+                ctx.fillText(val, padL - 6, y + 4);
+            }
+
+            // Bars
+            months.forEach((m, i) => {
+                const x = padL + i * (barW + gap) + gap / 2;
+                const barH = m.count > 0 ? (chartH * m.count / maxVal) : 0;
+                const y = padT + chartH - barH;
+
+                // Gradient bar
+                const grad = ctx.createLinearGradient(x, y, x, padT + chartH);
+                grad.addColorStop(0, '#EA3C88');
+                grad.addColorStop(1, '#1768C5');
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                if (barH > 4) {
+                    ctx.moveTo(x + 4, y);
+                    ctx.lineTo(x + barW - 4, y);
+                    ctx.quadraticCurveTo(x + barW, y, x + barW, y + 4);
+                    ctx.lineTo(x + barW, y + barH);
+                    ctx.lineTo(x, y + barH);
+                    ctx.lineTo(x, y + 4);
+                    ctx.quadraticCurveTo(x, y, x + 4, y);
+                } else {
+                    ctx.rect(x, y, barW, barH);
+                }
+                ctx.fill();
+
+                // Count on top
+                if (m.count > 0) {
+                    ctx.fillStyle = '#2C2C31';
+                    ctx.font = 'bold 11px Outfit, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(m.count, x + barW / 2, y - 4);
+                }
+
+                // X label
+                ctx.fillStyle = '#6E6E74';
+                ctx.font = '10px Outfit, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.save();
+                ctx.translate(x + barW / 2, padT + chartH + 14);
+                ctx.rotate(-0.5);
+                ctx.fillText(m.label, 0, 0);
+                ctx.restore();
+            });
+        }
+
+        function drawDonutChart(stats) {
+            const canvas = document.getElementById('chartDonut');
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const size = Math.min(rect.width - 32, 240);
+            canvas.width = size * dpr;
+            canvas.height = size * dpr;
+            canvas.style.width = size + 'px';
+            canvas.style.height = size + 'px';
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, size, size);
+
+            if (!stats) stats = calculateGlobalStats();
+            const data = [
+                { value: stats.pendientes, color: '#9CA3AF', label: 'Pendiente' },
+                { value: stats.enTrabajo, color: '#3B82F6', label: 'En trabajo' },
+                { value: stats.presentados, color: '#10B981', label: 'Presentado' }
+            ];
+            const total = data.reduce((s, d) => s + d.value, 0);
+            if (total === 0) {
+                ctx.fillStyle = '#E7E8FF';
+                ctx.beginPath();
+                ctx.arc(size / 2, size / 2, size * 0.38, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.arc(size / 2, size / 2, size * 0.22, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#6E6E74';
+                ctx.font = '13px Outfit, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Sin datos', size / 2, size / 2 + 5);
+                return;
+            }
+
+            const cx = size / 2, cy = size / 2;
+            const outerR = size * 0.38, innerR = size * 0.22;
+            let startAngle = -Math.PI / 2;
+
+            data.forEach(d => {
+                if (d.value === 0) return;
+                const sliceAngle = (d.value / total) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.arc(cx, cy, outerR, startAngle, startAngle + sliceAngle);
+                ctx.arc(cx, cy, innerR, startAngle + sliceAngle, startAngle, true);
+                ctx.closePath();
+                ctx.fillStyle = d.color;
+                ctx.fill();
+                startAngle += sliceAngle;
+            });
+
+            // Center text
+            ctx.fillStyle = '#2C2C31';
+            ctx.font = 'bold 22px Outfit, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(total, cx, cy + 2);
+            ctx.font = '11px Outfit, sans-serif';
+            ctx.fillStyle = '#6E6E74';
+            ctx.fillText('Total', cx, cy + 18);
+
+            // Legend below
+            let legendY = cy + outerR + 20;
+            ctx.font = '11px Outfit, sans-serif';
+            data.forEach(d => {
+                if (d.value === 0) return;
+                ctx.fillStyle = d.color;
+                ctx.fillRect(cx - 50, legendY - 8, 10, 10);
+                ctx.fillStyle = '#2C2C31';
+                ctx.textAlign = 'left';
+                ctx.fillText(`${d.label}: ${d.value}`, cx - 34, legendY);
+                legendY += 16;
+            });
+        }
+
+        // Redraw charts on resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (document.getElementById('dashboardView').classList.contains('active')) {
+                    drawBarChart();
+                    drawDonutChart();
+                }
+            }, 200);
+        });
 
         /* =========================================
            MOBILE COMPACT BAR (scroll listener)
