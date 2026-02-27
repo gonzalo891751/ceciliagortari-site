@@ -6,3 +6,7 @@ pages_build_output_dir = "dist"
 binding = "DB"
 database_name = "gestionproyectos"
 database_id = "72124dc1-c97a-45c6-8f75-006d9ca62714"
+
+[[r2_buckets]]
+binding = "PROJECTS_BUCKET"
+bucket_name = "ceciliagortari-projects"

@@ -232,6 +232,116 @@ permalink: gestionproyectos/index.html
         .footer-right { display: flex; gap: 0.5rem; }
 
         /* =========================================
+           7b. MODAL TABS
+           ========================================= */
+        .modal-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-light);
+            padding: 0 1.5rem;
+            background: var(--bg-surface);
+        }
+        .modal-tab-btn {
+            padding: 0.7rem 1.2rem;
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+            margin-bottom: -2px;
+        }
+        .modal-tab-btn:hover:not(:disabled) { color: var(--blue); }
+        .modal-tab-btn.active {
+            color: var(--blue);
+            border-bottom-color: var(--magenta);
+        }
+        .modal-tab-btn:disabled {
+            color: var(--border-light);
+            cursor: not-allowed;
+        }
+        .modal-tab-panel { display: none; }
+        .modal-tab-panel.active { display: block; }
+
+        /* =========================================
+           7c. DOCUMENT UPLOAD ZONE
+           ========================================= */
+        .upload-section { margin-bottom: 1.5rem; }
+        .upload-section-title {
+            font-size: 0.9rem; font-weight: 600; color: var(--blue);
+            margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .upload-zone {
+            border: 2px dashed var(--border-light); border-radius: var(--radius-md);
+            padding: 1.5rem; text-align: center; cursor: pointer;
+            transition: border-color 0.2s, background 0.2s; background: var(--bg-body);
+        }
+        .upload-zone:hover { border-color: var(--blue); background: rgba(23,104,197,0.03); }
+        .upload-zone.dragging { border-color: var(--magenta); background: rgba(234,60,136,0.05); }
+        .upload-zone-text { font-size: 0.85rem; color: var(--text-muted); }
+        .upload-zone-text strong { color: var(--blue); }
+        .doc-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.75rem; border: 1px solid var(--border-light);
+            border-radius: var(--radius-md); margin-bottom: 0.5rem; background: var(--bg-surface);
+        }
+        .doc-item-info { display: flex; align-items: center; gap: 0.75rem; min-width: 0; flex: 1; }
+        .doc-item-icon {
+            width: 32px; height: 32px; border-radius: var(--radius-md);
+            background: var(--badge-blue-bg); display: flex; align-items: center;
+            justify-content: center; flex-shrink: 0;
+        }
+        .doc-item-details { min-width: 0; }
+        .doc-item-name {
+            font-size: 0.85rem; font-weight: 600; color: var(--text-main);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;
+        }
+        .doc-item-meta { font-size: 0.75rem; color: var(--text-muted); }
+        .doc-item-actions { display: flex; gap: 0.25rem; flex-shrink: 0; }
+        .upload-progress { margin-top: 0.75rem; display: none; }
+        .upload-progress.active { display: block; }
+        .upload-progress-bar { height: 4px; background: var(--border-light); border-radius: 2px; overflow: hidden; }
+        .upload-progress-fill {
+            height: 100%; background: linear-gradient(90deg, var(--blue), var(--magenta));
+            border-radius: 2px; transition: width 0.3s; width: 0%;
+        }
+        .upload-progress-text { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+        /* =========================================
+           7d. TABLE DOC BADGES
+           ========================================= */
+        .doc-badge {
+            display: inline-flex; align-items: center; gap: 0.25rem;
+            font-size: 0.7rem; font-weight: 600; padding: 0.15rem 0.4rem;
+            border-radius: var(--radius-full); vertical-align: middle; margin-left: 0.35rem;
+        }
+        .doc-badge-main { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+        .doc-badge-materials { background: var(--badge-purple-bg); color: var(--badge-purple-text); }
+        .doc-badge svg { width: 12px; height: 12px; }
+
+        /* =========================================
+           7e. PREVIEW MODAL
+           ========================================= */
+        .preview-container {
+            width: 100%; min-height: 400px; display: flex; align-items: center;
+            justify-content: center; background: var(--bg-body); border-radius: var(--radius-md); overflow: hidden;
+        }
+        .preview-container iframe { width: 100%; height: 70vh; border: none; border-radius: var(--radius-md); }
+        .preview-container img { max-width: 100%; max-height: 70vh; object-fit: contain; }
+        .no-preview { text-align: center; padding: 3rem; color: var(--text-muted); }
+        .no-preview svg { width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.4; }
+
+        /* =========================================
+           7f. SORTABLE HEADERS
+           ========================================= */
+        th.sortable { cursor: pointer; user-select: none; }
+        th.sortable:hover { color: var(--blue); }
+        .sort-indicator { font-size: 0.7rem; margin-left: 0.25rem; opacity: 0.4; }
+        th.sortable.sort-active .sort-indicator { opacity: 1; color: var(--magenta); }
+
+        /* =========================================
            8. RESPONSIVE
            ========================================= */
         /* =========================================
@@ -246,10 +356,14 @@ permalink: gestionproyectos/index.html
             .cards-container { display: block; }
             .header { padding: 1rem; position: static; }
             .header-top { flex-direction: column; align-items: flex-start; }
-            .header-controls { width: 100%; }
+            .header-controls { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+            .header-controls .save-indicator { grid-column: 1 / -1; justify-content: center; }
+            .header-controls .btn-primary { grid-column: 1 / -1; }
+            .header-controls .search-bar { grid-column: 1 / -1; }
             .search-bar { width: 100%; }
             .form-grid { grid-template-columns: 1fr; }
             main { padding: 1rem; }
+            .doc-item-name { max-width: 150px; }
 
             #mobileCompactBar {
                 display: flex;
@@ -646,11 +760,11 @@ permalink: gestionproyectos/index.html
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Proyecto</th>
-                                <th>Tipo & Área</th>
-                                <th>Responsable</th>
-                                <th>Preparación</th>
-                                <th>Fechas (Creación / Obj)</th>
+                                <th class="sortable" onclick="toggleSort('titulo')">Proyecto <span class="sort-indicator">▲▼</span></th>
+                                <th class="sortable" onclick="toggleSort('tipo')">Tipo & Área <span class="sort-indicator">▲▼</span></th>
+                                <th class="sortable" onclick="toggleSort('responsable')">Responsable <span class="sort-indicator">▲▼</span></th>
+                                <th class="sortable" onclick="toggleSort('estado_preparacion')">Preparación <span class="sort-indicator">▲▼</span></th>
+                                <th class="sortable" onclick="toggleSort('fecha_objetivo_presentacion')">Fechas <span class="sort-indicator">▲▼</span></th>
                                 <th style="text-align:right">Acciones</th>
                             </tr>
                         </thead>
@@ -666,12 +780,12 @@ permalink: gestionproyectos/index.html
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Proyecto</th>
-                                <th>Tipo & Área</th>
-                                <th>Responsable</th>
+                                <th class="sortable" onclick="toggleSort('titulo')">Proyecto <span class="sort-indicator">▲▼</span></th>
+                                <th class="sortable" onclick="toggleSort('tipo')">Tipo & Área <span class="sort-indicator">▲▼</span></th>
+                                <th class="sortable" onclick="toggleSort('responsable')">Responsable <span class="sort-indicator">▲▼</span></th>
                                 <th>Trámite</th>
-                                <th>Fechas</th>
-                                <th>Actualizado</th>
+                                <th class="sortable" onclick="toggleSort('fecha_presentacion')">Fechas <span class="sort-indicator">▲▼</span></th>
+                                <th class="sortable" onclick="toggleSort('updated_at')">Actualizado <span class="sort-indicator">▲▼</span></th>
                             </tr>
                         </thead>
                         <tbody id="tbody-presentados"></tbody>
@@ -795,94 +909,181 @@ permalink: gestionproyectos/index.html
         </main>
     </div>
 
-    <!-- MODAL NUEVO/EDITAR (Principal) -->
+    <!-- MODAL NUEVO/EDITAR (Principal) con Tabs -->
     <div class="modal-overlay" id="project-modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width:650px;">
             <div class="modal-header">
                 <h3 id="modal-title">Nuevo Proyecto</h3>
                 <button class="close-btn" onclick="closeModal('project-modal')">&times;</button>
             </div>
-            <div class="modal-body">
-                <form id="project-form" class="form-grid">
-                    <input type="hidden" id="f-id">
+            <div class="modal-tabs">
+                <button class="modal-tab-btn active" id="mtab-datos" onclick="switchModalTab('datos')">Datos</button>
+                <button class="modal-tab-btn" id="mtab-documentos" onclick="switchModalTab('documentos')" disabled>Documentos</button>
+            </div>
+            <!-- TAB: DATOS -->
+            <div class="modal-tab-panel active" id="mpanel-datos">
+                <div class="modal-body">
+                    <form id="project-form" class="form-grid">
+                        <input type="hidden" id="f-id">
 
-                    <div class="input-group full-width">
-                        <label for="f-titulo">Título del Proyecto *</label>
-                        <input type="text" id="f-titulo" class="input-control" required>
+                        <div class="input-group full-width">
+                            <label for="f-titulo">Título del Proyecto *</label>
+                            <input type="text" id="f-titulo" class="input-control" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="f-tipo">Tipo</label>
+                            <select id="f-tipo" class="input-control">
+                                <option value="Proyecto de Ley">Proyecto de Ley</option>
+                                <option value="Proyecto de Resolución">Proyecto de Resolución</option>
+                                <option value="Proyecto de Declaración">Proyecto de Declaración</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="f-responsable">Responsable</label>
+                            <select id="f-responsable" class="input-control">
+                                <option value="Sin asignar">Sin asignar</option>
+                                <option value="Gonzalo">Gonzalo</option>
+                                <option value="Tomás">Tomás</option>
+                                <option value="Tamara">Tamara</option>
+                                <option value="Rosalina">Rosalina</option>
+                                <option value="Sonia">Sonia</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="f-area">Área / Tema</label>
+                            <input type="text" id="f-area" class="input-control" list="topicSuggestions" placeholder="Ej: Salud, Educación..." autocomplete="off" oninput="checkTopicTypo()">
+                            <datalist id="topicSuggestions"></datalist>
+                            <div class="topic-hint" id="topic-hint"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="f-fecha-obj">Fecha Objetivo (Presentación)</label>
+                            <input type="date" id="f-fecha-obj" class="input-control">
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label for="f-resumen">Resumen</label>
+                            <textarea id="f-resumen" class="input-control" rows="2"></textarea>
+                        </div>
+
+                        <div class="input-group full-width" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 0.5rem;">
+                            <label for="f-estado-prep">Estado de Preparación</label>
+                            <select id="f-estado-prep" class="input-control" onchange="handlePrepChange()">
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En trabajo">En trabajo</option>
+                                <option value="Presentado">Presentado</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group conditional-field" style="display: none;">
+                            <label for="f-fecha-presentacion">Fecha de presentación *</label>
+                            <input type="date" id="f-fecha-presentacion" class="input-control">
+                        </div>
+
+                        <div class="input-group conditional-field" style="display: none;">
+                            <label for="f-estado-tramite">Resultado / Trámite actual</label>
+                            <select id="f-estado-tramite" class="input-control">
+                                <option value="">(Seleccionar)</option>
+                                <option value="En comisiones">En comisiones</option>
+                                <option value="En tratamiento">En tratamiento</option>
+                                <option value="Aprobado">Aprobado</option>
+                                <option value="No aprobado">No aprobado</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="btn-delete" style="display:none;" onclick="quickDelete(null, event)">Eliminar</button>
+                    <div style="flex-grow: 1;"></div>
+                    <div class="footer-right">
+                        <button type="button" class="btn btn-outline" onclick="closeModal('project-modal')">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="saveProject()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+            <!-- TAB: DOCUMENTOS -->
+            <div class="modal-tab-panel" id="mpanel-documentos">
+                <div class="modal-body">
+                    <!-- Documento Principal -->
+                    <div class="upload-section">
+                        <div class="upload-section-title">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                            Documento del Proyecto
+                        </div>
+                        <div id="main-doc-display"></div>
+                        <div id="main-doc-upload">
+                            <div class="upload-zone" id="main-upload-zone" onclick="document.getElementById('main-file-input').click()" aria-label="Subir documento principal">
+                                <input type="file" id="main-file-input" accept=".pdf,.docx" style="display:none" onchange="handleMainUpload(this)">
+                                <svg width="24" height="24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <div class="upload-zone-text" style="margin-top:0.5rem">Click o arrastrá un archivo <strong>PDF o DOCX</strong><br><span style="font-size:0.75rem">Máx. 50MB</span></div>
+                            </div>
+                        </div>
+                        <div class="upload-progress" id="main-upload-progress">
+                            <div class="upload-progress-bar"><div class="upload-progress-fill" id="main-progress-fill"></div></div>
+                            <div class="upload-progress-text" id="main-progress-text">Subiendo...</div>
+                        </div>
                     </div>
 
-                    <div class="input-group">
-                        <label for="f-tipo">Tipo</label>
-                        <select id="f-tipo" class="input-control">
-                            <option value="Proyecto de Ley">Proyecto de Ley</option>
-                            <option value="Proyecto de Resolución">Proyecto de Resolución</option>
-                            <option value="Proyecto de Declaración">Proyecto de Declaración</option>
-                        </select>
+                    <!-- Materiales y Fuentes -->
+                    <div class="upload-section">
+                        <div class="upload-section-title">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                            Materiales y Fuentes
+                        </div>
+                        <div id="materials-list"></div>
+                        <div class="upload-zone" id="materials-upload-zone" onclick="document.getElementById('materials-file-input').click()" aria-label="Subir materiales">
+                            <input type="file" id="materials-file-input" accept=".pdf,.docx,.doc,.xlsx,.xls,.pptx,.ppt,.png,.jpg,.jpeg,.webp,.gif,.txt,.csv,.rtf" multiple style="display:none" onchange="handleMaterialsUpload(this)">
+                            <svg width="24" height="24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            <div class="upload-zone-text" style="margin-top:0.5rem">Click o arrastrá archivos<br><span style="font-size:0.75rem">PDF, DOCX, XLSX, PPTX, imágenes, TXT, CSV... Máx. 50MB c/u</span></div>
+                        </div>
+                        <div class="upload-progress" id="materials-upload-progress">
+                            <div class="upload-progress-bar"><div class="upload-progress-fill" id="materials-progress-fill"></div></div>
+                            <div class="upload-progress-text" id="materials-progress-text">Subiendo...</div>
+                        </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <div style="flex-grow: 1;"></div>
+                    <button type="button" class="btn btn-outline" onclick="closeModal('project-modal')">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <div class="input-group">
-                        <label for="f-responsable">Responsable</label>
-                        <select id="f-responsable" class="input-control">
-                            <option value="Sin asignar">Sin asignar</option>
-                            <option value="Gonzalo">Gonzalo</option>
-                            <option value="Tomás">Tomás</option>
-                            <option value="Tamara">Tamara</option>
-                            <option value="Rosalina">Rosalina</option>
-                            <option value="Sonia">Sonia</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="f-area">Área / Tema</label>
-                        <input type="text" id="f-area" class="input-control" list="topicSuggestions" placeholder="Ej: Salud, Educación..." autocomplete="off" oninput="checkTopicTypo()">
-                        <datalist id="topicSuggestions"></datalist>
-                        <div class="topic-hint" id="topic-hint"></div>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="f-fecha-obj">Fecha Objetivo (Presentación)</label>
-                        <input type="date" id="f-fecha-obj" class="input-control">
-                    </div>
-
-                    <div class="input-group full-width">
-                        <label for="f-resumen">Resumen</label>
-                        <textarea id="f-resumen" class="input-control" rows="2"></textarea>
-                    </div>
-
-                    <div class="input-group full-width" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 0.5rem;">
-                        <label for="f-estado-prep">Estado de Preparación</label>
-                        <select id="f-estado-prep" class="input-control" onchange="handlePrepChange()">
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="En trabajo">En trabajo</option>
-                            <option value="Presentado">Presentado</option>
-                        </select>
-                    </div>
-
-                    <!-- Campos condicionales (Solo si está presentado) -->
-                    <div class="input-group conditional-field" style="display: none;">
-                        <label for="f-fecha-presentacion">Fecha de presentación *</label>
-                        <input type="date" id="f-fecha-presentacion" class="input-control">
-                    </div>
-
-                    <div class="input-group conditional-field" style="display: none;">
-                        <label for="f-estado-tramite">Resultado / Trámite actual</label>
-                        <select id="f-estado-tramite" class="input-control">
-                            <option value="">(Seleccionar)</option>
-                            <option value="En comisiones">En comisiones</option>
-                            <option value="En tratamiento">En tratamiento</option>
-                            <option value="Aprobado">Aprobado</option>
-                            <option value="No aprobado">No aprobado</option>
-                        </select>
-                    </div>
-                </form>
+    <!-- MODAL DOCUMENTOS (desde lista) -->
+    <div class="modal-overlay" id="documents-modal">
+        <div class="modal-content" style="max-width:600px;">
+            <div class="modal-header">
+                <h3 id="docs-modal-title" style="color:var(--blue)">Documentos</h3>
+                <button class="close-btn" onclick="closeModal('documents-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="docs-modal-body">
+                <div style="text-align:center; color:var(--text-muted); padding:2rem;">Cargando...</div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btn-delete" style="display:none;" onclick="quickDelete(null, event)">Eliminar</button>
-                <div style="flex-grow: 1;"></div>
-                <div class="footer-right">
-                    <button type="button" class="btn btn-outline" onclick="closeModal('project-modal')">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveProject()">Guardar</button>
-                </div>
+                <div style="flex-grow:1;"></div>
+                <button type="button" class="btn btn-outline" onclick="closeModal('documents-modal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PREVIEW -->
+    <div class="modal-overlay" id="preview-modal">
+        <div class="modal-content" style="max-width:900px;">
+            <div class="modal-header">
+                <h3 id="preview-modal-title" style="color:var(--blue)">Vista previa</h3>
+                <button class="close-btn" onclick="closeModal('preview-modal')">&times;</button>
+            </div>
+            <div class="modal-body" style="padding:0.5rem;">
+                <div class="preview-container" id="preview-container"></div>
+            </div>
+            <div class="modal-footer">
+                <div style="flex-grow:1;"></div>
+                <button type="button" class="btn btn-outline" onclick="closeModal('preview-modal')">Cerrar</button>
+                <button type="button" class="btn btn-secondary" id="preview-download-btn" onclick="">Descargar</button>
             </div>
         </div>
     </div>
@@ -1403,12 +1604,73 @@ permalink: gestionproyectos/index.html
             }
         }
 
+        /* =========================================
+           SORTING STATE
+           ========================================= */
+        let sortColumn = null;
+        let sortDirection = 'asc';
+
+        function toggleSort(column) {
+            if (sortColumn === column) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = column;
+                sortDirection = 'asc';
+            }
+            renderUI();
+        }
+
+        function applySorting(arr) {
+            if (!sortColumn) return arr;
+            return [...arr].sort((a, b) => {
+                let va = (a[sortColumn] || '').toString().toLowerCase();
+                let vb = (b[sortColumn] || '').toString().toLowerCase();
+                // Date columns
+                if (sortColumn.includes('fecha') || sortColumn.includes('created_at') || sortColumn.includes('updated_at')) {
+                    va = va || '9999';
+                    vb = vb || '9999';
+                }
+                const cmp = va.localeCompare(vb, 'es');
+                return sortDirection === 'asc' ? cmp : -cmp;
+            });
+        }
+
+        function updateSortIndicators() {
+            document.querySelectorAll('th.sortable').forEach(th => {
+                const col = th.getAttribute('onclick').match(/toggleSort\('(\w+)'\)/);
+                if (!col) return;
+                const colName = col[1];
+                const indicator = th.querySelector('.sort-indicator');
+                if (colName === sortColumn) {
+                    th.classList.add('sort-active');
+                    indicator.textContent = sortDirection === 'asc' ? '▲' : '▼';
+                } else {
+                    th.classList.remove('sort-active');
+                    indicator.textContent = '▲▼';
+                }
+            });
+        }
+
+        /* =========================================
+           SVG ICON HELPERS
+           ========================================= */
+        const SVG_ICONS = {
+            checkCircle: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+            user: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
+            trash: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>',
+            download: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>',
+            fileText: '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>',
+            paperclip: '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>',
+            eye: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+            fileLarge: '<svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>',
+        };
+
         function renderUI() {
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
             const filterTipo = document.getElementById('filter-tipo').value;
             const filterResp = document.getElementById('filter-responsable').value;
 
-            // Ordenamiento por actualización
+            // Ordenamiento por actualización (default), luego sorting del usuario
             let filtered = projects.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 
             // Filtros globales
@@ -1422,14 +1684,19 @@ permalink: gestionproyectos/index.html
             });
 
             // Separar en dos tablas
-            const pendientes = filtered.filter(p => p.estado_preparacion !== 'Presentado');
-            const presentados = filtered.filter(p => p.estado_preparacion === 'Presentado');
+            let pendientes = filtered.filter(p => p.estado_preparacion !== 'Presentado');
+            let presentados = filtered.filter(p => p.estado_preparacion === 'Presentado');
+
+            // Apply user sorting
+            pendientes = applySorting(pendientes);
+            presentados = applySorting(presentados);
 
             document.getElementById('count-pendientes').innerText = pendientes.length;
             document.getElementById('count-presentados').innerText = presentados.length;
 
             renderTable('tbody-pendientes', 'cards-pendientes', pendientes, false);
             renderTable('tbody-presentados', 'cards-presentados', presentados, true);
+            updateSortIndicators();
         }
 
         function renderTable(tbodyId, cardsId, dataArray, isPresentadoTable) {
@@ -1450,7 +1717,16 @@ permalink: gestionproyectos/index.html
                 const overdueHtml = overdue ? `<div class="overdue-alert"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Atrasado</div>` : '';
 
                 const tramiteBadge = p.estado_tramite ? `<span class="badge ${getBadgeClass('tramite', p.estado_tramite)}">${p.estado_tramite}</span>` : '<span style="color:#aaa; font-size:0.8rem">-</span>';
-                const respText = (p.responsable && p.responsable !== 'Sin asignar') ? `👤 ${p.responsable}` : '<span style="color:var(--text-muted)">—</span>';
+                const respText = (p.responsable && p.responsable !== 'Sin asignar') ? `${SVG_ICONS.user} ${p.responsable}` : '<span style="color:var(--text-muted)">—</span>';
+
+                // Doc badges
+                const hasMain = p.has_main_doc > 0;
+                const matCount = p.materials_count || 0;
+                let docBadgesHtml = '';
+                if (hasMain) docBadgesHtml += `<span class="doc-badge doc-badge-main" title="Documento cargado">${SVG_ICONS.fileText}</span>`;
+                if (matCount > 0) docBadgesHtml += `<span class="doc-badge doc-badge-materials" title="${matCount} material(es)">${SVG_ICONS.paperclip} ${matCount}</span>`;
+
+                const hasAnyDoc = hasMain || matCount > 0;
 
                 // --- Desktop Row ---
                 const tr = document.createElement('tr');
@@ -1459,7 +1735,7 @@ permalink: gestionproyectos/index.html
                 let tdContent = `
                     <td style="font-weight:600; color:var(--text-muted)">${p.id}</td>
                     <td>
-                        <div class="project-title">${p.titulo}</div>
+                        <div class="project-title">${p.titulo}${docBadgesHtml}</div>
                         <div class="project-desc">${p.resumen || 'Sin resumen'}</div>
                     </td>
                     <td>
@@ -1480,9 +1756,10 @@ permalink: gestionproyectos/index.html
                             ${p.fecha_objetivo_presentacion ? `<div>Obj: <strong>${formatDateOnly(p.fecha_objetivo_presentacion)}</strong></div>` : ''}
                         </td>
                         <td style="text-align:right; white-space:nowrap;">
-                            <button class="btn-icon" title="Proyecto presentado" onclick="openQuickPresentar('${p.id}', event)">✅</button>
-                            <button class="btn-icon" title="Agregar responsable" onclick="openQuickResponsable('${p.id}', event)">👤</button>
-                            <button class="btn-icon" title="Eliminar proyecto" onclick="quickDelete('${p.id}', event)">🗑️</button>
+                            <button class="btn-icon" title="Marcar como presentado" aria-label="Presentar" onclick="openQuickPresentar('${p.id}', event)">${SVG_ICONS.checkCircle}</button>
+                            <button class="btn-icon" title="Asignar responsable" aria-label="Responsable" onclick="openQuickResponsable('${p.id}', event)">${SVG_ICONS.user}</button>
+                            ${hasAnyDoc ? `<button class="btn-icon" title="Ver documentos" aria-label="Documentos" onclick="openDocumentsModal('${p.id}', event)" style="color:var(--blue)">${SVG_ICONS.download}</button>` : ''}
+                            <button class="btn-icon" title="Eliminar proyecto" aria-label="Eliminar" onclick="quickDelete('${p.id}', event)">${SVG_ICONS.trash}</button>
                         </td>
                     `;
                 } else {
@@ -1506,7 +1783,7 @@ permalink: gestionproyectos/index.html
 
                 let cardHtml = `
                     <div class="mobile-card-header">
-                        <span class="mobile-card-id">${p.id}</span>
+                        <span class="mobile-card-id">${p.id}${docBadgesHtml}</span>
                         ${!isPresentadoTable ? `<span class="badge ${getBadgeClass('prep', p.estado_preparacion)}">${p.estado_preparacion}</span>` : tramiteBadge}
                     </div>
                     <div class="project-title">${p.titulo}</div>
@@ -1522,18 +1799,19 @@ permalink: gestionproyectos/index.html
                     cardHtml += `
                         <div class="mobile-card-meta">
                             <span style="font-size:0.75rem; color:var(--text-muted);">Creado: ${formatDateOnly(p.created_at)}</span>
-                            ${p.fecha_objetivo_presentacion ? `<span style="font-size:0.8rem; font-weight:600;">🎯 Obj: ${formatDateOnly(p.fecha_objetivo_presentacion)}</span>` : ''}
+                            ${p.fecha_objetivo_presentacion ? `<span style="font-size:0.8rem; font-weight:600;">Obj: ${formatDateOnly(p.fecha_objetivo_presentacion)}</span>` : ''}
                         </div>
                         <div class="action-container">
-                            <button class="btn-icon" title="Proyecto presentado" onclick="openQuickPresentar('${p.id}', event)">✅</button>
-                            <button class="btn-icon" title="Agregar responsable" onclick="openQuickResponsable('${p.id}', event)">👤</button>
-                            <button class="btn-icon" title="Eliminar proyecto" onclick="quickDelete('${p.id}', event)">🗑️</button>
+                            <button class="btn-icon" title="Marcar como presentado" aria-label="Presentar" onclick="openQuickPresentar('${p.id}', event)">${SVG_ICONS.checkCircle}</button>
+                            <button class="btn-icon" title="Asignar responsable" aria-label="Responsable" onclick="openQuickResponsable('${p.id}', event)">${SVG_ICONS.user}</button>
+                            ${hasAnyDoc ? `<button class="btn-icon" title="Ver documentos" aria-label="Documentos" onclick="openDocumentsModal('${p.id}', event)" style="color:var(--blue)">${SVG_ICONS.download}</button>` : ''}
+                            <button class="btn-icon" title="Eliminar proyecto" aria-label="Eliminar" onclick="quickDelete('${p.id}', event)">${SVG_ICONS.trash}</button>
                         </div>
                     `;
                 } else {
                     cardHtml += `
                         <div class="mobile-card-meta">
-                            <span style="font-size:0.85rem; font-weight:600; color:var(--magenta);">📅 Presentado: ${formatDateOnly(p.fecha_presentacion)}</span>
+                            <span style="font-size:0.85rem; font-weight:600; color:var(--magenta);">Presentado: ${formatDateOnly(p.fecha_presentacion)}</span>
                             <span style="font-size:0.75rem; color:var(--text-muted);">Actualizado: ${formatDateOnly(p.updated_at)}</span>
                         </div>
                     `;
@@ -1554,6 +1832,11 @@ permalink: gestionproyectos/index.html
             document.getElementById('topic-hint').classList.remove('visible');
             handlePrepChange(); // Reset conditional fields
 
+            // Always start on Datos tab
+            switchModalTab('datos');
+
+            const docsTab = document.getElementById('mtab-documentos');
+
             if (id) {
                 document.getElementById('modal-title').innerText = 'Editar Proyecto';
                 document.getElementById('btn-delete').style.display = 'block';
@@ -1573,6 +1856,9 @@ permalink: gestionproyectos/index.html
                     document.getElementById('f-fecha-presentacion').value = p.fecha_presentacion || '';
                     document.getElementById('f-estado-tramite').value = p.estado_tramite || '';
                 }
+
+                // Enable documents tab for existing projects
+                docsTab.disabled = false;
             } else {
                 document.getElementById('modal-title').innerText = 'Nuevo Proyecto';
                 document.getElementById('f-id').value = '';
@@ -1581,6 +1867,9 @@ permalink: gestionproyectos/index.html
                 // Defaults
                 document.getElementById('f-estado-prep').value = 'Pendiente';
                 document.getElementById('f-responsable').value = 'Sin asignar';
+
+                // Disable documents tab for new projects
+                docsTab.disabled = true;
             }
 
             modal.classList.add('active');
@@ -1651,11 +1940,23 @@ permalink: gestionproyectos/index.html
             } else {
                 projectData.id = generateID();
                 projectData.created_at = now;
+                projectData.has_main_doc = 0;
+                projectData.materials_count = 0;
                 projects.push(projectData);
-                closeModal('project-modal');
+
+                // Enable documents tab and set f-id so user can switch to docs
+                document.getElementById('f-id').value = projectData.id;
+                document.getElementById('modal-title').innerText = 'Editar Proyecto';
+                document.getElementById('btn-delete').style.display = 'block';
+                document.getElementById('mtab-documentos').disabled = false;
+
                 refreshTopicSuggestions();
                 renderUI();
                 triggerSave(projectData, false);
+
+                // Don't close modal — let user add documents if they want
+                alert('Proyecto creado. Ahora podés agregar documentos en la pestaña "Documentos".');
+                return;
             }
         }
 
@@ -1892,6 +2193,340 @@ permalink: gestionproyectos/index.html
             updateSyncBadge(apiAvailable);
         }
 
+
+        /* =========================================
+           MODAL TABS (Datos / Documentos)
+           ========================================= */
+        function switchModalTab(tab) {
+            ['datos', 'documentos'].forEach(t => {
+                document.getElementById('mtab-' + t).classList.toggle('active', t === tab);
+                document.getElementById('mpanel-' + t).classList.toggle('active', t === tab);
+            });
+            if (tab === 'documentos') {
+                loadDocumentsTab();
+            }
+        }
+
+        async function loadDocumentsTab() {
+            const projectId = document.getElementById('f-id').value;
+            if (!projectId) return;
+
+            const mainDisplay = document.getElementById('main-doc-display');
+            const mainUpload = document.getElementById('main-doc-upload');
+            const materialsList = document.getElementById('materials-list');
+
+            mainDisplay.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:0.5rem;font-size:0.85rem;">Cargando...</div>';
+            materialsList.innerHTML = '';
+
+            try {
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`);
+                if (!res.ok) throw new Error('Error loading documents');
+                const data = await res.json();
+
+                // Main doc
+                if (data.main) {
+                    mainDisplay.innerHTML = renderDocItem(data.main, projectId, true);
+                    mainUpload.style.display = 'none';
+                } else {
+                    mainDisplay.innerHTML = '';
+                    mainUpload.style.display = 'block';
+                }
+
+                // Materials
+                if (data.materials && data.materials.length > 0) {
+                    materialsList.innerHTML = data.materials.map(m => renderDocItem(m, projectId, false)).join('');
+                } else {
+                    materialsList.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:0.5rem;font-size:0.85rem;">Sin materiales</div>';
+                }
+            } catch (e) {
+                mainDisplay.innerHTML = '<div style="color:var(--badge-red-text);padding:0.5rem;font-size:0.85rem;">Error cargando documentos.</div>';
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes) return '0 B';
+            const units = ['B', 'KB', 'MB', 'GB'];
+            let i = 0;
+            let size = bytes;
+            while (size >= 1024 && i < units.length - 1) { size /= 1024; i++; }
+            return size.toFixed(i > 0 ? 1 : 0) + ' ' + units[i];
+        }
+
+        function canPreview(mimeType) {
+            if (!mimeType) return false;
+            return mimeType === 'application/pdf' || mimeType.startsWith('image/');
+        }
+
+        function renderDocItem(doc, projectId, isMain) {
+            const previewBtn = canPreview(doc.mime_type)
+                ? `<button class="btn-icon" title="Vista previa" aria-label="Vista previa" onclick="openPreview('${projectId}', '${doc.id}', '${doc.mime_type}', '${(doc.original_name || '').replace(/'/g, "\\'")}')">${SVG_ICONS.eye}</button>`
+                : '';
+
+            const downloadUrl = `/api/projects/${encodeURIComponent(projectId)}/documents/${encodeURIComponent(doc.id)}/download`;
+            const deleteAction = isMain
+                ? `deleteMainDoc('${projectId}')`
+                : `deleteMaterial('${projectId}', '${doc.id}')`;
+
+            const replaceBtn = isMain
+                ? `<button class="btn-icon" title="Reemplazar" aria-label="Reemplazar" onclick="document.getElementById('main-file-input').click()"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></button>`
+                : '';
+
+            return `<div class="doc-item">
+                <div class="doc-item-info">
+                    <div class="doc-item-icon">
+                        <svg width="16" height="16" fill="none" stroke="var(--badge-blue-text)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    </div>
+                    <div class="doc-item-details">
+                        <div class="doc-item-name" title="${(doc.original_name || '').replace(/"/g, '&quot;')}">${doc.original_name || 'Sin nombre'}</div>
+                        <div class="doc-item-meta">${formatFileSize(doc.size_bytes)} • ${formatDateOnly(doc.created_at) || ''}</div>
+                    </div>
+                </div>
+                <div class="doc-item-actions">
+                    ${previewBtn}
+                    <a href="${downloadUrl}" class="btn-icon" title="Descargar" aria-label="Descargar" style="text-decoration:none;color:inherit;" onclick="event.stopPropagation()">${SVG_ICONS.download}</a>
+                    ${replaceBtn}
+                    <button class="btn-icon" title="Eliminar" aria-label="Eliminar" onclick="event.stopPropagation();${deleteAction}" style="color:var(--badge-red-text)">${SVG_ICONS.trash}</button>
+                </div>
+            </div>`;
+        }
+
+        /* =========================================
+           DOCUMENT UPLOAD HANDLERS
+           ========================================= */
+        async function handleMainUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const projectId = document.getElementById('f-id').value;
+            if (!projectId) { alert('Guardá el proyecto primero.'); return; }
+
+            const progress = document.getElementById('main-upload-progress');
+            const progressFill = document.getElementById('main-progress-fill');
+            const progressText = document.getElementById('main-progress-text');
+
+            progress.classList.add('active');
+            progressFill.style.width = '30%';
+            progressText.textContent = 'Subiendo...';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                progressFill.style.width = '60%';
+
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/main`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Error al subir');
+
+                progressFill.style.width = '100%';
+                progressText.textContent = 'Subido correctamente';
+
+                // Reload docs tab
+                await loadDocumentsTab();
+                // Update project list doc counts
+                await refreshProjectDocCounts(projectId);
+            } catch (e) {
+                progressText.textContent = 'Error: ' + e.message;
+                progressFill.style.width = '0%';
+            }
+
+            input.value = '';
+            setTimeout(() => { progress.classList.remove('active'); }, 2000);
+        }
+
+        async function handleMaterialsUpload(input) {
+            const files = Array.from(input.files);
+            if (!files.length) return;
+
+            const projectId = document.getElementById('f-id').value;
+            if (!projectId) { alert('Guardá el proyecto primero.'); return; }
+
+            const progress = document.getElementById('materials-upload-progress');
+            const progressFill = document.getElementById('materials-progress-fill');
+            const progressText = document.getElementById('materials-progress-text');
+
+            progress.classList.add('active');
+            progressFill.style.width = '20%';
+            progressText.textContent = `Subiendo ${files.length} archivo(s)...`;
+
+            try {
+                const formData = new FormData();
+                files.forEach(f => formData.append('files', f));
+
+                progressFill.style.width = '60%';
+
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/materials`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Error al subir');
+
+                progressFill.style.width = '100%';
+
+                const msg = [];
+                if (data.uploaded && data.uploaded.length) msg.push(`${data.uploaded.length} subido(s)`);
+                if (data.errors && data.errors.length) msg.push(`${data.errors.length} error(es): ${data.errors.join(', ')}`);
+                progressText.textContent = msg.join(' | ') || 'Listo';
+
+                await loadDocumentsTab();
+                await refreshProjectDocCounts(projectId);
+            } catch (e) {
+                progressText.textContent = 'Error: ' + e.message;
+                progressFill.style.width = '0%';
+            }
+
+            input.value = '';
+            setTimeout(() => { progress.classList.remove('active'); }, 3000);
+        }
+
+        async function deleteMainDoc(projectId) {
+            if (!confirm('¿Eliminar el documento principal?')) return;
+            try {
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/main`, { method: 'DELETE' });
+                if (!res.ok) { const d = await res.json(); throw new Error(d.error || 'Error'); }
+                await loadDocumentsTab();
+                await refreshProjectDocCounts(projectId);
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
+        async function deleteMaterial(projectId, docId) {
+            if (!confirm('¿Eliminar este material?')) return;
+            try {
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/materials/${encodeURIComponent(docId)}`, { method: 'DELETE' });
+                if (!res.ok) { const d = await res.json(); throw new Error(d.error || 'Error'); }
+                await loadDocumentsTab();
+                await refreshProjectDocCounts(projectId);
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
+        async function refreshProjectDocCounts(projectId) {
+            // Fetch updated doc counts and update the in-memory project
+            try {
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`);
+                if (!res.ok) return;
+                const data = await res.json();
+                const p = projects.find(x => x.id === projectId);
+                if (p) {
+                    p.has_main_doc = data.main ? 1 : 0;
+                    p.materials_count = data.materials ? data.materials.length : 0;
+                    renderUI();
+                }
+            } catch (e) { /* ignore */ }
+        }
+
+        /* =========================================
+           DOCUMENTS MODAL (from table action)
+           ========================================= */
+        async function openDocumentsModal(projectId, event) {
+            if (event) event.stopPropagation();
+
+            const modal = document.getElementById('documents-modal');
+            const body = document.getElementById('docs-modal-body');
+            const p = projects.find(x => x.id === projectId);
+
+            document.getElementById('docs-modal-title').textContent = `Documentos — ${p ? p.titulo : projectId}`;
+            body.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:2rem;">Cargando...</div>';
+            modal.classList.add('active');
+
+            try {
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`);
+                if (!res.ok) throw new Error('Error');
+                const data = await res.json();
+
+                let html = '';
+
+                // Main doc
+                html += '<div class="upload-section"><div class="upload-section-title">' + SVG_ICONS.fileText + ' Documento del Proyecto</div>';
+                if (data.main) {
+                    html += renderDocItem(data.main, projectId, true);
+                } else {
+                    html += '<div style="color:var(--text-muted);font-size:0.85rem;padding:0.5rem;">Sin documento principal</div>';
+                }
+                html += '</div>';
+
+                // Materials
+                html += '<div class="upload-section"><div class="upload-section-title">' + SVG_ICONS.paperclip + ' Materiales y Fuentes';
+                if (data.materials && data.materials.length > 0) {
+                    html += ` <span class="badge badge-pendiente">${data.materials.length}</span>`;
+                }
+                html += '</div>';
+                if (data.materials && data.materials.length > 0) {
+                    html += data.materials.map(m => renderDocItem(m, projectId, false)).join('');
+                } else {
+                    html += '<div style="color:var(--text-muted);font-size:0.85rem;padding:0.5rem;">Sin materiales</div>';
+                }
+                html += '</div>';
+
+                body.innerHTML = html;
+            } catch (e) {
+                body.innerHTML = '<div style="color:var(--badge-red-text);padding:2rem;text-align:center;">Error cargando documentos.</div>';
+            }
+        }
+
+        /* =========================================
+           PREVIEW MODAL
+           ========================================= */
+        function openPreview(projectId, docId, mimeType, originalName) {
+            event.stopPropagation();
+
+            const container = document.getElementById('preview-container');
+            const title = document.getElementById('preview-modal-title');
+            const downloadBtn = document.getElementById('preview-download-btn');
+
+            title.textContent = originalName || 'Vista previa';
+
+            const previewUrl = `/api/projects/${encodeURIComponent(projectId)}/documents/${encodeURIComponent(docId)}/preview`;
+            const downloadUrl = `/api/projects/${encodeURIComponent(projectId)}/documents/${encodeURIComponent(docId)}/download`;
+
+            downloadBtn.onclick = () => { window.open(downloadUrl, '_blank'); };
+
+            if (mimeType === 'application/pdf') {
+                container.innerHTML = `<iframe src="${previewUrl}" title="Vista previa PDF"></iframe>`;
+            } else if (mimeType && mimeType.startsWith('image/')) {
+                container.innerHTML = `<img src="${previewUrl}" alt="${originalName || 'imagen'}">`;
+            } else {
+                container.innerHTML = `<div class="no-preview">${SVG_ICONS.fileLarge}<div style="font-size:0.95rem;font-weight:600;margin-bottom:0.5rem;">Sin vista previa disponible</div><div style="font-size:0.85rem;">Este tipo de archivo no se puede previsualizar.</div></div>`;
+            }
+
+            document.getElementById('preview-modal').classList.add('active');
+        }
+
+        /* =========================================
+           DRAG & DROP for upload zones
+           ========================================= */
+        function setupDragDrop(zoneId, inputId) {
+            const zone = document.getElementById(zoneId);
+            if (!zone) return;
+            ['dragenter', 'dragover'].forEach(ev => {
+                zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.add('dragging'); });
+            });
+            ['dragleave', 'drop'].forEach(ev => {
+                zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.remove('dragging'); });
+            });
+            zone.addEventListener('drop', e => {
+                const input = document.getElementById(inputId);
+                if (e.dataTransfer.files.length > 0) {
+                    input.files = e.dataTransfer.files;
+                    input.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+
+        // Setup drag & drop after DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            setupDragDrop('main-upload-zone', 'main-file-input');
+            setupDragDrop('materials-upload-zone', 'materials-file-input');
+        });
 
         /* =========================================
            TABS SWITCHING

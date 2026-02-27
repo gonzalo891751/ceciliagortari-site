@@ -22,8 +22,22 @@ CREATE TABLE IF NOT EXISTS ${TABLE} (
   deleted_at TEXT DEFAULT NULL
 )`;
 
+const CREATE_DOCS_TABLE_SQL = `
+CREATE TABLE IF NOT EXISTS project_documents (
+  id TEXT PRIMARY KEY,
+  project_id TEXT NOT NULL,
+  kind TEXT NOT NULL CHECK(kind IN ('main','material')),
+  original_name TEXT NOT NULL,
+  stored_key TEXT NOT NULL,
+  mime_type TEXT,
+  size_bytes INTEGER,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+)`;
+
 async function ensureTable(db) {
   await db.prepare(CREATE_TABLE_SQL).run();
+  await db.prepare(CREATE_DOCS_TABLE_SQL).run();
 }
 
 export async function onRequestGet(context) {
@@ -33,12 +47,14 @@ export async function onRequestGet(context) {
 
     const { results } = await db
       .prepare(
-        `SELECT id, tipo, titulo, responsable, area_tema, resumen,
-                estado_preparacion, fecha_objetivo_presentacion,
-                fecha_presentacion, estado_tramite, created_at, updated_at
-         FROM ${TABLE}
-         WHERE deleted_at IS NULL
-         ORDER BY updated_at DESC`
+        `SELECT p.id, p.tipo, p.titulo, p.responsable, p.area_tema, p.resumen,
+                p.estado_preparacion, p.fecha_objetivo_presentacion,
+                p.fecha_presentacion, p.estado_tramite, p.created_at, p.updated_at,
+                (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'main') AS has_main_doc,
+                (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'material') AS materials_count
+         FROM ${TABLE} p
+         WHERE p.deleted_at IS NULL
+         ORDER BY p.updated_at DESC`
       )
       .all();
 

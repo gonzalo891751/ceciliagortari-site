@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx eleventy)"
+      "Bash(npx eleventy)",
+      "Bash(chmod +x \"d:/Git/ceciliagortari-site/scripts/deploy-prod.sh\")",
+      "WebFetch(domain:developers.cloudflare.com)"
     ]
   }
 }
