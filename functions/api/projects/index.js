@@ -79,13 +79,12 @@ export async function onRequestPost(context) {
 
     // Validación mínima
     const required = ["id", "tipo", "titulo", "estado_preparacion", "created_at", "updated_at"];
-    for (const field of required) {
-      if (!body[field]) {
-        return new Response(
-          JSON.stringify({ ok: false, error: `Campo requerido: ${field}` }),
-          { status: 400, headers: HEADERS }
-        );
-      }
+    const missing = required.filter((f) => !body[f]);
+    if (missing.length > 0) {
+      return new Response(
+        JSON.stringify({ ok: false, error: `Campos requeridos faltantes: ${missing.join(", ")}`, missing }),
+        { status: 400, headers: HEADERS }
+      );
     }
 
     const project = {

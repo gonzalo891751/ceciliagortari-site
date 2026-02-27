@@ -229,7 +229,11 @@ permalink: gestionproyectos/index.html
             padding: 1.5rem; border-top: 1px solid var(--border-light); display: flex;
             justify-content: space-between; background: var(--bg-body);
         }
-        .footer-right { display: flex; gap: 0.5rem; }
+        .footer-right { display: flex; gap: 0.5rem; align-items: center; }
+        .save-error-msg { display: none; color: var(--badge-red-text); background: var(--badge-red-bg); padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.82rem; margin-right: auto; max-width: 60%; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spin-icon { animation: spin 0.8s linear infinite; }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
 
         /* =========================================
            7b. MODAL TABS
@@ -1057,10 +1061,11 @@ permalink: gestionproyectos/index.html
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" id="btn-delete" style="display:none;" onclick="quickDelete(null, event)">Eliminar</button>
+                    <div id="save-error-msg" class="save-error-msg"></div>
                     <div style="flex-grow: 1;"></div>
                     <div class="footer-right">
                         <button type="button" class="btn btn-outline" onclick="closeModal('project-modal')">Cancelar</button>
-                        <button type="button" class="btn btn-primary" onclick="saveProject()">Guardar</button>
+                        <button type="button" class="btn btn-primary" id="btn-save-project" onclick="saveProject()">Guardar cambios</button>
                     </div>
                 </div>
             </div>
@@ -1245,6 +1250,7 @@ permalink: gestionproyectos/index.html
         const AUTH_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 días
 
         let projects = [];
+        let _savingInProgress = false;
         let debounceTimer;
         let syncTimer;
         let apiAvailable = false;
@@ -1452,12 +1458,18 @@ permalink: gestionproyectos/index.html
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(project)
                 });
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                if (!res.ok) {
+                    let detail = `HTTP ${res.status}`;
+                    try { const j = await res.json(); detail = j.error || detail; } catch(_){}
+                    apiAvailable = true;
+                    return { ok: false, error: detail };
+                }
+                const data = await res.json();
                 apiAvailable = true;
-                return true;
+                return { ok: true, project: data.project };
             } catch (e) {
                 apiAvailable = false;
-                return false;
+                return { ok: false, error: 'Sin conexión al servidor' };
             }
         }
 
@@ -1528,30 +1540,42 @@ permalink: gestionproyectos/index.html
 
         function triggerSave(changedProject, isDelete) {
             const indicator = document.getElementById('save-indicator');
-            indicator.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Guardando...`;
+            indicator.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="spin-icon"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Guardando...`;
             indicator.style.color = 'var(--blue)';
 
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(async () => {
+                _savingInProgress = true;
                 // Siempre guardar en localStorage
                 localStorage.setItem(DB_KEY, JSON.stringify(projects));
 
                 // Intentar sincronizar con API
                 let synced = false;
+                let errorMsg = '';
                 if (changedProject && isDelete) {
                     synced = await apiDelete(changedProject);
                 } else if (changedProject) {
-                    synced = await apiSave(changedProject);
+                    // Asegurar payload completo para quick actions
+                    if (changedProject.id && !changedProject.created_at) {
+                        changedProject.created_at = changedProject.updated_at || new Date().toISOString();
+                    }
+                    const result = await apiSave(changedProject);
+                    synced = result.ok;
+                    if (!result.ok) errorMsg = result.error;
                 }
 
                 if (synced) {
                     indicator.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Sincronizado`;
                     indicator.style.color = 'var(--badge-green-text)';
+                } else if (errorMsg) {
+                    indicator.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle><line x1="12" y1="8" x2="12" y2="12" stroke-width="2"></line><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"></line></svg> Error: ${errorMsg}`;
+                    indicator.style.color = 'var(--badge-red-text)';
                 } else {
-                    indicator.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado local`;
+                    indicator.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle><line x1="12" y1="8" x2="12" y2="12" stroke-width="2"></line><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"></line></svg> Solo local (sin servidor)`;
                     indicator.style.color = 'var(--badge-yellow-text)';
                 }
-                setTimeout(() => { indicator.style.color = 'var(--text-muted)'; }, 3000);
+                _savingInProgress = false;
+                setTimeout(() => { indicator.style.color = 'var(--text-muted)'; }, 5000);
             }, 300);
         }
 
@@ -1565,7 +1589,7 @@ permalink: gestionproyectos/index.html
         function startAutoSync() {
             if (syncTimer) clearInterval(syncTimer);
             syncTimer = setInterval(async () => {
-                if (isAnyModalOpen()) return;
+                if (isAnyModalOpen() || _savingInProgress) return;
                 const remoteData = await apiFetch();
                 if (!remoteData || !Array.isArray(remoteData)) return;
 
@@ -1909,6 +1933,12 @@ permalink: gestionproyectos/index.html
             const form = document.getElementById('project-form');
             form.reset();
             document.getElementById('topic-hint').classList.remove('visible');
+            document.getElementById('save-error-msg').style.display = 'none';
+            const saveBtn = document.getElementById('btn-save-project');
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = 'Guardar cambios';
+            saveBtn.style.background = '';
+            saveBtn.style.color = '';
             handlePrepChange(); // Reset conditional fields
 
             // Always start on Datos tab
@@ -1973,7 +2003,7 @@ permalink: gestionproyectos/index.html
             }
         }
 
-        function saveProject() {
+        async function saveProject() {
             const form = document.getElementById('project-form');
 
             // Validación para fecha de presentación si está presentado
@@ -1993,8 +2023,10 @@ permalink: gestionproyectos/index.html
 
             const id = document.getElementById('f-id').value;
             const now = new Date().toISOString();
+            const isNew = !id;
 
             const projectData = {
+                id: isNew ? generateID() : id,
                 titulo: document.getElementById('f-titulo').value.trim(),
                 tipo: document.getElementById('f-tipo').value,
                 responsable: document.getElementById('f-responsable').value,
@@ -2004,38 +2036,82 @@ permalink: gestionproyectos/index.html
                 fecha_objetivo_presentacion: document.getElementById('f-fecha-obj').value,
                 fecha_presentacion: fechaPresInput.value,
                 estado_tramite: estadoPrep === 'Presentado' ? document.getElementById('f-estado-tramite').value : '',
+                created_at: isNew ? now : (projects.find(p => p.id === id)?.created_at || now),
                 updated_at: now
             };
 
-            if (id) {
-                const index = projects.findIndex(p => p.id === id);
-                if (index > -1) {
-                    projects[index] = { ...projects[index], ...projectData };
-                    closeModal('project-modal');
-                    refreshTopicSuggestions();
-                    renderUI();
-                    triggerSave(projects[index], false);
+            // UX: botón en estado loading
+            const saveBtn = document.getElementById('btn-save-project');
+            const originalHTML = saveBtn.innerHTML;
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="spin-icon"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Guardando…`;
+
+            // Intentar guardar en D1
+            const result = await apiSave(projectData);
+
+            if (result.ok) {
+                // Éxito: actualizar memoria + localStorage + cerrar
+                if (isNew) {
+                    projectData.has_main_doc = 0;
+                    projectData.materials_count = 0;
+                    projects.push(projectData);
+                } else {
+                    const index = projects.findIndex(p => p.id === id);
+                    if (index > -1) {
+                        projects[index] = { ...projects[index], ...projectData };
+                    }
                 }
-            } else {
-                projectData.id = generateID();
-                projectData.created_at = now;
-                projectData.has_main_doc = 0;
-                projectData.materials_count = 0;
-                projects.push(projectData);
-
-                // Enable documents tab and set f-id so user can switch to docs
-                document.getElementById('f-id').value = projectData.id;
-                document.getElementById('modal-title').innerText = 'Editar Proyecto';
-                document.getElementById('btn-delete').style.display = 'block';
-                document.getElementById('mtab-documentos').disabled = false;
-
+                localStorage.setItem(DB_KEY, JSON.stringify(projects));
                 refreshTopicSuggestions();
                 renderUI();
-                triggerSave(projectData, false);
+                updateSyncBadge(true);
 
-                // Don't close modal — let user add documents if they want
-                alert('Proyecto creado. Ahora podés agregar documentos en la pestaña "Documentos".');
-                return;
+                if (isNew) {
+                    // Habilitar pestaña docs y quedarse en el modal
+                    document.getElementById('f-id').value = projectData.id;
+                    document.getElementById('modal-title').innerText = 'Editar Proyecto';
+                    document.getElementById('btn-delete').style.display = 'block';
+                    document.getElementById('mtab-documentos').disabled = false;
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
+                    saveBtn.style.background = 'var(--badge-green-bg)';
+                    saveBtn.style.color = 'var(--badge-green-text)';
+                    setTimeout(() => { saveBtn.innerHTML = originalHTML; saveBtn.style.background = ''; saveBtn.style.color = ''; }, 2000);
+                    alert('Proyecto creado. Ahora podés agregar documentos en la pestaña "Documentos".');
+                } else {
+                    // Edición: feedback rápido y cerrar
+                    saveBtn.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
+                    saveBtn.style.background = 'var(--badge-green-bg)';
+                    saveBtn.style.color = 'var(--badge-green-text)';
+                    setTimeout(() => {
+                        saveBtn.disabled = false;
+                        saveBtn.innerHTML = originalHTML;
+                        saveBtn.style.background = '';
+                        saveBtn.style.color = '';
+                        closeModal('project-modal');
+                    }, 600);
+                }
+            } else {
+                // Error: NO cerrar modal, mostrar error
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalHTML;
+                const errorDiv = document.getElementById('save-error-msg');
+                errorDiv.textContent = `Error al guardar: ${result.error}`;
+                errorDiv.style.display = 'block';
+                setTimeout(() => { errorDiv.style.display = 'none'; }, 8000);
+
+                // Fallback: guardar en localStorage para no perder datos
+                if (isNew) {
+                    projectData.has_main_doc = 0;
+                    projectData.materials_count = 0;
+                    if (!projects.find(p => p.id === projectData.id)) projects.push(projectData);
+                } else {
+                    const index = projects.findIndex(p => p.id === id);
+                    if (index > -1) projects[index] = { ...projects[index], ...projectData };
+                }
+                localStorage.setItem(DB_KEY, JSON.stringify(projects));
+                renderUI();
+                updateSyncBadge(false);
             }
         }
 
