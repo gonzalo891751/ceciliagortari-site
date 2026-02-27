@@ -578,6 +578,9 @@ permalink: gestionproyectos/index.html
                 <label for="pin-input">PIN de seguridad</label>
                 <input type="password" id="pin-input" class="input-control" placeholder="Ingrese el PIN..." onkeyup="if(event.key === 'Enter') login()">
             </div>
+            <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;cursor:pointer;justify-content:center;">
+                <input type="checkbox" id="pin-remember" checked> Recordarme
+            </label>
             <button class="btn btn-primary" style="width: 100%" onclick="login()">Ingresar</button>
         </div>
     </div>
@@ -600,6 +603,7 @@ permalink: gestionproyectos/index.html
                     <button class="btn btn-primary" onclick="openModal()">+ Nuevo</button>
                     <button class="btn btn-outline" id="btn-refresh" onclick="manualRefresh()">&#x21bb; Actualizar</button>
                     <button class="btn btn-outline" onclick="exportReportPDF()">Exportar</button>
+                    <button class="btn btn-outline btn-sm" onclick="logout()" title="Cerrar sesión" style="color:var(--text-muted);">Salir</button>
                 </div>
             </div>
             <div class="header-controls" style="margin-top: 0.5rem;">
@@ -957,6 +961,8 @@ permalink: gestionproyectos/index.html
         const DEFAULT_PIN = '1234';
         const API_BASE = '/api/projects';
         const SYNC_INTERVAL = 30000; // 30 segundos
+        const AUTH_KEY = 'gp_auth_until';
+        const AUTH_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 días
 
         let projects = [];
         let debounceTimer;
@@ -1106,7 +1112,15 @@ permalink: gestionproyectos/index.html
 
         // Inicialización
         window.onload = () => {
-            document.getElementById('pin-input').focus();
+            const authUntil = parseInt(localStorage.getItem(AUTH_KEY));
+            if (authUntil && Date.now() < authUntil) {
+                document.getElementById('pin-screen').style.display = 'none';
+                document.getElementById('app-container').style.display = 'block';
+                loadData();
+            } else {
+                localStorage.removeItem(AUTH_KEY);
+                document.getElementById('pin-input').focus();
+            }
         };
 
         /* =========================================
@@ -1116,12 +1130,23 @@ permalink: gestionproyectos/index.html
             const input = document.getElementById('pin-input').value;
             const validPin = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
             if (input === validPin) {
+                if (document.getElementById('pin-remember').checked) {
+                    localStorage.setItem(AUTH_KEY, String(Date.now() + AUTH_DURATION));
+                }
                 document.getElementById('pin-screen').style.display = 'none';
                 document.getElementById('app-container').style.display = 'block';
                 loadData();
             } else {
                 alert('PIN incorrecto.');
             }
+        }
+
+        function logout() {
+            localStorage.removeItem(AUTH_KEY);
+            document.getElementById('app-container').style.display = 'none';
+            document.getElementById('pin-screen').style.display = 'flex';
+            document.getElementById('pin-input').value = '';
+            document.getElementById('pin-input').focus();
         }
 
         /* =========================================
