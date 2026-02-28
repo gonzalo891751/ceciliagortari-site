@@ -1248,6 +1248,14 @@ permalink: gestionproyectos/index.html
         const SYNC_INTERVAL = 30000; // 30 segundos
         const AUTH_KEY = 'gp_auth_until';
         const AUTH_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 días
+        const ADMIN_KEY_STORAGE = 'gp_admin_api_key';
+
+        function getAdminKey() {
+            return localStorage.getItem(ADMIN_KEY_STORAGE) || '';
+        }
+        function adminHeaders(extra = {}) {
+            return { 'X-Admin-Key': getAdminKey(), ...extra };
+        }
 
         let projects = [];
         let _savingInProgress = false;
@@ -1440,7 +1448,8 @@ permalink: gestionproyectos/index.html
            ========================================= */
         async function apiFetch(projects_from_server) {
             try {
-                const res = await fetch(API_BASE);
+                const res = await fetch(API_BASE, { headers: adminHeaders() });
+                if (res.status === 401) { promptAdminKey(); return null; }
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const data = await res.json();
                 apiAvailable = true;
@@ -1455,9 +1464,10 @@ permalink: gestionproyectos/index.html
             try {
                 const res = await fetch(API_BASE, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: adminHeaders({ 'Content-Type': 'application/json' }),
                     body: JSON.stringify(project)
                 });
+                if (res.status === 401) { promptAdminKey(); return { ok: false, error: 'Clave admin incorrecta' }; }
                 if (!res.ok) {
                     let detail = `HTTP ${res.status}`;
                     try { const j = await res.json(); detail = j.error || detail; } catch(_){}
@@ -1476,14 +1486,24 @@ permalink: gestionproyectos/index.html
         async function apiDelete(id) {
             try {
                 const res = await fetch(`${API_BASE}/${encodeURIComponent(id)}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: adminHeaders()
                 });
+                if (res.status === 401) { promptAdminKey(); return false; }
                 if (!res.ok && res.status !== 404) throw new Error(`HTTP ${res.status}`);
                 apiAvailable = true;
                 return true;
             } catch (e) {
                 apiAvailable = false;
                 return false;
+            }
+        }
+
+        function promptAdminKey() {
+            const key = prompt('Ingresá la clave de administración (API Key):');
+            if (key) {
+                localStorage.setItem(ADMIN_KEY_STORAGE, key.trim());
+                alert('Clave guardada. Recargá la página o intentá nuevamente.');
             }
         }
 
@@ -2414,7 +2434,7 @@ permalink: gestionproyectos/index.html
 
             // Fetch docs async
             try {
-                const res = await fetch(`/api/projects/${encodeURIComponent(id)}/documents`);
+                const res = await fetch(`/api/projects/${encodeURIComponent(id)}/documents`, { headers: adminHeaders() });
                 if (!res.ok) throw new Error('Error');
                 const data = await res.json();
                 const docsArea = document.getElementById('detail-docs-area');
@@ -2510,7 +2530,7 @@ permalink: gestionproyectos/index.html
             materialsList.innerHTML = '';
 
             try {
-                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`);
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`, { headers: adminHeaders() });
                 if (!res.ok) throw new Error('Error loading documents');
                 const data = await res.json();
 
@@ -2607,6 +2627,7 @@ permalink: gestionproyectos/index.html
 
                 const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/main`, {
                     method: 'POST',
+                    headers: adminHeaders(),
                     body: formData,
                 });
 
@@ -2652,6 +2673,7 @@ permalink: gestionproyectos/index.html
 
                 const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/materials`, {
                     method: 'POST',
+                    headers: adminHeaders(),
                     body: formData,
                 });
 
@@ -2679,7 +2701,7 @@ permalink: gestionproyectos/index.html
         async function deleteMainDoc(projectId) {
             if (!confirm('¿Eliminar el documento principal?')) return;
             try {
-                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/main`, { method: 'DELETE' });
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/main`, { method: 'DELETE', headers: adminHeaders() });
                 if (!res.ok) { const d = await res.json(); throw new Error(d.error || 'Error'); }
                 await loadDocumentsTab();
                 await refreshProjectDocCounts(projectId);
@@ -2691,7 +2713,7 @@ permalink: gestionproyectos/index.html
         async function deleteMaterial(projectId, docId) {
             if (!confirm('¿Eliminar este material?')) return;
             try {
-                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/materials/${encodeURIComponent(docId)}`, { method: 'DELETE' });
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/materials/${encodeURIComponent(docId)}`, { method: 'DELETE', headers: adminHeaders() });
                 if (!res.ok) { const d = await res.json(); throw new Error(d.error || 'Error'); }
                 await loadDocumentsTab();
                 await refreshProjectDocCounts(projectId);
@@ -2703,7 +2725,7 @@ permalink: gestionproyectos/index.html
         async function refreshProjectDocCounts(projectId) {
             // Fetch updated doc counts and update the in-memory project
             try {
-                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`);
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`, { headers: adminHeaders() });
                 if (!res.ok) return;
                 const data = await res.json();
                 const p = projects.find(x => x.id === projectId);
@@ -2730,7 +2752,7 @@ permalink: gestionproyectos/index.html
             modal.classList.add('active');
 
             try {
-                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`);
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`, { headers: adminHeaders() });
                 if (!res.ok) throw new Error('Error');
                 const data = await res.json();
 

@@ -1,197 +1,95 @@
 ---
 layout: layouts/base.njk
 title: "Proyectos Legislativos | Cecilia Gortari"
-description: "Proyectos presentados en el Concejo Deliberante de Goya y la Cámara de Diputados de Corrientes por Cecilia Gortari."
+description: "Consultá, leé los fundamentos y descargá los documentos originales de todos los proyectos legislativos presentados por Cecilia Gortari en la Cámara de Diputados de Corrientes."
 ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
 ---
 
-    <!-- Page Header -->
-    <header class="pt-32 pb-12 bg-white">
-        <div class="container text-center">
-            <h1 class="text-brand-blue fade-in"
-                style="background: linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                Proyectos Legislativos</h1>
-            <p class="text-xl text-gray-500 max-w-2xl mx-auto mt-4 fade-in">Iniciativas presentadas para el desarrollo
-                de Goya y Corrientes.</p>
-        </div>
-    </header>
-
-    <!-- Tabs Navigation -->
-    <section class="py-6 bg-white sticky top-16 z-40">
+    <!-- Hero Section -->
+    <section class="pl-hero">
         <div class="container">
-            <nav class="proyectos-nav" role="tablist" aria-label="Selector de proyectos">
-                <button class="proyectos-tab is-active" role="tab" aria-selected="true" data-target="concejo"
-                    id="tab-concejo" aria-controls="panel-concejo">
-                    Concejo Deliberante
-                </button>
-                <button class="proyectos-tab" role="tab" aria-selected="false" data-target="diputados"
-                    id="tab-diputados" aria-controls="panel-diputados">
-                    Diputados Provinciales
-                </button>
-            </nav>
+            <h1>Proyectos Legislativos</h1>
+            <p class="pl-subtitle">Iniciativas presentadas en la Cámara de Diputados de Corrientes.</p>
+            <p class="pl-transparency">Acá podés consultar, leer los fundamentos y descargar los documentos originales de todos los proyectos presentados durante la gestión.</p>
         </div>
     </section>
 
-    <!-- Content Sections -->
-    <main class="section bg-brand-light pb-20">
+    <!-- Filtros -->
+    <section class="pl-filters">
         <div class="container">
-
-            <!-- Panel: Concejo Deliberante -->
-            <section id="concejo" class="proyectos-section-panel is-active" role="tabpanel"
-                aria-labelledby="tab-concejo">
-                <div class="proyectos-section-header">
-                    <h2 class="proyectos-section-title">Concejo Deliberante de Goya (2023–2025)</h2>
-                    <p class="proyectos-section-subtitle">Como Concejala de la ciudad de Goya, trabajé en iniciativas
-                        orientadas a resolver problemáticas concretas de los vecinos y fortalecer la comunidad.</p>
+            <div class="pl-filters-grid">
+                <div class="pl-filter-group pl-search-group">
+                    <label for="plSearchInput">Buscar Proyecto</label>
+                    <svg class="pl-filter-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <input type="text" id="plSearchInput" class="pl-filter-input" placeholder="Título, tema, palabra clave...">
                 </div>
 
-                <div class="concejo-grid">
-                    <!-- Card 1 -->
-                    <article class="concejo-card">
-                        <div class="concejo-card__header">
-                            <span class="concejo-card__category concejo-card__category--ordenanza">Ordenanza</span>
-                            <span class="concejo-card__status concejo-card__status--aprobado">✔ Aprobado</span>
-                        </div>
-                        <h3 class="concejo-card__title">Banco de Herramientas para Emprendedores</h3>
-                        <p class="concejo-card__desc">Creación de un banco municipal de herramientas y equipos de uso
-                            compartido para facilitar el arranque de microemprendimientos locales.</p>
-                    </article>
-
-                    <!-- Card 2 -->
-                    <article class="concejo-card">
-                        <div class="concejo-card__header">
-                            <span class="concejo-card__category concejo-card__category--resolucion">Resolución</span>
-                            <span class="concejo-card__status concejo-card__status--aprobado">✔ Aprobado</span>
-                        </div>
-                        <h3 class="concejo-card__title">Goya Ciudad Donante</h3>
-                        <p class="concejo-card__desc">Adhesión y promoción de campañas de donación de órganos y sangre,
-                            fortaleciendo la cultura solidaria en nuestra comunidad.</p>
-                    </article>
-
-                    <!-- Card 3 -->
-                    <article class="concejo-card">
-                        <div class="concejo-card__header">
-                            <span class="concejo-card__category concejo-card__category--informe">Pedido de
-                                Informe</span>
-                            <span class="concejo-card__status concejo-card__status--presentado">Presentado</span>
-                        </div>
-                        <h3 class="concejo-card__title">Estado de obras y servicios en barrios</h3>
-                        <p class="concejo-card__desc">Solicitud formal de información sobre el avance de obras de
-                            infraestructura y la calidad de servicios públicos en diferentes sectores de la ciudad.</p>
-                    </article>
-
-                    <!-- Card 4 -->
-                    <article class="concejo-card">
-                        <div class="concejo-card__header">
-                            <span class="concejo-card__category concejo-card__category--ordenanza">Ordenanza</span>
-                            <span class="concejo-card__status concejo-card__status--comision">En comisión</span>
-                        </div>
-                        <h3 class="concejo-card__title">Programa de Capacitación en Oficios</h3>
-                        <p class="concejo-card__desc">Creación de un programa municipal de cursos gratuitos en oficios
-                            tradicionales y nuevas tecnologías para jóvenes y adultos.</p>
-                    </article>
-
-                    <!-- Card 5 -->
-                    <article class="concejo-card">
-                        <div class="concejo-card__header">
-                            <span class="concejo-card__category concejo-card__category--resolucion">Resolución</span>
-                            <span class="concejo-card__status concejo-card__status--aprobado">✔ Aprobado</span>
-                        </div>
-                        <h3 class="concejo-card__title">Declaración de Interés: Feria de Emprendedores</h3>
-                        <p class="concejo-card__desc">Declaración de interés municipal para la Feria anual de
-                            Emprendedores Goyanos, apoyando la economía local.</p>
-                    </article>
-
-                    <!-- Card 6 -->
-                    <article class="concejo-card">
-                        <div class="concejo-card__header">
-                            <span class="concejo-card__category concejo-card__category--informe">Pedido de
-                                Informe</span>
-                            <span class="concejo-card__status concejo-card__status--presentado">Presentado</span>
-                        </div>
-                        <h3 class="concejo-card__title">Alumbrado público en zonas periféricas</h3>
-                        <p class="concejo-card__desc">Solicitud de información sobre el estado del alumbrado público y
-                            plan de mantenimiento para barrios periféricos.</p>
-                    </article>
-                </div>
-            </section>
-
-            <!-- Panel: Diputados Provinciales -->
-            <section id="diputados" class="proyectos-section-panel" role="tabpanel" aria-labelledby="tab-diputados">
-                <div class="proyectos-section-header">
-                    <h2 class="proyectos-section-title">Cámara de Diputados de Corrientes (2025– )</h2>
-                    <p class="proyectos-section-subtitle">Como Diputada Provincial, presento proyectos de ley orientados
-                        al desarrollo productivo, educativo e infraestructura de toda la provincia.</p>
+                <div class="pl-filter-group">
+                    <label for="plTipoFilter">Tipo de Proyecto</label>
+                    <select id="plTipoFilter" class="pl-filter-input">
+                        <option value="Todos">Todos</option>
+                        <option value="Proyecto de Ley">Ley</option>
+                        <option value="Proyecto de Resolución">Resolución</option>
+                        <option value="Proyecto de Declaración">Declaración</option>
+                        <option value="Pedido de informe">Pedido de Informe</option>
+                    </select>
                 </div>
 
-                <!-- Search & Filters -->
-                <div class="search-box mb-8">
-                    <input type="text" id="project-search" class="search-input" placeholder="Buscar proyectos...">
-                    <button class="filter-btn active" data-filter="todos">Todos</button>
-                    <button class="filter-btn" data-filter="produccion">Producción</button>
-                    <button class="filter-btn" data-filter="educacion">Educación</button>
-                    <button class="filter-btn" data-filter="infraestructura">Infraestructura</button>
+                <div class="pl-filter-group">
+                    <label for="plAreaFilter">Área</label>
+                    <select id="plAreaFilter" class="pl-filter-input">
+                        <option value="Todas">Todas</option>
+                        <!-- Populated dynamically from API data -->
+                    </select>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="card card--accent-magenta hover-lift fade-in project-card"
-                        data-title="impulso tabacalero" data-category="produccion" data-year="2025">
-                        <span
-                            class="bg-brand-magenta/10 text-brand-magenta text-xs font-bold uppercase px-2 py-1 rounded">Producción</span>
-                        <h3 class="card__title mt-4">Impulso Tabacalero Provincial</h3>
-                        <p class="card__text">Beneficios fiscales para pequeños productores de Goya.</p>
-                        <span class="text-sm text-brand-turquoise font-medium">✔ Aprobado</span>
-                    </div>
-                    <div class="card card--accent-blue hover-lift fade-in project-card" data-title="futuro digital"
-                        data-category="educacion" data-year="2025">
-                        <span
-                            class="bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase px-2 py-1 rounded">Educación</span>
-                        <h3 class="card__title mt-4">Futuro Digital Corrientes</h3>
-                        <p class="card__text">Becas para jóvenes programadores con hardware y cursos.</p>
-                        <span class="text-sm text-brand-orange font-medium">⏳ En comisión</span>
-                    </div>
-                    <div class="card card--accent-turquoise hover-lift fade-in project-card"
-                        data-title="barrios conectados" data-category="infraestructura" data-year="2025">
-                        <span
-                            class="bg-brand-turquoise/10 text-brand-turquoise text-xs font-bold uppercase px-2 py-1 rounded">Infraestructura</span>
-                        <h3 class="card__title mt-4">Barrios Conectados</h3>
-                        <p class="card__text">Mejora de accesos rurales y conectividad escolar.</p>
-                        <span class="text-sm text-brand-turquoise font-medium">✔ Aprobado</span>
-                    </div>
-                    <div class="card card--accent-orange hover-lift fade-in project-card" data-title="fondo emprendedor"
-                        data-category="produccion" data-year="2024">
-                        <span
-                            class="bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase px-2 py-1 rounded">Producción</span>
-                        <h3 class="card__title mt-4">Fondo Emprendedor Correntino</h3>
-                        <p class="card__text">Financiamiento para emprendedores con tasa preferencial.</p>
-                        <span class="text-sm text-brand-turquoise font-medium">✔ Aprobado</span>
-                    </div>
-                    <div class="card card--accent-magenta hover-lift fade-in project-card" data-title="escuelas rurales"
-                        data-category="educacion" data-year="2024">
-                        <span
-                            class="bg-brand-magenta/10 text-brand-magenta text-xs font-bold uppercase px-2 py-1 rounded">Educación</span>
-                        <h3 class="card__title mt-4">Escuelas Rurales Conectadas</h3>
-                        <p class="card__text">Conectividad e infraestructura para escuelas rurales.</p>
-                        <span class="text-sm text-brand-turquoise font-medium">✔ Aprobado</span>
-                    </div>
-                    <div class="card card--accent-blue hover-lift fade-in project-card" data-title="caminos productivos"
-                        data-category="infraestructura" data-year="2024">
-                        <span
-                            class="bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase px-2 py-1 rounded">Infraestructura</span>
-                        <h3 class="card__title mt-4">Caminos Productivos</h3>
-                        <p class="card__text">Mejora de caminos rurales para producción agropecuaria.</p>
-                        <span class="text-sm text-brand-orange font-medium">⏳ En tratamiento</span>
-                    </div>
+                <div class="pl-filter-group">
+                    <label for="plEstadoFilter">Estado</label>
+                    <select id="plEstadoFilter" class="pl-filter-input">
+                        <option value="Todos">Todos</option>
+                        <option value="Aprobado">Aprobado</option>
+                    </select>
                 </div>
-            </section>
+            </div>
+            <div id="plResultsCount" class="pl-results-count">Cargando proyectos...</div>
         </div>
-    </main>
+    </section>
 
-    <!-- CTA Section -->
-    <section class="section section--gradient">
-        <div class="container text-center">
-            <h2 class="text-white mb-6">¿Tenés una idea para un proyecto?</h2>
-            <a href="/contacto/#proponer" class="btn btn--white btn--lg">Proponer un Proyecto</a>
+    <!-- Grilla de Proyectos -->
+    <section class="pl-section">
+        <div class="container">
+            <div id="plProjectsGrid" class="pl-grid">
+                <!-- Loading state -->
+                <div class="pl-loading" id="plLoadingState">
+                    <div class="pl-loading-spinner"></div>
+                    <p>Cargando proyectos...</p>
+                </div>
+            </div>
+
+            <!-- Estado Vacío -->
+            <div id="plEmptyState" class="pl-empty-state" style="display:none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <h3>No se encontraron proyectos</h3>
+                <p>No hay proyectos presentados que coincidan con tu búsqueda.</p>
+                <button class="pl-btn pl-btn-outline" onclick="plResetFilters()">Limpiar filtros</button>
+            </div>
+
+            <!-- Error State -->
+            <div id="plErrorState" class="pl-empty-state" style="display:none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <h3>Error al cargar proyectos</h3>
+                <p>No pudimos obtener los datos. Intentá nuevamente en unos momentos.</p>
+                <button class="pl-btn pl-btn-outline" onclick="plLoadProjects()">Reintentar</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="pl-cta-banner">
+        <div class="container">
+            <h2>¿Tenés una idea para mejorar Corrientes?</h2>
+            <p>La participación ciudadana es clave. Escribinos tu propuesta o inquietud.</p>
+            <a href="/contacto/#proponer" class="pl-btn">Proponer una idea</a>
         </div>
     </section>
 
@@ -202,58 +100,418 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
            onmouseout="this.style.opacity='0.45';this.style.textDecoration='none'">Acceso interno</a>
     </div>
 
+    <!-- Modal de Detalle -->
+    <div id="plModal" class="pl-modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="plModalTitle">
+        <div class="pl-modal-content">
+            <div class="pl-modal-header">
+                <div class="pl-modal-header-info">
+                    <div id="plModalBadges" class="pl-card-badges" style="margin-bottom: 0;"></div>
+                    <h2 id="plModalTitle">Título del Proyecto</h2>
+                </div>
+                <button class="pl-btn-close" aria-label="Cerrar modal" onclick="plCloseModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="pl-modal-body">
+                <div class="pl-modal-section">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9F57A7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                        Resumen del Proyecto
+                    </h3>
+                    <p id="plModalSummary">Texto del resumen completo.</p>
+                    <div id="plModalTramite" class="pl-modal-tramite" style="display:none;"></div>
+                </div>
+
+                <div class="pl-modal-section" id="plModalDocsSection" style="display:none;">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1C5CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                        Documentos y Anexos
+                    </h3>
+                    <div id="plModalDocsList" class="pl-doc-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% block scripts %}
     <script>
-            // Tabs functionality for Proyectos page
-            (function () {
-                const tabs = document.querySelectorAll('.proyectos-tab');
-                const panels = document.querySelectorAll('.proyectos-section-panel');
+    (function() {
+        'use strict';
 
-                function activateTab(targetId) {
-                    // Update tabs
-                    tabs.forEach(tab => {
-                        const isActive = tab.dataset.target === targetId;
-                        tab.classList.toggle('is-active', isActive);
-                        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
-                    });
+        const API_URL = '/api/projects/public';
+        let allProjects = [];
 
-                    // Update panels
-                    panels.forEach(panel => {
-                        const isActive = panel.id === targetId;
-                        panel.classList.toggle('is-active', isActive);
-                    });
+        // DOM references
+        const grid = document.getElementById('plProjectsGrid');
+        const emptyState = document.getElementById('plEmptyState');
+        const errorState = document.getElementById('plErrorState');
+        const loadingState = document.getElementById('plLoadingState');
+        const resultsCount = document.getElementById('plResultsCount');
+        const searchInput = document.getElementById('plSearchInput');
+        const tipoFilter = document.getElementById('plTipoFilter');
+        const areaFilter = document.getElementById('plAreaFilter');
+        const estadoFilter = document.getElementById('plEstadoFilter');
+        const modal = document.getElementById('plModal');
 
-                    // Update URL hash without scrolling
-                    history.replaceState(null, '', '#' + targetId);
-                }
+        // ---- Helpers ----
+        function escapeHtml(str) {
+            if (!str) return '';
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
 
-                // Click handlers
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        activateTab(tab.dataset.target);
-                    });
-                });
+        function getTipoSlug(tipo) {
+            if (!tipo) return 'ley';
+            const t = tipo.toLowerCase();
+            if (t.includes('ley')) return 'ley';
+            if (t.includes('resolución') || t.includes('resolucion')) return 'resolucion';
+            if (t.includes('declaración') || t.includes('declaracion')) return 'declaracion';
+            if (t.includes('informe')) return 'informe';
+            if (t.includes('nota')) return 'nota';
+            return 'ley';
+        }
 
-                // Handle initial hash
-                function handleHash() {
-                    const hash = window.location.hash.slice(1);
-                    if (hash === 'concejo' || hash === 'diputados') {
-                        activateTab(hash);
-                        // Smooth scroll to section
-                        setTimeout(() => {
-                            const target = document.getElementById(hash);
-                            if (target) {
-                                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }
-                        }, 100);
+        function getTipoBadgeClass(tipo) {
+            return 'pl-badge-' + getTipoSlug(tipo);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            try {
+                const date = new Date(dateString + 'T00:00:00');
+                return date.toLocaleDateString('es-AR', { year: 'numeric', month: 'short', day: 'numeric' });
+            } catch (e) {
+                return dateString;
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes || bytes === 0) return '';
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        function toTitleCase(str) {
+            if (!str) return '';
+            return str.trim().replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        }
+
+        // ---- Data Loading ----
+        async function loadProjects() {
+            loadingState.style.display = '';
+            emptyState.style.display = 'none';
+            errorState.style.display = 'none';
+            grid.style.display = '';
+
+            try {
+                const res = await fetch(API_URL);
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                allProjects = await res.json();
+
+                // Populate area filter dynamically
+                populateAreaFilter();
+
+                // Initial render
+                filterAndRender();
+            } catch (e) {
+                loadingState.style.display = 'none';
+                grid.style.display = 'none';
+                errorState.style.display = '';
+                resultsCount.textContent = 'Error al cargar proyectos.';
+            }
+        }
+        // Expose for retry button
+        window.plLoadProjects = loadProjects;
+
+        function populateAreaFilter() {
+            const areasSet = new Map();
+            allProjects.forEach(function(p) {
+                if (p.area_tema && p.area_tema.trim()) {
+                    const normalized = toTitleCase(p.area_tema.trim());
+                    const key = normalized.toLowerCase();
+                    if (!areasSet.has(key)) {
+                        areasSet.set(key, normalized);
                     }
                 }
+            });
 
-                // Run on load
-                handleHash();
+            // Sort alphabetically
+            const sorted = Array.from(areasSet.values()).sort(function(a, b) {
+                return a.localeCompare(b, 'es');
+            });
 
-                // Listen for hash changes
-                window.addEventListener('hashchange', handleHash);
-            })();
+            // Rebuild select keeping "Todas" as first option
+            areaFilter.innerHTML = '<option value="Todas">Todas</option>';
+            sorted.forEach(function(area) {
+                var opt = document.createElement('option');
+                opt.value = area;
+                opt.textContent = area;
+                areaFilter.appendChild(opt);
+            });
+        }
+
+        // ---- Filtering & Rendering ----
+        function filterAndRender() {
+            var q = searchInput.value.toLowerCase().trim();
+            var tipo = tipoFilter.value;
+            var area = areaFilter.value;
+            var estado = estadoFilter.value;
+
+            var filtered = allProjects.filter(function(p) {
+                var matchSearch = !q ||
+                    (p.titulo && p.titulo.toLowerCase().includes(q)) ||
+                    (p.resumen && p.resumen.toLowerCase().includes(q)) ||
+                    (p.id && p.id.toLowerCase().includes(q)) ||
+                    (p.area_tema && p.area_tema.toLowerCase().includes(q));
+
+                var matchTipo = tipo === 'Todos' || p.tipo === tipo;
+
+                var matchArea = area === 'Todas' ||
+                    (p.area_tema && toTitleCase(p.area_tema.trim()).toLowerCase() === area.toLowerCase());
+
+                var matchEstado = estado === 'Todos' ||
+                    (estado === 'Aprobado' && p.estado_tramite === 'Aprobado');
+
+                return matchSearch && matchTipo && matchArea && matchEstado;
+            });
+
+            renderProjects(filtered);
+        }
+
+        function renderProjects(projects) {
+            // Clear
+            grid.innerHTML = '';
+            loadingState.style.display = 'none';
+
+            if (projects.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = '';
+                resultsCount.textContent = '0 proyectos encontrados';
+                return;
+            }
+
+            grid.style.display = '';
+            emptyState.style.display = 'none';
+            errorState.style.display = 'none';
+            resultsCount.textContent = 'Mostrando ' + projects.length + ' proyecto' + (projects.length > 1 ? 's' : '');
+
+            projects.forEach(function(p) {
+                var tipoSlug = getTipoSlug(p.tipo);
+
+                // Badges
+                var badgesHtml =
+                    '<span class="pl-badge ' + getTipoBadgeClass(p.tipo) + '">' + escapeHtml(p.tipo) + '</span>' +
+                    '<span class="pl-badge pl-badge-presentado">Presentado</span>';
+                if (p.estado_tramite === 'Aprobado') {
+                    badgesHtml += '<span class="pl-badge pl-badge-aprobado">Aprobado</span>';
+                }
+
+                // Download button
+                var btnDescarga = '';
+                if (p.has_main_doc) {
+                    btnDescarga =
+                        '<button class="pl-btn pl-btn-outline" onclick="event.stopPropagation(); plDownloadMain(\'' + escapeHtml(p.id) + '\')">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+                        'Descargar Doc.</button>';
+                }
+
+                var card = document.createElement('article');
+                card.className = 'pl-card';
+                card.setAttribute('data-tipo', tipoSlug);
+                card.innerHTML =
+                    '<div class="pl-card-badges">' + badgesHtml + '</div>' +
+                    '<h3 class="pl-card-title" title="' + escapeHtml(p.titulo) + '">' + escapeHtml(p.titulo) + '</h3>' +
+                    '<p class="pl-card-summary">' + escapeHtml(p.resumen) + '</p>' +
+                    '<div class="pl-card-meta">' +
+                        '<div class="pl-meta-item">' +
+                            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>' +
+                            'Área: ' + escapeHtml(p.area_tema || 'Sin definir') +
+                        '</div>' +
+                        '<div class="pl-meta-item">' +
+                            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
+                            'Presentado: ' + formatDate(p.fecha_presentacion) +
+                        '</div>' +
+                        '<div class="pl-meta-item" style="margin-top:4px;">' +
+                            '<strong style="color:#2C2C31">ID: ' + escapeHtml(p.id) + '</strong>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="pl-card-actions">' +
+                        '<button class="pl-btn pl-btn-primary" onclick="plOpenModal(\'' + escapeHtml(p.id) + '\')">Ver detalle completo</button>' +
+                        btnDescarga +
+                    '</div>';
+
+                grid.appendChild(card);
+            });
+        }
+
+        function resetFilters() {
+            searchInput.value = '';
+            tipoFilter.value = 'Todos';
+            areaFilter.value = 'Todas';
+            estadoFilter.value = 'Todos';
+            filterAndRender();
+        }
+        window.plResetFilters = resetFilters;
+
+        // Filter listeners
+        searchInput.addEventListener('input', filterAndRender);
+        tipoFilter.addEventListener('change', filterAndRender);
+        areaFilter.addEventListener('change', filterAndRender);
+        estadoFilter.addEventListener('change', filterAndRender);
+
+        // ---- Modal ----
+        function openModal(id) {
+            var p = allProjects.find(function(x) { return x.id === id; });
+            if (!p) return;
+
+            // Header
+            document.getElementById('plModalTitle').textContent = p.titulo;
+
+            var badgesHtml =
+                '<span class="pl-badge ' + getTipoBadgeClass(p.tipo) + '">' + escapeHtml(p.tipo) + '</span>' +
+                '<span class="pl-badge pl-badge-presentado">Presentado</span>';
+            if (p.estado_tramite === 'Aprobado') {
+                badgesHtml += '<span class="pl-badge pl-badge-aprobado">Aprobado</span>';
+            }
+            if (p.area_tema) {
+                badgesHtml += '<span class="pl-badge" style="background:#ECECF3;color:#4E4E54">' + escapeHtml(p.area_tema) + '</span>';
+            }
+            document.getElementById('plModalBadges').innerHTML = badgesHtml;
+
+            // Summary
+            document.getElementById('plModalSummary').textContent = p.resumen || 'Sin resumen disponible.';
+
+            // Trámite info
+            var tramiteEl = document.getElementById('plModalTramite');
+            if (p.estado_tramite && p.estado_tramite !== 'Aprobado') {
+                tramiteEl.textContent = 'Trámite: ' + p.estado_tramite;
+                tramiteEl.style.display = '';
+            } else if (p.estado_tramite === 'Aprobado') {
+                tramiteEl.textContent = 'Trámite: Aprobado';
+                tramiteEl.style.display = '';
+            } else {
+                tramiteEl.style.display = 'none';
+            }
+
+            // Docs — fetch from detail endpoint
+            var docsSection = document.getElementById('plModalDocsSection');
+            var docsList = document.getElementById('plModalDocsList');
+            docsSection.style.display = 'none';
+            docsList.innerHTML = '<div style="text-align:center;color:#838389;padding:1rem;font-size:0.85rem;">Cargando documentos...</div>';
+
+            fetchDocuments(p.id);
+
+            // Show modal
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('pl-modal-open');
+            setTimeout(function() {
+                var closeBtn = modal.querySelector('.pl-btn-close');
+                if (closeBtn) closeBtn.focus();
+            }, 100);
+        }
+        window.plOpenModal = openModal;
+
+        async function fetchDocuments(projectId) {
+            var docsSection = document.getElementById('plModalDocsSection');
+            var docsList = document.getElementById('plModalDocsList');
+
+            try {
+                var res = await fetch(API_URL + '/' + encodeURIComponent(projectId));
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                var data = await res.json();
+
+                var docs = data.documents;
+                if (!docs) { docsSection.style.display = 'none'; return; }
+
+                var hasMain = docs.main;
+                var hasMaterials = docs.materials && docs.materials.length > 0;
+
+                if (!hasMain && !hasMaterials) {
+                    docsSection.style.display = 'none';
+                    return;
+                }
+
+                docsSection.style.display = '';
+                docsList.innerHTML = '';
+
+                if (hasMain) {
+                    docsList.innerHTML += createDocHTML(docs.main, projectId, true);
+                }
+                if (hasMaterials) {
+                    docs.materials.forEach(function(doc) {
+                        docsList.innerHTML += createDocHTML(doc, projectId, false);
+                    });
+                }
+            } catch (e) {
+                docsSection.style.display = 'none';
+            }
+        }
+
+        function createDocHTML(doc, projectId, isMain) {
+            var downloadUrl = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(doc.id) + '/download';
+            return '' +
+                '<div class="pl-doc-item">' +
+                    '<div class="pl-doc-info">' +
+                        '<div class="pl-doc-icon">' +
+                            '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>' +
+                        '</div>' +
+                        '<div class="pl-doc-details">' +
+                            '<h4>' + escapeHtml(doc.original_name) + (isMain ? ' (Principal)' : '') + '</h4>' +
+                            '<div class="pl-doc-meta">' +
+                                '<span>' + formatFileSize(doc.size_bytes) + '</span>' +
+                                (doc.created_at ? ' &bull; <span>' + formatDate(doc.created_at.split('T')[0]) + '</span>' : '') +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<a href="' + downloadUrl + '" class="pl-btn pl-btn-outline" target="_blank" rel="noopener">Descargar</a>' +
+                '</div>';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('pl-modal-open');
+        }
+        window.plCloseModal = closeModal;
+
+        // Close on overlay click
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // ---- Download Main Doc ----
+        function downloadMain(projectId) {
+            // Fetch project detail to get main doc ID, then redirect to download
+            fetch(API_URL + '/' + encodeURIComponent(projectId))
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    if (data.documents && data.documents.main) {
+                        var url = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(data.documents.main.id) + '/download';
+                        window.open(url, '_blank');
+                    }
+                })
+                .catch(function() {
+                    alert('No se pudo descargar el documento. Intentá nuevamente.');
+                });
+        }
+        window.plDownloadMain = downloadMain;
+
+        // ---- Init ----
+        document.addEventListener('DOMContentLoaded', loadProjects);
+    })();
     </script>
 {% endblock %}

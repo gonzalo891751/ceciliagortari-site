@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npx eleventy)",
       "Bash(chmod +x \"d:/Git/ceciliagortari-site/scripts/deploy-prod.sh\")",
-      "WebFetch(domain:developers.cloudflare.com)"
+      "WebFetch(domain:developers.cloudflare.com)",
+      "Bash(cmd /c dir \"d:\\\\Git\\\\ceciliagortari-site\\\\migrations\"\")"
     ]
   }
 }
