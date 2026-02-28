@@ -11,8 +11,7 @@ export async function onRequestGet(context) {
       .prepare(
         `SELECT p.id, p.tipo, p.titulo, p.area_tema, p.resumen,
                 p.fecha_presentacion, p.estado_tramite, p.created_at,
-                (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'main') AS has_main_doc,
-                (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'material') AS materials_count
+                (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'main') AS has_main_doc
          FROM projects p
          WHERE p.estado_preparacion = 'Presentado'
            AND p.deleted_at IS NULL

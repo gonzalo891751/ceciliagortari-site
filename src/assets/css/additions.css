@@ -3761,7 +3761,7 @@ body.pl-modal-open {
     inset: 0;
     background-color: rgba(17, 16, 59, 0.6);
     backdrop-filter: blur(4px);
-    z-index: 100;
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;

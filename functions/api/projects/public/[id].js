@@ -28,25 +28,22 @@ export async function onRequestGet(context) {
       );
     }
 
-    // Fetch documents for this project
-    const { results } = await db
+    // Fetch only the main document (materials are not public)
+    const mainDoc = await db
       .prepare(
         `SELECT id, kind, original_name, mime_type, size_bytes, created_at
          FROM project_documents
-         WHERE project_id = ?
-         ORDER BY kind ASC, created_at DESC`
+         WHERE project_id = ? AND kind = 'main'
+         ORDER BY created_at DESC
+         LIMIT 1`
       )
       .bind(projectId)
-      .all();
-
-    const rows = results || [];
-    const mainDoc = rows.find((r) => r.kind === "main") || null;
-    const materials = rows.filter((r) => r.kind === "material");
+      .first();
 
     return new Response(
       JSON.stringify({
         ...project,
-        documents: { main: mainDoc, materials },
+        document: mainDoc || null,
       }),
       { status: 200, headers: HEADERS }
     );

@@ -38,10 +38,10 @@ export async function onRequestGet(context) {
       );
     }
 
-    // Fetch document metadata
+    // Fetch document metadata — only main documents are publicly downloadable
     const doc = await db
       .prepare(
-        "SELECT id, project_id, kind, original_name, stored_key, mime_type FROM project_documents WHERE id = ? AND project_id = ?"
+        "SELECT id, project_id, kind, original_name, stored_key, mime_type FROM project_documents WHERE id = ? AND project_id = ? AND kind = 'main'"
       )
       .bind(docId, projectId)
       .first();
@@ -55,8 +55,7 @@ export async function onRequestGet(context) {
 
     const ext = getExtension(doc.original_name);
     const slugTitle = slugify(project.titulo);
-    const kindSuffix = doc.kind === "main" ? "Proyecto" : "Material";
-    const filename = `${projectId}_${slugTitle}_${kindSuffix}${ext}`;
+    const filename = `${projectId}_${slugTitle}_Proyecto${ext}`;
 
     const object = await bucket.get(doc.stored_key);
     if (!object) {
