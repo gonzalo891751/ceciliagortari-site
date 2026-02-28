@@ -3844,6 +3844,73 @@ body.pl-modal-open {
     border-top: 1px solid #ECECF3;
 }
 
+/* --- Pagination --- */
+.pl-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 2rem 0 0.5rem;
+    flex-wrap: wrap;
+}
+.pl-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 0.65rem;
+    border: 1px solid #ECECF3;
+    border-radius: 8px;
+    background: #FFFFFF;
+    color: #4E4E54;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+.pl-page-btn:hover:not(:disabled):not(.pl-page-active) {
+    background: #F7F7FD;
+    border-color: #CACAD1;
+    color: #2C2C31;
+}
+.pl-page-btn:focus-visible {
+    outline: 2px solid #1C5CFF;
+    outline-offset: 2px;
+}
+.pl-page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.pl-page-active {
+    background: #9F57A7;
+    border-color: #9F57A7;
+    color: #FFFFFF;
+    cursor: default;
+}
+.pl-page-nav {
+    font-weight: 600;
+}
+.pl-page-nav svg {
+    flex-shrink: 0;
+}
+.pl-page-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 40px;
+    color: #838389;
+    font-size: 0.875rem;
+    user-select: none;
+}
+@media (max-width: 480px) {
+    .pl-page-nav { padding: 0 0.5rem; }
+    .pl-page-btn { min-width: 36px; height: 36px; padding: 0 0.5rem; font-size: 0.8rem; }
+}
+
 /* --- Document List in Modal --- */
 .pl-doc-list {
     display: flex;

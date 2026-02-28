@@ -264,13 +264,13 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         }
 
         // ---- Filtering & Rendering ----
-        function filterAndRender() {
+        function applyFilters() {
             var q = searchInput.value.toLowerCase().trim();
             var tipo = tipoFilter.value;
             var area = areaFilter.value;
             var estado = estadoFilter.value;
 
-            var filtered = allProjects.filter(function(p) {
+            return allProjects.filter(function(p) {
                 var matchSearch = !q ||
                     (p.titulo && p.titulo.toLowerCase().includes(q)) ||
                     (p.resumen && p.resumen.toLowerCase().includes(q)) ||
@@ -287,18 +287,30 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
 
                 return matchSearch && matchTipo && matchArea && matchEstado;
             });
-
-            renderProjects(filtered);
         }
 
-        function renderProjects(projects) {
+        function filterAndRender(resetPage) {
+            if (resetPage !== false) currentPage = 1;
+            lastFiltered = applyFilters();
+            renderPage();
+        }
+
+        function renderPage() {
+            var total = lastFiltered.length;
+            var totalPages = Math.max(1, Math.ceil(total / pageSize));
+
+            // Clamp currentPage
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
             // Clear
             grid.innerHTML = '';
             loadingState.style.display = 'none';
 
-            if (projects.length === 0) {
+            if (total === 0) {
                 grid.style.display = 'none';
                 emptyState.style.display = '';
+                paginationEl.style.display = 'none';
                 resultsCount.textContent = '0 proyectos encontrados';
                 return;
             }
@@ -306,12 +318,23 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
             grid.style.display = '';
             emptyState.style.display = 'none';
             errorState.style.display = 'none';
-            resultsCount.textContent = 'Mostrando ' + projects.length + ' proyecto' + (projects.length > 1 ? 's' : '');
 
-            projects.forEach(function(p) {
+            // Slice for current page
+            var start = (currentPage - 1) * pageSize;
+            var end = Math.min(start + pageSize, total);
+            var pageProjects = lastFiltered.slice(start, end);
+
+            // Results count
+            if (total <= pageSize) {
+                resultsCount.textContent = 'Mostrando ' + total + ' proyecto' + (total > 1 ? 's' : '');
+            } else {
+                resultsCount.textContent = 'Mostrando ' + (start + 1) + '–' + end + ' de ' + total + ' proyectos';
+            }
+
+            // Render cards
+            pageProjects.forEach(function(p) {
                 var tipoSlug = getTipoSlug(p.tipo);
 
-                // Badges
                 var badgesHtml =
                     '<span class="pl-badge ' + getTipoBadgeClass(p.tipo) + '">' + escapeHtml(p.tipo) + '</span>' +
                     '<span class="pl-badge pl-badge-presentado">Presentado</span>';
@@ -319,7 +342,6 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                     badgesHtml += '<span class="pl-badge pl-badge-aprobado">Aprobado</span>';
                 }
 
-                // Download button
                 var btnDescarga = '';
                 if (p.has_main_doc) {
                     btnDescarga =
@@ -355,7 +377,71 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
 
                 grid.appendChild(card);
             });
+
+            // Pagination
+            renderPagination(total, totalPages);
         }
+
+        // ---- Pagination ----
+        function getVisiblePages(current, total) {
+            if (total <= 7) {
+                var pages = [];
+                for (var i = 1; i <= total; i++) pages.push(i);
+                return pages;
+            }
+            if (current <= 3) return [1, 2, 3, 4, '...', total];
+            if (current >= total - 2) return [1, '...', total - 3, total - 2, total - 1, total];
+            return [1, '...', current - 1, current, current + 1, '...', total];
+        }
+
+        function renderPagination(total, totalPages) {
+            if (totalPages <= 1) {
+                paginationEl.style.display = 'none';
+                return;
+            }
+
+            paginationEl.style.display = '';
+            var pages = getVisiblePages(currentPage, totalPages);
+            var html = '';
+
+            // Previous
+            html += '<button class="pl-page-btn pl-page-nav" ' +
+                (currentPage === 1 ? 'disabled' : 'onclick="plGoToPage(' + (currentPage - 1) + ')"') +
+                ' aria-label="Página anterior">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>' +
+                ' Anterior</button>';
+
+            // Page numbers
+            pages.forEach(function(p) {
+                if (p === '...') {
+                    html += '<span class="pl-page-ellipsis">&hellip;</span>';
+                } else {
+                    var isActive = p === currentPage;
+                    html += '<button class="pl-page-btn' + (isActive ? ' pl-page-active' : '') + '" ' +
+                        (isActive ? 'aria-current="page"' : 'onclick="plGoToPage(' + p + ')"') +
+                        ' aria-label="Página ' + p + '">' + p + '</button>';
+                }
+            });
+
+            // Next
+            html += '<button class="pl-page-btn pl-page-nav" ' +
+                (currentPage === totalPages ? 'disabled' : 'onclick="plGoToPage(' + (currentPage + 1) + ')"') +
+                ' aria-label="Página siguiente">Siguiente ' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>' +
+                '</button>';
+
+            paginationEl.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            var totalPages = Math.max(1, Math.ceil(lastFiltered.length / pageSize));
+            if (page < 1 || page > totalPages || page === currentPage) return;
+            currentPage = page;
+            renderPage();
+            // Smooth scroll to top of grid
+            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        window.plGoToPage = goToPage;
 
         function resetFilters() {
             searchInput.value = '';
@@ -366,11 +452,11 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         }
         window.plResetFilters = resetFilters;
 
-        // Filter listeners
-        searchInput.addEventListener('input', filterAndRender);
-        tipoFilter.addEventListener('change', filterAndRender);
-        areaFilter.addEventListener('change', filterAndRender);
-        estadoFilter.addEventListener('change', filterAndRender);
+        // Filter listeners — always reset to page 1
+        searchInput.addEventListener('input', function() { filterAndRender(); });
+        tipoFilter.addEventListener('change', function() { filterAndRender(); });
+        areaFilter.addEventListener('change', function() { filterAndRender(); });
+        estadoFilter.addEventListener('change', function() { filterAndRender(); });
 
         // ---- Modal ----
         function openModal(id) {
