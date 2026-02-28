@@ -4,7 +4,9 @@
       "Bash(npx eleventy)",
       "Bash(chmod +x \"d:/Git/ceciliagortari-site/scripts/deploy-prod.sh\")",
       "WebFetch(domain:developers.cloudflare.com)",
-      "Bash(cmd /c dir \"d:\\\\Git\\\\ceciliagortari-site\\\\migrations\"\")"
+      "Bash(cmd /c dir \"d:\\\\Git\\\\ceciliagortari-site\\\\migrations\"\")",
+      "Bash(echo \"exit: $?\")",
+      "Bash(ls d:/Git/ceciliagortari-site/functions/api/projects/public.js d:/Git/ceciliagortari-site/functions/api/projects/public/*/.)"
     ]
   }
 }
