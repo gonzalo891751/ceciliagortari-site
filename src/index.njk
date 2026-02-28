@@ -507,122 +507,31 @@ jsonLd: |
                 <p class="proyectos-home__subtitle">Algunas de las iniciativas impulsadas</p>
             </div>
 
-            <!-- Segmented Switch Control -->
-            <div class="proyectos-switch" data-scroll-reveal>
-                <button class="proyectos-switch__btn is-active" data-panel="panel-concejo" aria-pressed="true">
-                    HCD Goya
-                </button>
-                <button class="proyectos-switch__btn" data-panel="panel-diputados" aria-pressed="false">
-                    Cámara de Diputados
-                </button>
+            <!-- Dynamic Grid (JS rendered from /api/projects/public) -->
+            <div id="proyectos-home-grid" class="proyectos-home__grid" data-scroll-reveal>
+                <!-- Loading skeleton -->
+                <div class="proyectos-home__card proyectos-home__card--skeleton"></div>
+                <div class="proyectos-home__card proyectos-home__card--skeleton"></div>
+                <div class="proyectos-home__card proyectos-home__card--skeleton"></div>
             </div>
 
-            <!-- Panel 1: HCD Goya -->
-            <div class="proyectos-panel is-active" id="panel-concejo" data-scroll-reveal>
-                <div class="proyectos-home__grid">
-                    <!-- Card 1 -->
-                    <div class="proyectos-home__card">
-                        <span class="proyectos-home__card-badge proyectos-home__card-badge--ordenanza">Ordenanza</span>
-                        <h3 class="proyectos-home__card-title">Banco de herramientas</h3>
-                        <p class="proyectos-home__card-desc">
-                            Creación de un banco municipal de herramientas y equipos para impulsar microemprendimientos
-                            locales.
-                        </p>
-                        <a href="/proyectos/#concejo" class="proyectos-home__card-link">
-                            Ver más
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </a>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="proyectos-home__card">
-                        <span
-                            class="proyectos-home__card-badge proyectos-home__card-badge--resolucion">Resolución</span>
-                        <h3 class="proyectos-home__card-title">Programa de capacitaciones</h3>
-                        <p class="proyectos-home__card-desc">
-                            Promoción de cursos y talleres gratuitos para fortalecer habilidades laborales en la
-                            comunidad.
-                        </p>
-                        <a href="/proyectos/#concejo" class="proyectos-home__card-link">
-                            Ver más
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </a>
-                    </div>
-                    <!-- Card 3 -->
-                    <div class="proyectos-home__card">
-                        <span class="proyectos-home__card-badge proyectos-home__card-badge--informe">Pedido de
-                            Informe</span>
-                        <h3 class="proyectos-home__card-title">Obras y servicios</h3>
-                        <p class="proyectos-home__card-desc">
-                            Solicitud de información sobre el estado de infraestructura y servicios públicos en barrios.
-                        </p>
-                        <a href="/proyectos/#concejo" class="proyectos-home__card-link">
-                            Ver más
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+            <!-- Empty State (hidden by default, shown by JS) -->
+            <div id="proyectos-home-empty" class="proyectos-home__empty" style="display:none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#CACAD1;margin-bottom:1rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <h3>Aún no se han presentado proyectos</h3>
+                <p>Estamos trabajando en nuevas iniciativas. Pronto vas a poder consultar los proyectos presentados y descargar sus documentos.</p>
+                <a href="/proyectos/" class="proyectos-home__card-link" style="justify-content:center;">
+                    Ir a Proyectos
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
             </div>
 
-            <!-- Panel 2: Cámara de Diputados -->
-            <div class="proyectos-panel" id="panel-diputados">
-                <div class="proyectos-home__grid">
-                    <!-- Card 1 -->
-                    <div class="proyectos-home__card">
-                        <span class="proyectos-home__card-badge proyectos-home__card-badge--ley">Proyecto de Ley</span>
-                        <h3 class="proyectos-home__card-title">Fortalecimiento de emprendedores</h3>
-                        <p class="proyectos-home__card-desc">
-                            Iniciativa para crear un marco de apoyo provincial a emprendedores y pequeñas empresas.
-                        </p>
-                        <a href="/proyectos/#diputados" class="proyectos-home__card-link">
-                            Ver más
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </a>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="proyectos-home__card">
-                        <span
-                            class="proyectos-home__card-badge proyectos-home__card-badge--declaracion">Declaración</span>
-                        <h3 class="proyectos-home__card-title">Interés provincial</h3>
-                        <p class="proyectos-home__card-desc">
-                            Declaración de interés provincial para eventos y programas de impacto social y cultural.
-                        </p>
-                        <a href="/proyectos/#diputados" class="proyectos-home__card-link">
-                            Ver más
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </a>
-                    </div>
-                    <!-- Card 3 -->
-                    <div class="proyectos-home__card">
-                        <span class="proyectos-home__card-badge proyectos-home__card-badge--informe">Pedido de
-                            Informe</span>
-                        <h3 class="proyectos-home__card-title">Infraestructura</h3>
-                        <p class="proyectos-home__card-desc">
-                            Solicitud de información sobre el estado de obras de infraestructura en la provincia.
-                        </p>
-                        <a href="/proyectos/#diputados" class="proyectos-home__card-link">
-                            Ver más
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+            <!-- CTA: Ver todos -->
+            <div id="proyectos-home-footer" class="proyectos-home__footer" style="display:none;">
+                <a href="/proyectos/" class="proyectos-home__cta">
+                    Ver todos los proyectos
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
             </div>
         </div>
     </section>
@@ -672,4 +581,67 @@ jsonLd: |
     <script defer src="/assets/js/bio-animations.js?v=202503061200"></script>
     <script defer src="/assets/js/home-redesign.js?v=202601081200"></script>
     <script src="/assets/js/site.js?v=202503061200"></script>
+
+    <!-- Proyectos Legislativos: Home Section (live data) -->
+    <script>
+    (function() {
+        'use strict';
+        var grid = document.getElementById('proyectos-home-grid');
+        var empty = document.getElementById('proyectos-home-empty');
+        var footer = document.getElementById('proyectos-home-footer');
+        if (!grid) return;
+
+        function esc(str) {
+            if (!str) return '';
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+
+        function badgeClass(tipo) {
+            if (!tipo) return '';
+            var t = tipo.toLowerCase();
+            if (t.includes('ley')) return 'proyectos-home__card-badge--ley';
+            if (t.includes('resolución') || t.includes('resolucion')) return 'proyectos-home__card-badge--resolucion';
+            if (t.includes('declaración') || t.includes('declaracion')) return 'proyectos-home__card-badge--declaracion';
+            if (t.includes('informe')) return 'proyectos-home__card-badge--informe';
+            return 'proyectos-home__card-badge--ordenanza';
+        }
+
+        fetch('/api/projects/public')
+            .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(function(projects) {
+                grid.innerHTML = '';
+
+                if (!projects || projects.length === 0) {
+                    grid.style.display = 'none';
+                    empty.style.display = '';
+                    return;
+                }
+
+                // Show up to 3
+                var items = projects.slice(0, 3);
+                items.forEach(function(p) {
+                    var card = document.createElement('div');
+                    card.className = 'proyectos-home__card';
+                    card.innerHTML =
+                        '<span class="proyectos-home__card-badge ' + badgeClass(p.tipo) + '">' + esc(p.tipo) + '</span>' +
+                        '<h3 class="proyectos-home__card-title">' + esc(p.titulo) + '</h3>' +
+                        '<p class="proyectos-home__card-desc">' + esc(p.resumen) + '</p>' +
+                        '<a href="/proyectos/" class="proyectos-home__card-link">' +
+                            'Ver más' +
+                            '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>' +
+                        '</a>';
+                    grid.appendChild(card);
+                });
+
+                footer.style.display = '';
+            })
+            .catch(function() {
+                // On error, show empty state
+                grid.style.display = 'none';
+                empty.style.display = '';
+            });
+    })();
+    </script>
 {% endblock %}

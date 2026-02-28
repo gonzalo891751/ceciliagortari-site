@@ -3311,38 +3311,85 @@
     transform: translateX(3px);
 }
 
+/* Skeleton loading card */
+.proyectos-home__card--skeleton {
+    min-height: 200px;
+    background: linear-gradient(110deg, #f0f0f5 30%, #fafaff 50%, #f0f0f5 70%);
+    background-size: 200% 100%;
+    animation: phSkeletonShimmer 1.5s ease-in-out infinite;
+    border: 1px solid rgba(0,0,0,0.04);
+    pointer-events: none;
+}
+@keyframes phSkeletonShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Empty state */
+.proyectos-home__empty {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: white;
+    border-radius: 20px;
+    border: 1px dashed #CACAD1;
+}
+.proyectos-home__empty h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #11103B;
+    margin-bottom: 0.5rem;
+}
+.proyectos-home__empty p {
+    color: #6B7280;
+    max-width: 480px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+}
+
+/* Footer CTA */
+.proyectos-home__footer {
+    text-align: center;
+    margin-top: 0.5rem;
+}
+.proyectos-home__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #9F57A7;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 100px;
+    border: 2px solid #9F57A7;
+    transition: all 0.25s ease;
+}
+.proyectos-home__cta:hover {
+    background: #9F57A7;
+    color: white;
+}
+
 /* Scroll reveal for proyectos section */
-.proyectos-home__header,
-.proyectos-switch,
-.proyectos-panel {
+.proyectos-home__header {
     opacity: 0;
     transform: translateY(25px);
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.proyectos-home__header.is-visible,
-.proyectos-switch.is-visible,
-.proyectos-panel.is-visible {
+.proyectos-home__header.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-.proyectos-switch.is-visible {
-    transition-delay: 0.1s;
-}
-
-.proyectos-panel.is-visible {
-    transition-delay: 0.2s;
-}
-
 @media (prefers-reduced-motion: reduce) {
-
-    .proyectos-home__header,
-    .proyectos-switch,
-    .proyectos-panel {
+    .proyectos-home__header {
         opacity: 1;
         transform: none;
         transition: none;
+    }
+    .proyectos-home__card--skeleton {
+        animation: none;
     }
 }
 
@@ -3382,11 +3429,14 @@
 /* ==========================================================================
    PROYECTOS LEGISLATIVOS - Public Page (2026)
    ========================================================================== */
+html {
+    scroll-padding-top: calc(var(--header-h, 80px) + 1rem);
+}
 
 /* --- Hero --- */
 .pl-hero {
     background: linear-gradient(135deg, #FFFFFF 0%, #F0F4FF 50%, #FAF0FB 100%);
-    padding: 4rem 0 3rem 0;
+    padding: calc(var(--header-h, 80px) + 4rem) 0 3rem 0;
     border-bottom: 1px solid var(--gray-200, #ECECF3);
     text-align: center;
 }
@@ -3416,7 +3466,7 @@
     padding: 1.5rem 0;
     box-shadow: 0 1px 3px rgba(17, 16, 59, 0.05);
     position: sticky;
-    top: 60px;
+    top: var(--header-h, 80px);
     z-index: 30;
 }
 .pl-filters-grid {
