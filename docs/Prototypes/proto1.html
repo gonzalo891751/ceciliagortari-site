@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gestión de Proyectos - Cecilia Gortari</title>
+    
+    <!-- Tipografía Oficial: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Iconos: FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración del Brandbook -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            magenta: '#C06BCA',
+                            azul: '#265EEC',
+                            naranja: '#FBA85F',
+                            rosa: '#E5BAE5',
+                            turquesa: '#24BCDE',
+                            oscuro: '#11103B',
+                            bg: '#F7F7FD',
+                            surface: '#FCFCFF'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(17, 16, 59, 0.05)',
+                        'magenta': '0 4px 15px -3px rgba(192, 107, 202, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Ocultar scrollbar para un look de App nativa */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        body {
+            background-color: #e5e7eb;
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+        .mobile-frame {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            background-color: #F7F7FD;
+            position: relative;
+            box-shadow: 0 0 25px rgba(0,0,0,0.1);
+            overflow-x: hidden; /* Evita cualquier desborde horizontal interno */
+        }
+        /* Estilos base para selects ocultando la flecha nativa */
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+    </style>
+</head>
+<body class="antialiased text-brand-oscuro font-sans">
+
+    <!-- Mobile App Container -->
+    <main class="mobile-frame flex flex-col h-screen overflow-hidden">
+        
+        <!-- HEADER COMPACTO CON ICONOS -->
+        <header class="bg-white border-b border-gray-200 px-4 py-3 flex justify-between items-center z-20 shrink-0">
+            <div class="flex flex-col flex-1 overflow-hidden pr-2">
+                <h1 class="font-bold text-[17px] leading-tight text-brand-oscuro truncate">Gestión de Proyectos</h1>
+                <p class="text-brand-azul font-medium text-[11px] uppercase tracking-wide truncate">Cecilia Gortari (Privado)</p>
+            </div>
+            <div class="flex items-center gap-0.5 shrink-0">
+                <button class="w-8 h-8 rounded-lg text-gray-400 flex items-center justify-center hover:bg-gray-50 hover:text-brand-azul transition-colors" aria-label="Actualizar">
+                    <i class="fa-solid fa-rotate-right text-[15px]"></i>
+                </button>
+                <button class="w-8 h-8 rounded-lg text-gray-400 flex items-center justify-center hover:bg-gray-50 hover:text-brand-magenta transition-colors" aria-label="Exportar PDF">
+                    <i class="fa-regular fa-file-pdf text-[15px]"></i>
+                </button>
+                <button class="w-8 h-8 rounded-lg text-gray-400 flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-colors" aria-label="Salir">
+                    <i class="fa-solid fa-arrow-right-from-bracket text-[15px]"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- BÚSQUEDA -->
+        <section class="px-4 pt-4 pb-2 shrink-0 w-full">
+            <div class="relative w-full">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
+                </div>
+                <input type="text" placeholder="Buscar por título, área o tema..." class="w-full bg-white border border-gray-200 text-brand-oscuro rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-brand-azul focus:ring-1 focus:ring-brand-azul transition-colors placeholder-gray-400 font-medium shadow-sm">
+            </div>
+        </section>
+
+        <!-- FILTROS (Chips compactos) -->
+        <section class="px-4 pb-3 shrink-0 w-full">
+            <div class="grid grid-cols-3 gap-2 w-full">
+                <!-- Select 1: Tipo -->
+                <div class="relative w-full">
+                    <select class="w-full bg-white border border-gray-200 text-brand-oscuro rounded-lg pl-2 pr-6 py-2 text-[11px] font-semibold focus:outline-none focus:border-brand-azul shadow-sm text-ellipsis overflow-hidden whitespace-nowrap">
+                        <option value="" disabled selected>Tipo</option>
+                        <option value="ley">Ley</option>
+                        <option value="resolucion">Resolución</option>
+                        <option value="declaracion">Declaración</option>
+                        <option value="nota">Nota</option>
+                        <option value="pedido">Pedido inf.</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none text-gray-400">
+                        <i class="fa-solid fa-chevron-down text-[9px]"></i>
+                    </div>
+                </div>
+                <!-- Select 2: Estado -->
+                <div class="relative w-full">
+                    <select class="w-full bg-white border border-gray-200 text-brand-oscuro rounded-lg pl-2 pr-6 py-2 text-[11px] font-semibold focus:outline-none focus:border-brand-azul shadow-sm text-ellipsis overflow-hidden whitespace-nowrap">
+                        <option value="" disabled selected>Estado</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="trabajo">En trabajo</option>
+                        <option value="presentado">Presentado</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none text-gray-400">
+                        <i class="fa-solid fa-chevron-down text-[9px]"></i>
+                    </div>
+                </div>
+                <!-- Select 3: Orden -->
+                <div class="relative w-full">
+                    <select class="w-full bg-white border border-gray-200 text-brand-oscuro rounded-lg pl-2 pr-6 py-2 text-[11px] font-semibold focus:outline-none focus:border-brand-azul shadow-sm text-ellipsis overflow-hidden whitespace-nowrap">
+                        <option value="" disabled selected>Ordenar</option>
+                        <option value="actualizados">Actualizados</option>
+                        <option value="creacion">Creación</option>
+                        <option value="objetivo">Objetivo</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none text-gray-400">
+                        <i class="fa-solid fa-chevron-down text-[9px]"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TABS -->
+        <nav class="flex px-4 border-b border-gray-200 shrink-0">
+            <button class="flex-1 pb-2.5 text-center border-b-2 border-brand-magenta text-brand-magenta font-bold text-[13px] transition-colors">
+                Proyectos
+            </button>
+            <button class="flex-1 pb-2.5 text-center border-b-2 border-transparent text-gray-400 hover:text-brand-oscuro font-medium text-[13px] transition-colors">
+                Dashboard
+            </button>
+        </nav>
+
+        <!-- LISTA DE PROYECTOS (Una sola columna, con espacio inferior para el FAB) -->
+        <section class="flex-1 overflow-y-auto px-4 pt-4 pb-28 w-full flex flex-col gap-4">
+            
+            <!-- Tarjeta 1 -->
+            <article class="w-full bg-brand-surface rounded-2xl shadow-soft border border-gray-100 p-4">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-[11px] font-bold text-gray-400 tracking-wider">#PRJ-084</span>
+                    <span class="bg-brand-turquesa/10 text-brand-turquesa border border-brand-turquesa/20 text-[10px] uppercase font-bold px-2 py-1 rounded-md">
+                        En revisión
+                    </span>
+                </div>
+                
+                <h2 class="font-bold text-base leading-tight text-brand-oscuro mb-1.5 line-clamp-2">Ley de Protección de Humedales Locales</h2>
+                <p class="text-[13px] text-gray-500 leading-snug mb-3 line-clamp-2">
+                    Iniciativa para la protección integral de los humedales en la ciudad de Goya, estableciendo presupuestos mínimos y resguardo ambiental.
+                </p>
+                
+                <div class="grid grid-cols-2 gap-y-2 gap-x-2 text-[11px] font-medium text-gray-500 mb-4 bg-gray-50/70 p-2.5 rounded-lg border border-gray-100">
+                    <div class="flex items-center gap-1.5 truncate">
+                        <i class="fa-solid fa-tag text-brand-azul opacity-70 w-3 text-center"></i> 
+                        <span class="truncate">Ley</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 truncate">
+                        <i class="fa-regular fa-user text-brand-azul opacity-70 w-3 text-center"></i> 
+                        <span class="truncate">C. Gortari</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 truncate">
+                        <i class="fa-regular fa-calendar text-brand-azul opacity-70 w-3 text-center"></i> 
+                        <span class="truncate">24 Abr 2024</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 truncate text-brand-naranja">
+                        <i class="fa-regular fa-clock opacity-70 w-3 text-center"></i> 
+                        <span class="truncate">Hace 2h</span>
+                    </div>
+                </div>
+
+                <!-- Acciones Tarjeta -->
+                <div class="flex justify-between items-center pt-3 border-t border-gray-100">
+                    <div class="flex gap-2">
+                        <button class="w-9 h-9 rounded-full bg-gray-50 text-gray-400 flex items-center justify-center hover:bg-brand-azul hover:text-white transition-colors border border-gray-200 shadow-sm" aria-label="Completar">
+                            <i class="fa-solid fa-check text-[13px]"></i>
+                        </button>
+                        <button class="w-9 h-9 rounded-full bg-gray-50 text-gray-400 flex items-center justify-center hover:bg-brand-azul hover:text-white transition-colors border border-gray-200 shadow-sm" aria-label="Asignar Responsable">
+                            <i class="fa-solid fa-user-pen text-[13px]"></i>
+                        </button>
+                        <button class="w-9 h-9 rounded-full bg-gray-50 text-gray-400 flex items-center justify-center hover:bg-brand-azul hover:text-white transition-colors border border-gray-200 shadow-sm" aria-label="Descargar PDF">
+                            <i class="fa-solid fa-download text-[13px]"></i>
+                        </button>
+                    </div>
+                    <button class="w-9 h-9 rounded-full bg-red-50 text-red-400 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors border border-red-100 shadow-sm" aria-label="Eliminar">
+                        <i class="fa-regular fa-trash-can text-[13px]"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- Tarjeta 2 -->
+            <article class="w-full bg-brand-surface rounded-2xl shadow-soft border border-gray-100 p-4">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-[11px] font-bold text-gray-400 tracking-wider">#PRJ-083</span>
+                    <span class="bg-brand-magenta/10 text-brand-magenta border border-brand-magenta/20 text-[10px] uppercase font-bold px-2 py-1 rounded-md">
+                        En trabajo
+                    </span>
+                </div>
+                
+                <h2 class="font-bold text-base leading-tight text-brand-oscuro mb-1.5 line-clamp-2">Declaración de Interés: Feria del Libro Goya</h2>
+                <p class="text-[13px] text-gray-500 leading-snug mb-3 line-clamp-2">
+                    Proyecto para declarar de interés municipal y cultural la 6ta edición de la Feria del Libro de la ciudad.
+                </p>
+                
+                <div class="grid grid-cols-2 gap-y-2 gap-x-2 text-[11px] font-medium text-gray-500 mb-4 bg-gray-50/70 p-2.5 rounded-lg border border-gray-100">
+                    <div class="flex items-center gap-1.5 truncate">
+                        <i class="fa-solid fa-tag text-brand-azul opacity-70 w-3 text-center"></i> 
+                        <span class="truncate">Declaración</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 truncate">
+                        <i class="fa-regular fa-user text-brand-azul opacity-70 w-3 text-center"></i> 
+                        <span class="truncate">M. Fernández</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 truncate">
+                        <i class="fa-regular fa-calendar text-brand-azul opacity-70 w-3 text-center"></i> 
+                        <span class="truncate">20 Abr 2024</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 truncate text-gray-400">
+                        <i class="fa-regular fa-clock opacity-70 w-3 text-center"></i> 
+                        <span class="truncate">Hace 3 días</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-3 border-t border-gray-100">
+                    <div class="flex gap-2">
+                        <button class="w-9 h-9 rounded-full bg-gray-50 text-gray-400 flex items-center justify-center hover:bg-brand-azul hover:text-white transition-colors border border-gray-200 shadow-sm" aria-label="Completar">
+                            <i class="fa-solid fa-check text-[13px]"></i>
+                        </button>
+                        <button class="w-9 h-9 rounded-full bg-gray-50 text-gray-400 flex items-center justify-center hover:bg-brand-azul hover:text-white transition-colors border border-gray-200 shadow-sm" aria-label="Asignar Responsable">
+                            <i class="fa-solid fa-user-pen text-[13px]"></i>
+                        </button>
+                        <button class="w-9 h-9 rounded-full bg-gray-50 text-gray-400 flex items-center justify-center hover:bg-brand-azul hover:text-white transition-colors border border-gray-200 shadow-sm" aria-label="Descargar PDF">
+                            <i class="fa-solid fa-download text-[13px]"></i>
+                        </button>
+                    </div>
+                    <button class="w-9 h-9 rounded-full bg-red-50 text-red-400 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors border border-red-100 shadow-sm" aria-label="Eliminar">
+                        <i class="fa-regular fa-trash-can text-[13px]"></i>
+                    </button>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- BOTÓN FLOTANTE (FAB) -->
+        <button class="absolute bottom-6 right-5 w-14 h-14 bg-brand-magenta text-white rounded-full shadow-magenta flex justify-center items-center text-xl transition-transform active:scale-90 z-30 border border-white/20" aria-label="Nuevo Proyecto">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+
+    </main>
+
+</body>
+</html>

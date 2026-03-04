@@ -563,6 +563,14 @@ permalink: gestionproyectos/index.html
         /* =========================================
            8. RESPONSIVE
            ========================================= */
+        /* Mobile-only elements: hidden on desktop */
+        .mobile-header-icons,
+        .mobile-search-row,
+        .mobile-filter-row,
+        #fab-new-project,
+        .action-group,
+        .btn-icon-danger { display: none; }
+
         /* =========================================
            8b. MOBILE COMPACT BAR
            ========================================= */
@@ -571,19 +579,180 @@ permalink: gestionproyectos/index.html
         }
 
         @media (max-width: 768px) {
+            /* --- Global mobile resets --- */
+            html, body { overflow-x: hidden; }
             .table-container { display: none; }
             .cards-container { display: block; }
-            .header { padding: 1rem; position: static; }
-            .header-top { flex-direction: column; align-items: flex-start; }
-            .header-controls { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-            .header-controls .save-indicator { grid-column: 1 / -1; justify-content: center; }
-            .header-controls .btn-primary { grid-column: 1 / -1; }
-            .header-controls .search-bar { grid-column: 1 / -1; }
-            .search-bar { width: 100%; }
             .form-grid { grid-template-columns: 1fr; }
-            main { padding: 1rem; }
+            main { padding: 1rem; padding-bottom: 5rem; /* room for FAB */ }
             .doc-item-name { max-width: 150px; }
 
+            /* --- Header: compact, NOT sticky --- */
+            .header {
+                padding: 0.75rem 1rem;
+                position: static;
+                border-bottom: 1px solid var(--border-light);
+            }
+            .header-top {
+                flex-direction: row;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 0;
+            }
+            .brand { flex: 1; min-width: 0; }
+            .brand-title { font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .brand-subtitle { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
+
+            /* Header controls: hide text buttons, show icon row */
+            .header-controls { display: none; }
+            .header-controls.mobile-header-icons {
+                display: flex !important;
+                gap: 0.25rem;
+                flex-shrink: 0;
+                width: auto;
+            }
+            .header-controls.mobile-header-icons .btn-icon-mobile {
+                width: 34px; height: 34px; border-radius: var(--radius-md);
+                display: inline-flex; align-items: center; justify-content: center;
+                background: transparent; border: none; cursor: pointer;
+                color: var(--text-muted); font-size: 1rem; transition: all 0.15s;
+            }
+            .header-controls.mobile-header-icons .btn-icon-mobile:hover,
+            .header-controls.mobile-header-icons .btn-icon-mobile:active {
+                background: var(--badge-gray-bg); color: var(--blue);
+            }
+            .header-controls.mobile-header-icons .btn-icon-mobile.danger:hover,
+            .header-controls.mobile-header-icons .btn-icon-mobile.danger:active {
+                background: var(--badge-red-bg); color: var(--badge-red-text);
+            }
+
+            /* --- Search: full width below header --- */
+            .mobile-search-row {
+                display: block;
+                padding: 0.75rem 1rem 0.5rem;
+                background: var(--bg-surface);
+            }
+            .mobile-search-row .search-bar {
+                width: 100%; border-radius: var(--radius-lg);
+                padding: 0.7rem 1rem 0.7rem 2.4rem;
+                font-size: 0.9rem; background: var(--bg-body);
+                border: 1px solid var(--border-light);
+            }
+            .mobile-search-wrap {
+                position: relative; width: 100%;
+            }
+            .mobile-search-icon {
+                position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%);
+                color: var(--text-muted); pointer-events: none; font-size: 0.85rem; line-height: 1;
+            }
+
+            /* --- Filters: 3-column grid chips --- */
+            .mobile-filter-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 0.4rem;
+                padding: 0 1rem 0.5rem;
+                background: var(--bg-surface);
+            }
+            .mobile-filter-row select {
+                width: 100%;
+                padding: 0.45rem 1.2rem 0.45rem 0.5rem;
+                font-size: 0.7rem;
+                font-weight: 600;
+                font-family: var(--font-main);
+                border: 1px solid var(--border-light);
+                border-radius: var(--radius-md);
+                background: var(--bg-body);
+                color: var(--text-main);
+                appearance: none;
+                -webkit-appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236E6E74' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 0.4rem center;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+
+            /* --- Hide desktop-only header elements on mobile --- */
+            .header-controls:not(.mobile-header-icons) { display: none !important; }
+
+            /* --- Tabs: proto1 style --- */
+            .tabs-bar { padding: 0 1rem; border-bottom: 1px solid var(--border-light); }
+            .tab-btn {
+                flex: 1; text-align: center;
+                padding: 0.65rem 0.5rem; font-size: 0.82rem; font-weight: 700;
+            }
+            .tab-btn.active { color: var(--magenta); border-bottom-color: var(--magenta); }
+
+            /* --- Cards: proto1-inspired --- */
+            .mobile-card {
+                border-radius: var(--radius-lg); padding: 1rem;
+                margin-bottom: 0.85rem; border: 1px solid var(--border-light);
+            }
+            .mobile-card-header { margin-bottom: 0.5rem; }
+            .mobile-card-id { font-size: 0.7rem; }
+            .mobile-card .project-title { font-size: 0.95rem; line-height: 1.3; margin-bottom: 0.25rem; }
+            .mobile-card .project-desc { font-size: 0.8rem; line-height: 1.4; margin-bottom: 0.5rem; }
+
+            /* Card meta grid like proto1 */
+            .mobile-card-info-grid {
+                display: grid; grid-template-columns: 1fr 1fr;
+                gap: 0.3rem 0.5rem; font-size: 0.72rem; font-weight: 500;
+                color: var(--text-muted); background: var(--bg-body);
+                padding: 0.5rem 0.6rem; border-radius: var(--radius-md);
+                border: 1px solid var(--border-light); margin-bottom: 0.6rem;
+            }
+            .mobile-card-info-grid .info-item {
+                display: flex; align-items: center; gap: 0.3rem;
+                overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+            }
+            .mobile-card-info-grid .info-item svg { flex-shrink: 0; width: 12px; height: 12px; color: var(--blue); opacity: 0.7; }
+
+            /* Card actions: round buttons like proto1 */
+            .action-container {
+                display: flex; justify-content: space-between; align-items: center;
+                padding-top: 0.65rem; margin-top: 0.65rem;
+            }
+            .action-container .action-group { display: flex; gap: 0.4rem; }
+            .action-container .btn-icon {
+                width: 36px; height: 36px; border-radius: 50%;
+                background: var(--bg-body); border: 1px solid var(--border-light);
+                color: var(--text-muted); box-shadow: var(--shadow-sm);
+                font-size: 0.85rem;
+            }
+            .action-container .btn-icon:hover,
+            .action-container .btn-icon:active { background: var(--blue); color: white; border-color: var(--blue); }
+            .action-container .btn-icon-danger {
+                width: 36px; height: 36px; border-radius: 50%;
+                display: inline-flex; align-items: center; justify-content: center;
+                background: var(--badge-red-bg); border: 1px solid #fecaca;
+                color: var(--badge-red-text); cursor: pointer; font-size: 0.85rem; box-shadow: var(--shadow-sm);
+            }
+            .action-container .btn-icon-danger:hover,
+            .action-container .btn-icon-danger:active { background: #ef4444; color: white; }
+
+            /* --- FAB (Floating Action Button) --- */
+            #fab-new-project {
+                display: flex;
+                position: fixed;
+                bottom: 1.5rem; right: 1.25rem;
+                width: 56px; height: 56px;
+                background: var(--magenta); color: white;
+                border: 2px solid rgba(255,255,255,0.25); border-radius: 50%;
+                box-shadow: 0 4px 15px -3px rgba(234,60,136,0.45);
+                align-items: center; justify-content: center;
+                font-size: 1.5rem; cursor: pointer; z-index: 150;
+                transition: transform 0.15s, box-shadow 0.15s;
+            }
+            #fab-new-project:active { transform: scale(0.9); }
+            #fab-new-project svg { width: 24px; height: 24px; }
+
+            /* --- Section titles: more compact --- */
+            .section-title { font-size: 1rem; margin: 1.25rem 0 0.75rem; gap: 0.5rem; }
+            .section-title .badge { font-size: 0.7rem; }
+
+            /* --- Mobile Compact Bar (scroll-triggered) --- */
             #mobileCompactBar {
                 display: flex;
                 position: fixed;
@@ -895,10 +1064,9 @@ permalink: gestionproyectos/index.html
 
     <!-- MOBILE COMPACT BAR (sticky en mobile al scrollear) -->
     <div id="mobileCompactBar">
-        <span class="mcb-brand">Cecilia Gortari</span>
+        <span class="mcb-brand">Gestión de Proyectos</span>
         <div class="mcb-actions">
-            <button class="btn btn-primary" onclick="openModal()">+ Nuevo</button>
-            <button class="btn btn-outline" onclick="manualRefresh()">&#x21bb;</button>
+            <button class="btn btn-outline" onclick="manualRefresh()" aria-label="Actualizar">&#x21bb;</button>
         </div>
     </div>
 
@@ -928,6 +1096,7 @@ permalink: gestionproyectos/index.html
                         <div class="brand-subtitle">Cecilia Gortari (Privado)</div>
                     </div>
                 </div>
+                <!-- Desktop controls (hidden on mobile via CSS) -->
                 <div class="header-controls">
                     <span id="save-indicator" class="save-indicator">
                         <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -938,9 +1107,20 @@ permalink: gestionproyectos/index.html
                     <button class="btn btn-outline" onclick="exportReportPDF()">Exportar</button>
                     <button class="btn btn-outline btn-sm" onclick="logout()" title="Cerrar sesión" style="color:var(--text-muted);">Salir</button>
                 </div>
+                <!-- Mobile icon buttons (hidden on desktop via CSS) -->
+                <div class="header-controls mobile-header-icons">
+                    <button class="btn-icon-mobile" onclick="manualRefresh()" aria-label="Actualizar">&#x21bb;</button>
+                    <button class="btn-icon-mobile" onclick="exportReportPDF()" aria-label="Exportar PDF">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    </button>
+                    <button class="btn-icon-mobile danger" onclick="logout()" aria-label="Salir">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    </button>
+                </div>
             </div>
+            <!-- Desktop search & filters (hidden on mobile via CSS) -->
             <div class="header-controls" style="margin-top: 0.5rem;">
-                <input type="text" id="search-input" class="search-bar" placeholder="Buscar por título, área..." oninput="filterData()">
+                <input type="text" id="search-input" class="search-bar" placeholder="Buscar por título, área..." oninput="var ms=document.getElementById('mobile-search-input'); if(ms) ms.value=this.value; filterData()">
 
                 <select id="filter-tipo" class="input-control" style="width: auto;" onchange="filterData()">
                     <option value="">Todos los Tipos</option>
@@ -962,6 +1142,42 @@ permalink: gestionproyectos/index.html
                 </select>
             </div>
         </header>
+
+        <!-- Mobile Search (hidden on desktop) -->
+        <div class="mobile-search-row">
+            <div class="mobile-search-wrap">
+                <span class="mobile-search-icon">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+                <input type="text" id="mobile-search-input" class="search-bar" placeholder="Buscar por título, área o tema..." oninput="document.getElementById('search-input').value=this.value; filterData();">
+            </div>
+        </div>
+
+        <!-- Mobile Filters (hidden on desktop) -->
+        <div class="mobile-filter-row">
+            <select onchange="document.getElementById('filter-tipo').value=this.value; filterData();">
+                <option value="">Tipo</option>
+                <option value="Proyecto de Ley">Ley</option>
+                <option value="Proyecto de Resolución">Resolución</option>
+                <option value="Proyecto de Declaración">Declaración</option>
+                <option value="Nota">Nota</option>
+                <option value="Pedido de informe">Pedido inf.</option>
+            </select>
+            <select onchange="document.getElementById('filter-responsable').value=this.value; filterData();">
+                <option value="">Responsable</option>
+                <option value="Sin asignar">Sin asignar</option>
+                <option value="Gonzalo">Gonzalo</option>
+                <option value="Tomás">Tomás</option>
+                <option value="Tamara">Tamara</option>
+                <option value="Rosalina">Rosalina</option>
+                <option value="Sonia">Sonia</option>
+            </select>
+            <select id="mobile-sort" onchange="changeMobileSort(this.value)">
+                <option value="updated">Actualiz.</option>
+                <option value="created">Creación</option>
+                <option value="objetivo">Objetivo</option>
+            </select>
+        </div>
 
         <!-- TABS -->
         <div class="tabs-bar">
@@ -1127,6 +1343,11 @@ permalink: gestionproyectos/index.html
                 </div>
             </div>
         </main>
+
+        <!-- FAB: Nuevo Proyecto (mobile only, hidden on desktop via CSS) -->
+        <button id="fab-new-project" onclick="openModal()" aria-label="Nuevo Proyecto">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
     </div>
 
     <!-- MODAL NUEVO/EDITAR (Split View) -->
@@ -1832,6 +2053,12 @@ permalink: gestionproyectos/index.html
             return `P-${String(max + 1).padStart(4, '0')}`;
         }
 
+        let mobileSortMode = 'updated';
+        function changeMobileSort(mode) {
+            mobileSortMode = mode;
+            renderUI();
+        }
+
         function filterData() {
             renderUI();
         }
@@ -1944,8 +2171,21 @@ permalink: gestionproyectos/index.html
             const filterTipo = document.getElementById('filter-tipo').value;
             const filterResp = document.getElementById('filter-responsable').value;
 
-            // Ordenamiento por actualización (default), luego sorting del usuario
-            let filtered = projects.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+            // Mobile sort mode (applied via dropdown)
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            let sortFn;
+            if (isMobile && mobileSortMode === 'created') {
+                sortFn = (a, b) => new Date(b.created_at) - new Date(a.created_at);
+            } else if (isMobile && mobileSortMode === 'objetivo') {
+                sortFn = (a, b) => {
+                    const da = a.fecha_objetivo_presentacion ? new Date(a.fecha_objetivo_presentacion) : new Date('2099-12-31');
+                    const db = b.fecha_objetivo_presentacion ? new Date(b.fecha_objetivo_presentacion) : new Date('2099-12-31');
+                    return da - db;
+                };
+            } else {
+                sortFn = (a, b) => new Date(b.updated_at) - new Date(a.updated_at);
+            }
+            let filtered = projects.sort(sortFn);
 
             // Filtros globales
             filtered = filtered.filter(p => {
@@ -2075,32 +2315,43 @@ permalink: gestionproyectos/index.html
                     </div>
                     <div class="project-title">${p.titulo}</div>
                     <div class="project-desc" style="margin-bottom:0.5rem">${p.resumen || 'Sin resumen'}</div>
-                    <div style="font-size:0.8rem; display:flex; justify-content:space-between; align-items:center;">
-                        <span style="color:var(--text-muted);">${p.tipo} • ${p.area_tema || 'Sin área'}</span>
-                        <span style="font-weight:600; color:var(--text-main)">${respText}</span>
+                    <div class="mobile-card-info-grid">
+                        <div class="info-item">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                            <span>${p.tipo}</span>
+                        </div>
+                        <div class="info-item">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            <span>${respText}</span>
+                        </div>
+                        <div class="info-item">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            <span>${formatDateOnly(p.created_at)}</span>
+                        </div>
+                        <div class="info-item" style="${p.area_tema ? '' : 'color:var(--text-muted);'}">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                            <span>${p.area_tema || 'Sin área'}</span>
+                        </div>
                     </div>
                     ${overdueHtml}
                 `;
 
                 if (!isPresentadoTable) {
                     cardHtml += `
-                        <div class="mobile-card-meta">
-                            <span style="font-size:0.75rem; color:var(--text-muted);">Creado: ${formatDateOnly(p.created_at)}</span>
-                            ${p.fecha_objetivo_presentacion ? `<span style="font-size:0.8rem; font-weight:600;">Obj: ${formatDateOnly(p.fecha_objetivo_presentacion)}</span>` : ''}
-                        </div>
+                        ${p.fecha_objetivo_presentacion ? `<div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">Obj: <strong>${formatDateOnly(p.fecha_objetivo_presentacion)}</strong></div>` : ''}
                         <div class="action-container">
-                            <button class="btn-icon" title="Marcar como presentado" aria-label="Presentar" onclick="openQuickPresentar('${p.id}', event)">${SVG_ICONS.checkCircle}</button>
-                            <button class="btn-icon" title="Asignar responsable" aria-label="Responsable" onclick="openQuickResponsable('${p.id}', event)">${SVG_ICONS.user}</button>
-                            ${hasAnyDoc ? `<button class="btn-icon" title="Ver documentos" aria-label="Documentos" onclick="openDocumentsModal('${p.id}', event)" style="color:var(--blue)">${SVG_ICONS.download}</button>` : ''}
-                            <button class="btn-icon" title="Eliminar proyecto" aria-label="Eliminar" onclick="quickDelete('${p.id}', event)">${SVG_ICONS.trash}</button>
+                            <div class="action-group">
+                                <button class="btn-icon" title="Marcar como presentado" aria-label="Presentar" onclick="openQuickPresentar('${p.id}', event)">${SVG_ICONS.checkCircle}</button>
+                                <button class="btn-icon" title="Asignar responsable" aria-label="Responsable" onclick="openQuickResponsable('${p.id}', event)">${SVG_ICONS.user}</button>
+                                ${hasAnyDoc ? `<button class="btn-icon" title="Ver documentos" aria-label="Documentos" onclick="openDocumentsModal('${p.id}', event)" style="color:var(--blue)">${SVG_ICONS.download}</button>` : ''}
+                            </div>
+                            <button class="btn-icon-danger" title="Eliminar proyecto" aria-label="Eliminar" onclick="quickDelete('${p.id}', event)">${SVG_ICONS.trash}</button>
                         </div>
                     `;
                 } else {
                     cardHtml += `
-                        <div class="mobile-card-meta">
-                            <span style="font-size:0.85rem; font-weight:600; color:var(--magenta);">Presentado: ${formatDateOnly(p.fecha_presentacion)}</span>
-                            <span style="font-size:0.75rem; color:var(--text-muted);">Actualizado: ${formatDateOnly(p.updated_at)}</span>
-                        </div>
+                        <div style="font-size:0.8rem; font-weight:600; color:var(--magenta); margin-top:0.25rem;">Presentado: ${formatDateOnly(p.fecha_presentacion)}</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">Actualizado: ${formatDateOnly(p.updated_at)}</div>
                     `;
                 }
 
