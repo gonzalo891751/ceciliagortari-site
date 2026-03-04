@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS ${TABLE} (
   estado_tramite TEXT DEFAULT '',
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
-  deleted_at TEXT DEFAULT NULL
+  deleted_at TEXT DEFAULT NULL,
+  action_plan TEXT DEFAULT '[]'
 )`;
 
 const CREATE_DOCS_TABLE_SQL = `
@@ -38,6 +39,12 @@ CREATE TABLE IF NOT EXISTS project_documents (
 async function ensureTable(db) {
   await db.prepare(CREATE_TABLE_SQL).run();
   await db.prepare(CREATE_DOCS_TABLE_SQL).run();
+  // Ensure action_plan column exists (for existing tables)
+  try {
+    await db.prepare(`SELECT action_plan FROM ${TABLE} LIMIT 1`).all();
+  } catch (e) {
+    await db.prepare(`ALTER TABLE ${TABLE} ADD COLUMN action_plan TEXT DEFAULT '[]'`).run();
+  }
 }
 
 export async function onRequestGet(context) {
@@ -50,6 +57,7 @@ export async function onRequestGet(context) {
         `SELECT p.id, p.tipo, p.titulo, p.responsable, p.area_tema, p.resumen,
                 p.estado_preparacion, p.fecha_objetivo_presentacion,
                 p.fecha_presentacion, p.estado_tramite, p.created_at, p.updated_at,
+                p.action_plan,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'main') AS has_main_doc,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'material') AS materials_count
          FROM ${TABLE} p
@@ -58,7 +66,16 @@ export async function onRequestGet(context) {
       )
       .all();
 
-    return new Response(JSON.stringify(results || []), {
+    // Parse action_plan from JSON string to array
+    const parsed = (results || []).map((r) => {
+      let ap = [];
+      try {
+        ap = JSON.parse(r.action_plan || "[]");
+      } catch (_) {}
+      return { ...r, action_plan: ap };
+    });
+
+    return new Response(JSON.stringify(parsed), {
       status: 200,
       headers: HEADERS,
     });
@@ -87,6 +104,15 @@ export async function onRequestPost(context) {
       );
     }
 
+    // Serialize action_plan to JSON string
+    let actionPlanStr = "[]";
+    if (body.action_plan) {
+      actionPlanStr =
+        typeof body.action_plan === "string"
+          ? body.action_plan
+          : JSON.stringify(body.action_plan);
+    }
+
     const project = {
       id: body.id,
       tipo: body.tipo,
@@ -100,6 +126,7 @@ export async function onRequestPost(context) {
       estado_tramite: body.estado_tramite || "",
       created_at: body.created_at,
       updated_at: body.updated_at,
+      action_plan: actionPlanStr,
     };
 
     // UPSERT: INSERT OR REPLACE
@@ -108,8 +135,8 @@ export async function onRequestPost(context) {
         `INSERT INTO ${TABLE}
            (id, tipo, titulo, responsable, area_tema, resumen,
             estado_preparacion, fecha_objetivo_presentacion,
-            fecha_presentacion, estado_tramite, created_at, updated_at, deleted_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
+            fecha_presentacion, estado_tramite, created_at, updated_at, deleted_at, action_plan)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?)
          ON CONFLICT(id) DO UPDATE SET
            tipo = excluded.tipo,
            titulo = excluded.titulo,
@@ -121,7 +148,8 @@ export async function onRequestPost(context) {
            fecha_presentacion = excluded.fecha_presentacion,
            estado_tramite = excluded.estado_tramite,
            updated_at = excluded.updated_at,
-           deleted_at = NULL`
+           deleted_at = NULL,
+           action_plan = excluded.action_plan`
       )
       .bind(
         project.id,
@@ -135,12 +163,19 @@ export async function onRequestPost(context) {
         project.fecha_presentacion,
         project.estado_tramite,
         project.created_at,
-        project.updated_at
+        project.updated_at,
+        project.action_plan
       )
       .run();
 
+    // Return project with parsed action_plan
+    let parsedAP = [];
+    try {
+      parsedAP = JSON.parse(project.action_plan);
+    } catch (_) {}
+
     return new Response(
-      JSON.stringify({ ok: true, project }),
+      JSON.stringify({ ok: true, project: { ...project, action_plan: parsedAP } }),
       { status: 200, headers: HEADERS }
     );
   } catch (err) {

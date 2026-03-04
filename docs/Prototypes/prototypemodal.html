@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Proyectos | Cecilia Gortari</title>
+    
+    <!-- Tipografía Oficial: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS con Configuración de Brandbook -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#11103B',      // Azul institucional oscuro
+                            blue: '#265EEC',      // Azul vibrante
+                            magenta: '#C06BCA',   // Magenta principal
+                            'magenta-dark': '#A52BB3', // Magenta para hover
+                            orange: '#FBA85F',    // Naranja acento
+                            turquoise: '#24BCDE', // Turquesa acento
+                            pink: '#E5BAE5',      // Rosa claro
+                            text: '#2C2C31',      // Texto principal
+                            muted: '#6E6E74',     // Texto secundario
+                            bg: '#F7F7FD',        // Fondo general
+                            surface: '#FCFCFF',   // Fondo tarjetas/modales
+                            border: '#ECECF3'     // Bordes suaves
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(17, 16, 59, 0.05)',
+                        'modal': '0 20px 40px -10px rgba(17, 16, 59, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Íconos -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Estilos base y scrollbars para que se vea premium */
+        body { background-color: #F7F7FD; color: #2C2C31; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #CACADI; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ADADB3; }
+        
+        /* Animaciones para modales */
+        .modal-enter { opacity: 0; transform: scale(0.95) translateY(10px); }
+        .modal-enter-active { opacity: 1; transform: scale(1) translateY(0); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-exit { opacity: 1; transform: scale(1); }
+        .modal-exit-active { opacity: 0; transform: scale(0.95) translateY(10px); transition: all 0.2s ease-in; }
+        .backdrop-enter { opacity: 0; }
+        .backdrop-enter-active { opacity: 1; transition: opacity 0.3s ease; }
+        
+        /* Utilidades UI */
+        .checkbox-custom:checked + label .check-icon { display: block; }
+        .checkbox-custom:checked + label .task-text { text-decoration: line-through; color: #ADADB3; }
+        .dropzone-active { border-color: #C06BCA; background-color: #F4E6F5; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- NAVBAR -->
+    <nav class="bg-white border-b border-brand-border sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center gap-4">
+                    <div class="w-8 h-8 rounded-full bg-brand-dark flex items-center justify-center text-white font-bold text-sm">
+                        CG
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-brand-dark text-lg leading-tight">Gestión de Proyectos</h1>
+                        <p class="text-xs text-brand-magenta font-medium">Cecilia Gortari (Privado)</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative hidden md:block">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-muted"></i>
+                        <input type="text" placeholder="Buscar por título, área..." class="pl-9 pr-4 py-2 bg-brand-bg border border-brand-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-magenta/20 focus:border-brand-magenta transition-all w-64">
+                    </div>
+                    <button onclick="openModal('editModal')" class="bg-brand-magenta hover:bg-brand-magenta-dark text-white px-5 py-2 rounded-xl text-sm font-semibold transition-colors flex items-center gap-2 shadow-sm">
+                        <i data-lucide="plus" class="w-4 h-4"></i> Nuevo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN DASHBOARD -->
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <!-- Pestañas/Filtros -->
+        <div class="flex items-center gap-6 border-b border-brand-border mb-6">
+            <button class="pb-3 border-b-2 border-brand-magenta text-brand-magenta font-semibold text-sm">Pendientes y En trabajo</button>
+            <button class="pb-3 border-b-2 border-transparent text-brand-muted hover:text-brand-dark font-medium text-sm transition-colors">Finalizados</button>
+            <button class="pb-3 border-b-2 border-transparent text-brand-muted hover:text-brand-dark font-medium text-sm transition-colors">Dashboard</button>
+        </div>
+
+        <!-- Tabla de Proyectos -->
+        <div class="bg-white rounded-2xl shadow-soft border border-brand-border overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-brand-bg/50 text-brand-muted font-medium text-xs uppercase tracking-wider">
+                        <tr>
+                            <th class="px-6 py-4">ID</th>
+                            <th class="px-6 py-4">Proyecto</th>
+                            <th class="px-6 py-4">Tipo / Área</th>
+                            <th class="px-6 py-4">Fechas</th>
+                            <th class="px-6 py-4">Plan de Acción</th>
+                            <th class="px-6 py-4 text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectsTableBody" class="divide-y divide-brand-border">
+                        <!-- Renderizado por JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- ==========================================
+         MODAL: CREAR / EDITAR PROYECTO (SPLIT VIEW)
+         ========================================== -->
+    <div id="editModal" class="fixed inset-0 z-50 hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-brand-dark/40 backdrop-blur-sm backdrop-enter" onclick="closeModal('editModal')"></div>
+        
+        <!-- Modal Container -->
+        <div class="absolute inset-4 md:inset-10 flex items-center justify-center pointer-events-none">
+            <div class="bg-brand-surface w-full max-w-[1200px] h-full max-h-[90vh] rounded-2xl shadow-modal flex flex-col pointer-events-auto modal-enter overflow-hidden" onclick="event.stopPropagation()">
+                
+                <!-- Header -->
+                <div class="px-6 py-4 border-b border-brand-border flex justify-between items-center bg-white z-10">
+                    <h2 class="text-xl font-bold text-brand-dark" id="editModalTitle">Nuevo Proyecto</h2>
+                    <button onclick="closeModal('editModal')" class="p-2 text-brand-muted hover:text-brand-dark hover:bg-brand-bg rounded-lg transition-colors">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Body (Split View) -->
+                <div class="flex-1 overflow-y-auto bg-brand-bg/30">
+                    <div class="flex flex-col lg:flex-row h-full">
+                        
+                        <!-- Columna Izquierda: Datos + Plan de Acción -->
+                        <div class="w-full lg:w-[60%] p-6 lg:p-8 lg:border-r border-brand-border bg-white">
+                            <form id="projectForm" class="space-y-6">
+                                <!-- Bloque: Datos Básicos -->
+                                <div>
+                                    <h3 class="text-sm font-bold text-brand-dark uppercase tracking-wider mb-4 flex items-center gap-2">
+                                        <i data-lucide="file-text" class="w-4 h-4 text-brand-magenta"></i> Datos del Proyecto
+                                    </h3>
+                                    
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-brand-dark mb-1">Título del Proyecto *</label>
+                                            <input type="text" id="pTitle" required class="w-full px-4 py-2.5 bg-brand-bg border border-brand-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-magenta/20 focus:border-brand-magenta transition-all">
+                                        </div>
+                                        
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="block text-sm font-medium text-brand-dark mb-1">Tipo</label>
+                                                <select id="pType" class="w-full px-4 py-2.5 bg-brand-bg border border-brand-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-magenta/20 focus:border-brand-magenta appearance-none cursor-pointer">
+                                                    <option value="Proyecto de Ley">Proyecto de Ley</option>
+                                                    <option value="Resolución">Resolución</option>
+                                                    <option value="Declaración">Declaración</option>
+                                                    <option value="Pedido de Informe">Pedido de Informe</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-brand-dark mb-1">Responsable</label>
+                                                <select id="pResp" class="w-full px-4 py-2.5 bg-brand-bg border border-brand-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-magenta/20 focus:border-brand-magenta appearance-none cursor-pointer">
+                                                    <option>Sin asignar</option>
+                                                    <option>Cecilia Gortari</option>
+                                                    <option>Equipo Técnico</option>
+                                                    <option>Prensa</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-brand-dark mb-1">Área / Tema</label>
+                                                <input type="text" id="pArea" placeholder="Ej: Salud, Educación..." class="w-full px-4 py-2.5 bg-brand-bg border border-brand-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-magenta/20 focus:border-brand-magenta transition-all">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-brand-dark mb-1">Fecha Objetivo (Presentación)</label>
+                                                <input type="date" id="pDate" class="w-full px-4 py-2.5 bg-brand-bg border border-brand-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-magenta/20 focus:border-brand-magenta transition-all text-brand-muted">
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-sm font-medium text-brand-dark mb-1">Resumen</label>
+                                            <textarea id="pSummary" rows="3" class="w-full px-4 py-2.5 bg-brand-bg border border-brand-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-magenta/20 focus:border-brand-magenta transition-all resize-none"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr class="border-brand-border">
+
+                                <!-- Bloque: Plan de Acción -->
+                                <div class="bg-brand-bg/50 p-5 rounded-2xl border border-brand-border">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <div>
+                                            <h3 class="text-sm font-bold text-brand-dark uppercase tracking-wider flex items-center gap-2">
+                                                <i data-lucide="check-square" class="w-4 h-4 text-brand-orange"></i> Plan de Acción
+                                            </h3>
+                                            <p class="text-xs text-brand-muted mt-1">Tareas de lobby, gestión y seguimiento para este proyecto.</p>
+                                        </div>
+                                        <button type="button" onclick="loadTemplates()" class="text-xs font-medium text-brand-blue bg-brand-blue/10 px-3 py-1.5 rounded-lg hover:bg-brand-blue/20 transition-colors">
+                                            + Plantillas rápidas
+                                        </button>
+                                    </div>
+
+                                    <!-- Barra de progreso miniatura -->
+                                    <div class="mb-4">
+                                        <div class="flex justify-between text-xs font-medium text-brand-muted mb-1">
+                                            <span id="editProgressText">0 de 0 completadas</span>
+                                            <span id="editProgressPercent">0%</span>
+                                        </div>
+                                        <div class="w-full bg-brand-border rounded-full h-1.5 overflow-hidden">
+                                            <div id="editProgressBar" class="bg-brand-orange h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Lista de Tareas Editables -->
+                                    <div id="editChecklist" class="space-y-2 mb-4 max-h-[250px] overflow-y-auto pr-2">
+                                        <!-- Renderizado por JS -->
+                                    </div>
+
+                                    <!-- Agregar nueva tarea -->
+                                    <div class="flex gap-2">
+                                        <input type="text" id="newTaskInput" placeholder="Ej: Llamar a presidente de comisión..." class="flex-1 px-4 py-2 bg-white border border-brand-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange transition-all" onkeypress="handleNewTaskKey(event)">
+                                        <button type="button" onclick="addTask()" class="bg-brand-dark text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-black transition-colors">
+                                            Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Columna Derecha: Documentos -->
+                        <div class="w-full lg:w-[40%] p-6 lg:p-8 bg-brand-surface">
+                            <h3 class="text-sm font-bold text-brand-dark uppercase tracking-wider mb-4 flex items-center gap-2">
+                                <i data-lucide="paperclip" class="w-4 h-4 text-brand-turquoise"></i> Archivos y Fuentes
+                            </h3>
+                            
+                            <!-- Dropzone Principal -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-brand-dark mb-2">Documento del Proyecto (Draft Final)</label>
+                                <div id="dropzoneMain" class="border-2 border-dashed border-brand-border rounded-2xl p-6 text-center hover:border-brand-magenta hover:bg-brand-pink/10 transition-colors cursor-pointer group">
+                                    <div class="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                                        <i data-lucide="upload-cloud" class="w-5 h-5 text-brand-magenta"></i>
+                                    </div>
+                                    <p class="text-sm font-medium text-brand-dark">Click o arrastrá un archivo <span class="text-brand-magenta">PDF o DOCX</span></p>
+                                    <p class="text-xs text-brand-muted mt-1">Máx. 50MB</p>
+                                </div>
+                            </div>
+
+                            <!-- Dropzone Materiales -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-brand-dark mb-2">Materiales Anexos</label>
+                                <div class="border-2 border-dashed border-brand-border rounded-2xl p-6 text-center hover:border-brand-blue hover:bg-brand-blue/5 transition-colors cursor-pointer group">
+                                    <div class="w-10 h-10 bg-white shadow-sm rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                                        <i data-lucide="files" class="w-5 h-5 text-brand-blue"></i>
+                                    </div>
+                                    <p class="text-sm font-medium text-brand-dark">Arrastrá fuentes, imágenes o excels</p>
+                                </div>
+                            </div>
+
+                            <!-- Lista Mock de archivos subidos -->
+                            <div>
+                                <h4 class="text-xs font-semibold text-brand-muted uppercase tracking-wider mb-3">Archivos subidos</h4>
+                                <ul class="space-y-2" id="editMockFiles">
+                                    <!-- Renderizado JS mock -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer (Acciones) -->
+                <div class="px-6 py-4 border-t border-brand-border bg-white z-10 flex justify-end gap-3">
+                    <button type="button" onclick="closeModal('editModal')" class="px-5 py-2 rounded-xl text-sm font-medium text-brand-dark border border-brand-border hover:bg-brand-bg transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="button" onclick="saveProject()" class="px-5 py-2 rounded-xl text-sm font-medium text-white bg-brand-magenta hover:bg-brand-magenta-dark shadow-sm hover:shadow transition-all">
+                        Guardar Proyecto
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         MODAL: DETALLE DE PROYECTO (VISUALIZACIÓN Y CHECKLIST ACTIVO)
+         ========================================== -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-brand-dark/40 backdrop-blur-sm backdrop-enter" onclick="closeModal('detailModal')"></div>
+        
+        <!-- Modal Container -->
+        <div class="absolute inset-4 md:inset-10 flex items-center justify-center pointer-events-none">
+            <div class="bg-brand-surface w-full max-w-[1000px] h-full max-h-[85vh] rounded-2xl shadow-modal flex flex-col pointer-events-auto modal-enter overflow-hidden" onclick="event.stopPropagation()">
+                
+                <!-- Header Especial -->
+                <div class="px-8 py-6 border-b border-brand-border bg-white flex justify-between items-start gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span id="vId" class="text-xs font-bold text-brand-muted bg-brand-bg px-2 py-1 rounded-md">P-0000</span>
+                            <span id="vStateBadge" class="text-xs font-bold px-2 py-1 rounded-md">Estado</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-brand-dark leading-tight" id="vTitle">Título del Proyecto</h2>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="openEditFromDetail()" class="p-2 text-brand-dark bg-brand-bg hover:bg-brand-border rounded-xl transition-colors flex items-center gap-2 text-sm font-medium">
+                            <i data-lucide="edit-3" class="w-4 h-4"></i> <span class="hidden sm:inline">Editar</span>
+                        </button>
+                        <button onclick="closeModal('detailModal')" class="p-2 text-brand-muted hover:text-brand-dark hover:bg-brand-bg rounded-xl transition-colors">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Body (Detalle) -->
+                <div class="flex-1 overflow-y-auto p-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                        
+                        <!-- Columna Info -->
+                        <div class="col-span-1 lg:col-span-7 space-y-8">
+                            
+                            <!-- Metadatos -->
+                            <div class="flex flex-wrap gap-6 bg-white p-5 rounded-2xl border border-brand-border shadow-sm">
+                                <div>
+                                    <p class="text-xs text-brand-muted font-medium mb-1">Tipo</p>
+                                    <p class="text-sm font-semibold text-brand-dark flex items-center gap-1.5"><i data-lucide="file" class="w-4 h-4 text-brand-magenta"></i> <span id="vType">Ley</span></p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-brand-muted font-medium mb-1">Área / Tema</p>
+                                    <p class="text-sm font-semibold text-brand-dark flex items-center gap-1.5"><i data-lucide="tag" class="w-4 h-4 text-brand-orange"></i> <span id="vArea">Salud</span></p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-brand-muted font-medium mb-1">Responsable</p>
+                                    <p class="text-sm font-semibold text-brand-dark flex items-center gap-1.5"><i data-lucide="user" class="w-4 h-4 text-brand-blue"></i> <span id="vResp">Cecilia</span></p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-brand-muted font-medium mb-1">Fecha Obj.</p>
+                                    <p class="text-sm font-semibold text-brand-dark flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-brand-turquoise"></i> <span id="vDate">12/10/2026</span></p>
+                                </div>
+                            </div>
+
+                            <!-- Resumen -->
+                            <div>
+                                <h3 class="text-sm font-bold text-brand-dark uppercase tracking-wider mb-2">Resumen</h3>
+                                <p class="text-brand-muted text-sm leading-relaxed" id="vSummary">Resumen del proyecto...</p>
+                            </div>
+
+                            <!-- PLAN DE ACCIÓN INTERACTIVO -->
+                            <div class="bg-white rounded-2xl border border-brand-border p-6 shadow-sm relative overflow-hidden">
+                                <!-- Deco sutil en el fondo -->
+                                <div class="absolute -right-10 -bottom-10 opacity-5 pointer-events-none">
+                                    <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                                </div>
+                                
+                                <div class="flex justify-between items-end mb-5">
+                                    <div>
+                                        <h3 class="text-lg font-bold text-brand-dark flex items-center gap-2">
+                                            <i data-lucide="list-checks" class="w-5 h-5 text-brand-orange"></i> Plan de Acción
+                                        </h3>
+                                        <p class="text-xs text-brand-muted mt-1">Podés ir tildando las tareas a medida que avanzás.</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span id="vProgressText" class="text-lg font-bold text-brand-magenta">0%</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Progreso visual -->
+                                <div class="w-full bg-brand-bg rounded-full h-2 mb-6 overflow-hidden">
+                                    <div id="vProgressBar" class="bg-gradient-to-r from-brand-orange to-brand-magenta h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                </div>
+
+                                <!-- Lista interactiva -->
+                                <div id="vChecklist" class="space-y-3 relative z-10">
+                                    <!-- Renderizado JS -->
+                                </div>
+                                
+                                <!-- Toast de guardado silencioso -->
+                                <div id="saveToast" class="absolute top-4 right-4 bg-green-100 text-green-800 text-xs px-3 py-1.5 rounded-lg font-medium opacity-0 transition-opacity flex items-center gap-1">
+                                    <i data-lucide="check-circle" class="w-3 h-3"></i> Guardado
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Columna Documentos -->
+                        <div class="col-span-1 lg:col-span-5">
+                            <h3 class="text-sm font-bold text-brand-dark uppercase tracking-wider mb-4">Documentos (3)</h3>
+                            <div class="space-y-3">
+                                <!-- Mock docs list -->
+                                <div class="bg-white p-3 rounded-xl border border-brand-border flex items-center gap-3 group hover:border-brand-magenta transition-colors cursor-pointer">
+                                    <div class="w-10 h-10 bg-brand-pink/20 rounded-lg flex items-center justify-center text-brand-magenta">
+                                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold text-brand-dark truncate">Proyecto_Ley_Final.docx</p>
+                                        <p class="text-xs text-brand-muted">2.4 MB • Versión Final</p>
+                                    </div>
+                                    <button class="text-brand-muted hover:text-brand-magenta opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <i data-lucide="download" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+
+                                <div class="bg-white p-3 rounded-xl border border-brand-border flex items-center gap-3 group hover:border-brand-blue transition-colors cursor-pointer">
+                                    <div class="w-10 h-10 bg-brand-blue/10 rounded-lg flex items-center justify-center text-brand-blue">
+                                        <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold text-brand-dark truncate">Datos_Estadisticos.xlsx</p>
+                                        <p class="text-xs text-brand-muted">1.1 MB • Material de apoyo</p>
+                                    </div>
+                                    <button class="text-brand-muted hover:text-brand-blue opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <i data-lucide="download" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         JAVASCRIPT LOGIC
+         ========================================== -->
+    <script>
+        // Inicializar íconos
+        lucide.createIcons();
+
+        // ------------------
+        // ESTADO DE LA APP (MOCK DATA)
+        // ------------------
+        let currentProjectId = null;
+        let tempChecklist = []; // Tareas temporales en modo edición
+
+        const mockProjects = [
+            {
+                id: 'P-0021',
+                title: 'Sesiones itinerantes de la cámara de diputados',
+                summary: 'Proyecto destinado a promover la participación ciudadana trasladando las sesiones a distintas localidades del interior provincial para fortalecer el federalismo.',
+                type: 'Proyecto de Ley',
+                area: 'Institucional',
+                resp: 'Cecilia Gortari',
+                date: '2026-03-03',
+                status: 'En Trabajo',
+                tasks: [
+                    { id: 1, text: 'Redactar fundamentos', done: true },
+                    { id: 2, text: 'Revisión técnica legislativa', done: true },
+                    { id: 3, text: 'Lobby con presidentes de bloque', done: false },
+                    { id: 4, text: 'Nota de prensa lanzamiento', done: false }
+                ]
+            },
+            {
+                id: 'P-0020',
+                title: 'Inhabilitación de acceso a salas de juego a Deudores Alimentarios',
+                summary: 'Proyecto de ley destinado a modificar normativas para restringir el acceso a casinos y bingos a personas inscriptas en el registro de deudores alimentarios morosos.',
+                type: 'Proyecto de Ley',
+                area: 'Desarrollo Social',
+                resp: 'Equipo Técnico',
+                date: '2026-03-09',
+                status: 'Pendiente',
+                tasks: [
+                    { id: 1, text: 'Consulta con Lotería Correntina', done: false },
+                    { id: 2, text: 'Redacción del artículado', done: true }
+                ]
+            },
+            {
+                id: 'P-0018',
+                title: 'Solicitud de Señalización e Iluminación en RN 12',
+                summary: 'Pedir demarcación, cartelería e iluminación en cruces peligrosos de la Ruta Nacional 12, especialmente en accesos a zonas urbanas críticas.',
+                type: 'Resolución',
+                area: 'Obras Públicas',
+                resp: 'Sin asignar',
+                date: '2026-02-26',
+                status: 'Presentado',
+                tasks: [
+                    { id: 1, text: 'Reunión Vialidad Nacional', done: true },
+                    { id: 2, text: 'Juntar firmas de vecinos', done: true },
+                    { id: 3, text: 'Presentación formal', done: true }
+                ]
+            }
+        ];
+
+        // ------------------
+        // RENDER DE TABLA PRINCIPAL
+        // ------------------
+        function renderTable() {
+            const tbody = document.getElementById('projectsTableBody');
+            tbody.innerHTML = '';
+
+            mockProjects.forEach(p => {
+                // Calcular progreso
+                const total = p.tasks.length;
+                const done = p.tasks.filter(t => t.done).length;
+                const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+                
+                // Color badge estado
+                let badgeClass = 'bg-brand-bg text-brand-muted';
+                if(p.status === 'En Trabajo') badgeClass = 'bg-brand-orange/10 text-brand-orange';
+                if(p.status === 'Pendiente') badgeClass = 'bg-brand-pink/20 text-brand-magenta';
+                if(p.status === 'Presentado') badgeClass = 'bg-brand-turquoise/10 text-brand-turquoise';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-brand-bg/50 transition-colors cursor-pointer group';
+                tr.onclick = () => openDetailModal(p.id);
+                
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-xs font-bold text-brand-muted">${p.id}</td>
+                    <td class="px-6 py-4">
+                        <p class="text-sm font-bold text-brand-blue group-hover:text-brand-magenta transition-colors mb-1">${p.title}</p>
+                        <p class="text-xs text-brand-muted line-clamp-1 max-w-md">${p.summary}</p>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <p class="text-xs font-semibold text-brand-dark">${p.type}</p>
+                        <p class="text-xs text-brand-muted">${p.area}</p>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="inline-block px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${badgeClass} mb-1">${p.status}</span>
+                        <p class="text-xs text-brand-dark flex items-center gap-1"><i data-lucide="flag" class="w-3 h-3"></i> ${formatDate(p.date)}</p>
+                    </td>
+                    <td class="px-6 py-4">
+                        <!-- Mini progress bar -->
+                        <div class="flex items-center gap-2" onclick="event.stopPropagation(); openDetailModal('${p.id}')">
+                            <div class="flex-1 h-1.5 bg-brand-border rounded-full min-w-[60px] max-w-[100px]">
+                                <div class="h-1.5 rounded-full ${percent === 100 ? 'bg-green-500' : 'bg-brand-orange'}" style="width: ${percent}%"></div>
+                            </div>
+                            <span class="text-xs font-medium text-brand-muted w-8">${done}/${total}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right">
+                        <div class="flex justify-end gap-2">
+                            <button onclick="event.stopPropagation(); openDetailModal('${p.id}')" class="p-1.5 text-brand-muted hover:text-brand-blue rounded-lg hover:bg-brand-blue/10 transition-colors" title="Ver Detalles">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); openEditModal('${p.id}')" class="p-1.5 text-brand-muted hover:text-brand-magenta rounded-lg hover:bg-brand-pink/20 transition-colors" title="Editar">
+                                <i data-lucide="edit-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            lucide.createIcons();
+        }
+
+        function formatDate(dateStr) {
+            if(!dateStr) return '--/--/----';
+            const [y, m, d] = dateStr.split('-');
+            return `${d}/${m}/${y}`;
+        }
+
+        // ------------------
+        // CONTROL DE MODALES
+        // ------------------
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Scroll lock
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            // Animación manual (simplificada para Vainilla JS)
+            const container = modal.querySelector('.modal-enter');
+            const backdrop = modal.querySelector('.backdrop-enter');
+            
+            container.classList.remove('modal-enter-active');
+            container.classList.add('modal-exit-active');
+            backdrop.classList.remove('backdrop-enter-active');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                container.classList.remove('modal-exit-active');
+                container.classList.add('modal-enter-active');
+                backdrop.classList.add('backdrop-enter-active');
+                document.body.style.overflow = '';
+            }, 200);
+        }
+
+        // Escape para cerrar
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if(!document.getElementById('editModal').classList.contains('hidden')) closeModal('editModal');
+                if(!document.getElementById('detailModal').classList.contains('hidden')) closeModal('detailModal');
+            }
+        });
+
+        // ------------------
+        // LÓGICA: CREAR/EDITAR
+        // ------------------
+        function openEditModal(id = null) {
+            currentProjectId = id;
+            document.getElementById('editModalTitle').textContent = id ? 'Editar Proyecto' : 'Nuevo Proyecto';
+            
+            const form = document.getElementById('projectForm');
+            
+            if (id) {
+                const p = mockProjects.find(x => x.id === id);
+                document.getElementById('pTitle').value = p.title;
+                document.getElementById('pType').value = p.type;
+                document.getElementById('pResp').value = p.resp;
+                document.getElementById('pArea').value = p.area;
+                document.getElementById('pDate').value = p.date;
+                document.getElementById('pSummary').value = p.summary;
+                tempChecklist = JSON.parse(JSON.stringify(p.tasks)); // Deep copy
+            } else {
+                form.reset();
+                tempChecklist = [];
+            }
+            
+            renderEditChecklist();
+            openModal('editModal');
+            
+            // Render mock files (solo visual en edit)
+            document.getElementById('editMockFiles').innerHTML = id ? `
+                <li class="flex items-center justify-between bg-white border border-brand-border p-2.5 rounded-xl">
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <i data-lucide="file-text" class="w-4 h-4 text-brand-magenta shrink-0"></i>
+                        <span class="text-sm font-medium text-brand-dark truncate">Borrador_v2.docx</span>
+                    </div>
+                    <button type="button" class="text-brand-muted hover:text-red-500 shrink-0"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                </li>
+            ` : '<li class="text-xs text-brand-muted italic">Sin archivos adjuntos.</li>';
+            lucide.createIcons();
+        }
+
+        function saveProject() {
+            // Lógica mock de guardado
+            closeModal('editModal');
+            
+            // Si estuviéramos guardando de verdad, actualizaríamos mockProjects acá.
+            // Para el demo, solo recargamos la tabla visualmente.
+            renderTable();
+        }
+
+        // ------------------
+        // LÓGICA CHECKLIST (MODO EDICIÓN)
+        // ------------------
+        function renderEditChecklist() {
+            const list = document.getElementById('editChecklist');
+            list.innerHTML = '';
+            
+            if(tempChecklist.length === 0) {
+                list.innerHTML = '<p class="text-xs text-brand-muted italic py-2">No hay tareas en el plan de acción.</p>';
+            }
+
+            tempChecklist.forEach((t, index) => {
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between bg-white px-3 py-2 rounded-xl border border-brand-border group";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3 overflow-hidden flex-1">
+                        <i data-lucide="grip-vertical" class="w-4 h-4 text-brand-border group-hover:text-brand-muted cursor-move shrink-0"></i>
+                        <div class="relative flex items-center shrink-0">
+                            <input type="checkbox" id="temp_chk_${index}" ${t.done ? 'checked' : ''} onchange="toggleTempTask(${index})" class="peer sr-only checkbox-custom">
+                            <label for="temp_chk_${index}" class="w-5 h-5 border-2 border-brand-border rounded md cursor-pointer peer-checked:bg-brand-orange peer-checked:border-brand-orange transition-all flex items-center justify-center">
+                                <i data-lucide="check" class="w-3 h-3 text-white hidden check-icon"></i>
+                            </label>
+                        </div>
+                        <span class="text-sm font-medium text-brand-dark truncate transition-all ${t.done ? 'line-through text-brand-muted' : ''}">${t.text}</span>
+                    </div>
+                    <button type="button" onclick="removeTask(${index})" class="text-brand-border hover:text-red-500 p-1 opacity-0 group-hover:opacity-100 transition-all shrink-0">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                `;
+                list.appendChild(div);
+            });
+            
+            updateEditProgress();
+            lucide.createIcons();
+        }
+
+        function handleNewTaskKey(e) {
+            if(e.key === 'Enter') {
+                e.preventDefault();
+                addTask();
+            }
+        }
+
+        function addTask() {
+            const input = document.getElementById('newTaskInput');
+            const val = input.value.trim();
+            if(val) {
+                tempChecklist.push({ id: Date.now(), text: val, done: false });
+                input.value = '';
+                renderEditChecklist();
+                // Scroll al fondo
+                const list = document.getElementById('editChecklist');
+                list.scrollTop = list.scrollHeight;
+            }
+        }
+
+        function removeTask(index) {
+            tempChecklist.splice(index, 1);
+            renderEditChecklist();
+        }
+
+        function toggleTempTask(index) {
+            tempChecklist[index].done = !tempChecklist[index].done;
+            renderEditChecklist();
+        }
+
+        function loadTemplates() {
+            const templates = [
+                { id: Date.now()+1, text: 'Revisión legal y técnica', done: false },
+                { id: Date.now()+2, text: 'Enviar gacetilla a medios', done: false },
+                { id: Date.now()+3, text: 'Reunión informativa con referentes', done: false }
+            ];
+            tempChecklist.push(...templates);
+            renderEditChecklist();
+        }
+
+        function updateEditProgress() {
+            const total = tempChecklist.length;
+            const done = tempChecklist.filter(t => t.done).length;
+            const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+            
+            document.getElementById('editProgressText').textContent = `${done} de ${total} completadas`;
+            document.getElementById('editProgressPercent').textContent = `${percent}%`;
+            document.getElementById('editProgressBar').style.width = `${percent}%`;
+            document.getElementById('editProgressBar').className = `h-1.5 rounded-full transition-all duration-500 ${percent === 100 ? 'bg-green-500' : 'bg-brand-orange'}`;
+        }
+
+        // ------------------
+        // LÓGICA: DETALLE (VISTA DE SOLO LECTURA E INTERACTIVA)
+        // ------------------
+        function openDetailModal(id) {
+            currentProjectId = id;
+            const p = mockProjects.find(x => x.id === id);
+            
+            // Poblar UI
+            document.getElementById('vId').textContent = p.id;
+            document.getElementById('vTitle').textContent = p.title;
+            document.getElementById('vType').textContent = p.type;
+            document.getElementById('vArea').textContent = p.area;
+            document.getElementById('vResp').textContent = p.resp;
+            document.getElementById('vDate').textContent = formatDate(p.date);
+            document.getElementById('vSummary').textContent = p.summary || 'Sin resumen.';
+            
+            // Badge Estado
+            const stateEl = document.getElementById('vStateBadge');
+            stateEl.textContent = p.status;
+            if(p.status === 'En Trabajo') stateEl.className = 'text-xs font-bold px-2 py-1 rounded-md bg-brand-orange/10 text-brand-orange';
+            else if(p.status === 'Pendiente') stateEl.className = 'text-xs font-bold px-2 py-1 rounded-md bg-brand-pink/20 text-brand-magenta';
+            else stateEl.className = 'text-xs font-bold px-2 py-1 rounded-md bg-brand-turquoise/10 text-brand-turquoise';
+
+            renderViewChecklist();
+            openModal('detailModal');
+        }
+
+        function openEditFromDetail() {
+            closeModal('detailModal');
+            setTimeout(() => {
+                openEditModal(currentProjectId);
+            }, 300); // Esperar animación
+        }
+
+        // Render checklist interactivo directo en DB mockeada
+        function renderViewChecklist() {
+            const p = mockProjects.find(x => x.id === currentProjectId);
+            const list = document.getElementById('vChecklist');
+            list.innerHTML = '';
+            
+            if(p.tasks.length === 0) {
+                list.innerHTML = '<p class="text-sm text-brand-muted italic py-2">No hay un plan de acción definido.</p>';
+            }
+
+            p.tasks.forEach((t, index) => {
+                const div = document.createElement('div');
+                div.className = `flex items-start gap-3 p-3 rounded-xl border transition-all hover:shadow-sm group ${t.done ? 'bg-brand-bg/50 border-brand-border opacity-70' : 'bg-white border-brand-border/80 hover:border-brand-orange/50'}`;
+                div.innerHTML = `
+                    <div class="relative flex items-center shrink-0 mt-0.5">
+                        <input type="checkbox" id="v_chk_${index}" ${t.done ? 'checked' : ''} onchange="toggleViewTask(${index})" class="peer sr-only checkbox-custom">
+                        <label for="v_chk_${index}" class="w-5 h-5 border-2 border-brand-muted/50 rounded cursor-pointer peer-checked:bg-brand-orange peer-checked:border-brand-orange transition-all flex items-center justify-center group-hover:border-brand-orange">
+                            <i data-lucide="check" class="w-3 h-3 text-white hidden check-icon"></i>
+                        </label>
+                    </div>
+                    <label for="v_chk_${index}" class="text-sm font-medium text-brand-dark cursor-pointer flex-1 select-none transition-all ${t.done ? 'line-through text-brand-muted' : ''}">
+                        ${t.text}
+                    </label>
+                `;
+                list.appendChild(div);
+            });
+            
+            updateViewProgress(p);
+            lucide.createIcons();
+        }
+
+        function toggleViewTask(index) {
+            const p = mockProjects.find(x => x.id === currentProjectId);
+            p.tasks[index].done = !p.tasks[index].done;
+            
+            renderViewChecklist(); // Re-render local
+            renderTable();         // Actualizar tabla atrás visualmente
+            
+            // Simular guardado silencioso (Toast)
+            const toast = document.getElementById('saveToast');
+            toast.classList.remove('opacity-0');
+            setTimeout(() => { toast.classList.add('opacity-0'); }, 2000);
+        }
+
+        function updateViewProgress(p) {
+            const total = p.tasks.length;
+            const done = p.tasks.filter(t => t.done).length;
+            const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+            
+            document.getElementById('vProgressText').textContent = `${percent}%`;
+            document.getElementById('vProgressBar').style.width = `${percent}%`;
+            if(percent === 100) {
+                document.getElementById('vProgressBar').classList.replace('from-brand-orange', 'from-green-400');
+                document.getElementById('vProgressBar').classList.replace('to-brand-magenta', 'to-green-500');
+                document.getElementById('vProgressText').classList.replace('text-brand-magenta', 'text-green-500');
+            } else {
+                document.getElementById('vProgressBar').classList.replace('from-green-400', 'from-brand-orange');
+                document.getElementById('vProgressBar').classList.replace('to-green-500', 'to-brand-magenta');
+                document.getElementById('vProgressText').classList.replace('text-green-500', 'text-brand-magenta');
+            }
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable();
+            // Evitar animaciones en carga inicial de modales
+            document.querySelectorAll('.modal-enter').forEach(el => el.classList.add('modal-enter-active'));
+            document.querySelectorAll('.backdrop-enter').forEach(el => el.classList.add('backdrop-enter-active'));
+        });
+
+    </script>
+</body>
+</html>

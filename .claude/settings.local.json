@@ -6,7 +6,9 @@
       "WebFetch(domain:developers.cloudflare.com)",
       "Bash(cmd /c dir \"d:\\\\Git\\\\ceciliagortari-site\\\\migrations\"\")",
       "Bash(echo \"exit: $?\")",
-      "Bash(ls d:/Git/ceciliagortari-site/functions/api/projects/public.js d:/Git/ceciliagortari-site/functions/api/projects/public/*/.)"
+      "Bash(ls d:/Git/ceciliagortari-site/functions/api/projects/public.js d:/Git/ceciliagortari-site/functions/api/projects/public/*/.)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(node -c functions/api/projects/index.js)"
     ]
   }
 }

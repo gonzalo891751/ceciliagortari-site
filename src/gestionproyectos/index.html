@@ -206,9 +206,11 @@ permalink: gestionproyectos/index.html
         /* =========================================
            7. MODALS
            ========================================= */
+        body.modal-open { overflow: hidden; }
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none;
             align-items: center; justify-content: center; z-index: 1000; padding: 1rem;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
         }
         .modal-overlay.active { display: flex; }
         .modal-content {
@@ -216,61 +218,170 @@ permalink: gestionproyectos/index.html
             max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); position: relative;
         }
         .modal-content.sm { max-width: 400px; }
+        .modal-content.split-view {
+            max-width: 1200px; display: flex; flex-direction: column; overflow: hidden;
+        }
         .modal-header {
             padding: 1.5rem; border-bottom: 1px solid var(--border-light); display: flex;
-            justify-content: space-between; align-items: center; position: sticky; top: 0; background: var(--bg-surface); z-index: 10;
+            justify-content: space-between; align-items: center; background: var(--bg-surface); z-index: 10; flex-shrink: 0;
         }
         .modal-header h3 { color: var(--blue); }
-        .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+        .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); transition: color 0.2s; }
+        .close-btn:hover { color: var(--text-main); }
         .modal-body { padding: 1.5rem; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .full-width { grid-column: 1 / -1; }
         .modal-footer {
             padding: 1.5rem; border-top: 1px solid var(--border-light); display: flex;
-            justify-content: space-between; background: var(--bg-body);
+            justify-content: space-between; background: var(--bg-body); flex-shrink: 0;
         }
         .footer-right { display: flex; gap: 0.5rem; align-items: center; }
-        .save-error-msg { display: none; color: var(--badge-red-text); background: var(--badge-red-bg); padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.82rem; margin-right: auto; max-width: 60%; }
+        .save-error-msg { display: none; color: var(--badge-red-text); background: var(--badge-red-bg); padding: 0.4rem 0.8rem; border-radius: var(--radius-md); font-size: 0.82rem; margin-right: auto; max-width: 60%; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .spin-icon { animation: spin 0.8s linear infinite; }
         .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
 
         /* =========================================
-           7b. MODAL TABS
+           7b. SPLIT VIEW LAYOUT
            ========================================= */
-        .modal-tabs {
-            display: flex;
-            border-bottom: 2px solid var(--border-light);
-            padding: 0 1.5rem;
+        .split-body { flex: 1; overflow-y: auto; display: flex; flex-direction: row; }
+        .split-left {
+            width: 60%; padding: 1.5rem; overflow-y: auto; border-right: 1px solid var(--border-light);
             background: var(--bg-surface);
         }
-        .modal-tab-btn {
-            padding: 0.7rem 1.2rem;
-            font-family: var(--font-main);
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            background: none;
-            border: none;
-            border-bottom: 3px solid transparent;
-            cursor: pointer;
-            transition: color 0.2s, border-color 0.2s;
-            margin-bottom: -2px;
+        .split-right {
+            width: 40%; padding: 1.5rem; overflow-y: auto;
+            background: var(--bg-body);
         }
-        .modal-tab-btn:hover:not(:disabled) { color: var(--blue); }
-        .modal-tab-btn.active {
-            color: var(--blue);
-            border-bottom-color: var(--magenta);
+        @media (max-width: 768px) {
+            .split-body { flex-direction: column; }
+            .split-left, .split-right { width: 100%; border-right: none; }
+            .split-right { border-top: 1px solid var(--border-light); }
         }
-        .modal-tab-btn:disabled {
-            color: var(--border-light);
-            cursor: not-allowed;
-        }
-        .modal-tab-panel { display: none; }
-        .modal-tab-panel.active { display: block; }
 
         /* =========================================
-           7c. DOCUMENT UPLOAD ZONE
+           7c. CHECKLIST / PLAN DE ACCION
+           ========================================= */
+        .checklist-section {
+            background: var(--bg-body); padding: 1.25rem; border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light); margin-top: 1.5rem;
+        }
+        .checklist-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .checklist-title {
+            font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+            color: var(--text-main); display: flex; align-items: center; gap: 0.4rem;
+        }
+        .checklist-subtitle { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem; }
+        .btn-templates {
+            font-size: 0.75rem; font-weight: 600; color: var(--blue); background: rgba(23,104,197,0.08);
+            padding: 0.35rem 0.75rem; border-radius: var(--radius-md); border: none; cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-templates:hover { background: rgba(23,104,197,0.15); }
+        .checklist-progress { margin-bottom: 1rem; }
+        .checklist-progress-info { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.35rem; }
+        .checklist-progress-bar { height: 5px; background: var(--border-light); border-radius: 3px; overflow: hidden; }
+        .checklist-progress-fill {
+            height: 100%; border-radius: 3px; transition: width 0.4s ease;
+            background: linear-gradient(90deg, #FBA85F, var(--magenta));
+        }
+        .checklist-progress-fill.complete { background: linear-gradient(90deg, #10B981, #059669); }
+        .checklist-items { max-height: 250px; overflow-y: auto; margin-bottom: 1rem; }
+        .checklist-item {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg-surface); padding: 0.5rem 0.75rem; border-radius: var(--radius-md);
+            border: 1px solid var(--border-light); margin-bottom: 0.4rem; transition: border-color 0.2s;
+        }
+        .checklist-item:hover { border-color: var(--text-muted); }
+        .checklist-item-left { display: flex; align-items: center; gap: 0.6rem; flex: 1; min-width: 0; }
+        .checklist-checkbox {
+            width: 18px; height: 18px; border: 2px solid var(--border-light); border-radius: 4px;
+            cursor: pointer; appearance: none; -webkit-appearance: none; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+            background: var(--bg-surface); position: relative;
+        }
+        .checklist-checkbox:checked {
+            background: #FBA85F; border-color: #FBA85F;
+        }
+        .checklist-checkbox:checked::after {
+            content: ''; display: block; width: 5px; height: 9px;
+            border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg);
+            position: absolute; top: 1px; left: 4px;
+        }
+        .checklist-text { font-size: 0.85rem; font-weight: 500; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .checklist-text.done { text-decoration: line-through; color: var(--text-muted); }
+        .checklist-remove {
+            background: none; border: none; cursor: pointer; color: var(--border-light);
+            font-size: 1rem; padding: 0.15rem 0.3rem; opacity: 0; transition: all 0.2s; flex-shrink: 0;
+        }
+        .checklist-item:hover .checklist-remove { opacity: 1; }
+        .checklist-remove:hover { color: var(--badge-red-text); }
+        .checklist-add { display: flex; gap: 0.5rem; }
+        .checklist-add input {
+            flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--border-light);
+            border-radius: var(--radius-md); font-size: 0.85rem; background: var(--bg-surface);
+            font-family: var(--font-main); transition: border-color 0.2s;
+        }
+        .checklist-add input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(23, 104, 197, 0.1); }
+        .checklist-add button {
+            padding: 0.5rem 1rem; background: var(--text-main); color: white; border: none;
+            border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            font-family: var(--font-main); transition: background 0.2s; white-space: nowrap;
+        }
+        .checklist-add button:hover { background: #000; }
+        .checklist-empty { font-size: 0.8rem; color: var(--text-muted); font-style: italic; padding: 0.5rem 0; }
+
+        /* View checklist (detail modal) */
+        .view-checklist-section {
+            background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px solid var(--border-light);
+            padding: 1.5rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+        }
+        .view-checklist-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem; }
+        .view-checklist-title { font-size: 1.1rem; font-weight: 700; color: var(--blue); display: flex; align-items: center; gap: 0.5rem; }
+        .view-checklist-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.15rem; }
+        .view-progress-text { font-size: 1.1rem; font-weight: 700; color: var(--magenta); }
+        .view-progress-bar { height: 6px; background: var(--border-light); border-radius: 3px; overflow: hidden; margin-bottom: 1.25rem; }
+        .view-progress-fill {
+            height: 100%; border-radius: 3px; transition: width 0.4s ease;
+            background: linear-gradient(90deg, #FBA85F, var(--magenta));
+        }
+        .view-progress-fill.complete { background: linear-gradient(90deg, #10B981, #059669); }
+        .view-checklist-item {
+            display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.65rem 0.75rem;
+            border-radius: var(--radius-md); border: 1px solid var(--border-light); margin-bottom: 0.5rem;
+            cursor: pointer; transition: all 0.2s; background: var(--bg-surface);
+        }
+        .view-checklist-item:hover { border-color: #FBA85F; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+        .view-checklist-item.done { background: var(--bg-body); opacity: 0.7; }
+        .view-checklist-item label { font-size: 0.9rem; font-weight: 500; cursor: pointer; flex: 1; user-select: none; }
+        .view-checklist-item label.done { text-decoration: line-through; color: var(--text-muted); }
+
+        /* Save toast */
+        .save-toast {
+            position: absolute; top: 1rem; right: 1rem;
+            background: var(--badge-green-bg); color: var(--badge-green-text);
+            padding: 0.35rem 0.75rem; border-radius: var(--radius-md);
+            font-size: 0.78rem; font-weight: 600; opacity: 0; transition: opacity 0.3s;
+            display: flex; align-items: center; gap: 0.3rem; z-index: 5;
+        }
+        .save-toast.visible { opacity: 1; }
+
+        /* Mini progress bar in table */
+        .table-progress { display: flex; align-items: center; gap: 0.4rem; }
+        .table-progress-bar { flex: 1; height: 4px; background: var(--border-light); border-radius: 2px; overflow: hidden; min-width: 50px; max-width: 80px; }
+        .table-progress-fill { height: 100%; border-radius: 2px; transition: width 0.3s; background: #FBA85F; }
+        .table-progress-fill.complete { background: #10B981; }
+        .table-progress-text { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+
+        /* Section label in split view */
+        .section-label {
+            font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+            color: var(--blue); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.4rem;
+        }
+        .section-label svg { width: 16px; height: 16px; }
+
+        /* =========================================
+           7d. DOCUMENT UPLOAD ZONE
            ========================================= */
         .upload-section { margin-bottom: 1.5rem; }
         .upload-section-title {
@@ -828,6 +939,7 @@ permalink: gestionproyectos/index.html
                                 <th class="sortable" onclick="toggleSort('tipo')">Tipo & Área <span class="sort-indicator">▲▼</span></th>
                                 <th class="sortable" onclick="toggleSort('responsable')">Responsable <span class="sort-indicator">▲▼</span></th>
                                 <th class="sortable" onclick="toggleSort('estado_preparacion')">Preparación <span class="sort-indicator">▲▼</span></th>
+                                <th>Plan</th>
                                 <th class="sortable" onclick="toggleSort('fecha_objetivo_presentacion')">Fechas <span class="sort-indicator">▲▼</span></th>
                                 <th style="text-align:right">Acciones</th>
                             </tr>
@@ -973,20 +1085,22 @@ permalink: gestionproyectos/index.html
         </main>
     </div>
 
-    <!-- MODAL NUEVO/EDITAR (Principal) con Tabs -->
+    <!-- MODAL NUEVO/EDITAR (Split View) -->
     <div class="modal-overlay" id="project-modal">
-        <div class="modal-content" style="max-width:650px;">
+        <div class="modal-content split-view">
             <div class="modal-header">
                 <h3 id="modal-title">Nuevo Proyecto</h3>
                 <button class="close-btn" onclick="closeModal('project-modal')">&times;</button>
             </div>
-            <div class="modal-tabs">
-                <button class="modal-tab-btn active" id="mtab-datos" onclick="switchModalTab('datos')">Datos</button>
-                <button class="modal-tab-btn" id="mtab-documentos" onclick="switchModalTab('documentos')" disabled>Documentos</button>
-            </div>
-            <!-- TAB: DATOS -->
-            <div class="modal-tab-panel active" id="mpanel-datos">
-                <div class="modal-body">
+
+            <!-- Split View Body -->
+            <div class="split-body">
+                <!-- Columna Izquierda: Datos + Plan de Acción -->
+                <div class="split-left">
+                    <div class="section-label">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        Datos del Proyecto
+                    </div>
                     <form id="project-form" class="form-grid">
                         <input type="hidden" id="f-id">
 
@@ -1058,61 +1172,59 @@ permalink: gestionproyectos/index.html
                             </select>
                         </div>
                     </form>
+
+                    <!-- Plan de Acción (Editable) -->
+                    <div class="checklist-section">
+                        <div class="checklist-header">
+                            <div>
+                                <div class="checklist-title">
+                                    <svg width="16" height="16" fill="none" stroke="#FBA85F" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                                    Plan de Acción
+                                </div>
+                                <div class="checklist-subtitle">Tareas de lobby, gestión y seguimiento.</div>
+                            </div>
+                            <button type="button" class="btn-templates" onclick="loadTemplates()">+ Plantillas</button>
+                        </div>
+                        <div class="checklist-progress">
+                            <div class="checklist-progress-info">
+                                <span id="edit-progress-text">0 de 0 completadas</span>
+                                <span id="edit-progress-percent">0%</span>
+                            </div>
+                            <div class="checklist-progress-bar">
+                                <div id="edit-progress-fill" class="checklist-progress-fill" style="width:0%"></div>
+                            </div>
+                        </div>
+                        <div id="edit-checklist" class="checklist-items">
+                            <!-- Rendered by JS -->
+                        </div>
+                        <div class="checklist-add">
+                            <input type="text" id="new-task-input" placeholder="Ej: Llamar a presidente de comisión..." onkeypress="if(event.key==='Enter'){event.preventDefault();addTask();}">
+                            <button type="button" onclick="addTask()">Agregar</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="btn-delete" style="display:none;" onclick="quickDelete(null, event)">Eliminar</button>
-                    <div id="save-error-msg" class="save-error-msg"></div>
-                    <div style="flex-grow: 1;"></div>
-                    <div class="footer-right">
-                        <button type="button" class="btn btn-outline" onclick="closeModal('project-modal')">Cancelar</button>
-                        <button type="button" class="btn btn-primary" id="btn-save-project" onclick="saveProject()">Guardar cambios</button>
+
+                <!-- Columna Derecha: Documentos -->
+                <div class="split-right">
+                    <div class="section-label" style="color: var(--accent);">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                        Archivos y Fuentes
+                    </div>
+
+                    <div id="split-docs-content">
+                        <!-- Filled by JS: either upload zones or "save first" message -->
                     </div>
                 </div>
             </div>
-            <!-- TAB: DOCUMENTOS -->
-            <div class="modal-tab-panel" id="mpanel-documentos">
-                <div class="modal-body">
-                    <!-- Documento Principal -->
-                    <div class="upload-section">
-                        <div class="upload-section-title">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                            Documento del Proyecto
-                        </div>
-                        <div id="main-doc-display"></div>
-                        <div id="main-doc-upload">
-                            <div class="upload-zone" id="main-upload-zone" onclick="document.getElementById('main-file-input').click()" aria-label="Subir documento principal">
-                                <input type="file" id="main-file-input" accept=".pdf,.docx" style="display:none" onchange="handleMainUpload(this)">
-                                <svg width="24" height="24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                                <div class="upload-zone-text" style="margin-top:0.5rem">Click o arrastrá un archivo <strong>PDF o DOCX</strong><br><span style="font-size:0.75rem">Máx. 50MB</span></div>
-                            </div>
-                        </div>
-                        <div class="upload-progress" id="main-upload-progress">
-                            <div class="upload-progress-bar"><div class="upload-progress-fill" id="main-progress-fill"></div></div>
-                            <div class="upload-progress-text" id="main-progress-text">Subiendo...</div>
-                        </div>
-                    </div>
 
-                    <!-- Materiales y Fuentes -->
-                    <div class="upload-section">
-                        <div class="upload-section-title">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
-                            Materiales y Fuentes
-                        </div>
-                        <div id="materials-list"></div>
-                        <div class="upload-zone" id="materials-upload-zone" onclick="document.getElementById('materials-file-input').click()" aria-label="Subir materiales">
-                            <input type="file" id="materials-file-input" accept=".pdf,.docx,.doc,.xlsx,.xls,.pptx,.ppt,.png,.jpg,.jpeg,.webp,.gif,.txt,.csv,.rtf" multiple style="display:none" onchange="handleMaterialsUpload(this)">
-                            <svg width="24" height="24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div class="upload-zone-text" style="margin-top:0.5rem">Click o arrastrá archivos<br><span style="font-size:0.75rem">PDF, DOCX, XLSX, PPTX, imágenes, TXT, CSV... Máx. 50MB c/u</span></div>
-                        </div>
-                        <div class="upload-progress" id="materials-upload-progress">
-                            <div class="upload-progress-bar"><div class="upload-progress-fill" id="materials-progress-fill"></div></div>
-                            <div class="upload-progress-text" id="materials-progress-text">Subiendo...</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div style="flex-grow: 1;"></div>
-                    <button type="button" class="btn btn-outline" onclick="closeModal('project-modal')">Cerrar</button>
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btn-delete" style="display:none;" onclick="quickDelete(null, event)">Eliminar</button>
+                <div id="save-error-msg" class="save-error-msg"></div>
+                <div style="flex-grow: 1;"></div>
+                <div class="footer-right">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('project-modal')">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-project" onclick="saveProject()">Guardar cambios</button>
                 </div>
             </div>
         </div>
@@ -1135,21 +1247,20 @@ permalink: gestionproyectos/index.html
         </div>
     </div>
 
-    <!-- MODAL DETALLE PROYECTO (read-only) -->
+    <!-- MODAL DETALLE PROYECTO (con Plan de Acción interactivo) -->
     <div class="modal-overlay" id="project-detail-modal">
-        <div class="modal-content" style="max-width:680px;">
-            <div class="modal-header">
+        <div class="modal-content split-view" style="max-width:1000px;">
+            <div id="project-detail-header" class="modal-header">
                 <h3 style="color:var(--blue)">Detalle del Proyecto</h3>
-                <button class="close-btn" onclick="closeModal('project-detail-modal')" aria-label="Cerrar">&times;</button>
+                <div style="display:flex;gap:0.5rem;">
+                    <button type="button" class="btn btn-outline btn-sm" id="detail-edit-btn" onclick="openEditFromDetail()">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:-1px;margin-right:3px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Editar
+                    </button>
+                    <button class="close-btn" onclick="closeModal('project-detail-modal')" aria-label="Cerrar">&times;</button>
+                </div>
             </div>
-            <div id="project-detail-content">
+            <div id="project-detail-content" style="flex:1;overflow-y:auto;">
                 <div class="detail-loading">Cargando...</div>
-            </div>
-            <div class="detail-footer">
-                <button type="button" class="btn btn-outline" onclick="closeModal('project-detail-modal')">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="detail-edit-btn" onclick="openEditFromDetail()">
-                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:-2px;margin-right:4px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Editar
-                </button>
             </div>
         </div>
     </div>
@@ -1255,6 +1366,7 @@ permalink: gestionproyectos/index.html
         let syncTimer;
         let apiAvailable = false;
         let knownTopicsCache = [];
+        let tempChecklist = []; // Tareas temporales en modo edición
 
         const SEED_TOPICS = [
             'Salud', 'Educación', 'Economía', 'Finanzas', 'Infraestructura',
@@ -1507,11 +1619,17 @@ permalink: gestionproyectos/index.html
                 p.fecha_presentacion = p.fecha_presentacion_real;
             }
             delete p.fecha_presentacion_real;
+            // Ensure action_plan is an array
+            let ap = p.action_plan || [];
+            if (typeof ap === 'string') {
+                try { ap = JSON.parse(ap); } catch (_) { ap = []; }
+            }
             return {
                 ...p,
                 responsable: p.responsable || 'Sin asignar',
                 estado_tramite: p.estado_tramite || '',
-                created_at: p.created_at || p.updated_at || new Date().toISOString()
+                created_at: p.created_at || p.updated_at || new Date().toISOString(),
+                action_plan: ap
             };
         }
 
@@ -1809,7 +1927,7 @@ permalink: gestionproyectos/index.html
             cardsContainer.innerHTML = '';
 
             if (dataArray.length === 0) {
-                const emptyMsg = `<tr><td colspan="7" style="text-align:center; color: var(--text-muted); padding: 2rem;">No se encontraron proyectos en esta categoría.</td></tr>`;
+                const emptyMsg = `<tr><td colspan="8" style="text-align:center; color: var(--text-muted); padding: 2rem;">No se encontraron proyectos en esta categoría.</td></tr>`;
                 tbody.innerHTML = emptyMsg;
                 cardsContainer.innerHTML = `<div style="text-align:center; color: var(--text-muted); padding: 2rem;">Vacío.</div>`;
                 return;
@@ -1830,6 +1948,18 @@ permalink: gestionproyectos/index.html
                 if (matCount > 0) docBadgesHtml += `<span class="doc-badge doc-badge-materials" title="${matCount} material(es)">${SVG_ICONS.paperclip} ${matCount}</span>`;
 
                 const hasAnyDoc = hasMain || matCount > 0;
+
+                // Action plan progress
+                const apTasks = p.action_plan || [];
+                const apTotal = apTasks.length;
+                const apDone = apTasks.filter(t => t.done).length;
+                const apPercent = apTotal === 0 ? 0 : Math.round((apDone / apTotal) * 100);
+                const apProgressHtml = apTotal > 0
+                    ? `<div class="table-progress">
+                        <div class="table-progress-bar"><div class="table-progress-fill ${apPercent === 100 ? 'complete' : ''}" style="width:${apPercent}%"></div></div>
+                        <span class="table-progress-text">${apDone}/${apTotal}</span>
+                       </div>`
+                    : '<span style="color:var(--text-muted);font-size:0.75rem;">—</span>';
 
                 // --- Desktop Row ---
                 const tr = document.createElement('tr');
@@ -1854,6 +1984,7 @@ permalink: gestionproyectos/index.html
                             <span class="badge ${getBadgeClass('prep', p.estado_preparacion)}">${p.estado_preparacion}</span>
                             ${overdueHtml}
                         </td>
+                        <td>${apProgressHtml}</td>
                         <td class="project-date-item">
                             <div style="color:var(--text-muted); font-size:0.75rem;">Creado: ${formatDateOnly(p.created_at)}</div>
                             ${p.fecha_objetivo_presentacion ? `<div>Obj: <strong>${formatDateOnly(p.fecha_objetivo_presentacion)}</strong></div>` : ''}
@@ -1941,11 +2072,6 @@ permalink: gestionproyectos/index.html
             saveBtn.style.color = '';
             handlePrepChange(); // Reset conditional fields
 
-            // Always start on Datos tab
-            switchModalTab('datos');
-
-            const docsTab = document.getElementById('mtab-documentos');
-
             if (id) {
                 document.getElementById('modal-title').innerText = 'Editar Proyecto';
                 document.getElementById('btn-delete').style.display = 'block';
@@ -1964,10 +2090,13 @@ permalink: gestionproyectos/index.html
                     handlePrepChange();
                     document.getElementById('f-fecha-presentacion').value = p.fecha_presentacion || '';
                     document.getElementById('f-estado-tramite').value = p.estado_tramite || '';
+
+                    // Load checklist from project
+                    tempChecklist = JSON.parse(JSON.stringify(p.action_plan || []));
                 }
 
-                // Enable documents tab for existing projects
-                docsTab.disabled = false;
+                // Load documents in split-right
+                loadSplitDocs(id);
             } else {
                 document.getElementById('modal-title').innerText = 'Nuevo Proyecto';
                 document.getElementById('f-id').value = '';
@@ -1976,16 +2105,24 @@ permalink: gestionproyectos/index.html
                 // Defaults
                 document.getElementById('f-estado-prep').value = 'Pendiente';
                 document.getElementById('f-responsable').value = 'Sin asignar';
+                tempChecklist = [];
 
-                // Disable documents tab for new projects
-                docsTab.disabled = true;
+                // Show "save first" message for docs
+                document.getElementById('split-docs-content').innerHTML =
+                    '<div style="text-align:center;color:var(--text-muted);padding:2rem;font-size:0.85rem;font-style:italic;">Guardá el proyecto primero para subir documentos.</div>';
             }
 
+            renderEditChecklist();
+            document.body.classList.add('modal-open');
             modal.classList.add('active');
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
+            // Unlock scroll if no other modal is open
+            if (!document.querySelector('.modal-overlay.active')) {
+                document.body.classList.remove('modal-open');
+            }
         }
 
         function handlePrepChange() {
@@ -2037,7 +2174,8 @@ permalink: gestionproyectos/index.html
                 fecha_presentacion: fechaPresInput.value,
                 estado_tramite: estadoPrep === 'Presentado' ? document.getElementById('f-estado-tramite').value : '',
                 created_at: isNew ? now : (projects.find(p => p.id === id)?.created_at || now),
-                updated_at: now
+                updated_at: now,
+                action_plan: tempChecklist
             };
 
             // UX: botón en estado loading
@@ -2050,15 +2188,17 @@ permalink: gestionproyectos/index.html
             const result = await apiSave(projectData);
 
             if (result.ok) {
-                // Éxito: actualizar memoria + localStorage + cerrar
+                // Éxito: usar datos devueltos por API como fuente de verdad
+                const savedProject = result.project || projectData;
+
                 if (isNew) {
-                    projectData.has_main_doc = 0;
-                    projectData.materials_count = 0;
-                    projects.push(projectData);
+                    savedProject.has_main_doc = 0;
+                    savedProject.materials_count = 0;
+                    projects.push(savedProject);
                 } else {
                     const index = projects.findIndex(p => p.id === id);
                     if (index > -1) {
-                        projects[index] = { ...projects[index], ...projectData };
+                        projects[index] = { ...projects[index], ...savedProject };
                     }
                 }
                 localStorage.setItem(DB_KEY, JSON.stringify(projects));
@@ -2067,17 +2207,16 @@ permalink: gestionproyectos/index.html
                 updateSyncBadge(true);
 
                 if (isNew) {
-                    // Habilitar pestaña docs y quedarse en el modal
-                    document.getElementById('f-id').value = projectData.id;
+                    // Quedarse en el modal, habilitar docs
+                    document.getElementById('f-id').value = savedProject.id;
                     document.getElementById('modal-title').innerText = 'Editar Proyecto';
                     document.getElementById('btn-delete').style.display = 'block';
-                    document.getElementById('mtab-documentos').disabled = false;
+                    loadSplitDocs(savedProject.id);
                     saveBtn.disabled = false;
                     saveBtn.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
                     saveBtn.style.background = 'var(--badge-green-bg)';
                     saveBtn.style.color = 'var(--badge-green-text)';
                     setTimeout(() => { saveBtn.innerHTML = originalHTML; saveBtn.style.background = ''; saveBtn.style.color = ''; }, 2000);
-                    alert('Proyecto creado. Ahora podés agregar documentos en la pestaña "Documentos".');
                 } else {
                     // Edición: feedback rápido y cerrar
                     saveBtn.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
@@ -2092,7 +2231,7 @@ permalink: gestionproyectos/index.html
                     }, 600);
                 }
             } else {
-                // Error: NO cerrar modal, mostrar error
+                // Error: NO cerrar modal, mostrar error claro
                 saveBtn.disabled = false;
                 saveBtn.innerHTML = originalHTML;
                 const errorDiv = document.getElementById('save-error-msg');
@@ -2361,6 +2500,7 @@ permalink: gestionproyectos/index.html
 
             // Show loading
             content.innerHTML = '<div class="detail-loading">Cargando...</div>';
+            document.body.classList.add('modal-open');
             modal.classList.add('active');
 
             const p = projects.find(x => x.id === id);
@@ -2391,7 +2531,10 @@ permalink: gestionproyectos/index.html
                 ? `<div class="detail-resumen-card">${escapeHtml(p.resumen)}</div>`
                 : `<div class="detail-resumen-card detail-resumen-empty">Sin resumen</div>`;
 
-            // Build full content (docs will be filled async)
+            // Checklist section
+            const checklistHtml = renderViewChecklist(id);
+
+            // Build full content with grid layout like prototype
             let html = `
                 <div class="detail-header-area">
                     <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.35rem;">${p.id}</div>
@@ -2400,9 +2543,15 @@ permalink: gestionproyectos/index.html
                     <div class="detail-dates">${datesHtml}</div>
                 </div>
                 <div class="detail-body">
-                    <div class="detail-section-label">Resumen</div>
-                    ${resumenHtml}
-                    <div class="detail-docs-section">
+                    <div style="display:grid;grid-template-columns:1fr;gap:1.5rem;" id="detail-grid">
+                        <!-- Left column: info + checklist -->
+                        <div>
+                            <div class="detail-section-label">Resumen</div>
+                            ${resumenHtml}
+                            ${checklistHtml}
+                        </div>
+                    </div>
+                    <div class="detail-docs-section" style="margin-top:1.5rem;">
                         <div class="detail-section-label">${SVG_ICONS.fileText} Documentos</div>
                         <div id="detail-docs-area">
                             <div style="text-align:center;color:var(--text-muted);padding:1rem;font-size:0.85rem;">Cargando documentos...</div>
@@ -2477,7 +2626,7 @@ permalink: gestionproyectos/index.html
         function openEditFromDetail() {
             const id = currentDetailProjectId;
             closeModal('project-detail-modal');
-            if (id) openModal(id);
+            if (id) setTimeout(() => openModal(id), 100);
         }
 
         function escapeHtml(str) {
@@ -2486,35 +2635,74 @@ permalink: gestionproyectos/index.html
         }
 
         /* =========================================
-           MODAL TABS (Datos / Documentos)
+           SPLIT VIEW: DOCUMENTS COLUMN
            ========================================= */
-        function switchModalTab(tab) {
-            ['datos', 'documentos'].forEach(t => {
-                document.getElementById('mtab-' + t).classList.toggle('active', t === tab);
-                document.getElementById('mpanel-' + t).classList.toggle('active', t === tab);
-            });
-            if (tab === 'documentos') {
-                loadDocumentsTab();
+        async function loadSplitDocs(projectId) {
+            const container = document.getElementById('split-docs-content');
+            if (!projectId) {
+                container.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:2rem;font-size:0.85rem;font-style:italic;">Guardá el proyecto primero para subir documentos.</div>';
+                return;
             }
-        }
 
-        async function loadDocumentsTab() {
-            const projectId = document.getElementById('f-id').value;
-            if (!projectId) return;
+            container.innerHTML = `
+                <!-- Documento Principal -->
+                <div class="upload-section">
+                    <div class="upload-section-title">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        Documento del Proyecto
+                    </div>
+                    <div id="main-doc-display"><div style="text-align:center;color:var(--text-muted);padding:0.5rem;font-size:0.85rem;">Cargando...</div></div>
+                    <div id="main-doc-upload">
+                        <div class="upload-zone" id="main-upload-zone" onclick="document.getElementById('main-file-input').click()" aria-label="Subir documento principal">
+                            <input type="file" id="main-file-input" accept=".pdf,.docx" style="display:none" onchange="handleMainUpload(this)">
+                            <svg width="24" height="24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            <div class="upload-zone-text" style="margin-top:0.5rem">Click o arrastrá <strong>PDF o DOCX</strong><br><span style="font-size:0.75rem">Máx. 50MB</span></div>
+                        </div>
+                    </div>
+                    <div class="upload-progress" id="main-upload-progress">
+                        <div class="upload-progress-bar"><div class="upload-progress-fill" id="main-progress-fill"></div></div>
+                        <div class="upload-progress-text" id="main-progress-text">Subiendo...</div>
+                    </div>
+                </div>
 
-            const mainDisplay = document.getElementById('main-doc-display');
-            const mainUpload = document.getElementById('main-doc-upload');
-            const materialsList = document.getElementById('materials-list');
+                <!-- Materiales y Fuentes -->
+                <div class="upload-section">
+                    <div class="upload-section-title">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                        Materiales y Fuentes
+                    </div>
+                    <div id="materials-list"></div>
+                    <div class="upload-zone" id="materials-upload-zone" onclick="document.getElementById('materials-file-input').click()" aria-label="Subir materiales">
+                        <input type="file" id="materials-file-input" accept=".pdf,.docx,.doc,.xlsx,.xls,.pptx,.ppt,.png,.jpg,.jpeg,.webp,.gif,.txt,.csv,.rtf" multiple style="display:none" onchange="handleMaterialsUpload(this)">
+                        <svg width="24" height="24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        <div class="upload-zone-text" style="margin-top:0.5rem">Click o arrastrá archivos<br><span style="font-size:0.75rem">PDF, DOCX, XLSX, imágenes... Máx. 50MB c/u</span></div>
+                    </div>
+                    <div class="upload-progress" id="materials-upload-progress">
+                        <div class="upload-progress-bar"><div class="upload-progress-fill" id="materials-progress-fill"></div></div>
+                        <div class="upload-progress-text" id="materials-progress-text">Subiendo...</div>
+                    </div>
+                </div>
 
-            mainDisplay.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:0.5rem;font-size:0.85rem;">Cargando...</div>';
-            materialsList.innerHTML = '';
+                <!-- Archivos subidos -->
+                <div id="uploaded-files-list"></div>
+            `;
 
+            // Setup drag & drop for dynamically created zones
+            setTimeout(() => {
+                setupDragDrop('main-upload-zone', 'main-file-input');
+                setupDragDrop('materials-upload-zone', 'materials-file-input');
+            }, 50);
+
+            // Load existing documents
             try {
                 const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`);
                 if (!res.ok) throw new Error('Error loading documents');
                 const data = await res.json();
 
-                // Main doc
+                const mainDisplay = document.getElementById('main-doc-display');
+                const mainUpload = document.getElementById('main-doc-upload');
+                const materialsList = document.getElementById('materials-list');
+
                 if (data.main) {
                     mainDisplay.innerHTML = renderDocItem(data.main, projectId, true);
                     mainUpload.style.display = 'none';
@@ -2523,15 +2711,224 @@ permalink: gestionproyectos/index.html
                     mainUpload.style.display = 'block';
                 }
 
-                // Materials
                 if (data.materials && data.materials.length > 0) {
                     materialsList.innerHTML = data.materials.map(m => renderDocItem(m, projectId, false)).join('');
                 } else {
                     materialsList.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:0.5rem;font-size:0.85rem;">Sin materiales</div>';
                 }
             } catch (e) {
-                mainDisplay.innerHTML = '<div style="color:var(--badge-red-text);padding:0.5rem;font-size:0.85rem;">Error cargando documentos.</div>';
+                document.getElementById('main-doc-display').innerHTML = '<div style="color:var(--badge-red-text);padding:0.5rem;font-size:0.85rem;">Error cargando documentos.</div>';
             }
+        }
+
+        // Alias for backward compatibility with upload handlers
+        async function loadDocumentsTab() {
+            const projectId = document.getElementById('f-id').value;
+            if (projectId) await loadSplitDocs(projectId);
+        }
+
+        /* =========================================
+           CHECKLIST / PLAN DE ACCIÓN (Edición)
+           ========================================= */
+        function renderEditChecklist() {
+            const list = document.getElementById('edit-checklist');
+            if (!list) return;
+            list.innerHTML = '';
+
+            if (tempChecklist.length === 0) {
+                list.innerHTML = '<div class="checklist-empty">No hay tareas en el plan de acción.</div>';
+            }
+
+            tempChecklist.forEach((t, index) => {
+                const div = document.createElement('div');
+                div.className = 'checklist-item';
+                div.innerHTML = `
+                    <div class="checklist-item-left">
+                        <input type="checkbox" class="checklist-checkbox" id="temp_chk_${index}" ${t.done ? 'checked' : ''} onchange="toggleTempTask(${index})">
+                        <span class="checklist-text ${t.done ? 'done' : ''}">${escapeHtml(t.text)}</span>
+                    </div>
+                    <button type="button" class="checklist-remove" onclick="removeTask(${index})" title="Eliminar">&times;</button>
+                `;
+                list.appendChild(div);
+            });
+
+            updateEditProgress();
+        }
+
+        function addTask() {
+            const input = document.getElementById('new-task-input');
+            const val = input.value.trim();
+            if (val) {
+                tempChecklist.push({ id: Date.now(), text: val, done: false, created_at: new Date().toISOString() });
+                input.value = '';
+                renderEditChecklist();
+                const list = document.getElementById('edit-checklist');
+                list.scrollTop = list.scrollHeight;
+            }
+        }
+
+        function removeTask(index) {
+            tempChecklist.splice(index, 1);
+            renderEditChecklist();
+        }
+
+        function toggleTempTask(index) {
+            tempChecklist[index].done = !tempChecklist[index].done;
+            tempChecklist[index].updated_at = new Date().toISOString();
+            renderEditChecklist();
+        }
+
+        function loadTemplates() {
+            const templates = [
+                { id: Date.now()+1, text: 'Revisión legal y técnica', done: false, created_at: new Date().toISOString() },
+                { id: Date.now()+2, text: 'Enviar gacetilla a medios', done: false, created_at: new Date().toISOString() },
+                { id: Date.now()+3, text: 'Reunión informativa con referentes', done: false, created_at: new Date().toISOString() },
+                { id: Date.now()+4, text: 'Lobby con presidentes de bloque', done: false, created_at: new Date().toISOString() },
+                { id: Date.now()+5, text: 'Preparar nota de prensa', done: false, created_at: new Date().toISOString() }
+            ];
+            tempChecklist.push(...templates);
+            renderEditChecklist();
+        }
+
+        function updateEditProgress() {
+            const total = tempChecklist.length;
+            const done = tempChecklist.filter(t => t.done).length;
+            const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+            const textEl = document.getElementById('edit-progress-text');
+            const pctEl = document.getElementById('edit-progress-percent');
+            const barEl = document.getElementById('edit-progress-fill');
+            if (textEl) textEl.textContent = `${done} de ${total} completadas`;
+            if (pctEl) pctEl.textContent = `${percent}%`;
+            if (barEl) {
+                barEl.style.width = `${percent}%`;
+                barEl.className = `checklist-progress-fill ${percent === 100 ? 'complete' : ''}`;
+            }
+        }
+
+        /* =========================================
+           CHECKLIST / PLAN DE ACCIÓN (Detalle - Interactivo)
+           ========================================= */
+        function renderViewChecklist(projectId) {
+            const p = projects.find(x => x.id === projectId);
+            if (!p) return '';
+
+            const tasks = p.action_plan || [];
+            const total = tasks.length;
+            const done = tasks.filter(t => t.done).length;
+            const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+            if (total === 0) {
+                return `<div class="view-checklist-section">
+                    <div class="view-checklist-header">
+                        <div>
+                            <div class="view-checklist-title">${SVG_ICONS.checkCircle} Plan de Acción</div>
+                            <div class="view-checklist-hint">No hay un plan de acción definido.</div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+
+            let itemsHtml = '';
+            tasks.forEach((t, index) => {
+                itemsHtml += `
+                    <div class="view-checklist-item ${t.done ? 'done' : ''}" onclick="toggleViewTask('${projectId}', ${index})">
+                        <input type="checkbox" class="checklist-checkbox" ${t.done ? 'checked' : ''} onclick="event.stopPropagation(); toggleViewTask('${escapeHtml(projectId)}', ${index})">
+                        <label class="${t.done ? 'done' : ''}">${escapeHtml(t.text)}</label>
+                    </div>
+                `;
+            });
+
+            return `<div class="view-checklist-section">
+                <div id="save-toast" class="save-toast">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Guardado
+                </div>
+                <div class="view-checklist-header">
+                    <div>
+                        <div class="view-checklist-title">${SVG_ICONS.checkCircle} Plan de Acción</div>
+                        <div class="view-checklist-hint">Tildá las tareas a medida que avanzás.</div>
+                    </div>
+                    <div class="view-progress-text" id="view-progress-text">${percent}%</div>
+                </div>
+                <div class="view-progress-bar">
+                    <div id="view-progress-fill" class="view-progress-fill ${percent === 100 ? 'complete' : ''}" style="width:${percent}%"></div>
+                </div>
+                <div id="view-checklist-items">${itemsHtml}</div>
+            </div>`;
+        }
+
+        async function toggleViewTask(projectId, index) {
+            const p = projects.find(x => x.id === projectId);
+            if (!p || !p.action_plan) return;
+
+            p.action_plan[index].done = !p.action_plan[index].done;
+            p.action_plan[index].updated_at = new Date().toISOString();
+            p.updated_at = new Date().toISOString();
+
+            // Re-render checklist in detail modal
+            const container = document.getElementById('view-checklist-items');
+            if (container) {
+                const tasks = p.action_plan;
+                const total = tasks.length;
+                const done = tasks.filter(t => t.done).length;
+                const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+                let itemsHtml = '';
+                tasks.forEach((t, i) => {
+                    itemsHtml += `
+                        <div class="view-checklist-item ${t.done ? 'done' : ''}" onclick="toggleViewTask('${projectId}', ${i})">
+                            <input type="checkbox" class="checklist-checkbox" ${t.done ? 'checked' : ''} onclick="event.stopPropagation(); toggleViewTask('${escapeHtml(projectId)}', ${i})">
+                            <label class="${t.done ? 'done' : ''}">${escapeHtml(t.text)}</label>
+                        </div>
+                    `;
+                });
+                container.innerHTML = itemsHtml;
+
+                // Update progress
+                const progText = document.getElementById('view-progress-text');
+                const progBar = document.getElementById('view-progress-fill');
+                if (progText) progText.textContent = `${percent}%`;
+                if (progBar) {
+                    progBar.style.width = `${percent}%`;
+                    progBar.className = `view-progress-fill ${percent === 100 ? 'complete' : ''}`;
+                }
+                if (percent === 100 && progText) progText.style.color = '#059669';
+                else if (progText) progText.style.color = '';
+            }
+
+            // Update table in background
+            renderUI();
+
+            // Save instantly to API
+            const saveData = {
+                ...p,
+                action_plan: p.action_plan
+            };
+            const result = await apiSave(saveData);
+
+            // Show toast
+            const toast = document.getElementById('save-toast');
+            if (toast) {
+                if (result.ok) {
+                    toast.textContent = '';
+                    toast.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado';
+                } else {
+                    toast.innerHTML = 'Error al guardar';
+                    toast.style.background = 'var(--badge-red-bg)';
+                    toast.style.color = 'var(--badge-red-text)';
+                }
+                toast.classList.add('visible');
+                setTimeout(() => {
+                    toast.classList.remove('visible');
+                    toast.style.background = '';
+                    toast.style.color = '';
+                }, 2000);
+            }
+
+            // Update localStorage
+            localStorage.setItem(DB_KEY, JSON.stringify(projects));
+            if (result.ok) updateSyncBadge(true);
         }
 
         function formatFileSize(bytes) {
@@ -2813,11 +3210,7 @@ permalink: gestionproyectos/index.html
             });
         }
 
-        // Setup drag & drop after DOM ready
-        document.addEventListener('DOMContentLoaded', () => {
-            setupDragDrop('main-upload-zone', 'main-file-input');
-            setupDragDrop('materials-upload-zone', 'materials-file-input');
-        });
+        // Drag & drop setup is now done dynamically in loadSplitDocs()
 
         /* =========================================
            TABS SWITCHING
@@ -3273,6 +3666,22 @@ permalink: gestionproyectos/index.html
                     drawDonutChart();
                 }
             }, 200);
+        });
+
+        /* =========================================
+           ESCAPE KEY HANDLER
+           ========================================= */
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modals = ['project-modal', 'project-detail-modal', 'documents-modal', 'preview-modal', 'quick-presentar-modal', 'quick-responsable-modal'];
+                for (const modalId of modals) {
+                    const el = document.getElementById(modalId);
+                    if (el && el.classList.contains('active')) {
+                        closeModal(modalId);
+                        break;
+                    }
+                }
+            }
         });
 
         /* =========================================
