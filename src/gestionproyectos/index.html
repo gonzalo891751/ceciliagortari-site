@@ -254,9 +254,59 @@ permalink: gestionproyectos/index.html
             background: var(--bg-body);
         }
         @media (max-width: 768px) {
-            .split-body { flex-direction: column; }
-            .split-left, .split-right { width: 100%; border-right: none; }
-            .split-right { border-top: 1px solid var(--border-light); }
+            /* Single-column layout: one unified scroll */
+            .modal-content.split-view {
+                max-height: 95vh;
+                max-height: 95dvh;            /* dynamic viewport for mobile browsers */
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+            .split-body {
+                flex-direction: column;
+                overflow-y: auto;              /* single scroll for the whole body */
+                -webkit-overflow-scrolling: touch;
+            }
+            .split-left, .split-right {
+                width: 100%;
+                border-right: none;
+                overflow-y: visible;           /* disable individual scroll */
+                flex-shrink: 0;                /* don't collapse content */
+            }
+            .split-left { padding: 1rem; }
+            .split-right {
+                padding: 1rem;
+                border-top: 1px solid var(--border-light);
+            }
+            /* Footer: stack buttons, touch-friendly sizing */
+            .modal-content.split-view .modal-footer {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 1rem;
+                padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+            }
+            .modal-content.split-view .modal-footer #btn-delete {
+                width: 100%;
+                order: 3;                      /* Eliminar goes last on mobile */
+            }
+            .modal-content.split-view .modal-footer .footer-right {
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+            }
+            .modal-content.split-view .modal-footer .footer-right .btn {
+                flex: 1;
+                padding: 0.75rem 0.5rem;       /* larger touch target */
+                font-size: 0.95rem;
+                justify-content: center;
+            }
+            .modal-content.split-view .modal-footer #save-error-msg {
+                max-width: 100%;
+                order: -1;
+            }
+            .modal-content.split-view .modal-footer > div[style*="flex-grow"] {
+                display: none;                  /* hide spacer on mobile */
+            }
         }
 
         /* =========================================
