@@ -503,61 +503,185 @@ permalink: gestionproyectos/index.html
         /* =========================================
            7g. PROJECT DETAIL MODAL
            ========================================= */
-        .detail-header-area {
-            padding: 1.5rem 1.5rem 1rem;
+        /* --- Detail modal: proto2-inspired layout --- */
+        #project-detail-modal .modal-content {
+            max-width: 480px; border-radius: 1.25rem;
+            display: flex; flex-direction: column; overflow: hidden;
+            max-height: 90vh; box-shadow: var(--shadow-lg);
+        }
+        .detail-modal-header {
+            flex-shrink: 0; padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-light);
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg-surface); z-index: 10;
+        }
+        .detail-modal-header h3 { font-size: 1.05rem; font-weight: 700; color: var(--text-main); }
+        .detail-modal-close {
+            width: 34px; height: 34px; border-radius: 50%; border: none;
+            background: transparent; cursor: pointer; color: var(--text-muted);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; transition: all 0.15s; margin: -0.25rem -0.5rem -0.25rem 0;
+        }
+        .detail-modal-close:hover { background: var(--badge-gray-bg); color: var(--text-main); }
+
+        .detail-modal-body {
+            flex: 1; overflow-y: auto; padding: 1.25rem;
+            display: flex; flex-direction: column; gap: 1.5rem;
+            background: var(--bg-surface);
+        }
+        .detail-modal-body::-webkit-scrollbar { width: 4px; }
+        .detail-modal-body::-webkit-scrollbar-track { background: transparent; }
+        .detail-modal-body::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 20px; }
+
+        /* ID + Title */
+        .detail-id {
+            font-size: 0.82rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;
         }
         .detail-title {
-            font-size: 1.35rem; font-weight: 700; color: var(--blue);
-            line-height: 1.3; margin-bottom: 0.75rem;
+            font-size: 1.4rem; font-weight: 700; color: var(--blue);
+            line-height: 1.3; margin-bottom: 0.6rem;
         }
-        .detail-badges {
-            display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;
-        }
-        .detail-badge {
+        /* Chips */
+        .detail-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .detail-chip {
             display: inline-flex; align-items: center; gap: 0.3rem;
-            padding: 0.3rem 0.7rem; border-radius: var(--radius-full);
-            font-size: 0.78rem; font-weight: 600;
+            padding: 0.3rem 0.6rem; border-radius: var(--radius-md);
+            font-size: 0.72rem; font-weight: 600;
         }
-        .detail-dates {
-            display: flex; flex-wrap: wrap; gap: 1.5rem;
-            font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem;
+        .detail-chip svg { width: 12px; height: 12px; flex-shrink: 0; }
+        .detail-chip--tipo { background: rgba(192,107,202,0.1); color: #C06BCA; }
+        .detail-chip--area { background: rgba(36,188,222,0.1); color: #24BCDE; }
+        .detail-chip--estado { background: rgba(251,168,95,0.12); color: #E08A3B; }
+        .detail-chip--responsable { background: var(--badge-gray-bg); color: var(--text-muted); }
+        .detail-chip--tramite { background: var(--badge-purple-bg); color: var(--badge-purple-text); }
+
+        /* Dates card */
+        .detail-dates-card {
+            background: var(--bg-body); border-radius: var(--radius-lg);
+            padding: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;
         }
-        .detail-dates strong { color: var(--text-main); }
-        .detail-body { padding: 0 1.5rem 1.5rem; }
-        .detail-section-label {
-            font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 0.5rem;
-            display: flex; align-items: center; gap: 0.4rem;
+        .detail-date-label {
+            font-size: 0.68rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.2rem;
         }
+        .detail-date-value {
+            font-size: 0.85rem; font-weight: 500; color: var(--text-main);
+            display: flex; align-items: center; gap: 0.35rem;
+        }
+        .detail-date-value svg { width: 15px; height: 15px; color: var(--text-muted); flex-shrink: 0; }
+        .detail-date-value.empty { color: var(--text-muted); }
+
+        /* Section heading */
+        .detail-section-h {
+            font-size: 0.85rem; font-weight: 700; color: var(--text-main);
+            display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;
+        }
+        .detail-section-h svg { width: 15px; height: 15px; color: var(--blue); }
+
+        /* Resumen */
         .detail-resumen-card {
-            background: var(--bg-body); border: 1px solid var(--border-light);
-            border-radius: var(--radius-md); padding: 1rem 1.25rem;
-            font-size: 0.92rem; line-height: 1.7; color: var(--text-main);
-            margin-bottom: 1.5rem; white-space: pre-wrap;
+            background: var(--bg-body); border-radius: var(--radius-lg);
+            padding: 1rem; font-size: 0.88rem; line-height: 1.65;
+            color: var(--text-main); white-space: pre-wrap;
         }
-        .detail-resumen-empty {
-            color: var(--text-muted); font-style: italic;
+        .detail-resumen-empty { color: var(--text-muted); font-style: italic; }
+
+        /* Tasks badge */
+        .detail-tasks-badge {
+            font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-md); background: rgba(36,188,222,0.1); color: #24BCDE;
         }
-        .detail-docs-section { margin-bottom: 1rem; }
+
+        /* Docs in detail */
+        .detail-doc-item {
+            border: 1px solid var(--border-light); border-radius: var(--radius-lg);
+            padding: 0.85rem; display: flex; align-items: center; justify-content: space-between;
+            gap: 0.75rem; background: var(--bg-surface); transition: border-color 0.15s;
+            margin-bottom: 0.5rem;
+        }
+        .detail-doc-item:hover { border-color: rgba(23,104,197,0.3); }
+        .detail-doc-icon {
+            width: 40px; height: 40px; border-radius: var(--radius-md);
+            background: rgba(23,104,197,0.08); color: var(--blue);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .detail-doc-icon svg { width: 20px; height: 20px; }
+        .detail-doc-info { flex: 1; min-width: 0; }
+        .detail-doc-name { font-size: 0.85rem; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .detail-doc-meta { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.15rem; }
+        .detail-doc-actions { display: flex; gap: 0.25rem; flex-shrink: 0; }
+        .detail-doc-btn {
+            width: 34px; height: 34px; border-radius: var(--radius-md);
+            background: rgba(23,104,197,0.05); color: var(--blue); border: none;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: background 0.15s;
+        }
+        .detail-doc-btn:hover { background: rgba(23,104,197,0.12); }
+        .detail-doc-btn svg { width: 18px; height: 18px; }
         .detail-docs-empty {
-            text-align: center; padding: 2rem; color: var(--text-muted);
-            background: var(--bg-body); border-radius: var(--radius-md);
-            border: 1px dashed var(--border-light);
+            text-align: center; padding: 1.5rem; color: var(--text-muted);
+            background: var(--bg-body); border-radius: var(--radius-lg);
+            border: 1px dashed var(--border-light); font-size: 0.85rem;
         }
-        .detail-docs-empty svg { margin-bottom: 0.5rem; opacity: 0.35; }
+        .detail-docs-empty svg { margin: 0 auto 0.5rem; opacity: 0.35; display: block; }
+        .detail-docs-materials-note {
+            font-size: 0.72rem; color: var(--text-muted); margin-top: 0.5rem;
+            padding-left: 0.25rem; display: flex; align-items: center; gap: 0.3rem;
+        }
+        .detail-docs-materials-note svg { width: 12px; height: 12px; }
+
+        /* Footer */
         .detail-footer {
-            padding: 1rem 1.5rem; border-top: 1px solid var(--border-light);
-            display: flex; justify-content: flex-end; gap: 0.5rem; background: var(--bg-body);
-            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            flex-shrink: 0; padding: 1rem 1.25rem;
+            border-top: 1px solid var(--border-light);
+            display: flex; gap: 0.75rem; background: var(--bg-surface);
+            border-radius: 0 0 1.25rem 1.25rem;
+            box-shadow: 0 -4px 20px -10px rgba(0,0,0,0.05); z-index: 10;
         }
+        .detail-btn-back {
+            flex: 1; padding: 0.8rem 0.5rem; border-radius: var(--radius-lg);
+            border: 1.5px solid var(--border-light); background: var(--bg-surface);
+            color: var(--text-main); font-weight: 600; font-size: 0.9rem; font-family: var(--font-main);
+            display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+            cursor: pointer; transition: all 0.15s;
+        }
+        .detail-btn-back:hover { background: var(--bg-body); border-color: var(--text-muted); }
+        .detail-btn-back:active { transform: scale(0.98); }
+        .detail-btn-back svg { width: 18px; height: 18px; color: var(--text-muted); }
+        .detail-btn-edit {
+            flex: 1.5; padding: 0.8rem 1rem; border-radius: var(--radius-lg);
+            border: none; background: var(--magenta); color: white;
+            font-weight: 600; font-size: 0.9rem; font-family: var(--font-main);
+            display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+            cursor: pointer; transition: all 0.15s;
+            box-shadow: 0 4px 15px -3px rgba(234,60,136,0.3);
+        }
+        .detail-btn-edit:hover { background: #d12d76; }
+        .detail-btn-edit:active { transform: scale(0.98); }
+        .detail-btn-edit svg { width: 18px; height: 18px; }
+
         .detail-loading {
             text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.9rem;
         }
+
         @media (max-width: 768px) {
-            .detail-header-area { padding: 1rem; }
-            .detail-body { padding: 0 1rem 1rem; }
-            .detail-footer { padding: 1rem; }
-            .detail-title { font-size: 1.15rem; }
+            #project-detail-modal .modal-content {
+                max-width: 100%; border-radius: 1rem;
+                max-height: 95vh; max-height: 95dvh;
+            }
+            .detail-modal-body { padding: 1rem; gap: 1.25rem; }
+            .detail-title { font-size: 1.2rem; }
+            .detail-footer {
+                padding: 0.85rem 1rem;
+                padding-bottom: calc(0.85rem + env(safe-area-inset-bottom, 0px));
+                border-radius: 0 0 1rem 1rem;
+            }
+        }
+        @media (min-width: 769px) {
+            #project-detail-modal .modal-content {
+                max-width: 520px;
+            }
         }
 
         /* =========================================
@@ -1513,18 +1637,26 @@ permalink: gestionproyectos/index.html
 
     <!-- MODAL DETALLE PROYECTO (con Tareas complementarias interactivo) -->
     <div class="modal-overlay" id="project-detail-modal">
-        <div class="modal-content split-view" style="max-width:1000px;">
-            <div id="project-detail-header" class="modal-header">
-                <h3 style="color:var(--blue)">Detalle del Proyecto</h3>
-                <div style="display:flex;gap:0.5rem;">
-                    <button type="button" class="btn btn-primary btn-sm" id="detail-edit-btn" onclick="openEditFromDetail()">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:-1px;margin-right:3px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>Editar
-                    </button>
-                    <button class="close-btn" onclick="closeModal('project-detail-modal')" aria-label="Cerrar">&times;</button>
-                </div>
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="detail-modal-header">
+                <h3>Detalle del Proyecto</h3>
+                <button class="detail-modal-close" onclick="closeModal('project-detail-modal')" aria-label="Cerrar">&times;</button>
             </div>
-            <div id="project-detail-content" style="flex:1;overflow-y:auto;">
+            <!-- Scrollable content (filled by JS) -->
+            <div id="project-detail-content" class="detail-modal-body">
                 <div class="detail-loading">Cargando...</div>
+            </div>
+            <!-- Footer: Volver + Editar -->
+            <div class="detail-footer">
+                <button type="button" class="detail-btn-back" onclick="closeModal('project-detail-modal')">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Volver
+                </button>
+                <button type="button" class="detail-btn-edit" onclick="openEditFromDetail()">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    Editar Proyecto
+                </button>
             </div>
         </div>
     </div>
@@ -2797,12 +2929,27 @@ permalink: gestionproyectos/index.html
            ========================================= */
         let currentDetailProjectId = null;
 
+        function timeAgo(dateStr) {
+            if (!dateStr) return '—';
+            const d = new Date(dateStr);
+            const now = new Date();
+            const diffMs = now - d;
+            const mins = Math.floor(diffMs / 60000);
+            if (mins < 1) return 'Ahora';
+            if (mins < 60) return `Hace ${mins}m`;
+            const hrs = Math.floor(mins / 60);
+            if (hrs < 24) return `Hace ${hrs}h`;
+            const days = Math.floor(hrs / 24);
+            if (days === 1) return 'Ayer';
+            if (days < 30) return `Hace ${days} días`;
+            return formatDateOnly(dateStr) || '—';
+        }
+
         async function openProjectDetail(id) {
             const modal = document.getElementById('project-detail-modal');
             const content = document.getElementById('project-detail-content');
             currentDetailProjectId = id;
 
-            // Show loading
             content.innerHTML = '<div class="detail-loading">Cargando...</div>';
             document.body.classList.add('modal-open');
             modal.classList.add('active');
@@ -2813,55 +2960,92 @@ permalink: gestionproyectos/index.html
                 return;
             }
 
-            // Build header with badges
-            const badgePrep = `<span class="detail-badge badge ${getBadgeClass('prep', p.estado_preparacion)}">${p.estado_preparacion}</span>`;
-            const badgeTipo = `<span class="detail-badge" style="background:var(--badge-blue-bg);color:var(--badge-blue-text);">${p.tipo}</span>`;
-            const badgeArea = p.area_tema ? `<span class="detail-badge" style="background:var(--badge-purple-bg);color:var(--badge-purple-text);">${p.area_tema}</span>` : '';
-            const badgeResp = (p.responsable && p.responsable !== 'Sin asignar')
-                ? `<span class="detail-badge" style="background:var(--badge-gray-bg);color:var(--badge-gray-text);">${SVG_ICONS.user} ${p.responsable}</span>`
-                : '';
-            const badgeTramite = (p.estado_preparacion === 'Presentado' && p.estado_tramite)
-                ? `<span class="detail-badge badge ${getBadgeClass('tramite', p.estado_tramite)}">${p.estado_tramite}</span>`
-                : '';
+            // SVG icons for the detail view
+            const IC = {
+                file: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>',
+                book: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>',
+                clock: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+                user: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
+                cal: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>',
+                target: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>',
+                history: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>',
+                calCheck: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M9 16l2 2 4-4"></path></svg>',
+                align: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="17" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="17" y1="18" x2="3" y2="18"></line></svg>',
+                checkSq: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>',
+                clip: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>',
+            };
 
-            // Dates
-            let datesHtml = '';
-            datesHtml += `<span>Creado: <strong>${formatDateOnly(p.created_at) || '—'}</strong></span>`;
-            if (p.fecha_objetivo_presentacion) datesHtml += `<span>Objetivo: <strong>${formatDateOnly(p.fecha_objetivo_presentacion)}</strong></span>`;
-            if (p.estado_preparacion === 'Presentado' && p.fecha_presentacion) datesHtml += `<span style="color:var(--magenta)">Presentado: <strong>${formatDateOnly(p.fecha_presentacion)}</strong></span>`;
+            // --- Chips ---
+            const tipoShort = (p.tipo || '').replace('Proyecto de ', '');
+            let chipsHtml = `<span class="detail-chip detail-chip--tipo">${IC.file} ${escapeHtml(tipoShort)}</span>`;
+            if (p.area_tema) chipsHtml += `<span class="detail-chip detail-chip--area">${IC.book} ${escapeHtml(p.area_tema)}</span>`;
+            chipsHtml += `<span class="detail-chip detail-chip--estado">${IC.clock} ${escapeHtml(p.estado_preparacion)}</span>`;
+            if (p.estado_preparacion === 'Presentado' && p.estado_tramite)
+                chipsHtml += `<span class="detail-chip detail-chip--tramite">${escapeHtml(p.estado_tramite)}</span>`;
+            const respLabel = (p.responsable && p.responsable !== 'Sin asignar') ? p.responsable : 'Sin asignar';
+            chipsHtml += `<span class="detail-chip detail-chip--responsable">${IC.user} ${escapeHtml(respLabel)}</span>`;
 
-            // Resumen
+            // --- Dates card ---
+            const dateCreated = formatDateOnly(p.created_at) || '—';
+            const dateObj = p.fecha_objetivo_presentacion ? formatDateOnly(p.fecha_objetivo_presentacion) : '—';
+            const dateUpdated = timeAgo(p.updated_at);
+            const datePres = (p.estado_preparacion === 'Presentado' && p.fecha_presentacion) ? formatDateOnly(p.fecha_presentacion) : '—';
+
+            // --- Resumen ---
             const resumenHtml = p.resumen
                 ? `<div class="detail-resumen-card">${escapeHtml(p.resumen)}</div>`
-                : `<div class="detail-resumen-card detail-resumen-empty">Sin resumen</div>`;
+                : `<div class="detail-resumen-card detail-resumen-empty">Sin resumen disponible.</div>`;
 
-            // Checklist section
+            // --- Checklist ---
             const checklistHtml = renderViewChecklist(id);
 
-            // Build full content with grid layout like prototype
+            // --- Build content ---
             let html = `
-                <div class="detail-header-area">
-                    <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.35rem;">${p.id}</div>
+                <!-- Section A: ID + Title + Chips -->
+                <section>
+                    <div class="detail-id">${escapeHtml(p.id)}</div>
                     <div class="detail-title">${escapeHtml(p.titulo)}</div>
-                    <div class="detail-badges">${badgeTipo}${badgeArea}${badgePrep}${badgeTramite}${badgeResp}</div>
-                    <div class="detail-dates">${datesHtml}</div>
-                </div>
-                <div class="detail-body">
-                    <div style="display:grid;grid-template-columns:1fr;gap:1.5rem;" id="detail-grid">
-                        <!-- Left column: info + checklist -->
-                        <div>
-                            <div class="detail-section-label">Resumen</div>
-                            ${resumenHtml}
-                            ${checklistHtml}
-                        </div>
+                    <div class="detail-chips">${chipsHtml}</div>
+                </section>
+
+                <!-- Section B: Dates card -->
+                <section class="detail-dates-card">
+                    <div>
+                        <div class="detail-date-label">Creado</div>
+                        <div class="detail-date-value">${IC.cal} ${dateCreated}</div>
                     </div>
-                    <div class="detail-docs-section" style="margin-top:1.5rem;">
-                        <div class="detail-section-label">${SVG_ICONS.fileText} Documentos</div>
-                        <div id="detail-docs-area">
-                            <div style="text-align:center;color:var(--text-muted);padding:1rem;font-size:0.85rem;">Cargando documentos...</div>
-                        </div>
+                    <div>
+                        <div class="detail-date-label">Objetivo</div>
+                        <div class="detail-date-value ${dateObj === '—' ? 'empty' : ''}" style="${dateObj !== '—' ? 'color:#24BCDE;' : ''}">${IC.target} ${dateObj}</div>
                     </div>
-                </div>
+                    <div>
+                        <div class="detail-date-label">Actualizado</div>
+                        <div class="detail-date-value">${IC.history} ${dateUpdated}</div>
+                    </div>
+                    <div>
+                        <div class="detail-date-label">Presentado</div>
+                        <div class="detail-date-value ${datePres === '—' ? 'empty' : ''}" style="${datePres !== '—' ? 'color:var(--magenta);' : ''}">${IC.calCheck} ${datePres}</div>
+                    </div>
+                </section>
+
+                <!-- Section C: Resumen -->
+                <section>
+                    <div class="detail-section-h">${IC.align} Resumen del Proyecto</div>
+                    ${resumenHtml}
+                </section>
+
+                <!-- Section D: Tareas -->
+                <section>
+                    ${checklistHtml}
+                </section>
+
+                <!-- Section E: Documentos -->
+                <section>
+                    <div class="detail-section-h">${IC.clip} Documentos adjuntos</div>
+                    <div id="detail-docs-area">
+                        <div style="text-align:center;color:var(--text-muted);padding:1rem;font-size:0.85rem;">Cargando documentos...</div>
+                    </div>
+                </section>
             `;
             content.innerHTML = html;
 
@@ -2871,7 +3055,7 @@ permalink: gestionproyectos/index.html
                 if (!res.ok) throw new Error('Error');
                 const data = await res.json();
                 const docsArea = document.getElementById('detail-docs-area');
-                if (!docsArea) return; // modal closed
+                if (!docsArea) return;
 
                 const hasMain = data.main;
                 const hasMaterials = data.materials && data.materials.length > 0;
@@ -2879,23 +3063,23 @@ permalink: gestionproyectos/index.html
                 if (!hasMain && !hasMaterials) {
                     docsArea.innerHTML = `<div class="detail-docs-empty">
                         <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                        <div style="font-size:0.9rem;font-weight:500;">Sin documentos cargados</div>
+                        <div>Sin documentos adjuntos</div>
                     </div>`;
                     return;
                 }
 
                 let docsHtml = '';
                 if (hasMain) {
-                    docsHtml += `<div style="margin-bottom:0.75rem;">
-                        <div style="font-size:0.75rem;font-weight:600;color:var(--text-muted);margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.03em;">Documento principal</div>
-                        ${renderDocItemReadOnly(data.main, id)}
-                    </div>`;
+                    docsHtml += renderDetailDocItem(data.main, id);
                 }
                 if (hasMaterials) {
-                    docsHtml += `<div>
-                        <div style="font-size:0.75rem;font-weight:600;color:var(--text-muted);margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.03em;">Materiales y fuentes <span class="badge badge-pendiente" style="font-size:0.7rem;">${data.materials.length}</span></div>
-                        ${data.materials.map(m => renderDocItemReadOnly(m, id)).join('')}
-                    </div>`;
+                    docsHtml += data.materials.map(m => renderDetailDocItem(m, id)).join('');
+                    if (data.materials.length > 0) {
+                        docsHtml += `<div class="detail-docs-materials-note">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                            ${data.materials.length} material${data.materials.length > 1 ? 'es' : ''} adjunto${data.materials.length > 1 ? 's' : ''}
+                        </div>`;
+                    }
                 }
                 docsArea.innerHTML = docsHtml;
             } catch (e) {
@@ -2904,27 +3088,34 @@ permalink: gestionproyectos/index.html
             }
         }
 
-        function renderDocItemReadOnly(doc, projectId) {
+        function renderDetailDocItem(doc, projectId) {
             const previewBtn = canPreview(doc.mime_type)
-                ? `<button class="btn-icon" title="Vista previa" aria-label="Vista previa" onclick="openPreview('${projectId}', '${doc.id}', '${doc.mime_type}', '${(doc.original_name || '').replace(/'/g, "\\'")}')">${SVG_ICONS.eye}</button>`
+                ? `<button class="detail-doc-btn" title="Vista previa" aria-label="Vista previa" onclick="event.stopPropagation(); openPreview('${projectId}', '${doc.id}', '${doc.mime_type}', '${(doc.original_name || '').replace(/'/g, "\\'")}')">${SVG_ICONS.eye}</button>`
                 : '';
             const downloadUrl = `/api/projects/${encodeURIComponent(projectId)}/documents/${encodeURIComponent(doc.id)}/download`;
 
-            return `<div class="doc-item">
-                <div class="doc-item-info">
-                    <div class="doc-item-icon">
-                        <svg width="16" height="16" fill="none" stroke="var(--badge-blue-text)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            return `<div class="detail-doc-item">
+                <div style="display:flex;align-items:center;gap:0.75rem;min-width:0;flex:1;">
+                    <div class="detail-doc-icon">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
                     </div>
-                    <div class="doc-item-details">
-                        <div class="doc-item-name" title="${(doc.original_name || '').replace(/"/g, '&quot;')}">${doc.original_name || 'Sin nombre'}</div>
-                        <div class="doc-item-meta">${formatFileSize(doc.size_bytes)} • ${formatDateOnly(doc.created_at) || ''}</div>
+                    <div class="detail-doc-info">
+                        <div class="detail-doc-name" title="${(doc.original_name || '').replace(/"/g, '&quot;')}">${doc.original_name || 'Sin nombre'}</div>
+                        <div class="detail-doc-meta">${formatFileSize(doc.size_bytes)} • ${formatDateOnly(doc.created_at) || ''}</div>
                     </div>
                 </div>
-                <div class="doc-item-actions">
+                <div class="detail-doc-actions">
                     ${previewBtn}
-                    <a href="${downloadUrl}" class="btn-icon" title="Descargar" aria-label="Descargar" style="text-decoration:none;color:inherit;" onclick="event.stopPropagation()">${SVG_ICONS.download}</a>
+                    <a href="${downloadUrl}" class="detail-doc-btn" title="Descargar" aria-label="Descargar" style="text-decoration:none;color:inherit;" onclick="event.stopPropagation()">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    </a>
                 </div>
             </div>`;
+        }
+
+        // Keep backward compat alias
+        function renderDocItemReadOnly(doc, projectId) {
+            return renderDetailDocItem(doc, projectId);
         }
 
         function openEditFromDetail() {
