@@ -400,6 +400,36 @@ permalink: gestionproyectos/index.html
         .view-checklist-item label { font-size: 0.9rem; font-weight: 500; cursor: pointer; flex: 1; user-select: none; }
         .view-checklist-item label.done { text-decoration: line-through; color: var(--text-muted); }
 
+        /* B) Delete button per task in detail checklist */
+        .view-checklist-item .view-task-delete {
+            width: 28px; height: 28px; border-radius: var(--radius-md);
+            border: 1px solid transparent; background: transparent;
+            color: var(--text-muted); cursor: pointer; display: flex;
+            align-items: center; justify-content: center; flex-shrink: 0;
+            transition: all 0.15s; opacity: 0.4; margin-left: auto;
+        }
+        .view-checklist-item .view-task-delete:hover {
+            opacity: 1; background: var(--badge-red-bg); color: var(--badge-red-text); border-color: var(--badge-red-bg);
+        }
+        .view-checklist-item .view-task-delete svg { width: 15px; height: 15px; }
+
+        /* B) Add-task row in detail checklist */
+        .view-checklist-add {
+            display: flex; gap: 0.5rem; margin-top: 0.75rem; align-items: center;
+        }
+        .view-checklist-add input {
+            flex: 1; padding: 0.55rem 0.75rem; border: 1px solid var(--border-light);
+            border-radius: var(--radius-md); font-size: 0.85rem; font-family: var(--font-main);
+            background: var(--bg-body); transition: border-color 0.2s;
+        }
+        .view-checklist-add input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(23,104,197,0.1); }
+        .view-checklist-add button {
+            padding: 0.55rem 1rem; border: none; border-radius: var(--radius-md);
+            background: var(--blue); color: white; font-weight: 600; font-size: 0.82rem;
+            cursor: pointer; white-space: nowrap; font-family: var(--font-main); transition: background 0.15s;
+        }
+        .view-checklist-add button:hover { background: #1255a3; }
+
         /* Save toast */
         .save-toast {
             position: absolute; top: 1rem; right: 1rem;
@@ -681,6 +711,13 @@ permalink: gestionproyectos/index.html
         @media (min-width: 769px) {
             #project-detail-modal .modal-content {
                 max-width: 520px;
+            }
+        }
+        /* A) Desktop: modal Detalle más ancho */
+        @media (min-width: 1024px) {
+            #project-detail-modal .modal-content {
+                width: min(1060px, 92vw);
+                max-width: 1060px;
             }
         }
 
@@ -3293,6 +3330,7 @@ permalink: gestionproyectos/index.html
         /* =========================================
            CHECKLIST / PLAN DE ACCIÓN (Detalle - Interactivo)
            ========================================= */
+        /* B) renderViewChecklist: checklist interactivo con delete + agregar tarea */
         function renderViewChecklist(projectId) {
             const p = projects.find(x => x.id === projectId);
             if (!p) return '';
@@ -3302,25 +3340,32 @@ permalink: gestionproyectos/index.html
             const done = tasks.filter(t => t.done).length;
             const percent = total === 0 ? 0 : Math.round((done / total) * 100);
 
+            const addRowHtml = `<div class="view-checklist-add">
+                <input type="text" id="view-add-task-input" placeholder="Ej: Llamar a presidente de comisión…"
+                    onkeydown="if(event.key==='Enter'){event.preventDefault();onAddDetailTask('${escapeHtml(projectId)}')}" aria-label="Nueva tarea complementaria">
+                <button type="button" onclick="onAddDetailTask('${escapeHtml(projectId)}')" aria-label="Agregar tarea">Agregar</button>
+            </div>`;
+
             if (total === 0) {
                 return `<div class="view-checklist-section">
+                    <div id="save-toast" class="save-toast">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Guardado
+                    </div>
                     <div class="view-checklist-header">
                         <div>
                             <div class="view-checklist-title">${SVG_ICONS.checkCircle} Tareas complementarias</div>
                             <div class="view-checklist-hint">No hay tareas complementarias definidas.</div>
                         </div>
                     </div>
+                    <div id="view-checklist-items"></div>
+                    ${addRowHtml}
                 </div>`;
             }
 
             let itemsHtml = '';
             tasks.forEach((t, index) => {
-                itemsHtml += `
-                    <div class="view-checklist-item ${t.done ? 'done' : ''}" onclick="toggleViewTask('${projectId}', ${index})">
-                        <input type="checkbox" class="checklist-checkbox" ${t.done ? 'checked' : ''} onclick="event.stopPropagation(); toggleViewTask('${escapeHtml(projectId)}', ${index})">
-                        <label class="${t.done ? 'done' : ''}">${escapeHtml(t.text)}</label>
-                    </div>
-                `;
+                itemsHtml += buildViewTaskItem(projectId, t, index);
             });
 
             return `<div class="view-checklist-section">
@@ -3339,63 +3384,57 @@ permalink: gestionproyectos/index.html
                     <div id="view-progress-fill" class="view-progress-fill ${percent === 100 ? 'complete' : ''}" style="width:${percent}%"></div>
                 </div>
                 <div id="view-checklist-items">${itemsHtml}</div>
+                ${addRowHtml}
             </div>`;
         }
 
-        async function toggleViewTask(projectId, index) {
+        /* Helper: genera HTML de un item de tarea en detalle */
+        function buildViewTaskItem(projectId, t, index) {
+            return `<div class="view-checklist-item ${t.done ? 'done' : ''}" onclick="toggleViewTask('${escapeHtml(projectId)}', ${index})">
+                <input type="checkbox" class="checklist-checkbox" ${t.done ? 'checked' : ''} onclick="event.stopPropagation(); toggleViewTask('${escapeHtml(projectId)}', ${index})">
+                <label class="${t.done ? 'done' : ''}">${escapeHtml(t.text)}</label>
+                <button class="view-task-delete" onclick="event.stopPropagation(); onDeleteDetailTask('${escapeHtml(projectId)}', ${index})" aria-label="Eliminar tarea">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+            </div>`;
+        }
+
+        /* Helper compartido: re-renderizar items + progreso del checklist en detalle */
+        function refreshDetailChecklist(projectId) {
             const p = projects.find(x => x.id === projectId);
-            if (!p || !p.action_plan) return;
+            if (!p) return;
+            const tasks = p.action_plan || [];
+            const total = tasks.length;
+            const done = tasks.filter(t => t.done).length;
+            const percent = total === 0 ? 0 : Math.round((done / total) * 100);
 
-            p.action_plan[index].done = !p.action_plan[index].done;
-            p.action_plan[index].updated_at = new Date().toISOString();
-            p.updated_at = new Date().toISOString();
-
-            // Re-render checklist in detail modal
             const container = document.getElementById('view-checklist-items');
             if (container) {
-                const tasks = p.action_plan;
-                const total = tasks.length;
-                const done = tasks.filter(t => t.done).length;
-                const percent = total === 0 ? 0 : Math.round((done / total) * 100);
-
                 let itemsHtml = '';
-                tasks.forEach((t, i) => {
-                    itemsHtml += `
-                        <div class="view-checklist-item ${t.done ? 'done' : ''}" onclick="toggleViewTask('${projectId}', ${i})">
-                            <input type="checkbox" class="checklist-checkbox" ${t.done ? 'checked' : ''} onclick="event.stopPropagation(); toggleViewTask('${escapeHtml(projectId)}', ${i})">
-                            <label class="${t.done ? 'done' : ''}">${escapeHtml(t.text)}</label>
-                        </div>
-                    `;
-                });
+                tasks.forEach((t, i) => { itemsHtml += buildViewTaskItem(projectId, t, i); });
                 container.innerHTML = itemsHtml;
-
-                // Update progress
-                const progText = document.getElementById('view-progress-text');
-                const progBar = document.getElementById('view-progress-fill');
-                if (progText) progText.textContent = `${percent}%`;
-                if (progBar) {
-                    progBar.style.width = `${percent}%`;
-                    progBar.className = `view-progress-fill ${percent === 100 ? 'complete' : ''}`;
-                }
-                if (percent === 100 && progText) progText.style.color = '#059669';
-                else if (progText) progText.style.color = '';
             }
 
-            // Update table in background
+            const progText = document.getElementById('view-progress-text');
+            const progBar = document.getElementById('view-progress-fill');
+            if (progText) {
+                progText.textContent = total === 0 ? '' : `${percent}%`;
+                progText.style.color = (percent === 100 && total > 0) ? '#059669' : '';
+            }
+            if (progBar) {
+                progBar.style.width = `${percent}%`;
+                progBar.className = `view-progress-fill ${percent === 100 && total > 0 ? 'complete' : ''}`;
+            }
+        }
+
+        /* Helper compartido: guardar proyecto y mostrar toast */
+        async function saveAndToastDetail(p) {
             renderUI();
+            const result = await apiSave({ ...p, action_plan: p.action_plan });
 
-            // Save instantly to API
-            const saveData = {
-                ...p,
-                action_plan: p.action_plan
-            };
-            const result = await apiSave(saveData);
-
-            // Show toast
             const toast = document.getElementById('save-toast');
             if (toast) {
                 if (result.ok) {
-                    toast.textContent = '';
                     toast.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado';
                 } else {
                     toast.innerHTML = 'Error al guardar';
@@ -3410,9 +3449,53 @@ permalink: gestionproyectos/index.html
                 }, 2000);
             }
 
-            // Update localStorage
             localStorage.setItem(DB_KEY, JSON.stringify(projects));
             if (result.ok) updateSyncBadge(true);
+        }
+
+        /* Handler: tildar/destildar tarea desde Detalle */
+        async function toggleViewTask(projectId, index) {
+            const p = projects.find(x => x.id === projectId);
+            if (!p || !p.action_plan || !p.action_plan[index]) return;
+
+            p.action_plan[index].done = !p.action_plan[index].done;
+            p.action_plan[index].updated_at = new Date().toISOString();
+            p.updated_at = new Date().toISOString();
+
+            refreshDetailChecklist(projectId);
+            await saveAndToastDetail(p);
+        }
+
+        /* Handler: eliminar tarea desde Detalle */
+        async function onDeleteDetailTask(projectId, index) {
+            const p = projects.find(x => x.id === projectId);
+            if (!p || !p.action_plan) return;
+
+            p.action_plan.splice(index, 1);
+            p.updated_at = new Date().toISOString();
+
+            refreshDetailChecklist(projectId);
+            await saveAndToastDetail(p);
+        }
+
+        /* Handler: agregar tarea desde Detalle */
+        async function onAddDetailTask(projectId) {
+            const input = document.getElementById('view-add-task-input');
+            if (!input) return;
+            const text = input.value.trim();
+            if (!text) { input.focus(); return; }
+
+            const p = projects.find(x => x.id === projectId);
+            if (!p) return;
+
+            if (!p.action_plan) p.action_plan = [];
+            p.action_plan.push({ text, done: false, created_at: new Date().toISOString() });
+            p.updated_at = new Date().toISOString();
+
+            input.value = '';
+            refreshDetailChecklist(projectId);
+            input.focus();
+            await saveAndToastDetail(p);
         }
 
         function formatFileSize(bytes) {
