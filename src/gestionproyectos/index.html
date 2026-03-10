@@ -956,6 +956,94 @@ permalink: gestionproyectos/index.html
         }
 
         /* =========================================
+           8c. GACETILLAS
+           ========================================= */
+        .gac-header-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;
+        }
+        .gac-search-row { margin-bottom: 1rem; }
+        .gac-search-row .search-bar { width: 100%; max-width: 400px; }
+        .gac-table-wrap { margin-bottom: 1rem; }
+        .gac-cards-wrap { display: none; margin-bottom: 1rem; }
+
+        /* Gacetilla table file badge */
+        .gac-file-badge {
+            display: inline-flex; align-items: center; gap: 0.25rem;
+            font-size: 0.78rem; font-weight: 600; color: var(--blue);
+            background: var(--badge-blue-bg); padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-full);
+        }
+        .gac-file-badge svg { width: 12px; height: 12px; }
+        .gac-no-file { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Gacetilla proyecto chips in table */
+        .gac-proj-chips { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+        .gac-proj-chip {
+            display: inline-block; font-size: 0.72rem; font-weight: 600;
+            padding: 0.15rem 0.45rem; border-radius: var(--radius-full);
+            background: rgba(36,188,222,0.1); color: #24BCDE;
+            max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
+        /* Pagination */
+        .gac-pagination {
+            display: flex; justify-content: center; align-items: center;
+            gap: 0.25rem; padding: 0.75rem 0; flex-wrap: wrap;
+        }
+        .gac-page-btn {
+            min-width: 36px; height: 36px; border: 1px solid var(--border-light);
+            border-radius: var(--radius-md); background: var(--bg-surface);
+            font-family: var(--font-main); font-size: 0.85rem; font-weight: 600;
+            color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+            display: flex; align-items: center; justify-content: center; padding: 0 0.5rem;
+        }
+        .gac-page-btn:hover { background: var(--badge-gray-bg); border-color: var(--text-muted); }
+        .gac-page-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+        .gac-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .gac-page-btn:disabled:hover { background: var(--bg-surface); border-color: var(--border-light); }
+
+        /* Gacetilla form: proyecto selector */
+        .gac-proyectos-selector { display: flex; flex-direction: column; gap: 0.5rem; }
+        .gac-proyectos-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+        .gac-proy-chip-sel {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            padding: 0.3rem 0.6rem; border-radius: var(--radius-full);
+            background: rgba(36,188,222,0.1); color: #24BCDE;
+            font-size: 0.78rem; font-weight: 600;
+        }
+        .gac-proy-chip-sel button {
+            background: none; border: none; cursor: pointer; color: inherit;
+            font-size: 1rem; line-height: 1; padding: 0; margin-left: 0.15rem;
+        }
+
+        /* Upload zone for gacetilla */
+        .gac-upload-zone {
+            border: 2px dashed var(--border-light); border-radius: var(--radius-lg);
+            background: var(--bg-body); transition: border-color 0.2s;
+        }
+        .gac-upload-zone:hover { border-color: var(--blue); }
+
+        /* Current file display */
+        .gac-archivo-actual {
+            border: 1px solid var(--border-light); border-radius: var(--radius-lg);
+            padding: 0.75rem; display: flex; align-items: center; justify-content: space-between;
+            gap: 0.5rem; background: var(--bg-surface); margin-bottom: 0.5rem;
+        }
+        .gac-archivo-actual .gac-file-info { flex: 1; min-width: 0; }
+        .gac-archivo-actual .gac-file-info .name { font-size: 0.85rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .gac-archivo-actual .gac-file-info .meta { font-size: 0.72rem; color: var(--text-muted); }
+        .gac-archivo-actual .gac-file-actions { display: flex; gap: 0.25rem; flex-shrink: 0; }
+
+        @media (max-width: 768px) {
+            .gac-table-wrap { display: none; }
+            .gac-cards-wrap { display: block; }
+            .gac-header-row { flex-direction: column; align-items: stretch; }
+            .gac-header-row .btn { width: 100%; }
+            .gac-search-row .search-bar { max-width: 100%; }
+        }
+
+        /* =========================================
            9. TABS (Proyectos / Dashboard)
            ========================================= */
         .tabs-bar {
@@ -1292,14 +1380,10 @@ permalink: gestionproyectos/index.html
                     <option value="Pedido de informe">Pedido de informe</option>
                 </select>
 
-                <select id="filter-responsable" class="input-control" style="width: auto;" onchange="filterData()">
-                    <option value="">Cualquier Responsable</option>
-                    <option value="Sin asignar">Sin asignar</option>
-                    <option value="Gonzalo">Gonzalo</option>
-                    <option value="Tomás">Tomás</option>
-                    <option value="Tamara">Tamara</option>
-                    <option value="Rosalina">Rosalina</option>
-                    <option value="Sonia">Sonia</option>
+                <select id="filter-estado-grupo" class="input-control" style="width: auto;" onchange="filterData()">
+                    <option value="">Todos</option>
+                    <option value="pendientes_trabajo">Pendientes y en trabajo</option>
+                    <option value="presentados">Presentados</option>
                 </select>
             </div>
         </header>
@@ -1324,14 +1408,10 @@ permalink: gestionproyectos/index.html
                 <option value="Nota">Nota</option>
                 <option value="Pedido de informe">Pedido inf.</option>
             </select>
-            <select onchange="document.getElementById('filter-responsable').value=this.value; filterData();">
-                <option value="">Responsable</option>
-                <option value="Sin asignar">Sin asignar</option>
-                <option value="Gonzalo">Gonzalo</option>
-                <option value="Tomás">Tomás</option>
-                <option value="Tamara">Tamara</option>
-                <option value="Rosalina">Rosalina</option>
-                <option value="Sonia">Sonia</option>
+            <select onchange="document.getElementById('filter-estado-grupo').value=this.value; filterData();">
+                <option value="">Estado</option>
+                <option value="pendientes_trabajo">Pend. y trabajo</option>
+                <option value="presentados">Presentados</option>
             </select>
             <select id="mobile-sort" onchange="changeMobileSort(this.value)">
                 <option value="updated">Actualiz.</option>
@@ -1344,6 +1424,7 @@ permalink: gestionproyectos/index.html
         <div class="tabs-bar">
             <button class="tab-btn active" id="tab-proyectos" onclick="switchTab('proyectos')">Proyectos</button>
             <button class="tab-btn" id="tab-dashboard" onclick="switchTab('dashboard')">Dashboard</button>
+            <button class="tab-btn" id="tab-gacetillas" onclick="switchTab('gacetillas')">Gacetillas</button>
         </div>
 
         <main>
@@ -1503,10 +1584,48 @@ permalink: gestionproyectos/index.html
                     </div>
                 </div>
             </div>
+
+            <!-- === VISTA GACETILLAS === -->
+            <div id="gacetillasView" class="tab-view">
+                <div class="gac-header-row">
+                    <h2 class="section-title" style="margin:0;">Gacetillas de Prensa <span class="badge badge-trabajo" id="count-gacetillas">0</span></h2>
+                    <button class="btn btn-primary" onclick="openGacetillaModal()">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Nueva Gacetilla
+                    </button>
+                </div>
+
+                <div class="gac-search-row">
+                    <input type="text" id="gac-search" class="search-bar" placeholder="Buscar por título, tema o descripción..." oninput="loadGacetillas(1)">
+                </div>
+
+                <!-- Desktop Table -->
+                <div class="table-container gac-table-wrap">
+                    <table id="gac-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Título</th>
+                                <th>Tema</th>
+                                <th>Proyectos</th>
+                                <th>Archivo</th>
+                                <th style="text-align:right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gac-tbody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Cards -->
+                <div class="cards-container gac-cards-wrap" id="gac-cards"></div>
+
+                <!-- Pagination -->
+                <div class="gac-pagination" id="gac-pagination"></div>
+            </div>
         </main>
 
         <!-- FAB: Nuevo Proyecto (mobile only, hidden on desktop via CSS) -->
-        <button id="fab-new-project" onclick="openModal()" aria-label="Nuevo Proyecto">
+        <button id="fab-new-project" onclick="openFabAction()" aria-label="Nuevo">
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </button>
     </div>
@@ -1777,6 +1896,98 @@ permalink: gestionproyectos/index.html
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline" onclick="closeModal('quick-responsable-modal')">Cancelar</button>
                 <button type="button" class="btn btn-secondary" onclick="saveQuickResponsable()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETALLE GACETILLA -->
+    <div class="modal-overlay" id="gacetilla-detail-modal">
+        <div class="modal-content" style="max-width:600px;">
+            <div class="detail-modal-header">
+                <h3>Detalle de Gacetilla</h3>
+                <button class="detail-modal-close" onclick="closeModal('gacetilla-detail-modal')" aria-label="Cerrar">&times;</button>
+            </div>
+            <div id="gacetilla-detail-content" class="detail-modal-body">
+                <div class="detail-loading">Cargando...</div>
+            </div>
+            <div class="detail-footer">
+                <button type="button" class="detail-btn-back" onclick="closeModal('gacetilla-detail-modal')">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Volver
+                </button>
+                <button type="button" class="detail-btn-edit" onclick="openEditGacetillaFromDetail()">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    Editar Gacetilla
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CREAR/EDITAR GACETILLA -->
+    <div class="modal-overlay" id="gacetilla-modal">
+        <div class="modal-content" style="max-width:650px;">
+            <div class="modal-header">
+                <h3 id="gac-modal-title" style="color:var(--blue)">Nueva Gacetilla</h3>
+                <button class="close-btn" onclick="closeModal('gacetilla-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="gacetilla-form" class="form-grid">
+                    <input type="hidden" id="gac-f-id">
+
+                    <div class="input-group full-width">
+                        <label for="gac-f-titulo">Título de la gacetilla *</label>
+                        <input type="text" id="gac-f-titulo" class="input-control" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="gac-f-fecha">Fecha *</label>
+                        <input type="date" id="gac-f-fecha" class="input-control" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="gac-f-tema">Tema / Noticia principal</label>
+                        <input type="text" id="gac-f-tema" class="input-control" placeholder="Ej: Salud, Economía...">
+                    </div>
+
+                    <div class="input-group full-width">
+                        <label for="gac-f-resumen">Resumen / Descripción</label>
+                        <textarea id="gac-f-resumen" class="input-control" rows="3" placeholder="Breve descripción de la gacetilla..."></textarea>
+                    </div>
+
+                    <div class="input-group full-width">
+                        <label>Proyectos vinculados</label>
+                        <div id="gac-proyectos-selector" class="gac-proyectos-selector">
+                            <div id="gac-proyectos-chips" class="gac-proyectos-chips"></div>
+                            <select id="gac-f-add-proyecto" class="input-control" onchange="addGacProyecto(this)">
+                                <option value="">Agregar proyecto...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-group full-width">
+                        <label>Archivo adjunto (PDF, DOC, DOCX)</label>
+                        <div id="gac-archivo-area">
+                            <div id="gac-archivo-actual" style="display:none;" class="gac-archivo-actual"></div>
+                            <div class="gac-upload-zone" id="gac-upload-zone">
+                                <input type="file" id="gac-f-archivo" accept=".pdf,.doc,.docx" style="display:none;" onchange="handleGacFileSelect(this)">
+                                <div onclick="document.getElementById('gac-f-archivo').click()" style="cursor:pointer;text-align:center;padding:1rem;">
+                                    <svg width="32" height="32" fill="none" stroke="var(--text-muted)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                    <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;">Click para seleccionar archivo</div>
+                                    <div id="gac-file-name" style="font-size:0.8rem;color:var(--blue);font-weight:600;margin-top:0.25rem;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="gac-btn-delete" style="display:none;" onclick="deleteGacetilla()">Eliminar</button>
+                <div id="gac-save-error" class="save-error-msg"></div>
+                <div style="flex-grow:1;"></div>
+                <div class="footer-right">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('gacetilla-modal')">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="gac-btn-save" onclick="saveGacetilla()">Guardar</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2338,7 +2549,7 @@ permalink: gestionproyectos/index.html
         function renderUI() {
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
             const filterTipo = document.getElementById('filter-tipo').value;
-            const filterResp = document.getElementById('filter-responsable').value;
+            const filterEstadoGrupo = document.getElementById('filter-estado-grupo').value;
 
             // Mobile sort mode (applied via dropdown)
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -2362,8 +2573,13 @@ permalink: gestionproyectos/index.html
                                     (p.resumen && p.resumen.toLowerCase().includes(searchTerm)) ||
                                     (p.area_tema && p.area_tema.toLowerCase().includes(searchTerm));
                 const matchTipo = filterTipo === '' || p.tipo === filterTipo;
-                const matchResp = filterResp === '' || p.responsable === filterResp;
-                return matchSearch && matchTipo && matchResp;
+                let matchEstado = true;
+                if (filterEstadoGrupo === 'pendientes_trabajo') {
+                    matchEstado = p.estado_preparacion === 'Pendiente' || p.estado_preparacion === 'En trabajo';
+                } else if (filterEstadoGrupo === 'presentados') {
+                    matchEstado = p.estado_preparacion === 'Presentado';
+                }
+                return matchSearch && matchTipo && matchEstado;
             });
 
             // Separar en dos tablas
@@ -2816,7 +3032,7 @@ permalink: gestionproyectos/index.html
             // Obtener datos filtrados (misma lógica que renderUI)
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
             const filterTipo = document.getElementById('filter-tipo').value;
-            const filterResp = document.getElementById('filter-responsable').value;
+            const filterEstadoGrupo = document.getElementById('filter-estado-grupo').value;
 
             let filtered = [...projects].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
             filtered = filtered.filter(p => {
@@ -2824,8 +3040,13 @@ permalink: gestionproyectos/index.html
                                     (p.resumen && p.resumen.toLowerCase().includes(searchTerm)) ||
                                     (p.area_tema && p.area_tema.toLowerCase().includes(searchTerm));
                 const matchTipo = filterTipo === '' || p.tipo === filterTipo;
-                const matchResp = filterResp === '' || p.responsable === filterResp;
-                return matchSearch && matchTipo && matchResp;
+                let matchEstado = true;
+                if (filterEstadoGrupo === 'pendientes_trabajo') {
+                    matchEstado = p.estado_preparacion === 'Pendiente' || p.estado_preparacion === 'En trabajo';
+                } else if (filterEstadoGrupo === 'presentados') {
+                    matchEstado = p.estado_preparacion === 'Presentado';
+                }
+                return matchSearch && matchTipo && matchEstado;
             });
 
             const pendientes = filtered.filter(p => p.estado_preparacion !== 'Presentado');
@@ -2835,7 +3056,7 @@ permalink: gestionproyectos/index.html
             const filtrosActivos = [];
             if (searchTerm) filtrosActivos.push(`Búsqueda: "${document.getElementById('search-input').value}"`);
             if (filterTipo) filtrosActivos.push(`Tipo: ${filterTipo}`);
-            if (filterResp) filtrosActivos.push(`Responsable: ${filterResp}`);
+            if (filterEstadoGrupo) filtrosActivos.push(`Estado: ${filterEstadoGrupo === 'pendientes_trabajo' ? 'Pendientes y en trabajo' : 'Presentados'}`);
             const filtrosTexto = filtrosActivos.length > 0 ? filtrosActivos.join(' | ') : 'Ninguno';
 
             // Fecha/hora
@@ -3076,11 +3297,19 @@ permalink: gestionproyectos/index.html
                     ${checklistHtml}
                 </section>
 
-                <!-- Section E: Documentos -->
+                <!-- Section E: Documento del Proyecto -->
                 <section>
-                    <div class="detail-section-h">${IC.clip} Documentos adjuntos</div>
-                    <div id="detail-docs-area">
-                        <div style="text-align:center;color:var(--text-muted);padding:1rem;font-size:0.85rem;">Cargando documentos...</div>
+                    <div class="detail-section-h">${IC.file} Documento del Proyecto</div>
+                    <div id="detail-main-doc-area">
+                        <div style="text-align:center;color:var(--text-muted);padding:1rem;font-size:0.85rem;">Cargando...</div>
+                    </div>
+                </section>
+
+                <!-- Section F: Materiales y Fuentes -->
+                <section>
+                    <div class="detail-section-h">${IC.clip} Materiales y Fuentes</div>
+                    <div id="detail-materials-area">
+                        <div style="text-align:center;color:var(--text-muted);padding:1rem;font-size:0.85rem;">Cargando...</div>
                     </div>
                 </section>
             `;
@@ -3091,37 +3320,39 @@ permalink: gestionproyectos/index.html
                 const res = await fetch(`/api/projects/${encodeURIComponent(id)}/documents`);
                 if (!res.ok) throw new Error('Error');
                 const data = await res.json();
-                const docsArea = document.getElementById('detail-docs-area');
-                if (!docsArea) return;
+                const mainArea = document.getElementById('detail-main-doc-area');
+                const materialsArea = document.getElementById('detail-materials-area');
+                if (!mainArea || !materialsArea) return;
 
-                const hasMain = data.main;
-                const hasMaterials = data.materials && data.materials.length > 0;
-
-                if (!hasMain && !hasMaterials) {
-                    docsArea.innerHTML = `<div class="detail-docs-empty">
+                // Render main document
+                if (data.main) {
+                    mainArea.innerHTML = renderDetailDocItem(data.main, id);
+                } else {
+                    mainArea.innerHTML = `<div class="detail-docs-empty">
                         <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                        <div>Sin documentos adjuntos</div>
+                        <div>No hay documento del proyecto cargado.</div>
                     </div>`;
-                    return;
                 }
 
-                let docsHtml = '';
-                if (hasMain) {
-                    docsHtml += renderDetailDocItem(data.main, id);
+                // Render materials
+                if (data.materials && data.materials.length > 0) {
+                    let matsHtml = data.materials.map(m => renderDetailDocItem(m, id)).join('');
+                    matsHtml += `<div class="detail-docs-materials-note">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                        ${data.materials.length} material${data.materials.length > 1 ? 'es' : ''} complementario${data.materials.length > 1 ? 's' : ''}
+                    </div>`;
+                    materialsArea.innerHTML = matsHtml;
+                } else {
+                    materialsArea.innerHTML = `<div class="detail-docs-empty">
+                        <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                        <div>No hay materiales complementarios cargados.</div>
+                    </div>`;
                 }
-                if (hasMaterials) {
-                    docsHtml += data.materials.map(m => renderDetailDocItem(m, id)).join('');
-                    if (data.materials.length > 0) {
-                        docsHtml += `<div class="detail-docs-materials-note">
-                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                            ${data.materials.length} material${data.materials.length > 1 ? 'es' : ''} adjunto${data.materials.length > 1 ? 's' : ''}
-                        </div>`;
-                    }
-                }
-                docsArea.innerHTML = docsHtml;
             } catch (e) {
-                const docsArea = document.getElementById('detail-docs-area');
-                if (docsArea) docsArea.innerHTML = '<div style="color:var(--badge-red-text);padding:0.5rem;font-size:0.85rem;">Error cargando documentos.</div>';
+                const mainArea = document.getElementById('detail-main-doc-area');
+                const materialsArea = document.getElementById('detail-materials-area');
+                if (mainArea) mainArea.innerHTML = '<div style="color:var(--badge-red-text);padding:0.5rem;font-size:0.85rem;">Error cargando documentos.</div>';
+                if (materialsArea) materialsArea.innerHTML = '';
             }
         }
 
@@ -3783,10 +4014,11 @@ permalink: gestionproyectos/index.html
            TABS SWITCHING
            ========================================= */
         function switchTab(tab) {
-            const tabs = ['proyectos', 'dashboard'];
+            const tabs = ['proyectos', 'dashboard', 'gacetillas'];
+            const viewMap = { proyectos: 'projectsView', dashboard: 'dashboardView', gacetillas: 'gacetillasView' };
             tabs.forEach(t => {
                 document.getElementById('tab-' + t).classList.toggle('active', t === tab);
-                const view = document.getElementById(t === 'proyectos' ? 'projectsView' : 'dashboardView');
+                const view = document.getElementById(viewMap[t]);
                 if (t === tab) {
                     view.style.display = 'block';
                     requestAnimationFrame(() => { view.classList.add('active'); });
@@ -3796,6 +4028,7 @@ permalink: gestionproyectos/index.html
                 }
             });
             if (tab === 'dashboard') renderDashboard();
+            if (tab === 'gacetillas') loadGacetillas(1);
         }
 
         /* =========================================
@@ -4236,11 +4469,495 @@ permalink: gestionproyectos/index.html
         });
 
         /* =========================================
+           GACETILLAS — FULL MODULE
+           ========================================= */
+        const GAC_API = '/api/gacetillas';
+        let gacetillasData = [];
+        let gacPagination = { page: 1, total: 0, totalPages: 0 };
+        let gacSelectedProyectos = []; // [{id, titulo}]
+        let gacCurrentDetailId = null;
+        let gacPendingFile = null; // File object pending upload
+
+        async function loadGacetillas(page = 1) {
+            const search = (document.getElementById('gac-search')?.value || '').trim();
+            const params = new URLSearchParams({ page, limit: 10 });
+            if (search) params.set('search', search);
+
+            try {
+                const res = await fetch(`${GAC_API}?${params}`);
+                if (!res.ok) throw new Error('Error cargando gacetillas');
+                const json = await res.json();
+                if (!json.ok) throw new Error(json.error || 'Error');
+
+                gacetillasData = json.data || [];
+                gacPagination = json.pagination || { page: 1, total: 0, totalPages: 0 };
+                document.getElementById('count-gacetillas').innerText = gacPagination.total;
+                renderGacetillasTable();
+                renderGacPagination();
+            } catch (e) {
+                console.error('loadGacetillas error:', e);
+                document.getElementById('gac-tbody').innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--badge-red-text);padding:2rem;">Error: ${escapeHtml(e.message)}</td></tr>`;
+                document.getElementById('gac-cards').innerHTML = `<div style="text-align:center;color:var(--badge-red-text);padding:2rem;">${escapeHtml(e.message)}</div>`;
+            }
+        }
+
+        function renderGacetillasTable() {
+            const tbody = document.getElementById('gac-tbody');
+            const cards = document.getElementById('gac-cards');
+            tbody.innerHTML = '';
+            cards.innerHTML = '';
+
+            if (gacetillasData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:2rem;">No se encontraron gacetillas.</td></tr>`;
+                cards.innerHTML = `<div style="text-align:center;color:var(--text-muted);padding:2rem;">No se encontraron gacetillas.</div>`;
+                return;
+            }
+
+            gacetillasData.forEach(g => {
+                const fecha = formatDateOnly(g.fecha_gacetilla) || '—';
+                const proyChips = (g.proyectos || []).map(p =>
+                    `<span class="gac-proj-chip" title="${escapeHtml(p.titulo)}">${escapeHtml(p.titulo)}</span>`
+                ).join('') || '<span style="color:var(--text-muted);font-size:0.8rem;">—</span>';
+
+                const fileBadge = g.archivo_nombre
+                    ? `<span class="gac-file-badge">${SVG_ICONS.fileText} ${escapeHtml(getFileExt(g.archivo_nombre).toUpperCase())}</span>`
+                    : '<span class="gac-no-file">—</span>';
+
+                // Desktop row
+                const tr = document.createElement('tr');
+                tr.onclick = () => openGacetillaDetail(g.id);
+                tr.innerHTML = `
+                    <td style="white-space:nowrap;font-size:0.9rem;">${fecha}</td>
+                    <td>
+                        <div class="project-title">${escapeHtml(g.titulo)}</div>
+                        <div class="project-desc">${escapeHtml(g.resumen || '')}</div>
+                    </td>
+                    <td style="font-size:0.85rem;">${escapeHtml(g.tema || '—')}</td>
+                    <td><div class="gac-proj-chips">${proyChips}</div></td>
+                    <td>${fileBadge}</td>
+                    <td style="text-align:right;white-space:nowrap;">
+                        ${g.archivo_key ? `<a href="${GAC_API}/${encodeURIComponent(g.id)}/archivo" class="btn-icon" title="Descargar" onclick="event.stopPropagation()" style="text-decoration:none;color:inherit;">${SVG_ICONS.download}</a>` : ''}
+                        ${g.archivo_key && g.archivo_mime === 'application/pdf' ? `<button class="btn-icon" title="Vista previa" onclick="event.stopPropagation(); openGacPreview('${g.id}', '${escapeHtml(g.archivo_nombre)}')">${SVG_ICONS.eye}</button>` : ''}
+                        <button class="btn-icon" title="Editar" onclick="event.stopPropagation(); openGacetillaModal('${g.id}')" style="color:var(--blue);">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+
+                // Mobile card
+                const card = document.createElement('div');
+                card.className = 'mobile-card';
+                card.onclick = () => openGacetillaDetail(g.id);
+                card.innerHTML = `
+                    <div class="mobile-card-header">
+                        <span style="font-size:0.78rem;color:var(--text-muted);font-weight:600;">${fecha}</span>
+                        ${fileBadge}
+                    </div>
+                    <div class="project-title">${escapeHtml(g.titulo)}</div>
+                    <div class="project-desc" style="margin-bottom:0.5rem;">${escapeHtml(g.resumen || '')}</div>
+                    ${g.tema ? `<div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.25rem;">Tema: <strong>${escapeHtml(g.tema)}</strong></div>` : ''}
+                    <div class="gac-proj-chips" style="margin-top:0.25rem;">${proyChips}</div>
+                    <div class="action-container">
+                        <div class="action-group" style="display:flex;">
+                            ${g.archivo_key ? `<a href="${GAC_API}/${encodeURIComponent(g.id)}/archivo" class="btn-icon" title="Descargar" onclick="event.stopPropagation()" style="text-decoration:none;color:inherit;">${SVG_ICONS.download}</a>` : ''}
+                            <button class="btn-icon" title="Editar" onclick="event.stopPropagation(); openGacetillaModal('${g.id}')" style="color:var(--blue);">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cards.appendChild(card);
+            });
+        }
+
+        function renderGacPagination() {
+            const container = document.getElementById('gac-pagination');
+            const { page, totalPages } = gacPagination;
+            if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+            let html = '';
+            html += `<button class="gac-page-btn" onclick="loadGacetillas(${page - 1})" ${page <= 1 ? 'disabled' : ''}>‹ Anterior</button>`;
+
+            // Show page numbers with ellipsis
+            const maxVisible = 5;
+            let start = Math.max(1, page - Math.floor(maxVisible / 2));
+            let end = Math.min(totalPages, start + maxVisible - 1);
+            if (end - start < maxVisible - 1) start = Math.max(1, end - maxVisible + 1);
+
+            if (start > 1) {
+                html += `<button class="gac-page-btn" onclick="loadGacetillas(1)">1</button>`;
+                if (start > 2) html += `<span style="padding:0 0.25rem;color:var(--text-muted);">…</span>`;
+            }
+            for (let i = start; i <= end; i++) {
+                html += `<button class="gac-page-btn ${i === page ? 'active' : ''}" onclick="loadGacetillas(${i})">${i}</button>`;
+            }
+            if (end < totalPages) {
+                if (end < totalPages - 1) html += `<span style="padding:0 0.25rem;color:var(--text-muted);">…</span>`;
+                html += `<button class="gac-page-btn" onclick="loadGacetillas(${totalPages})">${totalPages}</button>`;
+            }
+
+            html += `<button class="gac-page-btn" onclick="loadGacetillas(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>Siguiente ›</button>`;
+            container.innerHTML = html;
+        }
+
+        function getFileExt(name) {
+            if (!name) return '';
+            const dot = name.lastIndexOf('.');
+            return dot > -1 ? name.substring(dot + 1) : '';
+        }
+
+        /* --- DETAIL MODAL --- */
+        async function openGacetillaDetail(id) {
+            const modal = document.getElementById('gacetilla-detail-modal');
+            const content = document.getElementById('gacetilla-detail-content');
+            gacCurrentDetailId = id;
+            content.innerHTML = '<div class="detail-loading">Cargando...</div>';
+            document.body.classList.add('modal-open');
+            modal.classList.add('active');
+
+            try {
+                const res = await fetch(`${GAC_API}/${encodeURIComponent(id)}`);
+                if (!res.ok) throw new Error('Error');
+                const json = await res.json();
+                if (!json.ok) throw new Error(json.error);
+                const g = json.gacetilla;
+
+                const IC = {
+                    file: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>',
+                    cal: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>',
+                    clip: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>',
+                    align: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="17" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="17" y1="18" x2="3" y2="18"></line></svg>',
+                    book: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>',
+                    link: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>',
+                    history: '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>',
+                };
+
+                // Chips
+                let chipsHtml = '';
+                if (g.tema) chipsHtml += `<span class="detail-chip detail-chip--area">${IC.book} ${escapeHtml(g.tema)}</span>`;
+                chipsHtml += `<span class="detail-chip detail-chip--tipo">${IC.cal} ${formatDateOnly(g.fecha_gacetilla) || '—'}</span>`;
+
+                // Projects
+                const proyHtml = (g.proyectos || []).length > 0
+                    ? `<div class="detail-chips" style="margin-top:0.35rem;">${g.proyectos.map(p => `<span class="detail-chip detail-chip--area">${IC.link} ${escapeHtml(p.titulo)}</span>`).join('')}</div>`
+                    : `<div style="font-size:0.85rem;color:var(--text-muted);font-style:italic;">Sin proyectos vinculados.</div>`;
+
+                // Resumen
+                const resumenHtml = g.resumen
+                    ? `<div class="detail-resumen-card">${escapeHtml(g.resumen)}</div>`
+                    : `<div class="detail-resumen-card detail-resumen-empty">Sin descripción.</div>`;
+
+                // File
+                let fileHtml = '';
+                if (g.archivo_nombre) {
+                    const downloadUrl = `${GAC_API}/${encodeURIComponent(g.id)}/archivo`;
+                    const previewBtn = g.archivo_mime === 'application/pdf'
+                        ? `<button class="detail-doc-btn" title="Vista previa" onclick="event.stopPropagation(); openGacPreview('${g.id}', '${escapeHtml(g.archivo_nombre)}')">${SVG_ICONS.eye}</button>`
+                        : '';
+                    fileHtml = `<div class="detail-doc-item">
+                        <div style="display:flex;align-items:center;gap:0.75rem;min-width:0;flex:1;">
+                            <div class="detail-doc-icon">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                            </div>
+                            <div class="detail-doc-info">
+                                <div class="detail-doc-name" title="${escapeHtml(g.archivo_nombre)}">${escapeHtml(g.archivo_nombre)}</div>
+                                <div class="detail-doc-meta">${formatFileSize(g.archivo_size)} • ${formatDateOnly(g.updated_at) || ''}</div>
+                            </div>
+                        </div>
+                        <div class="detail-doc-actions">
+                            ${previewBtn}
+                            <a href="${downloadUrl}" class="detail-doc-btn" title="Descargar" style="text-decoration:none;color:inherit;" onclick="event.stopPropagation()">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            </a>
+                        </div>
+                    </div>`;
+                } else {
+                    fileHtml = `<div class="detail-docs-empty">
+                        <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        <div>Sin archivo adjunto</div>
+                    </div>`;
+                }
+
+                // Dates
+                const dateCreated = formatDateOnly(g.created_at) || '—';
+                const dateUpdated = timeAgo(g.updated_at);
+
+                content.innerHTML = `
+                    <section>
+                        <div class="detail-title">${escapeHtml(g.titulo)}</div>
+                        <div class="detail-chips">${chipsHtml}</div>
+                    </section>
+
+                    <section class="detail-dates-card" style="grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <div class="detail-date-label">Creado</div>
+                            <div class="detail-date-value">${IC.cal} ${dateCreated}</div>
+                        </div>
+                        <div>
+                            <div class="detail-date-label">Actualizado</div>
+                            <div class="detail-date-value">${IC.history} ${dateUpdated}</div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="detail-section-h">${IC.align} Descripción</div>
+                        ${resumenHtml}
+                    </section>
+
+                    <section>
+                        <div class="detail-section-h">${IC.link} Proyectos vinculados</div>
+                        ${proyHtml}
+                    </section>
+
+                    <section>
+                        <div class="detail-section-h">${IC.clip} Archivo adjunto</div>
+                        ${fileHtml}
+                    </section>
+                `;
+            } catch (e) {
+                content.innerHTML = `<div class="detail-loading" style="color:var(--badge-red-text)">Error: ${escapeHtml(e.message)}</div>`;
+            }
+        }
+
+        function openEditGacetillaFromDetail() {
+            const id = gacCurrentDetailId;
+            closeModal('gacetilla-detail-modal');
+            if (id) setTimeout(() => openGacetillaModal(id), 100);
+        }
+
+        /* --- CREATE/EDIT MODAL --- */
+        async function openGacetillaModal(id = null) {
+            const modal = document.getElementById('gacetilla-modal');
+            const form = document.getElementById('gacetilla-form');
+            form.reset();
+            gacSelectedProyectos = [];
+            gacPendingFile = null;
+            document.getElementById('gac-file-name').textContent = '';
+            document.getElementById('gac-save-error').style.display = 'none';
+            document.getElementById('gac-archivo-actual').style.display = 'none';
+            document.getElementById('gac-upload-zone').style.display = 'block';
+            const saveBtn = document.getElementById('gac-btn-save');
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = 'Guardar';
+
+            // Populate project selector
+            populateGacProjectSelector();
+
+            if (id) {
+                document.getElementById('gac-modal-title').innerText = 'Editar Gacetilla';
+                document.getElementById('gac-btn-delete').style.display = 'block';
+
+                try {
+                    const res = await fetch(`${GAC_API}/${encodeURIComponent(id)}`);
+                    const json = await res.json();
+                    if (json.ok && json.gacetilla) {
+                        const g = json.gacetilla;
+                        document.getElementById('gac-f-id').value = g.id;
+                        document.getElementById('gac-f-titulo').value = g.titulo;
+                        document.getElementById('gac-f-fecha').value = g.fecha_gacetilla;
+                        document.getElementById('gac-f-tema').value = g.tema || '';
+                        document.getElementById('gac-f-resumen').value = g.resumen || '';
+
+                        gacSelectedProyectos = (g.proyectos || []).map(p => ({ id: p.id, titulo: p.titulo }));
+                        renderGacProyectosChips();
+
+                        // Show current file
+                        if (g.archivo_nombre) {
+                            const actualDiv = document.getElementById('gac-archivo-actual');
+                            actualDiv.style.display = 'flex';
+                            actualDiv.innerHTML = `
+                                <div class="gac-file-info">
+                                    <div class="name">${escapeHtml(g.archivo_nombre)}</div>
+                                    <div class="meta">${formatFileSize(g.archivo_size)}</div>
+                                </div>
+                                <div class="gac-file-actions">
+                                    <a href="${GAC_API}/${encodeURIComponent(g.id)}/archivo" class="btn-icon" title="Descargar" style="text-decoration:none;color:inherit;">${SVG_ICONS.download}</a>
+                                </div>
+                            `;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error loading gacetilla for edit:', e);
+                }
+            } else {
+                document.getElementById('gac-modal-title').innerText = 'Nueva Gacetilla';
+                document.getElementById('gac-f-id').value = '';
+                document.getElementById('gac-btn-delete').style.display = 'none';
+                // Default date to today
+                document.getElementById('gac-f-fecha').value = new Date().toISOString().split('T')[0];
+            }
+
+            document.body.classList.add('modal-open');
+            modal.classList.add('active');
+        }
+
+        function populateGacProjectSelector() {
+            const select = document.getElementById('gac-f-add-proyecto');
+            select.innerHTML = '<option value="">Agregar proyecto...</option>';
+            projects.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = `${p.id} — ${p.titulo}`;
+                select.appendChild(opt);
+            });
+        }
+
+        function addGacProyecto(selectEl) {
+            const pid = selectEl.value;
+            if (!pid) return;
+            if (gacSelectedProyectos.find(p => p.id === pid)) { selectEl.value = ''; return; }
+            const proj = projects.find(p => p.id === pid);
+            gacSelectedProyectos.push({ id: pid, titulo: proj ? proj.titulo : pid });
+            selectEl.value = '';
+            renderGacProyectosChips();
+        }
+
+        function removeGacProyecto(pid) {
+            gacSelectedProyectos = gacSelectedProyectos.filter(p => p.id !== pid);
+            renderGacProyectosChips();
+        }
+
+        function renderGacProyectosChips() {
+            const container = document.getElementById('gac-proyectos-chips');
+            container.innerHTML = gacSelectedProyectos.map(p =>
+                `<span class="gac-proy-chip-sel">${escapeHtml(p.titulo)} <button type="button" onclick="removeGacProyecto('${p.id}')">&times;</button></span>`
+            ).join('');
+        }
+
+        function handleGacFileSelect(input) {
+            if (input.files && input.files[0]) {
+                gacPendingFile = input.files[0];
+                document.getElementById('gac-file-name').textContent = gacPendingFile.name;
+            }
+        }
+
+        async function saveGacetilla() {
+            const form = document.getElementById('gacetilla-form');
+            if (!form.checkValidity()) { form.reportValidity(); return; }
+
+            const id = document.getElementById('gac-f-id').value;
+            const now = new Date().toISOString();
+            const isNew = !id;
+
+            const data = {
+                id: isNew ? crypto.randomUUID() : id,
+                titulo: document.getElementById('gac-f-titulo').value.trim(),
+                fecha_gacetilla: document.getElementById('gac-f-fecha').value,
+                tema: document.getElementById('gac-f-tema').value.trim(),
+                resumen: document.getElementById('gac-f-resumen').value.trim(),
+                proyecto_ids: gacSelectedProyectos.map(p => p.id),
+                created_at: isNew ? now : now,
+                updated_at: now,
+            };
+
+            // If editing, preserve created_at
+            if (!isNew) {
+                const existing = gacetillasData.find(g => g.id === id);
+                if (existing) data.created_at = existing.created_at || now;
+            }
+
+            const saveBtn = document.getElementById('gac-btn-save');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin-icon"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Guardando…`;
+
+            try {
+                // Save gacetilla data
+                const res = await fetch(GAC_API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+                const json = await res.json();
+                if (!json.ok) throw new Error(json.error || 'Error al guardar');
+
+                // Upload file if pending
+                if (gacPendingFile) {
+                    const fd = new FormData();
+                    fd.append('file', gacPendingFile);
+                    const uploadRes = await fetch(`${GAC_API}/${encodeURIComponent(data.id)}/archivo`, {
+                        method: 'POST',
+                        body: fd,
+                    });
+                    const uploadJson = await uploadRes.json();
+                    if (!uploadJson.ok) {
+                        console.warn('File upload warning:', uploadJson.error);
+                    }
+                    gacPendingFile = null;
+                }
+
+                // Success
+                saveBtn.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
+                saveBtn.style.background = 'var(--badge-green-bg)';
+                saveBtn.style.color = 'var(--badge-green-text)';
+
+                setTimeout(() => {
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = 'Guardar';
+                    saveBtn.style.background = '';
+                    saveBtn.style.color = '';
+                    closeModal('gacetilla-modal');
+                    loadGacetillas(gacPagination.page);
+                }, 600);
+            } catch (e) {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = 'Guardar';
+                const errDiv = document.getElementById('gac-save-error');
+                errDiv.textContent = `Error: ${e.message}`;
+                errDiv.style.display = 'block';
+                setTimeout(() => { errDiv.style.display = 'none'; }, 8000);
+            }
+        }
+
+        async function deleteGacetilla() {
+            const id = document.getElementById('gac-f-id').value;
+            if (!id) return;
+            if (!confirm('¿Eliminar esta gacetilla? Esta acción no se puede deshacer.')) return;
+
+            try {
+                const res = await fetch(`${GAC_API}/${encodeURIComponent(id)}`, { method: 'DELETE' });
+                const json = await res.json();
+                if (!json.ok) throw new Error(json.error);
+
+                closeModal('gacetilla-modal');
+                loadGacetillas(1);
+            } catch (e) {
+                alert('Error al eliminar: ' + e.message);
+            }
+        }
+
+        function openGacPreview(gacId, fileName) {
+            const previewContainer = document.getElementById('preview-container');
+            const previewTitle = document.getElementById('preview-modal-title');
+            const downloadBtn = document.getElementById('preview-download-btn');
+
+            previewTitle.textContent = fileName || 'Vista previa';
+            const previewUrl = `${GAC_API}/${encodeURIComponent(gacId)}/archivo?mode=inline`;
+            const downloadUrl = `${GAC_API}/${encodeURIComponent(gacId)}/archivo`;
+
+            previewContainer.innerHTML = `<iframe src="${previewUrl}" style="width:100%;height:70vh;border:none;border-radius:var(--radius-md);"></iframe>`;
+            downloadBtn.onclick = () => { window.open(downloadUrl, '_blank'); };
+
+            document.body.classList.add('modal-open');
+            document.getElementById('preview-modal').classList.add('active');
+        }
+
+        /* --- FAB dynamic action based on current tab --- */
+        function openFabAction() {
+            const gacTab = document.getElementById('tab-gacetillas');
+            if (gacTab && gacTab.classList.contains('active')) {
+                openGacetillaModal();
+            } else {
+                openModal();
+            }
+        }
+
+        /* =========================================
            ESCAPE KEY HANDLER
            ========================================= */
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const modals = ['project-modal', 'project-detail-modal', 'documents-modal', 'preview-modal', 'quick-presentar-modal', 'quick-responsable-modal'];
+                const modals = ['gacetilla-modal', 'gacetilla-detail-modal', 'project-modal', 'project-detail-modal', 'documents-modal', 'preview-modal', 'quick-presentar-modal', 'quick-responsable-modal'];
                 for (const modalId of modals) {
                     const el = document.getElementById(modalId);
                     if (el && el.classList.contains('active')) {

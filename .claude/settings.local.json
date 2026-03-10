@@ -8,7 +8,11 @@
       "Bash(echo \"exit: $?\")",
       "Bash(ls d:/Git/ceciliagortari-site/functions/api/projects/public.js d:/Git/ceciliagortari-site/functions/api/projects/public/*/.)",
       "Bash(echo \"EXIT:$?\")",
-      "Bash(node -c functions/api/projects/index.js)"
+      "Bash(node -c functions/api/projects/index.js)",
+      "Bash(ls -la /d/Git/ceciliagortari-site/functions/api/projects/[id]/documents/)",
+      "Bash(ls -la d:/Git/ceciliagortari-site/functions/api/projects/[id]/)",
+      "Bash(ls d:/Git/ceciliagortari-site/functions/api/projects/[id]/documents/)",
+      "Bash(npx @11ty/eleventy --quiet)"
     ]
   }
 }
