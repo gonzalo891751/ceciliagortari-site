@@ -1220,26 +1220,7 @@ permalink: gestionproyectos/index.html
             display: flex; gap: 0.25rem; justify-content: flex-end;
         }
 
-        /* Detail panel */
-        .arch-detail-panel {
-            position: fixed; top: 0; right: 0; bottom: 0; width: 340px;
-            background: var(--bg-surface); border-left: 1px solid var(--border-light);
-            box-shadow: -4px 0 20px rgba(0,0,0,0.08); z-index: 150;
-            display: none; flex-direction: column; overflow-y: auto;
-            transform: translateX(100%); transition: transform 0.25s ease;
-        }
-        .arch-detail-panel.open {
-            display: flex; transform: translateX(0);
-        }
-        .arch-detail-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 1.25rem 1.25rem 0.75rem; border-bottom: 1px solid var(--border-light);
-        }
-        .arch-detail-header h4 {
-            font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.04em; color: var(--text-muted);
-        }
-        .arch-detail-body { padding: 1.25rem; flex: 1; }
+        /* File detail modal content */
         .arch-detail-icon {
             width: 56px; height: 56px; border-radius: var(--radius-lg);
             display: flex; align-items: center; justify-content: center;
@@ -1348,7 +1329,6 @@ permalink: gestionproyectos/index.html
             }
             .arch-file-list-row .arch-list-meta:nth-child(2),
             .arch-file-list-row .arch-list-meta:nth-child(3) { display: none; }
-            .arch-detail-panel { width: 100%; }
             .arch-view-toggle { display: none; }
         }
 
@@ -2420,13 +2400,16 @@ permalink: gestionproyectos/index.html
     <!-- Context menu (Archivos) -->
     <div class="arch-ctx-menu" id="arch-ctx-menu"></div>
 
-    <!-- Detail panel (Archivos) -->
-    <div class="arch-detail-panel" id="arch-detail-panel">
-        <div class="arch-detail-header">
-            <h4>Detalles</h4>
-            <button class="close-btn" onclick="archCloseDetail()" style="font-size:1.2rem;">&times;</button>
-        </div>
-        <div class="arch-detail-body" id="arch-detail-body">
+    <!-- MODAL: DETALLE DE ARCHIVO (Archivos) -->
+    <div class="modal-overlay" id="arch-detail-modal">
+        <div class="modal-content sm">
+            <div class="modal-header">
+                <h3 style="color:var(--blue)">Detalles del archivo</h3>
+                <button class="close-btn" onclick="closeModal('arch-detail-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="arch-detail-body">
+                <div style="text-align:center; color:var(--text-muted); padding:2rem;">Cargando...</div>
+            </div>
         </div>
     </div>
 
@@ -5399,7 +5382,7 @@ permalink: gestionproyectos/index.html
            ========================================= */
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const modals = ['arch-rename-modal', 'arch-upload-modal', 'arch-folder-modal', 'gacetilla-modal', 'gacetilla-detail-modal', 'project-modal', 'project-detail-modal', 'documents-modal', 'preview-modal', 'quick-presentar-modal', 'quick-responsable-modal'];
+                const modals = ['arch-detail-modal', 'arch-rename-modal', 'arch-upload-modal', 'arch-folder-modal', 'gacetilla-modal', 'gacetilla-detail-modal', 'project-modal', 'project-detail-modal', 'documents-modal', 'preview-modal', 'quick-presentar-modal', 'quick-responsable-modal'];
                 for (const modalId of modals) {
                     const el = document.getElementById(modalId);
                     if (el && el.classList.contains('active')) {
@@ -5620,7 +5603,7 @@ permalink: gestionproyectos/index.html
                     filesToShow.forEach(f => {
                         const ext = getFileExt(f.original_name);
                         const iconBg = archGetFileIconColor(ext);
-                        const selected = archSelectedFile === f.id ? ' selected' : '';
+                        const selected = '';
                         html += `
                             <div class="arch-file-card${selected}" onclick="archSelectFile('${f.id}')" oncontextmenu="archOnFileContext(event, '${f.id}')">
                                 <div class="arch-file-icon-wrap" style="background:${iconBg}12;">${archFileIconSvg(ext, 24)}</div>
@@ -5636,7 +5619,7 @@ permalink: gestionproyectos/index.html
                     html += '<div class="arch-file-list-header"><span>Nombre</span><span>Fecha</span><span>Tamaño</span><span></span></div>';
                     filesToShow.forEach(f => {
                         const ext = getFileExt(f.original_name);
-                        const selected = archSelectedFile === f.id ? ' selected' : '';
+                        const selected = '';
                         html += `
                             <div class="arch-file-list-row${selected}" onclick="archSelectFile('${f.id}')" oncontextmenu="archOnFileContext(event, '${f.id}')">
                                 <div class="arch-file-name-cell">
@@ -5685,15 +5668,15 @@ permalink: gestionproyectos/index.html
             archRenderContent();
         }
 
-        // Select file and show detail panel
+        // Select file and show detail modal
         async function archSelectFile(fileId) {
             archSelectedFile = fileId;
-            archRenderContent(); // Update selection highlight
 
-            const panel = document.getElementById('arch-detail-panel');
+            const modal = document.getElementById('arch-detail-modal');
             const body = document.getElementById('arch-detail-body');
-            panel.classList.add('open');
-            body.innerHTML = '<div class="arch-loading" style="padding:1rem;">Cargando...</div>';
+            body.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:2rem;">Cargando...</div>';
+            document.body.classList.add('modal-open');
+            modal.classList.add('active');
 
             try {
                 const res = await fetch(`${ARCH_API}/files/${encodeURIComponent(fileId)}`);
@@ -5760,7 +5743,7 @@ permalink: gestionproyectos/index.html
         }
 
         function archCloseDetail() {
-            document.getElementById('arch-detail-panel').classList.remove('open');
+            closeModal('arch-detail-modal');
             archSelectedFile = null;
         }
 
