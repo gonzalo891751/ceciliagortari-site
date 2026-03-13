@@ -1,0 +1,496 @@
+import React, { useState } from 'react';
+import { 
+  Folder, FileText, File, Search, Plus, UploadCloud, 
+  LayoutGrid, List as ListIcon, ChevronRight, X, 
+  Download, Share2, Trash2, MoreVertical, Pin, 
+  FileImage, Clock, Info, User
+} from 'lucide-react';
+
+// --- MOCK DATA ---
+const mockFolders = [
+  { id: 'f1', name: 'Institucional', count: 12, date: '10 Mar 2026' },
+  { id: 'f2', name: 'Legislación y reglamentos', count: 45, date: '12 Mar 2026' },
+  { id: 'f3', name: 'Modelos', count: 8, date: '13 Mar 2026' },
+  { id: 'f4', name: 'Proyectos presentados', count: 124, date: '01 Mar 2026' },
+  { id: 'f5', name: 'Notas y oficios', count: 56, date: '05 Mar 2026' },
+  { id: 'f6', name: 'Gacetillas y prensa', count: 89, date: '11 Mar 2026' },
+];
+
+const mockFiles = [
+  { id: 'doc1', name: 'Constitución de la Provincia de Corrientes.pdf', ext: 'pdf', size: '2.4 MB', date: '10 Ene 2026', author: 'Equipo Legal', folderId: 'f2', isPinned: true, isRecent: false },
+  { id: 'doc2', name: 'Reglamento de la Honorable Cámara.pdf', ext: 'pdf', size: '1.1 MB', date: '15 Ene 2026', author: 'Equipo Legal', folderId: 'f2', isPinned: true, isRecent: false },
+  { id: 'doc3', name: 'Modelo proyecto de ley.docx', ext: 'docx', size: '45 KB', date: '01 Feb 2026', author: 'Despacho', folderId: 'f3', isPinned: true, isRecent: true },
+  { id: 'doc4', name: 'Plantilla gacetilla.docx', ext: 'docx', size: '120 KB', date: '12 Mar 2026', author: 'Prensa', folderId: 'f6', isPinned: false, isRecent: true },
+  { id: 'doc5', name: 'Manual Identidad Cecilia Gortari.pdf', ext: 'pdf', size: '15 MB', date: '10 Ene 2026', author: 'Diseño (Nanobanana)', folderId: 'f1', isPinned: true, isRecent: false },
+  { id: 'doc6', name: 'Modelo nota interna.docx', ext: 'docx', size: '32 KB', date: '13 Mar 2026', author: 'Despacho', folderId: 'f3', isPinned: false, isRecent: true },
+  { id: 'doc7', name: 'Flyer_Acto_ClubSocial.png', ext: 'png', size: '4.2 MB', date: '13 Mar 2026', author: 'Prensa', folderId: 'f6', isPinned: false, isRecent: true },
+];
+
+// --- PALETA DE COLORES OFICIAL ---
+const colors = {
+  magenta: '#9F57A7',
+  blue: '#1C5CFF',
+  turquoise: '#24BCDE',
+  orange: '#FBA85F',
+  pink: '#E4BFE8',
+  darkBlue: '#11103B',
+  gray: '#4E4E54',
+  lightGray: '#F8F9FA'
+};
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState('Archivos');
+  const [currentFolder, setCurrentFolder] = useState(null); // null = root
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Modals
+  const [isUploadModalOpen, setUploadModalOpen] = useState(false);
+  const [isFolderModalOpen, setFolderModalOpen] = useState(false);
+
+  // Derived State
+  const activeFolderData = currentFolder ? mockFolders.find(f => f.id === currentFolder) : null;
+  const currentFiles = currentFolder 
+    ? mockFiles.filter(f => f.folderId === currentFolder)
+    : mockFiles.filter(f => f.isRecent); // Show recent in root
+    
+  const pinnedFiles = mockFiles.filter(f => f.isPinned);
+
+  // Helpers
+  const getFileIcon = (ext, size = 24) => {
+    switch(ext) {
+      case 'pdf': return <File color={colors.magenta} size={size} strokeWidth={1.5} />;
+      case 'docx': return <FileText color={colors.blue} size={size} strokeWidth={1.5} />;
+      case 'png':
+      case 'jpg': return <FileImage color={colors.turquoise} size={size} strokeWidth={1.5} />;
+      default: return <File color={colors.gray} size={size} strokeWidth={1.5} />;
+    }
+  };
+
+  const handleItemClick = (item, type) => {
+    if (type === 'folder') {
+      setCurrentFolder(item.id);
+      setSelectedItem(null);
+    } else {
+      setSelectedItem(item);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#F8F9FA] text-[#4E4E54] flex flex-col font-sans" style={{ fontFamily: "'Outfit', sans-serif" }}>
+      {/* Estilos globales para la fuente */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}} />
+
+      {/* HEADER PRINCIPAL */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
+        <div className="max-w-[1600px] mx-auto px-6">
+          <div className="flex items-center justify-between h-20">
+            {/* Brand & Title */}
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-full bg-[#1C5CFF] flex items-center justify-center text-white font-bold text-xl">
+                C
+              </div>
+              <div>
+                <h1 className="text-xl font-semibold text-[#11103B] leading-tight">Gestión de Proyectos</h1>
+                <p className="text-sm text-gray-500 font-light">Cecilia Gortari (Privado)</p>
+              </div>
+            </div>
+
+            {/* Actions & Avatar (Aplicando mandato B/N sobre Magenta) */}
+            <div className="flex items-center gap-5">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <input 
+                  type="text" 
+                  placeholder="Buscar en todo el sistema..." 
+                  className="pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:border-[#9F57A7] focus:ring-1 focus:ring-[#9F57A7] w-64 transition-all"
+                />
+              </div>
+              <div className="h-10 w-10 rounded-full bg-[#9F57A7] p-0.5 overflow-hidden shadow-sm">
+                {/* Avatar simulando recorte en B/N como indica el manual */}
+                <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center overflow-hidden grayscale contrast-125">
+                  <User size={24} className="text-gray-500 mt-2" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* TABS */}
+          <div className="flex gap-8">
+            {['Dashboard', 'Proyectos', 'Gacetillas', 'Archivos'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`pb-4 px-2 text-sm font-medium transition-colors relative ${
+                  activeTab === tab ? 'text-[#9F57A7]' : 'text-gray-500 hover:text-[#11103B]'
+                }`}
+              >
+                {tab}
+                {activeTab === tab && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#9F57A7] rounded-t-md"></div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      </header>
+
+      {/* MAIN CONTENT AREA */}
+      {activeTab === 'Archivos' ? (
+        <main className="flex-1 flex overflow-hidden max-w-[1600px] w-full mx-auto relative">
+          
+          {/* LEFT/CENTER WORKSPACE */}
+          <div className="flex-1 overflow-y-auto p-6 md:p-8 hide-scrollbar flex flex-col gap-8">
+            
+            {/* Top Toolbar (Breadcrumb + Actions) */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="flex items-center text-[#11103B] font-medium text-lg">
+                <button 
+                  onClick={() => {setCurrentFolder(null); setSelectedItem(null);}}
+                  className="hover:text-[#9F57A7] transition-colors"
+                >
+                  Archivos
+                </button>
+                {currentFolder && (
+                  <>
+                    <ChevronRight size={18} className="mx-2 text-gray-400" />
+                    <span className="text-[#9F57A7]">{activeFolderData?.name}</span>
+                  </>
+                )}
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex items-center bg-white border border-gray-200 rounded-lg p-1 mr-2 shadow-sm">
+                  <button 
+                    onClick={() => setViewMode('grid')}
+                    className={`p-1.5 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-gray-100 text-[#11103B]' : 'text-gray-400 hover:text-gray-600'}`}
+                  >
+                    <LayoutGrid size={18} />
+                  </button>
+                  <button 
+                    onClick={() => setViewMode('list')}
+                    className={`p-1.5 rounded-md transition-colors ${viewMode === 'list' ? 'bg-gray-100 text-[#11103B]' : 'text-gray-400 hover:text-gray-600'}`}
+                  >
+                    <ListIcon size={18} />
+                  </button>
+                </div>
+                
+                <button 
+                  onClick={() => setFolderModalOpen(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-[#11103B] rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors shadow-sm"
+                >
+                  <Plus size={16} />
+                  Nueva carpeta
+                </button>
+                <button 
+                  onClick={() => setUploadModalOpen(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-[#9F57A7] text-white rounded-lg text-sm font-medium hover:bg-[#8A4A91] transition-colors shadow-sm"
+                >
+                  <UploadCloud size={16} />
+                  Subir archivo
+                </button>
+              </div>
+            </div>
+
+            {/* ROOT VIEW CONTENT */}
+            {!currentFolder && (
+              <>
+                {/* Pinned Documents */}
+                <section>
+                  <div className="flex items-center gap-2 mb-4 text-[#11103B]">
+                    <Pin size={18} strokeWidth={2} className="text-[#FBA85F]" />
+                    <h2 className="text-base font-semibold">Documentos Fijados</h2>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    {pinnedFiles.map(file => (
+                      <div 
+                        key={file.id}
+                        onClick={() => handleItemClick(file, 'file')}
+                        className={`bg-white p-4 rounded-2xl border ${selectedItem?.id === file.id ? 'border-[#9F57A7] ring-1 ring-[#9F57A7]' : 'border-gray-100'} shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col gap-3 group relative`}
+                      >
+                        <div className="flex justify-between items-start">
+                          <div className="p-2 bg-gray-50 rounded-xl group-hover:bg-white transition-colors">
+                            {getFileIcon(file.ext, 28)}
+                          </div>
+                          <button className="text-gray-300 hover:text-[#FBA85F]">
+                            <Pin size={16} fill="currentColor" className="text-[#FBA85F]"/>
+                          </button>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-[#11103B] line-clamp-2 leading-snug">{file.name}</p>
+                          <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                            {file.size} • {file.date}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Folders */}
+                <section>
+                  <h2 className="text-base font-semibold text-[#11103B] mb-4">Carpetas</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {mockFolders.map(folder => (
+                      <div 
+                        key={folder.id}
+                        onClick={() => handleItemClick(folder, 'folder')}
+                        className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#1C5CFF]/30 transition-all cursor-pointer flex items-center gap-4 group"
+                      >
+                        <div className="p-3 bg-[#1C5CFF]/5 text-[#1C5CFF] rounded-xl group-hover:bg-[#1C5CFF]/10 transition-colors">
+                          <Folder size={24} strokeWidth={1.5} fill="currentColor" fillOpacity={0.1} />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-semibold text-[#11103B]">{folder.name}</p>
+                          <p className="text-xs text-gray-400 mt-0.5">{folder.count} archivos</p>
+                        </div>
+                        <MoreVertical size={16} className="text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </>
+            )}
+
+            {/* FOLDER VIEW OR RECENT FILES LIST */}
+            <section className="flex-1">
+              <h2 className="text-base font-semibold text-[#11103B] mb-4">
+                {currentFolder ? `Contenido de ${activeFolderData?.name}` : 'Añadidos Recientemente'}
+              </h2>
+              
+              {currentFiles.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-20 bg-white border border-dashed border-gray-200 rounded-3xl">
+                  <div className="p-4 bg-gray-50 rounded-full mb-4">
+                    <Folder size={40} className="text-gray-300" strokeWidth={1} />
+                  </div>
+                  <p className="text-[#11103B] font-medium">Esta carpeta está vacía</p>
+                  <p className="text-sm text-gray-400 mt-1 mb-6">Subí archivos o creá subcarpetas para organizarte.</p>
+                  <button 
+                    onClick={() => setUploadModalOpen(true)}
+                    className="px-6 py-2 bg-white border border-[#9F57A7] text-[#9F57A7] rounded-full text-sm font-medium hover:bg-[#9F57A7] hover:text-white transition-colors"
+                  >
+                    Subir primer archivo
+                  </button>
+                </div>
+              ) : viewMode === 'list' ? (
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-gray-100 text-xs font-medium text-gray-400 uppercase tracking-wider bg-gray-50/50">
+                        <th className="py-3 px-4 font-medium">Nombre</th>
+                        <th className="py-3 px-4 font-medium">Autor</th>
+                        <th className="py-3 px-4 font-medium">Fecha</th>
+                        <th className="py-3 px-4 font-medium text-right">Tamaño</th>
+                        <th className="py-3 px-4"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentFiles.map(file => (
+                        <tr 
+                          key={file.id} 
+                          onClick={() => handleItemClick(file, 'file')}
+                          className={`border-b border-gray-50 hover:bg-gray-50/80 cursor-pointer transition-colors ${selectedItem?.id === file.id ? 'bg-[#9F57A7]/5' : ''}`}
+                        >
+                          <td className="py-3 px-4 flex items-center gap-3">
+                            {getFileIcon(file.ext, 20)}
+                            <span className="text-sm font-medium text-[#11103B]">{file.name}</span>
+                          </td>
+                          <td className="py-3 px-4 text-sm text-gray-500">{file.author}</td>
+                          <td className="py-3 px-4 text-sm text-gray-500">{file.date}</td>
+                          <td className="py-3 px-4 text-sm text-gray-500 text-right">{file.size}</td>
+                          <td className="py-3 px-4 text-right">
+                            <button className="text-gray-400 hover:text-[#11103B] p-1 rounded-md hover:bg-gray-100">
+                              <MoreVertical size={16} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                  {currentFiles.map(file => (
+                    <div 
+                      key={file.id}
+                      onClick={() => handleItemClick(file, 'file')}
+                      className={`bg-white p-4 rounded-2xl border ${selectedItem?.id === file.id ? 'border-[#9F57A7] ring-1 ring-[#9F57A7] shadow-md' : 'border-gray-100 shadow-sm hover:shadow-md'} transition-all cursor-pointer flex flex-col items-center text-center gap-3 group`}
+                    >
+                      <div className="p-3 bg-gray-50 rounded-2xl group-hover:bg-[#1C5CFF]/5 transition-colors">
+                        {getFileIcon(file.ext, 36)}
+                      </div>
+                      <div className="w-full">
+                        <p className="text-sm font-medium text-[#11103B] truncate px-1" title={file.name}>{file.name}</p>
+                        <p className="text-xs text-gray-400 mt-1">{file.date}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          </div>
+
+          {/* RIGHT SIDE PANEL (Detalle del archivo) */}
+          {selectedItem && (
+            <div className="w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-4px_0_24px_-10px_rgba(0,0,0,0.05)] z-10 animate-fade-in">
+              <div className="p-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="font-semibold text-[#11103B]">Detalles</h3>
+                <button onClick={() => setSelectedItem(null)} className="text-gray-400 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 transition-colors">
+                  <X size={18} />
+                </button>
+              </div>
+              
+              <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 hide-scrollbar">
+                {/* File Header */}
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-20 h-20 bg-gray-50 rounded-3xl flex items-center justify-center mb-4 border border-gray-100 shadow-sm">
+                    {getFileIcon(selectedItem.ext, 40)}
+                  </div>
+                  <h4 className="font-semibold text-lg text-[#11103B] leading-tight break-words w-full">{selectedItem.name}</h4>
+                  <p className="text-sm text-gray-400 mt-1 uppercase tracking-wider">{selectedItem.ext} • {selectedItem.size}</p>
+                </div>
+
+                {/* Primary Actions */}
+                <div className="flex gap-2 w-full">
+                  <button className="flex-1 bg-[#1C5CFF] text-white py-2.5 rounded-xl text-sm font-medium hover:bg-[#1546C4] transition-colors flex items-center justify-center gap-2 shadow-sm">
+                    <Download size={16} /> Descargar
+                  </button>
+                  <button className="p-2.5 bg-gray-50 border border-gray-200 text-[#11103B] rounded-xl hover:bg-gray-100 transition-colors tooltip" title="Compartir enlace">
+                    <Share2 size={16} />
+                  </button>
+                </div>
+
+                <div className="h-px w-full bg-gray-100"></div>
+
+                {/* Info List */}
+                <div className="flex flex-col gap-4">
+                  <h5 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 flex items-center gap-1">
+                    <Info size={14} /> Información
+                  </h5>
+                  
+                  <div className="flex justify-between items-start text-sm">
+                    <span className="text-gray-500">Ubicación</span>
+                    <span className="font-medium text-[#11103B] text-right flex items-center gap-1">
+                      <Folder size={14} className="text-[#9F57A7]"/>
+                      {mockFolders.find(f => f.id === selectedItem.folderId)?.name || 'Directorio Raíz'}
+                    </span>
+                  </div>
+                  
+                  <div className="flex justify-between items-start text-sm">
+                    <span className="text-gray-500">Subido por</span>
+                    <span className="font-medium text-[#11103B]">{selectedItem.author}</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-start text-sm">
+                    <span className="text-gray-500 flex items-center gap-1">
+                       Fecha
+                    </span>
+                    <span className="font-medium text-[#11103B]">{selectedItem.date}</span>
+                  </div>
+                </div>
+
+                <div className="h-px w-full bg-gray-100"></div>
+
+                {/* Secondary Actions */}
+                <div className="flex flex-col gap-1 mt-auto">
+                  <button className="w-full text-left px-4 py-2.5 text-sm font-medium text-[#11103B] hover:bg-gray-50 rounded-xl transition-colors">
+                    Renombrar archivo
+                  </button>
+                  <button className="w-full text-left px-4 py-2.5 text-sm font-medium text-[#11103B] hover:bg-gray-50 rounded-xl transition-colors">
+                    Mover a...
+                  </button>
+                  <button className="w-full text-left px-4 py-2.5 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl transition-colors flex items-center gap-2 mt-2">
+                    <Trash2 size={16} /> Eliminar archivo
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </main>
+      ) : (
+        <div className="flex-1 flex items-center justify-center p-8 text-center text-gray-400">
+          <div>
+            <div className="bg-gray-100 p-6 rounded-full inline-block mb-4">
+              <LayoutGrid size={48} className="text-gray-300" strokeWidth={1}/>
+            </div>
+            <h2 className="text-xl font-medium text-[#11103B]">Módulo {activeTab} en desarrollo</h2>
+            <p className="mt-2">Hacé clic en la pestaña "Archivos" para ver el prototipo interactivo.</p>
+          </div>
+        </div>
+      )}
+
+      {/* --- MODALS --- */}
+
+      {/* Modal Nueva Carpeta */}
+      {isFolderModalOpen && (
+        <div className="fixed inset-0 bg-[#11103B]/20 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl scale-100 transition-transform">
+            <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+              <h3 className="font-semibold text-lg text-[#11103B]">Crear nueva carpeta</h3>
+              <button onClick={() => setFolderModalOpen(false)} className="text-gray-400 hover:text-gray-700">
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-6">
+              <label className="block text-sm font-medium text-gray-600 mb-2">Nombre de la carpeta</label>
+              <input 
+                type="text" 
+                placeholder="Ej. Informes mensuales" 
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#1C5CFF] focus:bg-white focus:ring-2 focus:ring-[#1C5CFF]/20 transition-all"
+                autoFocus
+              />
+            </div>
+            <div className="px-6 py-4 bg-gray-50/50 border-t border-gray-100 flex justify-end gap-3">
+              <button onClick={() => setFolderModalOpen(false)} className="px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-xl transition-colors">
+                Cancelar
+              </button>
+              <button onClick={() => setFolderModalOpen(false)} className="px-5 py-2.5 text-sm font-medium bg-[#1C5CFF] text-white rounded-xl hover:bg-[#1546C4] shadow-sm transition-colors">
+                Crear carpeta
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Subir Archivo */}
+      {isUploadModalOpen && (
+        <div className="fixed inset-0 bg-[#11103B]/20 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl">
+            <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+              <h3 className="font-semibold text-lg text-[#11103B]">Subir archivos</h3>
+              <button onClick={() => setUploadModalOpen(false)} className="text-gray-400 hover:text-gray-700">
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-8">
+              <div className="border-2 border-dashed border-[#9F57A7]/30 rounded-2xl bg-[#9F57A7]/5 hover:bg-[#9F57A7]/10 transition-colors flex flex-col items-center justify-center py-12 px-6 text-center cursor-pointer group">
+                <div className="bg-white p-4 rounded-full shadow-sm mb-4 group-hover:scale-110 transition-transform">
+                  <UploadCloud size={32} className="text-[#9F57A7]" strokeWidth={1.5}/>
+                </div>
+                <h4 className="text-base font-semibold text-[#11103B] mb-1">Arrastrá y soltá tus archivos acá</h4>
+                <p className="text-sm text-gray-500">o hacé clic para buscar en tu computadora</p>
+                <span className="text-xs text-gray-400 mt-4 px-3 py-1 bg-white rounded-full border border-gray-100">PDF, DOCX, XLSX, PNG (Max. 50MB)</span>
+              </div>
+            </div>
+            <div className="px-6 py-4 bg-gray-50/50 border-t border-gray-100 flex justify-between items-center">
+              <p className="text-xs text-gray-400">Subiendo a: <span className="font-medium text-[#11103B]">{currentFolder ? activeFolderData.name : 'Directorio Raíz'}</span></p>
+              <div className="flex gap-3">
+                <button onClick={() => setUploadModalOpen(false)} className="px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-xl transition-colors">
+                  Cancelar
+                </button>
+                <button onClick={() => setUploadModalOpen(false)} className="px-5 py-2.5 text-sm font-medium bg-[#9F57A7] text-white rounded-xl hover:bg-[#8A4A91] shadow-sm transition-colors">
+                  Subir
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
