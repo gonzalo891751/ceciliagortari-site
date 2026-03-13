@@ -38,7 +38,7 @@ export async function onRequestGet(context) {
   }
 }
 
-// PATCH /api/archivos/files/:id — rename, pin/unpin
+// PATCH /api/archivos/files/:id — rename, pin/unpin, move (change folder_id)
 export async function onRequestPatch(context) {
   const db = context.env.DB;
   const id = context.params.id;
@@ -76,6 +76,28 @@ export async function onRequestPatch(context) {
     if (typeof body.is_pinned === "number" || typeof body.is_pinned === "boolean") {
       updates.push("is_pinned = ?");
       binds.push(body.is_pinned ? 1 : 0);
+    }
+
+    // Move: change folder_id (use "__root__" to move to root, null means no change)
+    if (body.folder_id !== undefined) {
+      const targetFolderId = body.folder_id === "__root__" ? null : body.folder_id;
+
+      // Validate target folder exists if not root
+      if (targetFolderId) {
+        const targetFolder = await db
+          .prepare("SELECT id FROM archive_folders WHERE id = ? AND deleted_at IS NULL")
+          .bind(targetFolderId)
+          .first();
+        if (!targetFolder) {
+          return new Response(
+            JSON.stringify({ ok: false, error: "Carpeta destino no encontrada." }),
+            { status: 404, headers: HEADERS }
+          );
+        }
+      }
+
+      updates.push("folder_id = ?");
+      binds.push(targetFolderId);
     }
 
     if (updates.length === 0) {

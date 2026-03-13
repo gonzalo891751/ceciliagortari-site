@@ -1310,6 +1310,46 @@ permalink: gestionproyectos/index.html
         .arch-ctx-item.danger { color: var(--badge-red-text); }
         .arch-ctx-item.danger:hover { background: var(--badge-red-bg); }
         .arch-ctx-sep { height: 1px; background: var(--border-light); margin: 0.25rem 0; }
+        .arch-ctx-item.disabled { opacity: 0.4; pointer-events: none; }
+
+        /* Clipboard visual feedback */
+        .arch-file-card.arch-cut, .arch-file-list-row.arch-cut,
+        .arch-pinned-card.arch-cut { opacity: 0.45; }
+        .arch-file-card.arch-copied, .arch-file-list-row.arch-copied,
+        .arch-pinned-card.arch-copied { box-shadow: 0 0 0 2px rgba(23,104,197,0.35); }
+
+        /* Paste bar */
+        .arch-paste-bar {
+            display: none; align-items: center; gap: 0.75rem;
+            background: var(--badge-blue-bg); color: var(--badge-blue-text);
+            border-radius: var(--radius-md); padding: 0.5rem 1rem;
+            font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;
+        }
+        .arch-paste-bar.visible { display: flex; }
+        .arch-paste-bar .arch-paste-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .arch-paste-bar .btn { flex-shrink: 0; }
+
+        /* Drag & drop folder highlight */
+        .arch-folder-card.arch-drop-target {
+            border-color: var(--magenta); background: rgba(159,87,167,0.06);
+            box-shadow: 0 0 0 2px rgba(159,87,167,0.3);
+        }
+        .arch-file-card[draggable="true"], .arch-file-list-row[draggable="true"],
+        .arch-pinned-card[draggable="true"] { cursor: grab; }
+        .arch-file-card[draggable="true"]:active { cursor: grabbing; }
+
+        /* Move modal folder tree */
+        .arch-move-tree { max-height: 320px; overflow-y: auto; margin: 0.5rem 0; }
+        .arch-move-item {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.55rem 0.75rem; border-radius: var(--radius-md);
+            cursor: pointer; transition: background 0.1s; font-size: 0.88rem;
+            font-weight: 500; color: var(--text-main); border: 2px solid transparent;
+        }
+        .arch-move-item:hover { background: var(--badge-gray-bg); }
+        .arch-move-item.selected { border-color: var(--blue); background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+        .arch-move-item.disabled { opacity: 0.35; pointer-events: none; }
+        .arch-move-item .path { font-size: 0.75rem; color: var(--text-muted); margin-left: auto; }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -1941,6 +1981,14 @@ permalink: gestionproyectos/index.html
                     </div>
                 </div>
 
+                <!-- Paste bar (visible when clipboard has content) -->
+                <div class="arch-paste-bar" id="arch-paste-bar">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                    <span class="arch-paste-label" id="arch-paste-label"></span>
+                    <button class="btn btn-secondary btn-sm" onclick="archPaste()">Pegar aquí</button>
+                    <button class="btn btn-outline btn-sm" onclick="archClearClipboard()">Cancelar</button>
+                </div>
+
                 <!-- Content area -->
                 <div id="arch-content">
                     <div class="arch-loading">
@@ -2412,6 +2460,33 @@ permalink: gestionproyectos/index.html
             </div>
         </div>
     </div>
+
+    <!-- MODAL: MOVER / COPIAR A CARPETA (Archivos) -->
+    <div class="modal-overlay" id="arch-move-modal">
+        <div class="modal-content sm">
+            <div class="modal-header">
+                <h3 id="arch-move-title" style="color:var(--blue)">Mover a...</h3>
+                <button class="close-btn" onclick="closeModal('arch-move-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;" id="arch-move-file-label"></div>
+                <div class="arch-move-tree" id="arch-move-tree">
+                    <div style="text-align:center;color:var(--text-muted);padding:1rem;">Cargando carpetas...</div>
+                </div>
+                <div id="arch-move-error" class="save-error-msg" style="margin-top:0.5rem;"></div>
+            </div>
+            <div class="modal-footer">
+                <div style="flex-grow:1;"></div>
+                <div class="footer-right">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('arch-move-modal')">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" id="arch-move-btn" onclick="archExecMove()" disabled>Mover aquí</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden input for replace file -->
+    <input type="file" id="arch-replace-input" style="display:none;" onchange="archExecReplace(this)" accept=".pdf,.doc,.docx,.xlsx,.xls,.pptx,.ppt,.png,.jpg,.jpeg,.webp,.gif,.txt,.csv,.rtf,.odt,.ods">
 
     <script>
         /* =========================================
@@ -5382,7 +5457,7 @@ permalink: gestionproyectos/index.html
            ========================================= */
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const modals = ['arch-detail-modal', 'arch-rename-modal', 'arch-upload-modal', 'arch-folder-modal', 'gacetilla-modal', 'gacetilla-detail-modal', 'project-modal', 'project-detail-modal', 'documents-modal', 'preview-modal', 'quick-presentar-modal', 'quick-responsable-modal'];
+                const modals = ['arch-move-modal', 'arch-detail-modal', 'arch-rename-modal', 'arch-upload-modal', 'arch-folder-modal', 'gacetilla-modal', 'gacetilla-detail-modal', 'project-modal', 'project-detail-modal', 'documents-modal', 'preview-modal', 'quick-presentar-modal', 'quick-responsable-modal'];
                 for (const modalId of modals) {
                     const el = document.getElementById(modalId);
                     if (el && el.classList.contains('active')) {
@@ -5399,18 +5474,42 @@ permalink: gestionproyectos/index.html
         const ARCH_API = '/api/archivos';
         let archCurrentFolderId = null;
         let archSelectedFile = null;
-        let archViewMode = 'grid'; // 'grid' | 'list'
+        let archViewMode = 'grid';
         let archFolders = [];
         let archFiles = [];
         let archBreadcrumb = [];
         let archPinnedFiles = [];
         let archRecentFiles = [];
         let archPendingUpload = null;
-        let archRenameTarget = null; // {type: 'folder'|'file', id, name}
+        let archRenameTarget = null;
         let archSearchTimer = null;
         let archIsSearching = false;
 
-        // Icon helpers
+        // Clipboard state: { mode: 'cut'|'copy', fileId, fileName }
+        let archClipboard = null;
+        // Move modal state
+        let archMoveTarget = null; // { fileId, mode: 'move'|'copy' }
+        let archMoveSelectedFolder = null; // target folder id or '__root__'
+        // Replace state
+        let archReplaceFileId = null;
+
+        // SVG icon helpers
+        const ARCH_ICONS = {
+            folder: (s=22) => `<svg width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>`,
+            eye: `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`,
+            download: `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`,
+            move: `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>`,
+            copy: `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`,
+            cut: `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>`,
+            replace: `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>`,
+            rename: `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`,
+            trash: `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`,
+            dots: `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>`,
+            paste: `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>`,
+            open: `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>`,
+            newFolder: `<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>`,
+        };
+
         function archGetFileIconColor(ext) {
             const colors = {
                 pdf: 'var(--magenta)', doc: 'var(--blue)', docx: 'var(--blue)',
@@ -5431,9 +5530,7 @@ permalink: gestionproyectos/index.html
             return `<svg width="${size}" height="${size}" fill="none" stroke="${color}" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>`;
         }
 
-        function archFolderIconSvg(size = 22) {
-            return `<svg width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>`;
-        }
+        function archFolderIconSvg(size = 22) { return ARCH_ICONS.folder(size); }
 
         // Debounced search
         function archSearchDebounced() {
@@ -5557,8 +5654,9 @@ permalink: gestionproyectos/index.html
                 archPinnedFiles.forEach(f => {
                     const ext = getFileExt(f.original_name);
                     const iconBg = archGetFileIconColor(ext);
+                    const clipCls = archClipboard && archClipboard.fileId === f.id ? (archClipboard.mode === 'cut' ? ' arch-cut' : ' arch-copied') : '';
                     html += `
-                        <div class="arch-pinned-card" onclick="archSelectFile('${f.id}')" oncontextmenu="archOnFileContext(event, '${f.id}')">
+                        <div class="arch-pinned-card${clipCls}" draggable="true" ondragstart="archDragStart(event, '${f.id}')" onclick="archSelectFile('${f.id}')" oncontextmenu="archOnFileContext(event, '${f.id}')">
                             <div class="arch-pin-icon"><svg width="14" height="14" fill="#FBA85F" stroke="#FBA85F" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path></svg></div>
                             <div class="arch-file-icon-wrap" style="background:${iconBg}12;">${archFileIconSvg(ext, 22)}</div>
                             <div class="arch-file-name" title="${escapeHtml(f.original_name)}">${escapeHtml(f.original_name)}</div>
@@ -5576,7 +5674,7 @@ permalink: gestionproyectos/index.html
                 archFolders.forEach(f => {
                     const count = f.file_count !== undefined ? f.file_count : '';
                     html += `
-                        <div class="arch-folder-card" onclick="archLoadFolder('${f.id}')" oncontextmenu="archOnFolderContext(event, '${f.id}', '${escapeHtml(f.name)}')">
+                        <div class="arch-folder-card" onclick="archLoadFolder('${f.id}')" oncontextmenu="archOnFolderContext(event, '${f.id}', '${escapeHtml(f.name)}')" ondragover="archDragOver(event)" ondragleave="archDragLeave(event)" ondrop="archDrop(event, '${f.id}')">
                             <div class="arch-folder-icon">${archFolderIconSvg(22)}</div>
                             <div class="arch-folder-info">
                                 <div class="arch-folder-name" title="${escapeHtml(f.name)}">${escapeHtml(f.name)}</div>
@@ -5603,9 +5701,9 @@ permalink: gestionproyectos/index.html
                     filesToShow.forEach(f => {
                         const ext = getFileExt(f.original_name);
                         const iconBg = archGetFileIconColor(ext);
-                        const selected = '';
+                        const clipCls = archClipboard && archClipboard.fileId === f.id ? (archClipboard.mode === 'cut' ? ' arch-cut' : ' arch-copied') : '';
                         html += `
-                            <div class="arch-file-card${selected}" onclick="archSelectFile('${f.id}')" oncontextmenu="archOnFileContext(event, '${f.id}')">
+                            <div class="arch-file-card${clipCls}" draggable="true" ondragstart="archDragStart(event, '${f.id}')" onclick="archSelectFile('${f.id}')" oncontextmenu="archOnFileContext(event, '${f.id}')">
                                 <div class="arch-file-icon-wrap" style="background:${iconBg}12;">${archFileIconSvg(ext, 24)}</div>
                                 <div class="arch-file-name" title="${escapeHtml(f.original_name)}">${escapeHtml(f.original_name)}</div>
                                 <div class="arch-file-meta">${formatFileSize(f.size_bytes)} · ${formatDateOnly(f.created_at) || ''}</div>
@@ -5619,9 +5717,9 @@ permalink: gestionproyectos/index.html
                     html += '<div class="arch-file-list-header"><span>Nombre</span><span>Fecha</span><span>Tamaño</span><span></span></div>';
                     filesToShow.forEach(f => {
                         const ext = getFileExt(f.original_name);
-                        const selected = '';
+                        const clipCls = archClipboard && archClipboard.fileId === f.id ? (archClipboard.mode === 'cut' ? ' arch-cut' : ' arch-copied') : '';
                         html += `
-                            <div class="arch-file-list-row${selected}" onclick="archSelectFile('${f.id}')" oncontextmenu="archOnFileContext(event, '${f.id}')">
+                            <div class="arch-file-list-row${clipCls}" draggable="true" ondragstart="archDragStart(event, '${f.id}')" onclick="archSelectFile('${f.id}')" oncontextmenu="archOnFileContext(event, '${f.id}')">
                                 <div class="arch-file-name-cell">
                                     ${archFileIconSvg(ext, 18)}
                                     <span class="name" title="${escapeHtml(f.original_name)}">${escapeHtml(f.original_name)}</span>
@@ -5693,9 +5791,17 @@ permalink: gestionproyectos/index.html
 
                     <div class="arch-detail-actions">
                         <a href="${ARCH_API}/files/${encodeURIComponent(f.id)}/download" class="btn btn-secondary btn-sm" style="text-decoration:none;color:white;justify-content:center;">
-                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                            Descargar
+                            ${ARCH_ICONS.download} Descargar
                         </a>
+                        <button class="btn btn-outline btn-sm" onclick="archCloseDetail(); archOpenMoveModal('${f.id}', 'move')">
+                            ${ARCH_ICONS.move} Mover
+                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="archCloseDetail(); archOpenMoveModal('${f.id}', 'copy')">
+                            ${ARCH_ICONS.copy} Copiar a…
+                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="archCloseDetail(); archOpenReplace('${f.id}')">
+                            ${ARCH_ICONS.replace} Reemplazar
+                        </button>
                     </div>
 
                     <div class="arch-detail-info">
@@ -5723,18 +5829,14 @@ permalink: gestionproyectos/index.html
                     </div>
 
                     <div class="arch-detail-secondary">
+                        <button onclick="archCloseDetail(); archCutFile('${f.id}', '${escapeHtml(f.original_name).replace(/'/g, "\\'")}')">${ARCH_ICONS.cut} Cortar</button>
+                        <button onclick="archCloseDetail(); archCopyFile('${f.id}', '${escapeHtml(f.original_name).replace(/'/g, "\\'")}')">${ARCH_ICONS.copy} Copiar</button>
                         <button onclick="archTogglePin('${f.id}', ${f.is_pinned ? 0 : 1})">
                             <svg width="16" height="16" fill="${f.is_pinned ? '#FBA85F' : 'none'}" stroke="${f.is_pinned ? '#FBA85F' : 'currentColor'}" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path></svg>
                             ${f.is_pinned ? 'Quitar de fijados' : 'Fijar documento'}
                         </button>
-                        <button onclick="archOpenRenameModal('file', '${f.id}', '${escapeHtml(f.original_name).replace(/'/g, "\\'")}')">
-                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                            Renombrar archivo
-                        </button>
-                        <button class="danger" onclick="archDeleteFile('${f.id}', '${escapeHtml(f.original_name).replace(/'/g, "\\'")}')">
-                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                            Eliminar archivo
-                        </button>
+                        <button onclick="archOpenRenameModal('file', '${f.id}', '${escapeHtml(f.original_name).replace(/'/g, "\\'")}')">${ARCH_ICONS.rename} Renombrar archivo</button>
+                        <button class="danger" onclick="archDeleteFile('${f.id}', '${escapeHtml(f.original_name).replace(/'/g, "\\'")}')">${ARCH_ICONS.trash} Eliminar archivo</button>
                     </div>
                 `;
             } catch (e) {
@@ -5751,53 +5853,49 @@ permalink: gestionproyectos/index.html
         function archOnFolderContext(event, folderId, folderName) {
             event.preventDefault();
             event.stopPropagation();
+            const safeName = folderName.replace(/'/g, "\\'");
             const menu = document.getElementById('arch-ctx-menu');
-            menu.innerHTML = `
-                <button class="arch-ctx-item" onclick="archOpenRenameModal('folder', '${folderId}', '${folderName.replace(/'/g, "\\'")}')">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                    Renombrar
-                </button>
+            let items = `
+                <button class="arch-ctx-item" onclick="archLoadFolder('${folderId}')">${ARCH_ICONS.open} Abrir</button>
+                <button class="arch-ctx-item" onclick="archCloseCtxMenu(); archOpenFolderModal(null, null, '${folderId}')">${ARCH_ICONS.newFolder} Nueva subcarpeta</button>`;
+            if (archClipboard) {
+                items += `
                 <div class="arch-ctx-sep"></div>
-                <button class="arch-ctx-item danger" onclick="archDeleteFolder('${folderId}', '${folderName.replace(/'/g, "\\'")}')">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                    Eliminar
-                </button>
-            `;
+                <button class="arch-ctx-item" onclick="archPasteInto('${folderId}')">${ARCH_ICONS.paste} Pegar aquí</button>`;
+            }
+            items += `
+                <div class="arch-ctx-sep"></div>
+                <button class="arch-ctx-item" onclick="archOpenRenameModal('folder', '${folderId}', '${safeName}')">${ARCH_ICONS.rename} Renombrar</button>
+                <button class="arch-ctx-item danger" onclick="archDeleteFolder('${folderId}', '${safeName}')">${ARCH_ICONS.trash} Eliminar</button>`;
+            menu.innerHTML = items;
             archShowCtxMenu(menu, event);
         }
 
         function archOnFileContext(event, fileId) {
             event.preventDefault();
             event.stopPropagation();
-            // Find file in current data
             const f = [...archFiles, ...archPinnedFiles, ...archRecentFiles].find(x => x.id === fileId);
             if (!f) return;
             const name = escapeHtml(f.original_name).replace(/'/g, "\\'");
+            const pinIcon = `<svg width="14" height="14" fill="${f.is_pinned ? '#FBA85F' : 'none'}" stroke="${f.is_pinned ? '#FBA85F' : 'currentColor'}" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path></svg>`;
 
             const menu = document.getElementById('arch-ctx-menu');
-            menu.innerHTML = `
-                <button class="arch-ctx-item" onclick="archSelectFile('${fileId}')">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                    Ver detalles
-                </button>
-                <a class="arch-ctx-item" href="${ARCH_API}/files/${encodeURIComponent(fileId)}/download" style="text-decoration:none;color:inherit;" onclick="archCloseCtxMenu()">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    Descargar
-                </a>
-                <button class="arch-ctx-item" onclick="archTogglePin('${fileId}', ${f.is_pinned ? 0 : 1})">
-                    <svg width="14" height="14" fill="${f.is_pinned ? '#FBA85F' : 'none'}" stroke="${f.is_pinned ? '#FBA85F' : 'currentColor'}" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path></svg>
-                    ${f.is_pinned ? 'Quitar fijado' : 'Fijar'}
-                </button>
-                <button class="arch-ctx-item" onclick="archOpenRenameModal('file', '${fileId}', '${name}')">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                    Renombrar
-                </button>
+            let items = `
+                <button class="arch-ctx-item" onclick="archSelectFile('${fileId}')">${ARCH_ICONS.eye} Ver detalles</button>
+                <a class="arch-ctx-item" href="${ARCH_API}/files/${encodeURIComponent(fileId)}/download" style="text-decoration:none;color:inherit;" onclick="archCloseCtxMenu()">${ARCH_ICONS.download} Descargar</a>
                 <div class="arch-ctx-sep"></div>
-                <button class="arch-ctx-item danger" onclick="archDeleteFile('${fileId}', '${name}')">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                    Eliminar
-                </button>
-            `;
+                <button class="arch-ctx-item" onclick="archCutFile('${fileId}', '${name}')">${ARCH_ICONS.cut} Cortar</button>
+                <button class="arch-ctx-item" onclick="archCopyFile('${fileId}', '${name}')">${ARCH_ICONS.copy} Copiar</button>
+                <div class="arch-ctx-sep"></div>
+                <button class="arch-ctx-item" onclick="archOpenMoveModal('${fileId}', 'move')">${ARCH_ICONS.move} Mover a…</button>
+                <button class="arch-ctx-item" onclick="archOpenMoveModal('${fileId}', 'copy')">${ARCH_ICONS.copy} Copiar a…</button>
+                <button class="arch-ctx-item" onclick="archOpenReplace('${fileId}')">${ARCH_ICONS.replace} Reemplazar archivo</button>
+                <div class="arch-ctx-sep"></div>
+                <button class="arch-ctx-item" onclick="archOpenRenameModal('file', '${fileId}', '${name}')">${ARCH_ICONS.rename} Renombrar</button>
+                <button class="arch-ctx-item" onclick="archTogglePin('${fileId}', ${f.is_pinned ? 0 : 1})">${pinIcon} ${f.is_pinned ? 'Quitar fijado' : 'Fijar'}</button>
+                <div class="arch-ctx-sep"></div>
+                <button class="arch-ctx-item danger" onclick="archDeleteFile('${fileId}', '${name}')">${ARCH_ICONS.trash} Eliminar</button>`;
+            menu.innerHTML = items;
             archShowCtxMenu(menu, event);
         }
 
@@ -5823,7 +5921,10 @@ permalink: gestionproyectos/index.html
         }
 
         // Create folder
-        function archOpenFolderModal(editId, editName) {
+        let archFolderModalParentOverride = null;
+        function archOpenFolderModal(editId, editName, parentOverride) {
+            archCloseCtxMenu();
+            archFolderModalParentOverride = parentOverride || null;
             const modal = document.getElementById('arch-folder-modal');
             const input = document.getElementById('arch-folder-name');
             const errDiv = document.getElementById('arch-folder-error');
@@ -5858,7 +5959,7 @@ permalink: gestionproyectos/index.html
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         name,
-                        parent_id: archCurrentFolderId || null,
+                        parent_id: archFolderModalParentOverride || archCurrentFolderId || null,
                     }),
                 });
                 const json = await res.json();
@@ -6072,6 +6173,273 @@ permalink: gestionproyectos/index.html
                 }
             } catch (e) {
                 alert('Error: ' + e.message);
+            }
+        }
+
+        /* =========================================
+           ARCHIVOS — CLIPBOARD (CUT / COPY / PASTE)
+           ========================================= */
+        function archCutFile(fileId, fileName) {
+            archCloseCtxMenu();
+            archClipboard = { mode: 'cut', fileId, fileName };
+            archUpdatePasteBar();
+            archRenderContent();
+        }
+
+        function archCopyFile(fileId, fileName) {
+            archCloseCtxMenu();
+            archClipboard = { mode: 'copy', fileId, fileName };
+            archUpdatePasteBar();
+            archRenderContent();
+        }
+
+        function archClearClipboard() {
+            archClipboard = null;
+            archUpdatePasteBar();
+            archRenderContent();
+        }
+
+        function archUpdatePasteBar() {
+            const bar = document.getElementById('arch-paste-bar');
+            const label = document.getElementById('arch-paste-label');
+            if (!bar) return;
+            if (archClipboard) {
+                const modeLabel = archClipboard.mode === 'cut' ? 'Cortado' : 'Copiado';
+                label.textContent = `${modeLabel}: ${archClipboard.fileName}`;
+                bar.classList.add('visible');
+            } else {
+                bar.classList.remove('visible');
+                label.textContent = '';
+            }
+        }
+
+        // Paste into current folder (paste bar button)
+        async function archPaste() {
+            if (!archClipboard) return;
+            const targetFolderId = archCurrentFolderId || '__root__';
+            await archExecutePaste(targetFolderId);
+        }
+
+        // Paste into a specific folder (from folder context menu)
+        async function archPasteInto(folderId) {
+            archCloseCtxMenu();
+            if (!archClipboard) return;
+            await archExecutePaste(folderId);
+        }
+
+        async function archExecutePaste(targetFolderId) {
+            const { mode, fileId, fileName } = archClipboard;
+            try {
+                if (mode === 'cut') {
+                    // Move: PATCH folder_id
+                    const res = await fetch(`${ARCH_API}/files/${encodeURIComponent(fileId)}`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ folder_id: targetFolderId }),
+                    });
+                    const json = await res.json();
+                    if (!json.ok) throw new Error(json.error);
+                } else {
+                    // Copy: POST copy endpoint
+                    const res = await fetch(`${ARCH_API}/files/${encodeURIComponent(fileId)}/copy`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ folder_id: targetFolderId }),
+                    });
+                    const json = await res.json();
+                    if (!json.ok) throw new Error(json.error);
+                }
+                archClipboard = null;
+                archUpdatePasteBar();
+                archLoadFolder(archCurrentFolderId);
+            } catch (e) {
+                alert('Error al pegar: ' + e.message);
+            }
+        }
+
+        /* =========================================
+           ARCHIVOS — MOVE / COPY MODAL (folder picker)
+           ========================================= */
+        async function archOpenMoveModal(fileId, mode) {
+            archCloseCtxMenu();
+            archCloseDetail();
+            archMoveTarget = { fileId, mode };
+            archMoveSelectedFolder = null;
+
+            const f = [...archFiles, ...archPinnedFiles, ...archRecentFiles].find(x => x.id === fileId);
+            const fileName = f ? f.original_name : fileId;
+
+            const title = document.getElementById('arch-move-title');
+            const fileLabel = document.getElementById('arch-move-file-label');
+            const btn = document.getElementById('arch-move-btn');
+            const errDiv = document.getElementById('arch-move-error');
+            const tree = document.getElementById('arch-move-tree');
+
+            title.textContent = mode === 'move' ? 'Mover a…' : 'Copiar a…';
+            fileLabel.textContent = `Archivo: ${fileName}`;
+            btn.textContent = mode === 'move' ? 'Mover aquí' : 'Copiar aquí';
+            btn.disabled = true;
+            errDiv.style.display = 'none';
+            tree.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:1rem;">Cargando carpetas...</div>';
+
+            document.body.classList.add('modal-open');
+            document.getElementById('arch-move-modal').classList.add('active');
+
+            try {
+                const res = await fetch(`${ARCH_API}/folders/tree`);
+                const json = await res.json();
+                if (!json.ok) throw new Error(json.error);
+
+                const folders = json.folders || [];
+                const currentFolderId = f ? f.folder_id : archCurrentFolderId;
+                let html = '';
+
+                // Root option
+                const rootSelected = archMoveSelectedFolder === '__root__' ? ' selected' : '';
+                const rootDisabled = !currentFolderId ? ' disabled' : '';
+                html += `<div class="arch-move-item${rootSelected}${rootDisabled}" onclick="archSelectMoveFolder('__root__')">
+                    ${ARCH_ICONS.folder(16)} <span>Raíz (sin carpeta)</span>
+                </div>`;
+
+                folders.forEach(folder => {
+                    const isCurrent = folder.id === currentFolderId;
+                    const sel = archMoveSelectedFolder === folder.id ? ' selected' : '';
+                    const dis = isCurrent ? ' disabled' : '';
+                    html += `<div class="arch-move-item${sel}${dis}" onclick="archSelectMoveFolder('${folder.id}')">
+                        ${ARCH_ICONS.folder(16)} <span>${escapeHtml(folder.name)}</span>
+                        ${folder.path && folder.path !== folder.name ? `<span class="path">${escapeHtml(folder.path)}</span>` : ''}
+                    </div>`;
+                });
+
+                tree.innerHTML = html;
+            } catch (e) {
+                tree.innerHTML = `<div style="color:var(--badge-red-text);padding:0.5rem;">Error: ${escapeHtml(e.message)}</div>`;
+            }
+        }
+
+        function archSelectMoveFolder(folderId) {
+            archMoveSelectedFolder = folderId;
+            const btn = document.getElementById('arch-move-btn');
+            btn.disabled = false;
+
+            // Update visual selection
+            document.querySelectorAll('#arch-move-tree .arch-move-item').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+
+        async function archExecMove() {
+            if (!archMoveTarget || !archMoveSelectedFolder) return;
+            const { fileId, mode } = archMoveTarget;
+            const btn = document.getElementById('arch-move-btn');
+            const errDiv = document.getElementById('arch-move-error');
+
+            btn.disabled = true;
+            btn.textContent = mode === 'move' ? 'Moviendo...' : 'Copiando...';
+            errDiv.style.display = 'none';
+
+            try {
+                if (mode === 'move') {
+                    const res = await fetch(`${ARCH_API}/files/${encodeURIComponent(fileId)}`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ folder_id: archMoveSelectedFolder }),
+                    });
+                    const json = await res.json();
+                    if (!json.ok) throw new Error(json.error);
+                } else {
+                    const res = await fetch(`${ARCH_API}/files/${encodeURIComponent(fileId)}/copy`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ folder_id: archMoveSelectedFolder }),
+                    });
+                    const json = await res.json();
+                    if (!json.ok) throw new Error(json.error);
+                }
+
+                closeModal('arch-move-modal');
+                archMoveTarget = null;
+                archMoveSelectedFolder = null;
+                archLoadFolder(archCurrentFolderId);
+            } catch (e) {
+                errDiv.textContent = e.message;
+                errDiv.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = mode === 'move' ? 'Mover aquí' : 'Copiar aquí';
+            }
+        }
+
+        /* =========================================
+           ARCHIVOS — REPLACE FILE
+           ========================================= */
+        function archOpenReplace(fileId) {
+            archCloseCtxMenu();
+            archCloseDetail();
+            archReplaceFileId = fileId;
+            const input = document.getElementById('arch-replace-input');
+            input.value = '';
+            input.click();
+        }
+
+        async function archExecReplace(input) {
+            if (!input.files || !input.files[0] || !archReplaceFileId) return;
+            const file = input.files[0];
+            const fileId = archReplaceFileId;
+            archReplaceFileId = null;
+
+            try {
+                const fd = new FormData();
+                fd.append('file', file);
+                const res = await fetch(`${ARCH_API}/files/${encodeURIComponent(fileId)}/replace`, {
+                    method: 'POST',
+                    body: fd,
+                });
+                const json = await res.json();
+                if (!json.ok) throw new Error(json.error);
+                archLoadFolder(archCurrentFolderId);
+            } catch (e) {
+                alert('Error al reemplazar: ' + e.message);
+            }
+        }
+
+        /* =========================================
+           ARCHIVOS — DRAG & DROP BETWEEN FOLDERS
+           ========================================= */
+        function archDragStart(event, fileId) {
+            event.dataTransfer.setData('text/plain', fileId);
+            event.dataTransfer.effectAllowed = 'move';
+        }
+
+        function archDragOver(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+            event.currentTarget.classList.add('arch-drop-target');
+        }
+
+        function archDragLeave(event) {
+            event.currentTarget.classList.remove('arch-drop-target');
+        }
+
+        async function archDrop(event, targetFolderId) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.currentTarget.classList.remove('arch-drop-target');
+
+            const fileId = event.dataTransfer.getData('text/plain');
+            if (!fileId) return;
+
+            try {
+                const res = await fetch(`${ARCH_API}/files/${encodeURIComponent(fileId)}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ folder_id: targetFolderId }),
+                });
+                const json = await res.json();
+                if (!json.ok) throw new Error(json.error);
+                archLoadFolder(archCurrentFolderId);
+            } catch (e) {
+                alert('Error al mover: ' + e.message);
             }
         }
 
