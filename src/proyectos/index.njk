@@ -343,7 +343,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                 }
 
                 var btnDescarga = '';
-                if (p.has_main_doc) {
+                if (p.has_main_doc || p.has_expediente) {
                     btnDescarga =
                         '<button class="pl-btn pl-btn-outline" onclick="event.stopPropagation(); plDownloadMain(\'' + escapeHtml(p.id) + '\')">' +
                         '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
@@ -540,7 +540,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
-                            '<a href="' + downloadUrl + '" class="pl-btn pl-btn-outline" target="_blank" rel="noopener">Descargar Proyecto</a>' +
+                            '<a href="' + downloadUrl + '" class="pl-btn pl-btn-outline" target="_blank" rel="noopener">' + (doc.kind === 'expediente' ? 'Descargar Expediente' : 'Descargar Proyecto') + '</a>' +
                         '</div>';
                 } else {
                     docsList.innerHTML =

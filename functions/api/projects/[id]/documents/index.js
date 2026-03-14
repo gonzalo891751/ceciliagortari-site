@@ -21,8 +21,9 @@ export async function onRequestGet(context) {
     const rows = results || [];
     const mainDoc = rows.find((r) => r.kind === "main") || null;
     const materials = rows.filter((r) => r.kind === "material");
+    const expediente = rows.find((r) => r.kind === "expediente") || null;
 
-    return new Response(JSON.stringify({ main: mainDoc, materials }), {
+    return new Response(JSON.stringify({ main: mainDoc, materials, expediente }), {
       status: 200,
       headers: HEADERS,
     });

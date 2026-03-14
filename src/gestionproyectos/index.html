@@ -514,7 +514,20 @@ permalink: gestionproyectos/index.html
         }
         .doc-badge-main { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
         .doc-badge-materials { background: var(--badge-purple-bg); color: var(--badge-purple-text); }
+        .doc-badge-expediente { background: var(--badge-green-bg); color: var(--badge-green-text); }
         .doc-badge svg { width: 12px; height: 12px; }
+        .proj-action-btn.expediente-upload {
+            background: var(--badge-green-bg); color: var(--badge-green-text);
+            border-color: rgba(16,185,129,0.2);
+        }
+        .proj-action-btn.expediente-upload:hover {
+            background: #10B981; color: white;
+        }
+        .proj-expediente-ok {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; border-radius: var(--radius-md);
+            background: var(--badge-green-bg); color: #10B981; font-size: 0.9rem;
+        }
 
         /* =========================================
            7e. PREVIEW MODAL
@@ -4372,7 +4385,9 @@ permalink: gestionproyectos/index.html
         function buildDocBadgesHtml(p) {
             const hasMain = p.has_main_doc > 0;
             const matCount = p.materials_count || 0;
+            const hasExp = p.has_expediente > 0;
             let html = '';
+            if (hasExp) html += `<span class="doc-badge doc-badge-expediente" title="Expediente cargado"><i class="ph ph-seal-check" style="font-size:0.75rem;"></i></span>`;
             if (hasMain) html += `<span class="doc-badge doc-badge-main" title="Documento cargado">${SVG_ICONS.fileText}</span>`;
             if (matCount > 0) html += `<span class="doc-badge doc-badge-materials" title="${matCount} material(es)">${SVG_ICONS.paperclip} ${matCount}</span>`;
             return html ? `<span class="proj-doc-badges">${html}</span>` : '';
@@ -4593,8 +4608,10 @@ permalink: gestionproyectos/index.html
                         <button class="proj-action-btn danger" title="Eliminar" onclick="quickDelete('${p.id}', event)">${SVG_ICONS.trash}</button>
                     `;
                 } else {
+                    const hasExpediente = p.has_expediente > 0;
                     actionsHtml = `
-                        ${hasAnyDoc ? `<button class="proj-action-btn" title="Documentos" onclick="openDocumentsModal('${p.id}', event)">${SVG_ICONS.download}</button>` : ''}
+                        ${!hasExpediente ? `<button class="proj-action-btn expediente-upload" title="Subir expediente PDF" onclick="openExpedienteUpload('${p.id}', event)"><i class="ph ph-file-arrow-up" style="font-size:0.85rem;"></i></button>` : `<span class="proj-expediente-ok" title="Expediente cargado"><i class="ph ph-seal-check"></i></span>`}
+                        ${hasAnyDoc || hasExpediente ? `<button class="proj-action-btn" title="Documentos" onclick="openDocumentsModal('${p.id}', event)">${SVG_ICONS.download}</button>` : ''}
                         <button class="proj-action-btn" title="Editar" onclick="openModal('${p.id}'); event.stopPropagation();">${SVG_ICONS.eye}</button>
                     `;
                 }
@@ -4822,6 +4839,7 @@ permalink: gestionproyectos/index.html
                 if (isNew) {
                     savedProject.has_main_doc = 0;
                     savedProject.materials_count = 0;
+                    savedProject.has_expediente = 0;
                     projects.push(savedProject);
                 } else {
                     const index = projects.findIndex(p => p.id === id);
@@ -4871,6 +4889,7 @@ permalink: gestionproyectos/index.html
                 if (isNew) {
                     projectData.has_main_doc = 0;
                     projectData.materials_count = 0;
+                    projectData.has_expediente = 0;
                     if (!projects.find(p => p.id === projectData.id)) projects.push(projectData);
                 } else {
                     const index = projects.findIndex(p => p.id === id);
@@ -5682,19 +5701,24 @@ permalink: gestionproyectos/index.html
             return mimeType === 'application/pdf' || mimeType.startsWith('image/');
         }
 
-        function renderDocItem(doc, projectId, isMain) {
+        function renderDocItem(doc, projectId, isMain, docKind) {
             const previewBtn = canPreview(doc.mime_type)
                 ? `<button class="btn-icon" title="Vista previa" aria-label="Vista previa" onclick="openPreview('${projectId}', '${doc.id}', '${doc.mime_type}', '${(doc.original_name || '').replace(/'/g, "\\'")}')">${SVG_ICONS.eye}</button>`
                 : '';
 
             const downloadUrl = `/api/projects/${encodeURIComponent(projectId)}/documents/${encodeURIComponent(doc.id)}/download`;
-            const deleteAction = isMain
-                ? `deleteMainDoc('${projectId}')`
-                : `deleteMaterial('${projectId}', '${doc.id}')`;
+            let deleteAction;
+            if (docKind === 'expediente') {
+                deleteAction = `deleteExpediente('${projectId}')`;
+            } else if (isMain) {
+                deleteAction = `deleteMainDoc('${projectId}')`;
+            } else {
+                deleteAction = `deleteMaterial('${projectId}', '${doc.id}')`;
+            }
 
             const replaceBtn = isMain
                 ? `<button class="btn-icon" title="Reemplazar" aria-label="Reemplazar" onclick="document.getElementById('main-file-input').click()"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></button>`
-                : '';
+                : (docKind === 'expediente' ? `<label class="btn-icon" title="Reemplazar" aria-label="Reemplazar" style="cursor:pointer;"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg><input type="file" accept=".pdf" style="display:none;" onchange="handleExpedienteUpload(this, '${projectId}')"></label>` : '');
 
             return `<div class="doc-item">
                 <div class="doc-item-info">
@@ -5857,6 +5881,55 @@ permalink: gestionproyectos/index.html
             }
         }
 
+        /* ---- EXPEDIENTE UPLOAD ---- */
+        function openExpedienteUpload(projectId, event) {
+            if (event) event.stopPropagation();
+            // Open documents modal directly — it has the upload UI for expediente
+            openDocumentsModal(projectId, event);
+        }
+
+        async function handleExpedienteUpload(input, projectId) {
+            if (!input.files || !input.files[0]) return;
+            const file = input.files[0];
+
+            if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                alert('El expediente debe ser un archivo PDF.');
+                input.value = '';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/expediente`, {
+                    method: 'POST',
+                    body: formData,
+                });
+                const data = await res.json();
+                if (!data.ok && res.status >= 400) throw new Error(data.error || 'Error al subir expediente');
+
+                // Refresh documents modal and project list
+                await openDocumentsModal(projectId);
+                await refreshProjectDocCounts(projectId);
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+            input.value = '';
+        }
+
+        async function deleteExpediente(projectId) {
+            if (!confirm('¿Eliminar el expediente?')) return;
+            try {
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/expediente`, { method: 'DELETE' });
+                if (!res.ok) { const d = await res.json(); throw new Error(d.error || 'Error'); }
+                await openDocumentsModal(projectId);
+                await refreshProjectDocCounts(projectId);
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
         async function refreshProjectDocCounts(projectId) {
             // Fetch updated doc counts and update the in-memory project
             try {
@@ -5867,6 +5940,7 @@ permalink: gestionproyectos/index.html
                 if (p) {
                     p.has_main_doc = data.main ? 1 : 0;
                     p.materials_count = data.materials ? data.materials.length : 0;
+                    p.has_expediente = data.expediente ? 1 : 0;
                     renderUI();
                 }
             } catch (e) { /* ignore */ }
@@ -5891,7 +5965,27 @@ permalink: gestionproyectos/index.html
                 if (!res.ok) throw new Error('Error');
                 const data = await res.json();
 
+                const proj = projects.find(x => x.id === projectId);
+                const isPresentado = proj && proj.estado_preparacion === 'Presentado';
                 let html = '';
+
+                // Expediente section (only for Presentado projects)
+                if (isPresentado) {
+                    html += '<div class="upload-section"><div class="upload-section-title"><i class="ph ph-seal-check" style="font-size:0.9rem;"></i> Expediente definitivo</div>';
+                    if (data.expediente) {
+                        html += renderDocItem(data.expediente, projectId, false, 'expediente');
+                    } else {
+                        html += `<div style="color:var(--text-muted);font-size:0.85rem;padding:0.5rem 0.5rem 0.25rem;">Sin expediente cargado</div>
+                        <div style="padding:0 0.5rem 0.5rem;">
+                            <label class="btn btn-primary btn-sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:0.3rem;">
+                                <i class="ph ph-file-arrow-up"></i> Subir expediente PDF
+                                <input type="file" accept=".pdf" style="display:none;" onchange="handleExpedienteUpload(this, '${projectId}')">
+                            </label>
+                            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.35rem;">Subí el expediente firmado / sellado / con recibido de mesa de entradas</div>
+                        </div>`;
+                    }
+                    html += '</div>';
+                }
 
                 // Main doc
                 html += '<div class="upload-section"><div class="upload-section-title">' + SVG_ICONS.fileText + ' Documento del Proyecto</div>';

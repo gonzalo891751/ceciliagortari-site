@@ -28,8 +28,20 @@ export async function onRequestGet(context) {
       );
     }
 
-    // Fetch only the main document (materials are not public)
-    const mainDoc = await db
+    // Fetch public document: expediente has priority over main doc
+    // Expediente = final signed/stamped PDF; main = original project document
+    const expedienteDoc = await db
+      .prepare(
+        `SELECT id, kind, original_name, mime_type, size_bytes, created_at
+         FROM project_documents
+         WHERE project_id = ? AND kind = 'expediente'
+         ORDER BY created_at DESC
+         LIMIT 1`
+      )
+      .bind(projectId)
+      .first();
+
+    const mainDoc = expedienteDoc ? null : await db
       .prepare(
         `SELECT id, kind, original_name, mime_type, size_bytes, created_at
          FROM project_documents
@@ -43,7 +55,7 @@ export async function onRequestGet(context) {
     return new Response(
       JSON.stringify({
         ...project,
-        document: mainDoc || null,
+        document: expedienteDoc || mainDoc || null,
       }),
       { status: 200, headers: HEADERS }
     );

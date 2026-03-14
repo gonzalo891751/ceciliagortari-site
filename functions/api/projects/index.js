@@ -27,7 +27,7 @@ const CREATE_DOCS_TABLE_SQL = `
 CREATE TABLE IF NOT EXISTS project_documents (
   id TEXT PRIMARY KEY,
   project_id TEXT NOT NULL,
-  kind TEXT NOT NULL CHECK(kind IN ('main','material')),
+  kind TEXT NOT NULL CHECK(kind IN ('main','material','expediente')),
   original_name TEXT NOT NULL,
   stored_key TEXT NOT NULL,
   mime_type TEXT,
@@ -59,7 +59,8 @@ export async function onRequestGet(context) {
                 p.fecha_presentacion, p.estado_tramite, p.created_at, p.updated_at,
                 p.action_plan,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'main') AS has_main_doc,
-                (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'material') AS materials_count
+                (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'material') AS materials_count,
+                (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'expediente') AS has_expediente
          FROM ${TABLE} p
          WHERE p.deleted_at IS NULL
          ORDER BY p.updated_at DESC`
