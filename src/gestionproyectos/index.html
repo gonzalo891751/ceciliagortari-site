@@ -2441,7 +2441,6 @@ permalink: gestionproyectos/index.html
                                 <th>ID</th>
                                 <th class="sortable" onclick="toggleSort('titulo')">Proyecto <span class="sort-indicator">▲▼</span></th>
                                 <th class="sortable" onclick="toggleSort('tipo')">Tipo & Área <span class="sort-indicator">▲▼</span></th>
-                                <th class="sortable" onclick="toggleSort('responsable')">Responsable <span class="sort-indicator">▲▼</span></th>
                                 <th class="sortable" onclick="toggleSort('estado_preparacion')">Preparación <span class="sort-indicator">▲▼</span></th>
                                 <th>Tareas</th>
                                 <th class="sortable" onclick="toggleSort('fecha_objetivo_presentacion')">Fechas <span class="sort-indicator">▲▼</span></th>
@@ -2462,7 +2461,6 @@ permalink: gestionproyectos/index.html
                                 <th>ID</th>
                                 <th class="sortable" onclick="toggleSort('titulo')">Proyecto <span class="sort-indicator">▲▼</span></th>
                                 <th class="sortable" onclick="toggleSort('tipo')">Tipo & Área <span class="sort-indicator">▲▼</span></th>
-                                <th class="sortable" onclick="toggleSort('responsable')">Responsable <span class="sort-indicator">▲▼</span></th>
                                 <th>Trámite</th>
                                 <th class="sortable" onclick="toggleSort('fecha_presentacion')">Fechas <span class="sort-indicator">▲▼</span></th>
                                 <th class="sortable" onclick="toggleSort('updated_at')">Actualizado <span class="sort-indicator">▲▼</span></th>
@@ -3699,6 +3697,8 @@ permalink: gestionproyectos/index.html
                 // Actualizar cache local
                 localStorage.setItem(DB_KEY, JSON.stringify(projects));
                 updateSyncBadge(true);
+                // Backfill: projects with main doc but still Pendiente → En trabajo
+                await backfillPendientesConDoc();
             } else {
                 // Fallback: cargar desde localStorage
                 const data = localStorage.getItem(DB_KEY);
@@ -3711,6 +3711,23 @@ permalink: gestionproyectos/index.html
             refreshTopicSuggestions();
             renderUI();
             startAutoSync();
+        }
+
+        async function backfillPendientesConDoc() {
+            const toFix = projects.filter(p => p.estado_preparacion === 'Pendiente' && p.has_main_doc > 0);
+            if (toFix.length === 0) return;
+            for (const p of toFix) {
+                p.estado_preparacion = 'En trabajo';
+                p.updated_at = new Date().toISOString();
+                try {
+                    await fetch('/api/projects', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(p),
+                    });
+                } catch (_) { /* best effort */ }
+            }
+            localStorage.setItem(DB_KEY, JSON.stringify(projects));
         }
 
         function triggerSave(changedProject, isDelete) {
@@ -4008,7 +4025,7 @@ permalink: gestionproyectos/index.html
             cardsContainer.innerHTML = '';
 
             if (dataArray.length === 0) {
-                const emptyMsg = `<tr><td colspan="8" style="text-align:center; color: var(--text-muted); padding: 2rem;">No se encontraron proyectos en esta categoría.</td></tr>`;
+                const emptyMsg = `<tr><td colspan="7" style="text-align:center; color: var(--text-muted); padding: 2rem;">No se encontraron proyectos en esta categoría.</td></tr>`;
                 tbody.innerHTML = emptyMsg;
                 cardsContainer.innerHTML = `<div style="text-align:center; color: var(--text-muted); padding: 2rem;">Vacío.</div>`;
                 return;
@@ -4056,7 +4073,6 @@ permalink: gestionproyectos/index.html
                         <div style="font-size:0.85rem; font-weight:500;">${p.tipo}</div>
                         <div style="font-size:0.8rem; color:var(--text-muted)">${p.area_tema || '-'}</div>
                     </td>
-                    <td style="font-size:0.9rem; font-weight:500">${respText}</td>
                 `;
 
                 if (!isPresentadoTable) {
@@ -5214,10 +5230,33 @@ permalink: gestionproyectos/index.html
                 progressFill.style.width = '100%';
                 progressText.textContent = 'Subido correctamente';
 
+                // Auto-transition: Pendiente → En trabajo when main doc is uploaded
+                const proj = projects.find(pp => pp.id === projectId);
+                if (proj && proj.estado_preparacion === 'Pendiente') {
+                    proj.estado_preparacion = 'En trabajo';
+                    proj.updated_at = new Date().toISOString();
+                    // Persist to D1
+                    try {
+                        await fetch('/api/projects', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(proj),
+                        });
+                    } catch (_) { /* best effort */ }
+                    // Update edit form if open
+                    const prepSelect = document.getElementById('f-estado-prep');
+                    if (prepSelect && prepSelect.value === 'Pendiente') {
+                        prepSelect.value = 'En trabajo';
+                        if (typeof handlePrepChange === 'function') handlePrepChange();
+                    }
+                }
+
                 // Reload docs tab
                 await loadDocumentsTab();
                 // Update project list doc counts
                 await refreshProjectDocCounts(projectId);
+                // Re-render project list to reflect state change
+                renderUI();
             } catch (e) {
                 progressText.textContent = 'Error: ' + e.message;
                 progressFill.style.width = '0%';
