@@ -227,7 +227,7 @@ function renderLatestNews(items, currentItem) {
 
     listContainer.innerHTML = others.map(item => {
         const itemId = item.id || generateSlug(item);
-        const permalink = `/prensa/detalle/?id=${itemId}`;
+        const permalink = `/novedades/detalle/?id=${itemId}`;
         const dateStr = formatDate(item.fecha);
         const badgeClass = getBadgeClass(item.etiqueta);
 
@@ -384,7 +384,7 @@ function renderError(container, message) {
         <div class="text-center py-12">
             <h2 class="text-2xl font-bold text-gray-400 mb-4">😕</h2>
             <p class="text-xl text-gray-600">${message}</p>
-            <a href="/prensa/" class="mt-6 inline-block px-6 py-2 bg-brand-blue text-white rounded-full font-medium hover:bg-blue-700 transition">Volver a Prensa</a>
+            <a href="/novedades/" class="mt-6 inline-block px-6 py-2 bg-brand-blue text-white rounded-full font-medium hover:bg-blue-700 transition">Volver a Novedades</a>
         </div>
     `;
 }

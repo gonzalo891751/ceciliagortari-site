@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     items.forEach((item) => {
       const itemId = generateId(item); // Ensure we always have an ID
-      const detailUrl = `/prensa/detalle/?id=${itemId}`;
+      const detailUrl = `/novedades/detalle/?id=${itemId}`;
 
       const card = document.createElement("a");
       card.href = detailUrl;
@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     detailContainer.innerHTML = `
             <div class="container mx-auto px-4 max-w-4xl">
-                <a href="/prensa/" class="inline-flex items-center text-gray-500 hover:text-brand-blue mb-8 transition-colors">
+                <a href="/novedades/" class="inline-flex items-center text-gray-500 hover:text-brand-blue mb-8 transition-colors">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                     Volver al listado
                 </a>
@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="text-6xl mb-4">😕</div>
             <h2 class="text-2xl font-bold text-gray-800 mb-2">Publicación no encontrada</h2>
             <p class="text-gray-600 mb-8">${message}</p>
-            <a href="/prensa/" class="inline-flex items-center px-6 py-3 bg-brand-blue text-white rounded-full font-bold hover:bg-blue-700 transition">
+            <a href="/novedades/" class="inline-flex items-center px-6 py-3 bg-brand-blue text-white rounded-full font-bold hover:bg-blue-700 transition">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Volver al listado
             </a>

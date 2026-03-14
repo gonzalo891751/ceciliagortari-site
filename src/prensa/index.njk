@@ -1,99 +1,440 @@
 ---
 layout: layouts/base.njk
 title: "Prensa | Cecilia Gortari - Diputada Provincial"
-description: "Comunicados, notas de prensa, entrevistas y material institucional de Cecilia Gortari."
+description: "Sala de prensa oficial de Cecilia Gortari. Información institucional, biografía, galería de imágenes, identidad visual y recursos para medios de comunicación."
 ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
+bodyClass: "page-prensa-sala"
+extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
 ---
 
-    <!-- HEADER -->
-    <header class="prensa-header">
-        <div class="container">
-            <span class="prensa-header__badge">Prensa y Comunicados</span>
-            <h1 class="prensa-header__title">Últimas novedades</h1>
-            <p class="prensa-header__subtitle">Comunicados oficiales, entrevistas, notas de prensa y material para
-                medios.</p>
+    <!-- ============================
+         1) HERO DE PRENSA
+         ============================ -->
+    <section class="prensa-hero" id="top">
+        <div class="prensa-hero__bg" style="background-image: url('/assets/img/prensa/fondoprensa.jpg');">
+            <div class="prensa-hero__overlay"></div>
         </div>
-    </header>
-
-    <!-- DETALLE DE PUBLICACIÓN (Renderizado por JS se hay ?id=) -->
-    <section id="prensa-detalle" class="prensa-detalle-section hidden">
-        <!-- El contenido se inyecta vía JS -->
+        <div class="prensa-hero__content">
+            <span class="prensa-hero__eyebrow">Sala de prensa</span>
+            <h1 class="prensa-hero__title">Prensa</h1>
+            <p class="prensa-hero__subtitle">Información institucional y recursos oficiales para medios de comunicación.</p>
+        </div>
     </section>
 
-    <!-- GRID DE PRENSA (Renderizado por JS) -->
-    <section class="prensa-section">
-        <div class="container">
-            <!-- Toolbar: Buscador y Filtros -->
-            <div class="mb-8 flex flex-col md:flex-row gap-4 items-center justify-between">
-                <!-- Buscador -->
-                <div class="w-full md:w-1/2 lg:w-1/3 relative">
-                    <input type="text" id="prensa-search" placeholder="Buscar por título, tema o palabra clave..."
-                        class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all"
-                        aria-label="Buscar publicaciones">
-                    <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
-
-                <!-- Filtro Categorías -->
-                <div class="w-full md:w-auto flex items-center gap-2 overflow-x-auto pb-2 md:pb-0" id="prensa-filters">
-                    <!-- Chips se generarán dinámicamente o hardcoded aquí -->
-                    <select id="prensa-category-select"
-                        class="block w-full md:w-64 py-3 px-4 rounded-xl border border-gray-200 bg-white focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all appearance-none cursor-pointer">
-                        <option value="">Todas las categorías</option>
-                        <option value="Noticia">Noticias</option>
-                        <option value="Documento">Documentos</option>
-                        <option value="Opinión">Opinión</option>
-                        <option value="Actividad">Actividades</option>
-                        <option value="Proyecto presentado">Proyectos presentados</option>
-                        <option value="Escuela de emprendedores">Escuela de emprendedores</option>
-                    </select>
-                </div>
+    <!-- ============================
+         2) BIOGRAFÍA SINTETIZADA
+         ============================ -->
+    <section class="prensa-bio" id="biografia">
+        <div class="prensa-bio__container">
+            <div class="prensa-bio__header">
+                <h2 class="prensa-bio__title">Biografía sintetizada</h2>
+                <p class="prensa-bio__lead">Textos institucionales redactados para su uso en medios.</p>
             </div>
 
-            <!-- Contador de resultados (Opcional, oculto por defecto) -->
-            <div id="prensa-results-count" class="mb-6 text-sm text-gray-500 hidden font-medium">
-                Mostrando <span id="count-shown">0</span> de <span id="count-total">0</span> publicaciones
-            </div>
+            <div class="prensa-bio__card">
+                <div class="prensa-bio__accent"></div>
+                <div class="prensa-bio__text" id="texto-biografia">
+                    <p><strong>Cecilia Gortari</strong> es Diputada Provincial de Corrientes, con una trayectoria política y social caracterizada por su fuerte compromiso con el desarrollo territorial, la educación y el fomento a los sectores productivos de la provincia. Su labor se centra en generar herramientas concretas que mejoren la calidad de vida de los correntinos, articulando el esfuerzo entre el sector público, el privado y las organizaciones de la sociedad civil.</p>
 
-            <div class="prensa-grid" id="prensa-grid">
-                <!-- Cards se renderizan desde prensa-data.js -->
+                    <p>Como pilar fundamental de su gestión en el territorio, fundó y lidera la <strong>"Escuela de Emprendedores"</strong>, un espacio formativo integral diseñado para impulsar la economía local. A través de esta iniciativa, cientos de familias, jóvenes y pequeños productores reciben capacitación técnica, asesoramiento y acompañamiento continuo, brindándoles las herramientas necesarias para formalizar y escalar sus proyectos económicos de manera sostenible.</p>
+
+                    <p>En el ámbito de la Honorable Cámara de Diputados, su trabajo legislativo refleja estas mismas prioridades. Integra comisiones estratégicas y es autora de iniciativas orientadas a la modernización del sistema educativo, la reducción de barreras burocráticas para las pymes y la promoción de un desarrollo productivo que respete y potencie las economías regionales.</p>
+
+                    <p>Reconocida por su perfil de cercanía y escucha activa, Gortari mantiene una presencia constante en los diferentes municipios y parajes de la provincia. Su visión de gestión sostiene que el verdadero progreso de Corrientes se construye fortaleciendo desde las bases el empleo genuino, la innovación y la igualdad de oportunidades en cada rincón del territorio.</p>
+                </div>
+
+                <div class="prensa-bio__actions">
+                    <button onclick="copiarTexto('texto-biografia')" class="prensa-bio__btn prensa-bio__btn--primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        Copiar texto
+                    </button>
+                    <a href="/assets/prensa/Biografia_CeciliaGortari.pdf" download class="prensa-bio__btn prensa-bio__btn--secondary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Descargar PDF
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- RECURSOS PARA MEDIOS -->
-    <section class="prensa-recursos">
-        <div class="container">
-            <div class="prensa-recursos__content">
-                <h2 class="prensa-recursos__title">Recursos para medios</h2>
-                <p class="prensa-recursos__text">Logos, fotos oficiales y material institucional para prensa.</p>
-                <a href="/prensa/branding/" class="prensa-recursos__btn">
-                    Branding
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
+    <!-- ============================
+         3) GALERÍA DE IMÁGENES
+         ============================ -->
+    <section class="prensa-galeria" id="galeria">
+        <div class="prensa-galeria__container">
+            <div class="prensa-galeria__header">
+                <h2 class="prensa-galeria__title">Galería de imágenes</h2>
+                <p class="prensa-galeria__lead">Fotografías para uso en medios.</p>
+            </div>
+
+            <div class="prensa-galeria__grid" id="gallery-grid">
+
+                <!-- Imagen 01 -->
+                <div class="gallery-item" data-index="0">
+                    <div class="gallery-item__img-wrap">
+                        <img src="/assets/img/prensa/prensa-01-recinto-sentada-horizontal.jpg"
+                             alt="Actividad legislativa en el recinto"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa-01-recinto-sentada-horizontal.jpg');">
+                        <div class="gallery-item__overlay">
+                            <span class="gallery-item__view-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                                Ver en grande
+                            </span>
+                        </div>
+                    </div>
+                    <div class="gallery-item__info">
+                        <span class="gallery-item__orient">Horizontal</span>
+                        <h3 class="gallery-item__title">Actividad legislativa en el recinto</h3>
+                        <div class="gallery-item__actions">
+                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                Ver
+                            </button>
+                            <a href="/assets/img/prensa/prensa-01-recinto-sentada-horizontal.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Bajar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagen 02 -->
+                <div class="gallery-item gallery-item--vertical" data-index="1">
+                    <div class="gallery-item__img-wrap">
+                        <img src="/assets/img/prensa/prensa-02-institucional-medio-plano-vertical.jpg"
+                             alt="Retrato institucional"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa-02-institucional-medio-plano-vertical.jpg');">
+                        <div class="gallery-item__overlay">
+                            <span class="gallery-item__view-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                                Ver en grande
+                            </span>
+                        </div>
+                    </div>
+                    <div class="gallery-item__info">
+                        <span class="gallery-item__orient gallery-item__orient--vertical">Vertical</span>
+                        <h3 class="gallery-item__title">Retrato institucional</h3>
+                        <div class="gallery-item__actions">
+                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                Ver
+                            </button>
+                            <a href="/assets/img/prensa/prensa-02-institucional-medio-plano-vertical.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Bajar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagen 03 -->
+                <div class="gallery-item gallery-item--vertical" data-index="2">
+                    <div class="gallery-item__img-wrap">
+                        <img src="/assets/img/prensa/prensa-03-saco-magenta-sonriendo-vertical.jpg"
+                             alt="Retrato con saco magenta"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa-03-saco-magenta-sonriendo-vertical.jpg');">
+                        <div class="gallery-item__overlay">
+                            <span class="gallery-item__view-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                                Ver en grande
+                            </span>
+                        </div>
+                    </div>
+                    <div class="gallery-item__info">
+                        <span class="gallery-item__orient gallery-item__orient--vertical">Vertical</span>
+                        <h3 class="gallery-item__title">Retrato con saco magenta</h3>
+                        <div class="gallery-item__actions">
+                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                Ver
+                            </button>
+                            <a href="/assets/img/prensa/prensa-03-saco-magenta-sonriendo-vertical.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Bajar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagen 04 -->
+                <div class="gallery-item" data-index="3">
+                    <div class="gallery-item__img-wrap">
+                        <img src="/assets/img/prensa/prensa-04-puerta-casa-horizontal.jpg"
+                             alt="Retrato en exterior"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa-04-puerta-casa-horizontal.jpg');">
+                        <div class="gallery-item__overlay">
+                            <span class="gallery-item__view-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                                Ver en grande
+                            </span>
+                        </div>
+                    </div>
+                    <div class="gallery-item__info">
+                        <span class="gallery-item__orient">Horizontal</span>
+                        <h3 class="gallery-item__title">Retrato en exterior</h3>
+                        <div class="gallery-item__actions">
+                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                Ver
+                            </button>
+                            <a href="/assets/img/prensa/prensa-04-puerta-casa-horizontal.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Bajar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagen 05 -->
+                <div class="gallery-item" data-index="4">
+                    <div class="gallery-item__img-wrap">
+                        <img src="/assets/img/prensa/prensa-05-territorio-caminando-horizontal.jpg"
+                             alt="Recorrida territorial"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa-05-territorio-caminando-horizontal.jpg');">
+                        <div class="gallery-item__overlay">
+                            <span class="gallery-item__view-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                                Ver en grande
+                            </span>
+                        </div>
+                    </div>
+                    <div class="gallery-item__info">
+                        <span class="gallery-item__orient">Horizontal</span>
+                        <h3 class="gallery-item__title">Recorrida territorial</h3>
+                        <div class="gallery-item__actions">
+                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                Ver
+                            </button>
+                            <a href="/assets/img/prensa/prensa-05-territorio-caminando-horizontal.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Bajar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagen 06 -->
+                <div class="gallery-item gallery-item--vertical" data-index="5">
+                    <div class="gallery-item__img-wrap">
+                        <img src="/assets/img/prensa/prensa-06-recinto-oradora-vertical.jpg"
+                             alt="Intervención en el recinto"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa-06-recinto-oradora-vertical.jpg');">
+                        <div class="gallery-item__overlay">
+                            <span class="gallery-item__view-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                                Ver en grande
+                            </span>
+                        </div>
+                    </div>
+                    <div class="gallery-item__info">
+                        <span class="gallery-item__orient gallery-item__orient--vertical">Vertical</span>
+                        <h3 class="gallery-item__title">Intervención en el recinto</h3>
+                        <div class="gallery-item__actions">
+                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                Ver
+                            </button>
+                            <a href="/assets/img/prensa/prensa-06-recinto-oradora-vertical.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Bajar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagen 07 -->
+                <div class="gallery-item" data-index="6">
+                    <div class="gallery-item__img-wrap">
+                        <img src="/assets/img/prensa/prensa-07-escuela-emprendedores-horizontal.jpg"
+                             alt="Escuela de Emprendedores"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa-07-escuela-emprendedores-horizontal.jpg');">
+                        <div class="gallery-item__overlay">
+                            <span class="gallery-item__view-btn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                                Ver en grande
+                            </span>
+                        </div>
+                    </div>
+                    <div class="gallery-item__info">
+                        <span class="gallery-item__orient">Horizontal</span>
+                        <h3 class="gallery-item__title">Escuela de Emprendedores</h3>
+                        <div class="gallery-item__actions">
+                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                Ver
+                            </button>
+                            <a href="/assets/img/prensa/prensa-07-escuela-emprendedores-horizontal.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                Bajar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================
+         4) IDENTIDAD VISUAL / LOGOS
+         ============================ -->
+    <section class="prensa-identidad" id="identidad-visual">
+        <div class="prensa-identidad__container">
+            <div class="prensa-identidad__header">
+                <h2 class="prensa-identidad__title">Identidad visual</h2>
+                <p class="prensa-identidad__lead">Logotipos oficiales en formatos editables y con transparencia.</p>
+            </div>
+
+            <div class="prensa-identidad__grid">
+
+                <!-- Logo 1: Color Fondo Claro -->
+                <div class="logo-card">
+                    <div class="logo-card__preview logo-card__preview--light">
+                        <span class="logo-card__wordmark"><span class="text-black">Cecilia</span><span style="color:#9F57A7;">Gortari</span></span>
+                        <span class="logo-card__subtitle">Diputada provincial</span>
+                    </div>
+                    <h4 class="logo-card__name">Color (Fondos claros)</h4>
+                    <div class="logo-card__downloads">
+                        <a href="/assets/prensa/Logo_Color_Claro.png" download class="logo-card__dl-btn">PNG
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </a>
+                        <a href="/assets/prensa/Logo_Color_Claro.svg" download class="logo-card__dl-btn">SVG
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Logo 2: Color Fondo Oscuro -->
+                <div class="logo-card">
+                    <div class="logo-card__preview logo-card__preview--dark">
+                        <span class="logo-card__wordmark"><span class="text-white">Cecilia</span><span style="color:#E4BFE8;">Gortari</span></span>
+                        <span class="logo-card__subtitle" style="color:rgba(228,191,232,0.8);">Diputada provincial</span>
+                    </div>
+                    <h4 class="logo-card__name">Color (Fondos oscuros)</h4>
+                    <div class="logo-card__downloads">
+                        <a href="/assets/prensa/Logo_Color_Oscuro.png" download class="logo-card__dl-btn">PNG
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </a>
+                        <a href="/assets/prensa/Logo_Color_Oscuro.svg" download class="logo-card__dl-btn">SVG
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Logo 3: Monocromo Negro -->
+                <div class="logo-card">
+                    <div class="logo-card__preview logo-card__preview--mono-light">
+                        <span class="logo-card__wordmark text-black">CeciliaGortari</span>
+                        <span class="logo-card__subtitle" style="color:#000;">Diputada provincial</span>
+                    </div>
+                    <h4 class="logo-card__name">Monocromo Negro</h4>
+                    <div class="logo-card__downloads">
+                        <a href="/assets/prensa/Logo_Negro.png" download class="logo-card__dl-btn">PNG
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </a>
+                        <a href="/assets/prensa/Logo_Negro.svg" download class="logo-card__dl-btn">SVG
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Logo 4: Monocromo Blanco -->
+                <div class="logo-card">
+                    <div class="logo-card__preview logo-card__preview--mono-dark">
+                        <span class="logo-card__wordmark text-white">CeciliaGortari</span>
+                        <span class="logo-card__subtitle" style="color:rgba(255,255,255,0.9);">Diputada provincial</span>
+                    </div>
+                    <h4 class="logo-card__name">Monocromo Blanco</h4>
+                    <div class="logo-card__downloads">
+                        <a href="/assets/prensa/Logo_Blanco.png" download class="logo-card__dl-btn">PNG
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </a>
+                        <a href="/assets/prensa/Logo_Blanco.svg" download class="logo-card__dl-btn">SVG
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Logo 5: Recurso Especial -->
+                <div class="logo-card logo-card--special">
+                    <div class="logo-card__preview logo-card__preview--special">
+                        <img src="/assets/img/prensa/Ceciliagortarilogo.png" alt="Logo Cecilia Gortari" class="logo-card__special-img"
+                             onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'logo-card__wordmark text-white\'>Ceciliagortari<br>logo.png</span>';">
+                    </div>
+                    <h4 class="logo-card__name">Recurso Especial</h4>
+                    <p class="logo-card__note">Archivo nativo original (Blanco)</p>
+                    <div class="logo-card__downloads">
+                        <a href="/assets/img/prensa/Ceciliagortarilogo.png" download class="logo-card__dl-btn logo-card__dl-btn--primary">Descargar PNG
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================
+         5) BLOQUE FINAL DE CONTACTO
+         ============================ -->
+    <section class="prensa-cta" id="contacto-prensa">
+        <div class="prensa-cta__container">
+            <h2 class="prensa-cta__title">Si necesitás material específico o coordinar una entrevista</h2>
+            <p class="prensa-cta__text">Nuestro equipo de prensa está a disposición para facilitarte la información requerida de manera ágil.</p>
+            <div class="prensa-cta__actions">
+                <a href="https://wa.me/5493794000000" target="_blank" rel="noopener" class="prensa-cta__btn prensa-cta__btn--whatsapp">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Contactar por WhatsApp
+                </a>
+                <a href="mailto:prensa@ceciliagortari.com.ar" class="prensa-cta__btn prensa-cta__btn--email">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    Enviar correo
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- CONTACTO MEDIOS -->
-    <section class="prensa-contacto">
-        <div class="container">
-            <div class="prensa-contacto__content">
-                <h2 class="prensa-contacto__title">Contacto para Medios</h2>
-                <p class="prensa-contacto__text">Para entrevistas, solicitudes de información o cobertura de eventos:
-                </p>
-                <p class="prensa-contacto__email">prensa@ceciliagortari.com.ar</p>
-            </div>
+    <!-- Lightbox Modal -->
+    <div class="prensa-lightbox" id="prensa-lightbox" aria-hidden="true">
+        <div class="prensa-lightbox__header">
+            <span class="prensa-lightbox__counter" id="lb-counter">1 / 7</span>
+            <button class="prensa-lightbox__close" id="lb-close" aria-label="Cerrar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
         </div>
-    </section>
+        <div class="prensa-lightbox__body">
+            <button class="prensa-lightbox__nav prensa-lightbox__nav--prev" id="lb-prev" aria-label="Anterior">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <img class="prensa-lightbox__img" id="lb-img" src="" alt="">
+            <button class="prensa-lightbox__nav prensa-lightbox__nav--next" id="lb-next" aria-label="Siguiente">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+        </div>
+        <div class="prensa-lightbox__footer">
+            <div class="prensa-lightbox__info">
+                <h3 class="prensa-lightbox__title" id="lb-title">Título</h3>
+                <p class="prensa-lightbox__filename" id="lb-filename">archivo.jpg</p>
+            </div>
+            <a class="prensa-lightbox__download" id="lb-download" href="#" download>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Descargar Imagen
+            </a>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="prensa-toast" id="prensa-toast">Acción completada</div>
 
 {% block scripts %}
-    <script defer src="/assets/js/prensa-feed.js?v=202503061200"></script>
-    <script src="/assets/js/site.js?v=202503061200"></script>
+    <script src="/assets/js/prensa-sala.js?v=202603141200"></script>
+    <script src="/assets/js/site.js?v=202603141200"></script>
 {% endblock %}

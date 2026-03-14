@@ -1036,7 +1036,7 @@
           <div class="prensa-card__body">
             <span class="prensa-card__placeholder-icon">📰</span>
             <h3 class="prensa-card__title">Próximamente</h3>
-            <a href="/prensa/" class="prensa-card__cta">Ver Prensa</a>
+            <a href="/novedades/" class="prensa-card__cta">Ver Novedades</a>
           </div>
         </div>
       `).join('');

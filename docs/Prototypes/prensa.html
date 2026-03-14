@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prensa - Cecilia Gortari | Diputada Provincial</title>
+    
+    <!-- Tipografía Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS para prototipado rápido y fiel a la marca -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración de Paleta de Colores de la Marca -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            magenta: '#9F57A7',
+                            azul: '#1C5CFF',
+                            naranja: '#FBA85F',
+                            turquesa: '#24BCDE',
+                            rosa: '#E4BFE8',
+                            institucional: '#11103B',
+                            grisOscuro: '#4E4E54',
+                            grisClaro: '#ECECF3',
+                            fondoClaro: '#F7F7FD',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(17, 16, 59, 0.03)',
+                        'hover': '0 12px 30px -5px rgba(28, 92, 255, 0.12)',
+                        'editorial': '0 20px 40px -10px rgba(17, 16, 59, 0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Íconos Lineales (Lucide Icons) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Ajustes específicos de marca */
+        body {
+            background-color: #FFFFFF;
+            color: #4E4E54;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            color: #11103B;
+        }
+
+        /* Efectos visuales institucionales */
+        .glass-pill {
+            background: rgba(159, 87, 167, 0.08);
+            border: 1px solid rgba(159, 87, 167, 0.2);
+            color: #9F57A7;
+        }
+
+        .editorial-line {
+            position: relative;
+        }
+        .editorial-line::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            bottom: 10px;
+            width: 4px;
+            background: linear-gradient(to bottom, #1C5CFF, #9F57A7);
+            border-radius: 4px;
+        }
+
+        /* Galería: Efecto Hover Estética Collage B/N */
+        .gallery-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            background-color: #F7F7FD;
+        }
+        .gallery-img-wrapper img {
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gallery-item:hover .gallery-img-wrapper img {
+            transform: scale(1.05);
+            filter: grayscale(100%) contrast(115%);
+        }
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(17, 16, 59, 0.4) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Utilidad para toast notifications */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #11103B;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: visibility 0.4s, opacity 0.4s ease;
+            opacity: 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Lightbox Custom Scrollbar nula */
+        #lightbox {
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="antialiased font-sans flex flex-col min-h-screen">
+
+    <!-- HEADER / NAVEGACIÓN -->
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-40 shadow-sm border-b border-brand-grisClaro">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="flex items-center gap-2 group">
+                        <div class="w-10 h-10 rounded-full bg-brand-institucional text-white flex items-center justify-center font-bold text-xl group-hover:bg-brand-azul transition-colors">
+                            CG
+                        </div>
+                        <div class="leading-none">
+                            <span class="font-bold text-xl tracking-tight text-brand-institucional">Cecilia<span class="text-brand-magenta">Gortari</span></span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Menú Desktop -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-4 items-center">
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-brand-grisOscuro hover:text-brand-azul transition-colors">Inicio</a>
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-brand-grisOscuro hover:text-brand-azul transition-colors">Novedades</a>
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-brand-grisOscuro hover:text-brand-azul transition-colors">Proyectos</a>
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-brand-grisOscuro hover:text-brand-azul transition-colors">Biografía</a>
+                    <!-- Item Activo: Prensa -->
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-bold text-brand-azul relative" aria-current="page">
+                        Prensa
+                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-brand-azul rounded-t-md"></span>
+                    </a>
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-brand-grisOscuro hover:text-brand-azul transition-colors">Contacto</a>
+                    <a href="#" class="ml-2 px-4 py-2.5 rounded-full text-sm font-semibold bg-brand-fondoClaro text-brand-magenta hover:bg-brand-magenta hover:text-white transition-all border border-brand-magenta/10">Escuela de Emprendedores</a>
+                </nav>
+
+                <!-- Menú Mobile Botón -->
+                <div class="flex items-center md:hidden">
+                    <button type="button" class="text-brand-institucional hover:text-brand-azul" aria-controls="mobile-menu" aria-expanded="false">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        
+        <!-- 1) HERO / CABECERA DE PRENSA -->
+        <section class="relative bg-brand-fondoClaro pt-28 pb-24 overflow-hidden border-b border-brand-grisClaro/60">
+            <!-- Formas decorativas sutiles (Aire e Identidad) -->
+            <div class="absolute top-0 right-1/4 w-[600px] h-[600px] bg-brand-magenta/5 rounded-full blur-3xl -translate-y-1/2 pointer-events-none"></div>
+            <div class="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-brand-azul/5 rounded-full blur-3xl translate-y-1/3 pointer-events-none"></div>
+            
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <span class="inline-flex items-center justify-center px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase glass-pill mb-8">
+                    Sala de prensa
+                </span>
+                <h1 class="text-6xl md:text-7xl lg:text-8xl font-extrabold text-brand-institucional tracking-tight mb-8">
+                    Prensa
+                </h1>
+                <p class="text-xl md:text-2xl text-brand-grisOscuro font-light max-w-2xl mx-auto leading-relaxed">
+                    Información institucional y recursos oficiales para medios de comunicación.
+                </p>
+            </div>
+        </section>
+
+        <!-- 2) BIOGRAFÍA SINTETIZADA -->
+        <section id="biografia" class="py-24 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-institucional mb-3">Biografía sintetizada</h2>
+                    <p class="text-brand-grisOscuro text-lg">Textos institucionales redactados para su uso en medios.</p>
+                </div>
+
+                <div class="bg-white p-8 md:p-14 rounded-3xl shadow-editorial border border-brand-grisClaro/40 relative">
+                    <!-- Detalle visual editorial -->
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-4">
+                        <div class="w-12 h-1 bg-gradient-to-r from-brand-azul to-brand-magenta rounded-full"></div>
+                    </div>
+
+                    <div class="prose prose-lg md:prose-xl max-w-none text-brand-grisOscuro leading-loose space-y-6 editorial-line pl-6 md:pl-10" id="texto-biografia">
+                        <p><strong class="text-brand-institucional">Cecilia Gortari</strong> es Diputada Provincial de Corrientes, con una trayectoria política y social caracterizada por su fuerte compromiso con el desarrollo territorial, la educación y el fomento a los sectores productivos de la provincia. Su labor se centra en generar herramientas concretas que mejoren la calidad de vida de los correntinos, articulando el esfuerzo entre el sector público, el privado y las organizaciones de la sociedad civil.</p>
+                        
+                        <p>Como pilar fundamental de su gestión en el territorio, fundó y lidera la <strong class="text-brand-institucional">"Escuela de Emprendedores"</strong>, un espacio formativo integral diseñado para impulsar la economía local. A través de esta iniciativa, cientos de familias, jóvenes y pequeños productores reciben capacitación técnica, asesoramiento y acompañamiento continuo, brindándoles las herramientas necesarias para formalizar y escalar sus proyectos económicos de manera sostenible.</p>
+                        
+                        <p>En el ámbito de la Honorable Cámara de Diputados, su trabajo legislativo refleja estas mismas prioridades. Integra comisiones estratégicas y es autora de iniciativas orientadas a la modernización del sistema educativo, la reducción de barreras burocráticas para las pymes y la promoción de un desarrollo productivo que respete y potencie las economías regionales.</p>
+                        
+                        <p>Reconocida por su perfil de cercanía y escucha activa, Gortari mantiene una presencia constante en los diferentes municipios y parajes de la provincia. Su visión de gestión sostiene que el verdadero progreso de Corrientes se construye fortaleciendo desde las bases el empleo genuino, la innovación y la igualdad de oportunidades en cada rincón del territorio.</p>
+                    </div>
+                    
+                    <div class="mt-12 pt-10 border-t border-brand-grisClaro/50 flex flex-wrap items-center justify-center md:justify-end gap-4">
+                        <button onclick="copiarTexto('texto-biografia')" class="flex items-center gap-2 px-7 py-3.5 bg-brand-institucional text-white rounded-full font-semibold hover:bg-brand-azul transition-all shadow-md hover:shadow-hover group">
+                            <i data-lucide="copy" class="w-4 h-4 group-hover:scale-110 transition-transform"></i> Copiar texto
+                        </button>
+                        <button onclick="descargarArchivo('Biografia_CeciliaGortari.pdf')" class="flex items-center gap-2 px-6 py-3.5 bg-white border border-brand-grisClaro text-brand-institucional rounded-full font-semibold hover:text-brand-azul hover:border-brand-azul transition-all">
+                            <i data-lucide="download" class="w-4 h-4"></i> Descargar PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3) GALERÍA DE IMÁGENES -->
+        <section id="galeria" class="py-24 bg-brand-fondoClaro border-t border-brand-grisClaro/40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-16 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-institucional mb-3">Galería de imágenes</h2>
+                    <p class="text-brand-grisOscuro text-lg">Fotografías para uso en medios.</p>
+                </div>
+
+                <!-- Grilla de Galería preparada para producción -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="gallery-grid">
+                    
+                    <!-- Imagen 01 -->
+                    <div class="gallery-item group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-grisClaro hover:shadow-hover transition-all duration-300" data-index="0">
+                        <div class="gallery-img-wrapper aspect-w-4 aspect-h-3 cursor-pointer" onclick="openLightbox(0)">
+                            <!-- Fallback inteligente: Llama al archivo local, si falla, carga un placeholder con el nombre exacto -->
+                            <img src="Imagenes/prensa-01-recinto-sentada-horizontal.jpg" 
+                                 onerror="this.onerror=null; this.src=generarPlaceholder('prensa-01-recinto-sentada-horizontal.jpg');" 
+                                 alt="Actividad legislativa (Recinto)" class="w-full h-full object-cover">
+                            <div class="gallery-overlay"></div>
+                            <!-- Botón 'Ver' superpuesto -->
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="bg-white/90 backdrop-blur text-brand-institucional rounded-full px-4 py-2 text-sm font-semibold shadow-lg flex items-center gap-2">
+                                    <i data-lucide="maximize-2" class="w-4 h-4"></i> Ver en grande
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-grow flex flex-col justify-between bg-white z-10">
+                            <div>
+                                <span class="text-[10px] font-bold text-brand-grisOscuro uppercase tracking-widest mb-1.5 block">Horizontal</span>
+                                <h3 class="font-bold text-brand-institucional text-base leading-tight mb-4">Actividad legislativa (Recinto)</h3>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openLightbox(0)" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-fondoClaro text-brand-institucional rounded-xl font-medium hover:bg-brand-grisClaro transition-colors text-sm border border-transparent">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Ver
+                                </button>
+                                <button onclick="descargarArchivo('prensa-01-recinto-sentada-horizontal.jpg')" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-institucional text-white rounded-xl font-medium hover:bg-brand-azul transition-colors text-sm shadow-sm">
+                                    <i data-lucide="download" class="w-4 h-4"></i> Bajar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Imagen 02 -->
+                    <div class="gallery-item group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-grisClaro hover:shadow-hover transition-all duration-300" data-index="1">
+                        <div class="gallery-img-wrapper aspect-w-3 aspect-h-4 cursor-pointer" onclick="openLightbox(1)">
+                            <img src="Imagenes/prensa-02-institucional-medio-plano-vertical.jpg" 
+                                 onerror="this.onerror=null; this.src=generarPlaceholder('prensa-02-institucional-medio-plano-vertical.jpg');" 
+                                 alt="Retrato institucional" class="w-full h-full object-cover object-top h-60">
+                            <div class="gallery-overlay"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="bg-white/90 backdrop-blur text-brand-institucional rounded-full px-4 py-2 text-sm font-semibold shadow-lg flex items-center gap-2">
+                                    <i data-lucide="maximize-2" class="w-4 h-4"></i> Ver en grande
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-grow flex flex-col justify-between bg-white z-10">
+                            <div>
+                                <span class="text-[10px] font-bold text-brand-magenta uppercase tracking-widest mb-1.5 block">Vertical</span>
+                                <h3 class="font-bold text-brand-institucional text-base leading-tight mb-4">Retrato institucional</h3>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openLightbox(1)" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-fondoClaro text-brand-institucional rounded-xl font-medium hover:bg-brand-grisClaro transition-colors text-sm border border-transparent">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Ver
+                                </button>
+                                <button onclick="descargarArchivo('prensa-02-institucional-medio-plano-vertical.jpg')" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-institucional text-white rounded-xl font-medium hover:bg-brand-azul transition-colors text-sm shadow-sm">
+                                    <i data-lucide="download" class="w-4 h-4"></i> Bajar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Imagen 03 -->
+                    <div class="gallery-item group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-grisClaro hover:shadow-hover transition-all duration-300" data-index="2">
+                        <div class="gallery-img-wrapper aspect-w-3 aspect-h-4 cursor-pointer" onclick="openLightbox(2)">
+                            <img src="Imagenes/prensa-03-saco-magenta-sonriendo-vertical.jpg" 
+                                 onerror="this.onerror=null; this.src=generarPlaceholder('prensa-03-saco-magenta-sonriendo-vertical.jpg');" 
+                                 alt="Saco Magenta" class="w-full h-full object-cover h-60">
+                            <div class="gallery-overlay"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="bg-white/90 backdrop-blur text-brand-institucional rounded-full px-4 py-2 text-sm font-semibold shadow-lg flex items-center gap-2">
+                                    <i data-lucide="maximize-2" class="w-4 h-4"></i> Ver en grande
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-grow flex flex-col justify-between bg-white z-10">
+                            <div>
+                                <span class="text-[10px] font-bold text-brand-magenta uppercase tracking-widest mb-1.5 block">Vertical</span>
+                                <h3 class="font-bold text-brand-institucional text-base leading-tight mb-4">Retrato (Saco Magenta)</h3>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openLightbox(2)" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-fondoClaro text-brand-institucional rounded-xl font-medium hover:bg-brand-grisClaro transition-colors text-sm border border-transparent">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Ver
+                                </button>
+                                <button onclick="descargarArchivo('prensa-03-saco-magenta-sonriendo-vertical.jpg')" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-institucional text-white rounded-xl font-medium hover:bg-brand-azul transition-colors text-sm shadow-sm">
+                                    <i data-lucide="download" class="w-4 h-4"></i> Bajar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Imagen 04 -->
+                    <div class="gallery-item group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-grisClaro hover:shadow-hover transition-all duration-300" data-index="3">
+                        <div class="gallery-img-wrapper aspect-w-4 aspect-h-3 cursor-pointer" onclick="openLightbox(3)">
+                            <img src="Imagenes/prensa-04-puerta-casa-horizontal.jpg" 
+                                 onerror="this.onerror=null; this.src=generarPlaceholder('prensa-04-puerta-casa-horizontal.jpg');" 
+                                 alt="Puerta casa" class="w-full h-full object-cover">
+                            <div class="gallery-overlay"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="bg-white/90 backdrop-blur text-brand-institucional rounded-full px-4 py-2 text-sm font-semibold shadow-lg flex items-center gap-2">
+                                    <i data-lucide="maximize-2" class="w-4 h-4"></i> Ver en grande
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-grow flex flex-col justify-between bg-white z-10">
+                            <div>
+                                <span class="text-[10px] font-bold text-brand-grisOscuro uppercase tracking-widest mb-1.5 block">Horizontal</span>
+                                <h3 class="font-bold text-brand-institucional text-base leading-tight mb-4">Puerta de casa</h3>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openLightbox(3)" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-fondoClaro text-brand-institucional rounded-xl font-medium hover:bg-brand-grisClaro transition-colors text-sm border border-transparent">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Ver
+                                </button>
+                                <button onclick="descargarArchivo('prensa-04-puerta-casa-horizontal.jpg')" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-institucional text-white rounded-xl font-medium hover:bg-brand-azul transition-colors text-sm shadow-sm">
+                                    <i data-lucide="download" class="w-4 h-4"></i> Bajar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Imagen 05 -->
+                    <div class="gallery-item group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-grisClaro hover:shadow-hover transition-all duration-300" data-index="4">
+                        <div class="gallery-img-wrapper aspect-w-4 aspect-h-3 cursor-pointer" onclick="openLightbox(4)">
+                            <img src="Imagenes/prensa-05-territorio-caminando-horizontal.jpg" 
+                                 onerror="this.onerror=null; this.src=generarPlaceholder('prensa-05-territorio-caminando-horizontal.jpg');" 
+                                 alt="Territorio" class="w-full h-full object-cover">
+                            <div class="gallery-overlay"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="bg-white/90 backdrop-blur text-brand-institucional rounded-full px-4 py-2 text-sm font-semibold shadow-lg flex items-center gap-2">
+                                    <i data-lucide="maximize-2" class="w-4 h-4"></i> Ver en grande
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-grow flex flex-col justify-between bg-white z-10">
+                            <div>
+                                <span class="text-[10px] font-bold text-brand-grisOscuro uppercase tracking-widest mb-1.5 block">Horizontal</span>
+                                <h3 class="font-bold text-brand-institucional text-base leading-tight mb-4">Recorrida en territorio</h3>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openLightbox(4)" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-fondoClaro text-brand-institucional rounded-xl font-medium hover:bg-brand-grisClaro transition-colors text-sm border border-transparent">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Ver
+                                </button>
+                                <button onclick="descargarArchivo('prensa-05-territorio-caminando-horizontal.jpg')" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-institucional text-white rounded-xl font-medium hover:bg-brand-azul transition-colors text-sm shadow-sm">
+                                    <i data-lucide="download" class="w-4 h-4"></i> Bajar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Imagen 06 -->
+                    <div class="gallery-item group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-grisClaro hover:shadow-hover transition-all duration-300" data-index="5">
+                        <div class="gallery-img-wrapper aspect-w-3 aspect-h-4 cursor-pointer" onclick="openLightbox(5)">
+                            <img src="Imagenes/prensa-06-recinto-oradora-vertical.jpg" 
+                                 onerror="this.onerror=null; this.src=generarPlaceholder('prensa-06-recinto-oradora-vertical.jpg');" 
+                                 alt="Recinto oradora" class="w-full h-full object-cover h-60">
+                            <div class="gallery-overlay"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="bg-white/90 backdrop-blur text-brand-institucional rounded-full px-4 py-2 text-sm font-semibold shadow-lg flex items-center gap-2">
+                                    <i data-lucide="maximize-2" class="w-4 h-4"></i> Ver en grande
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-grow flex flex-col justify-between bg-white z-10">
+                            <div>
+                                <span class="text-[10px] font-bold text-brand-magenta uppercase tracking-widest mb-1.5 block">Vertical</span>
+                                <h3 class="font-bold text-brand-institucional text-base leading-tight mb-4">Intervención en cámara</h3>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openLightbox(5)" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-fondoClaro text-brand-institucional rounded-xl font-medium hover:bg-brand-grisClaro transition-colors text-sm border border-transparent">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Ver
+                                </button>
+                                <button onclick="descargarArchivo('prensa-06-recinto-oradora-vertical.jpg')" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-institucional text-white rounded-xl font-medium hover:bg-brand-azul transition-colors text-sm shadow-sm">
+                                    <i data-lucide="download" class="w-4 h-4"></i> Bajar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Imagen 07 -->
+                    <div class="gallery-item group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-grisClaro hover:shadow-hover transition-all duration-300" data-index="6">
+                        <div class="gallery-img-wrapper aspect-w-4 aspect-h-3 cursor-pointer" onclick="openLightbox(6)">
+                            <img src="Imagenes/prensa-07-escuela-emprendedores-horizontal.jpg" 
+                                 onerror="this.onerror=null; this.src=generarPlaceholder('prensa-07-escuela-emprendedores-horizontal.jpg');" 
+                                 alt="Escuela emprendedores" class="w-full h-full object-cover">
+                            <div class="gallery-overlay"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <div class="bg-white/90 backdrop-blur text-brand-institucional rounded-full px-4 py-2 text-sm font-semibold shadow-lg flex items-center gap-2">
+                                    <i data-lucide="maximize-2" class="w-4 h-4"></i> Ver en grande
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 flex-grow flex flex-col justify-between bg-white z-10">
+                            <div>
+                                <span class="text-[10px] font-bold text-brand-grisOscuro uppercase tracking-widest mb-1.5 block">Horizontal</span>
+                                <h3 class="font-bold text-brand-institucional text-base leading-tight mb-4">Escuela de Emprendedores</h3>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openLightbox(6)" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-fondoClaro text-brand-institucional rounded-xl font-medium hover:bg-brand-grisClaro transition-colors text-sm border border-transparent">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Ver
+                                </button>
+                                <button onclick="descargarArchivo('prensa-07-escuela-emprendedores-horizontal.jpg')" class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-institucional text-white rounded-xl font-medium hover:bg-brand-azul transition-colors text-sm shadow-sm">
+                                    <i data-lucide="download" class="w-4 h-4"></i> Bajar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Espacio preparado para futuras imágenes extra -->
+                    <div class="gallery-item group flex flex-col bg-transparent rounded-2xl border-2 border-dashed border-brand-grisClaro items-center justify-center min-h-[300px]" style="display:none;" id="placeholder-extra">
+                        <!-- Este div está oculto, pero sirve como base para copiar y pegar cuando sumen prensa-08-extra-01.jpg -->
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 4) IDENTIDAD VISUAL / LOGOS -->
+        <section id="logos" class="py-24 bg-white border-t border-brand-grisClaro/40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-16 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-institucional mb-3">Identidad visual</h2>
+                    <p class="text-brand-grisOscuro text-lg">Logotipos oficiales en formatos editables y con transparencia.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                    
+                    <!-- Logo 1: Color Fondo Claro (Cecilia Negro + Gortari Magenta) -->
+                    <div class="bg-white border border-brand-grisClaro rounded-2xl p-6 flex flex-col hover:shadow-hover transition-all">
+                        <div class="h-32 bg-white rounded-xl flex flex-col items-center justify-center mb-6 border border-brand-grisClaro/50">
+                            <div class="font-bold text-2xl tracking-tight leading-none"><span class="text-black">Cecilia</span><span class="text-brand-magenta">Gortari</span></div>
+                            <div class="text-[9px] tracking-[0.2em] uppercase text-brand-grisOscuro mt-2 font-medium">Diputada provincial</div>
+                        </div>
+                        <h4 class="font-semibold text-brand-institucional text-sm mb-5 text-center">Color (Fondos claros)</h4>
+                        <div class="flex flex-col gap-2 text-sm mt-auto">
+                            <button onclick="descargarArchivo('Logo_Color_Claro.png')" class="w-full bg-brand-fondoClaro hover:bg-brand-azul hover:text-white transition-colors px-4 py-2.5 rounded-lg font-medium text-brand-institucional flex justify-center items-center gap-2 border border-brand-grisClaro/50">PNG <i data-lucide="download" class="w-3.5 h-3.5"></i></button>
+                            <button onclick="descargarArchivo('Logo_Color_Claro.svg')" class="w-full bg-brand-fondoClaro hover:bg-brand-azul hover:text-white transition-colors px-4 py-2.5 rounded-lg font-medium text-brand-institucional flex justify-center items-center gap-2 border border-brand-grisClaro/50">SVG <i data-lucide="download" class="w-3.5 h-3.5"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Logo 2: Color Fondo Oscuro (Atractivo: Cecilia Blanco + Gortari Magenta vibrante) -->
+                    <div class="bg-white border border-brand-grisClaro rounded-2xl p-6 flex flex-col hover:shadow-hover transition-all">
+                        <div class="h-32 bg-[#0A0927] rounded-xl flex flex-col items-center justify-center mb-6">
+                            <div class="font-bold text-2xl tracking-tight leading-none"><span class="text-white">Cecilia</span><span class="text-[#E4BFE8]">Gortari</span></div>
+                            <div class="text-[9px] tracking-[0.2em] uppercase text-[#E4BFE8]/80 mt-2 font-medium">Diputada provincial</div>
+                        </div>
+                        <h4 class="font-semibold text-brand-institucional text-sm mb-5 text-center">Color (Fondos oscuros)</h4>
+                        <div class="flex flex-col gap-2 text-sm mt-auto">
+                            <button onclick="descargarArchivo('Logo_Color_Oscuro.png')" class="w-full bg-brand-fondoClaro hover:bg-brand-azul hover:text-white transition-colors px-4 py-2.5 rounded-lg font-medium text-brand-institucional flex justify-center items-center gap-2 border border-brand-grisClaro/50">PNG <i data-lucide="download" class="w-3.5 h-3.5"></i></button>
+                            <button onclick="descargarArchivo('Logo_Color_Oscuro.svg')" class="w-full bg-brand-fondoClaro hover:bg-brand-azul hover:text-white transition-colors px-4 py-2.5 rounded-lg font-medium text-brand-institucional flex justify-center items-center gap-2 border border-brand-grisClaro/50">SVG <i data-lucide="download" class="w-3.5 h-3.5"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Logo 3: Monocromo Negro -->
+                    <div class="bg-white border border-brand-grisClaro rounded-2xl p-6 flex flex-col hover:shadow-hover transition-all">
+                        <div class="h-32 bg-brand-grisClaro/30 rounded-xl flex flex-col items-center justify-center mb-6">
+                            <div class="font-bold text-2xl tracking-tight text-black leading-none">CeciliaGortari</div>
+                            <div class="text-[9px] tracking-[0.2em] uppercase text-black mt-2 font-medium">Diputada provincial</div>
+                        </div>
+                        <h4 class="font-semibold text-brand-institucional text-sm mb-5 text-center">Monocromo Negro</h4>
+                        <div class="flex flex-col gap-2 text-sm mt-auto">
+                            <button onclick="descargarArchivo('Logo_Negro.png')" class="w-full bg-brand-fondoClaro hover:bg-brand-azul hover:text-white transition-colors px-4 py-2.5 rounded-lg font-medium text-brand-institucional flex justify-center items-center gap-2 border border-brand-grisClaro/50">PNG <i data-lucide="download" class="w-3.5 h-3.5"></i></button>
+                            <button onclick="descargarArchivo('Logo_Negro.svg')" class="w-full bg-brand-fondoClaro hover:bg-brand-azul hover:text-white transition-colors px-4 py-2.5 rounded-lg font-medium text-brand-institucional flex justify-center items-center gap-2 border border-brand-grisClaro/50">SVG <i data-lucide="download" class="w-3.5 h-3.5"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Logo 4: Monocromo Blanco -->
+                    <div class="bg-white border border-brand-grisClaro rounded-2xl p-6 flex flex-col hover:shadow-hover transition-all">
+                        <div class="h-32 bg-black rounded-xl flex flex-col items-center justify-center mb-6 shadow-inner">
+                            <div class="font-bold text-2xl tracking-tight text-white leading-none">CeciliaGortari</div>
+                            <div class="text-[9px] tracking-[0.2em] uppercase text-white/90 mt-2 font-medium">Diputada provincial</div>
+                        </div>
+                        <h4 class="font-semibold text-brand-institucional text-sm mb-5 text-center">Monocromo Blanco</h4>
+                        <div class="flex flex-col gap-2 text-sm mt-auto">
+                            <button onclick="descargarArchivo('Logo_Blanco.png')" class="w-full bg-brand-fondoClaro hover:bg-brand-azul hover:text-white transition-colors px-4 py-2.5 rounded-lg font-medium text-brand-institucional flex justify-center items-center gap-2 border border-brand-grisClaro/50">PNG <i data-lucide="download" class="w-3.5 h-3.5"></i></button>
+                            <button onclick="descargarArchivo('Logo_Blanco.svg')" class="w-full bg-brand-fondoClaro hover:bg-brand-azul hover:text-white transition-colors px-4 py-2.5 rounded-lg font-medium text-brand-institucional flex justify-center items-center gap-2 border border-brand-grisClaro/50">SVG <i data-lucide="download" class="w-3.5 h-3.5"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Logo 5: Archivo de Marca Extra (Ceciliagortarilogo.png) -->
+                    <div class="bg-brand-fondoClaro border border-brand-azul/20 rounded-2xl p-6 flex flex-col hover:shadow-hover transition-all relative overflow-hidden">
+                        <!-- Destello decorativo -->
+                        <div class="absolute top-0 right-0 w-20 h-20 bg-brand-azul/10 rounded-full blur-xl"></div>
+                        
+                        <div class="h-32 bg-brand-institucional rounded-xl flex flex-col items-center justify-center mb-6 border border-brand-institucional relative z-10">
+                            <div class="font-bold text-xl tracking-tight text-white leading-none text-center">Ceciliagortari<br>logo.png</div>
+                        </div>
+                        <h4 class="font-semibold text-brand-institucional text-sm mb-2 text-center relative z-10">Recurso Especial</h4>
+                        <p class="text-[11px] text-brand-grisOscuro text-center mb-5 relative z-10 leading-tight">Archivo nativo original (Blanco)</p>
+                        
+                        <div class="flex flex-col gap-2 text-sm mt-auto relative z-10">
+                            <button onclick="descargarArchivo('Ceciliagortarilogo.png')" class="w-full bg-brand-azul text-white hover:bg-brand-institucional transition-colors px-4 py-3 rounded-lg font-bold flex justify-center items-center gap-2 shadow-sm">
+                                Descargar PNG <i data-lucide="download" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 5) BLOQUE FINAL DE CONTACTO -->
+        <section class="py-28 bg-brand-fondoClaro border-t border-brand-grisClaro/40 relative overflow-hidden">
+            <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-brand-institucional mb-5">Si necesitás material específico o coordinar una entrevista</h2>
+                <p class="text-brand-grisOscuro mb-12 text-lg">Nuestro equipo de prensa está a disposición para facilitarte la información requerida de manera ágil.</p>
+                
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-5">
+                    <a href="#" class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-8 py-4 rounded-full text-white font-bold shadow-md hover:shadow-hover transition-all bg-[#25D366] hover:bg-[#128C7E] text-lg">
+                        <i data-lucide="message-circle" class="w-6 h-6"></i>
+                        Contactar por WhatsApp
+                    </a>
+                    <a href="mailto:mariagortari@hcdcorrientes.gov.ar" class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-8 py-4 rounded-full text-brand-institucional bg-white border border-brand-grisClaro font-semibold hover:border-brand-azul hover:text-brand-azul transition-all text-base shadow-sm hover:shadow-md">
+                        <i data-lucide="mail" class="w-5 h-5"></i>
+                        Enviar correo
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER INSTITUCIONAL -->
+    <footer class="bg-brand-institucional text-brand-grisClaro py-12 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="font-bold text-2xl tracking-tight text-white mb-4">Cecilia<span class="text-brand-magenta">Gortari</span></div>
+                    <p class="text-sm text-brand-grisClaro/70 max-w-sm mb-6">
+                        Diputada Provincial. Trabajando por el desarrollo productivo, la educación y el futuro de Corrientes.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-brand-grisClaro/70 hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="#" class="text-brand-grisClaro/70 hover:text-white transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                        <a href="#" class="text-brand-grisClaro/70 hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Enlaces Rápidos</h4>
+                    <ul class="space-y-2 text-sm text-brand-grisClaro/70">
+                        <li><a href="#" class="hover:text-white transition-colors">Inicio</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Novedades</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Proyectos Legislativos</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Escuela de Emprendedores</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-wider">Contacto</h4>
+                    <ul class="space-y-2 text-sm text-brand-grisClaro/70">
+                        <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-brand-turquesa"></i> Corrientes, Argentina</li>
+                        <li class="flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-brand-turquesa"></i> info@ceciliagortari.com.ar</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-white/10 text-xs text-center text-brand-grisClaro/50 flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2024 Cecilia Gortari. Todos los derechos reservados.</p>
+                <div class="mt-2 md:mt-0 space-x-4">
+                    <a href="#" class="hover:text-white transition-colors font-medium">Sala de Prensa</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-[#11103B]/95 hidden flex-col items-center justify-center transition-opacity duration-300 opacity-0">
+        
+        <!-- Header Lightbox -->
+        <div class="absolute top-0 left-0 w-full p-6 flex justify-between items-center text-white z-10">
+            <div class="text-sm font-semibold tracking-widest uppercase opacity-70" id="lb-counter">1 / 7</div>
+            <button onclick="closeLightbox()" class="text-white hover:text-brand-magenta transition-colors bg-white/10 hover:bg-white/20 rounded-full p-2 backdrop-blur">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Contenedor Principal Imagen -->
+        <div class="relative w-full max-w-6xl mx-auto px-4 sm:px-12 h-[75vh] flex items-center justify-center">
+            
+            <!-- Botón Anterior -->
+            <button onclick="changeImage(-1)" class="absolute left-4 sm:left-0 top-1/2 -translate-y-1/2 text-white/50 hover:text-white bg-black/20 hover:bg-black/50 p-3 rounded-full backdrop-blur transition-all">
+                <i data-lucide="chevron-left" class="w-8 h-8"></i>
+            </button>
+
+            <!-- Imagen -->
+            <img id="lb-img" src="" alt="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl transition-transform duration-300">
+
+            <!-- Botón Siguiente -->
+            <button onclick="changeImage(1)" class="absolute right-4 sm:right-0 top-1/2 -translate-y-1/2 text-white/50 hover:text-white bg-black/20 hover:bg-black/50 p-3 rounded-full backdrop-blur transition-all">
+                <i data-lucide="chevron-right" class="w-8 h-8"></i>
+            </button>
+        </div>
+
+        <!-- Footer Lightbox (Info y Descarga) -->
+        <div class="absolute bottom-0 left-0 w-full p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-center gap-4 bg-gradient-to-t from-black/80 to-transparent">
+            <div class="text-center sm:text-left">
+                <h3 id="lb-title" class="text-white text-xl font-bold mb-1">Título de la imagen</h3>
+                <p id="lb-filename" class="text-brand-grisClaro/70 text-sm font-mono">archivo.jpg</p>
+            </div>
+            <button id="lb-download-btn" onclick="" class="flex items-center gap-2 px-6 py-3 bg-white text-brand-institucional hover:bg-brand-azul hover:text-white rounded-full font-bold transition-colors shadow-lg">
+                <i data-lucide="download" class="w-5 h-5"></i> Descargar Imagen
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast">Acción completada</div>
+
+    <!-- Scripts para interactividad -->
+    <script>
+        // Inicializar iconos de Lucide
+        lucide.createIcons();
+
+        // --------------------------------------------------------
+        // FALLBACK GENERATOR PARA PROTOTIPO
+        // Genera un SVG en base64 limpio con el nombre del archivo
+        // --------------------------------------------------------
+        function generarPlaceholder(filename) {
+            const svg = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+                    <rect width="800" height="600" fill="#F7F7FD"/>
+                    <rect width="760" height="560" x="20" y="20" fill="none" stroke="#ECECF3" stroke-width="2" stroke-dasharray="10 10" rx="12"/>
+                    <circle cx="400" cy="270" r="40" fill="#ECECF3"/>
+                    <path d="M385 270l30-20v40z" fill="#9F57A7" opacity="0.5"/> <!-- Decoración icono -->
+                    <text x="50%" y="340" font-family="'Outfit', sans-serif" font-weight="600" font-size="20" fill="#11103B" text-anchor="middle">Vista previa no disponible</text>
+                    <text x="50%" y="370" font-family="monospace" font-size="14" fill="#4E4E54" text-anchor="middle">${filename}</text>
+                </svg>
+            `;
+            return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+        }
+
+        // --------------------------------------------------------
+        // LOGICA DE TEXTO Y DESCARGAS (MOCKS)
+        // --------------------------------------------------------
+        function copiarTexto(elementId) {
+            const el = document.getElementById(elementId);
+            let texto;
+            if(el) {
+                 texto = Array.from(el.querySelectorAll('p'))
+                              .map(p => p.innerText)
+                              .join('\n\n');
+            }
+
+            if(texto) {
+                navigator.clipboard.writeText(texto).then(function() {
+                    mostrarToast("Texto copiado exitosamente");
+                }, function(err) {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = texto;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        mostrarToast("Texto copiado exitosamente");
+                    } catch (err) {
+                        mostrarToast("Error al copiar");
+                    }
+                    document.body.removeChild(textArea);
+                });
+            }
+        }
+
+        function descargarArchivo(nombre) {
+            mostrarToast("Iniciando descarga: " + nombre);
+            // En producción, esto sería un <a> con atributo download
+        }
+
+        function mostrarToast(mensaje) {
+            const toast = document.getElementById("toast");
+            toast.innerText = mensaje;
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // --------------------------------------------------------
+        // LOGICA DEL LIGHTBOX (GALERÍA)
+        // --------------------------------------------------------
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        let currentImageIndex = 0;
+        const lightbox = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lb-img');
+        const lbTitle = document.getElementById('lb-title');
+        const lbFilename = document.getElementById('lb-filename');
+        const lbCounter = document.getElementById('lb-counter');
+        const lbDownloadBtn = document.getElementById('lb-download-btn');
+
+        // Extraer datos de la estructura HTML
+        const imagesData = Array.from(galleryItems)
+            .filter(item => item.querySelector('img')) // Ignorar elementos sin etiqueta <img> (como el placeholder)
+            .map(item => {
+            const imgEl = item.querySelector('img');
+            const titleEl = item.querySelector('h3');
+            
+            // Si la ruta original falla y carga el placeholder, nos aseguramos de guardar la ruta real intencionada
+            const src = imgEl.getAttribute('src'); 
+            const filename = src.split('/').pop();
+            const fallbackSrc = generarPlaceholder(filename);
+
+            return {
+                src: src,
+                fallback: fallbackSrc,
+                title: titleEl ? titleEl.innerText : 'Imagen',
+                filename: filename
+            };
+        });
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            updateLightboxContent();
+            
+            lightbox.classList.remove('hidden');
+            // Timeout pequeño para permitir transición de opacidad
+            setTimeout(() => {
+                lightbox.classList.remove('opacity-0');
+                lightbox.classList.add('opacity-100');
+                document.body.style.overflow = 'hidden'; // Bloquear scroll de fondo
+            }, 10);
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('opacity-100');
+            lightbox.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                document.body.style.overflow = ''; // Restaurar scroll
+            }, 300); // Igual a duration-300
+        }
+
+        function changeImage(step) {
+            currentImageIndex += step;
+            
+            // Loop infinito
+            if (currentImageIndex < 0) {
+                currentImageIndex = imagesData.length - 1;
+            } else if (currentImageIndex >= imagesData.length) {
+                currentImageIndex = 0;
+            }
+            
+            // Efecto sutil de cambio
+            lbImg.style.transform = 'scale(0.95)';
+            lbImg.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                updateLightboxContent();
+                lbImg.style.transform = 'scale(1)';
+                lbImg.style.opacity = '1';
+            }, 150);
+        }
+
+        function updateLightboxContent() {
+            const data = imagesData[currentImageIndex];
+            
+            // Configurar fallback en el lightbox por si la imagen local no existe
+            lbImg.onerror = function() {
+                this.onerror = null;
+                this.src = data.fallback;
+            };
+            
+            lbImg.src = data.src;
+            lbImg.alt = data.title;
+            lbTitle.innerText = data.title;
+            lbFilename.innerText = data.filename;
+            lbCounter.innerText = `${currentImageIndex + 1} / ${imagesData.length}`;
+            
+            // Actualizar evento de descarga
+            lbDownloadBtn.setAttribute('onclick', `descargarArchivo('${data.filename}')`);
+        }
+
+        // Navegación por teclado para el Lightbox
+        document.addEventListener('keydown', function(event) {
+            if (!lightbox.classList.contains('hidden')) {
+                if (event.key === 'Escape') {
+                    closeLightbox();
+                } else if (event.key === 'ArrowRight') {
+                    changeImage(1);
+                } else if (event.key === 'ArrowLeft') {
+                    changeImage(-1);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

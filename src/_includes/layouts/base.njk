@@ -58,7 +58,9 @@
                             turquoise: '#24BCDE',
                             orange: '#FBA85F',
                             dark: '#2C2C31',
-                            light: '#F7F7FD'
+                            light: '#F7F7FD',
+                            institucional: '#11103B',
+                            rosa: '#E4BFE8'
                         }
                     }
                 }
@@ -81,6 +83,9 @@
     {% endif %}
 
     <!-- Extra Head Content -->
+    {% if extraCSS %}
+    <link rel="stylesheet" href="{{ extraCSS }}">
+    {% endif %}
     {% block head %}{% endblock %}
 </head>
 
@@ -90,8 +95,10 @@
 
     {{ content | safe }}
 
+    {% include "partials/footer.njk" %}
+
     {% block scripts %}
-    <script src="/assets/js/site.js?v=202503061200"></script>
+    <script src="/assets/js/site.js?v=202603141200"></script>
     {% endblock %}
 </body>
 
