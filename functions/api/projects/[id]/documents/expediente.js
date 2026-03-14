@@ -23,6 +23,11 @@ function getExtension(name) {
   return dot > -1 ? name.substring(dot).toLowerCase() : "";
 }
 
+function isMigrationError(err) {
+  const msg = (err.message || "").toLowerCase();
+  return msg.includes("check constraint") && msg.includes("kind");
+}
+
 export async function onRequestPost(context) {
   const db = context.env.DB;
   const bucket = context.env.PROJECTS_BUCKET;
@@ -82,15 +87,32 @@ export async function onRequestPost(context) {
       customMetadata: { originalName: file.name },
     });
 
-    // Insert in D1
+    // Insert in D1 — if this fails, rollback the R2 upload
     const docId = generateId();
-    await db
-      .prepare(
-        `INSERT INTO project_documents (id, project_id, kind, original_name, stored_key, mime_type, size_bytes, created_at, updated_at)
-         VALUES (?, ?, 'expediente', ?, ?, 'application/pdf', ?, ?, ?)`
-      )
-      .bind(docId, projectId, file.name, storedKey, file.size, now, now)
-      .run();
+    try {
+      await db
+        .prepare(
+          `INSERT INTO project_documents (id, project_id, kind, original_name, stored_key, mime_type, size_bytes, created_at, updated_at)
+           VALUES (?, ?, 'expediente', ?, ?, 'application/pdf', ?, ?, ?)`
+        )
+        .bind(docId, projectId, file.name, storedKey, file.size, now, now)
+        .run();
+    } catch (dbErr) {
+      // Rollback: delete the orphaned R2 object
+      await bucket.delete(storedKey).catch(() => {});
+
+      if (isMigrationError(dbErr)) {
+        return new Response(
+          JSON.stringify({
+            ok: false,
+            code: "MIGRATION_MISSING",
+            error: "La base de datos no soporta expedientes todavía. Hay que aplicar la migración 0008_expediente_support.sql en producción.",
+          }),
+          { status: 409, headers: HEADERS }
+        );
+      }
+      throw dbErr;
+    }
 
     return new Response(
       JSON.stringify({

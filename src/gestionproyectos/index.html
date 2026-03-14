@@ -5907,13 +5907,22 @@ permalink: gestionproyectos/index.html
                     body: formData,
                 });
                 const data = await res.json();
-                if (!data.ok && res.status >= 400) throw new Error(data.error || 'Error al subir expediente');
+
+                if (!data.ok && res.status >= 400) {
+                    if (data.code === 'MIGRATION_MISSING') {
+                        alert('La base de datos de producción todavía no soporta expedientes.\n\nHay que aplicar la migración 0008_expediente_support.sql.\n\nContactá al administrador del sistema.');
+                    } else {
+                        alert('Error al subir expediente: ' + (data.error || 'Error desconocido'));
+                    }
+                    input.value = '';
+                    return;
+                }
 
                 // Refresh documents modal and project list
                 await openDocumentsModal(projectId);
                 await refreshProjectDocCounts(projectId);
             } catch (e) {
-                alert('Error: ' + e.message);
+                alert('Error de conexión al subir expediente. Intentá nuevamente.');
             }
             input.value = '';
         }
