@@ -722,19 +722,39 @@
     box-shadow: 0 12px 30px rgba(18, 140, 126, 0.3);
 }
 
-.prensa-cta__btn--email {
-    background: #fff;
-    color: #11103B;
-    border: 1px solid #ECECF3;
-    font-weight: 600;
-    font-size: 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+/* Contact chip: email visible como dato elegante */
+.prensa-cta__contact-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin-top: 2rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(236, 236, 243, 0.8);
+    border-radius: 9999px;
+    color: #4E4E54;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
-.prensa-cta__btn--email:hover {
-    border-color: #1C5CFF;
+.prensa-cta__contact-chip svg {
+    color: #9F57A7;
+    flex-shrink: 0;
+}
+
+.prensa-cta__contact-chip:hover {
+    background: #fff;
+    color: #11103B;
+    border-color: #9F57A7;
+    box-shadow: 0 4px 16px rgba(159, 87, 167, 0.1);
+}
+
+.prensa-cta__contact-chip:hover svg {
     color: #1C5CFF;
-    box-shadow: 0 8px 20px rgba(28, 92, 255, 0.1);
 }
 
 /* --------------------------------
