@@ -1,0 +1,123 @@
+/* admin/custom.css */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+
+:root {
+  --brand-magenta: #9F57A7;
+  --brand-blue: #1C5CFF;
+  --brand-dark: #2C2C31;
+  --bg-light: #f7f7fd;
+  --text-main: #374151;
+  --border-color: #e5e7eb;
+}
+
+/* Global improvements */
+body {
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif !important;
+  background-color: var(--bg-light);
+}
+
+/* CMS Container overrides */
+div[class*="AppContainer"] {
+  background-color: var(--bg-light);
+}
+
+/* Header/Nav bar */
+div[class*="AppHeader"] {
+  background: white !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Collection List Improvements */
+.cms-list-entry {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  margin-bottom: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cms-list-entry:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(28, 92, 255, 0.1);
+  border-color: var(--brand-blue);
+}
+
+/* Buttons */
+button, 
+a[class*="Button"],
+button[class*="Button"] {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease;
+}
+
+/* Primary Actions (Publish/Save) */
+button[class*="Control"][class*="Button-primary"],
+button[class*="AppHeaderButton-primary"] {
+  background: linear-gradient(135deg, var(--brand-magenta), var(--brand-blue)) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 0 24px !important;
+  height: 40px !important;
+}
+
+button[class*="Control"][class*="Button-primary"]:hover,
+button[class*="AppHeaderButton-primary"]:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(159, 87, 167, 0.3);
+}
+
+/* Editor Logic overrides */
+div[class*="EditorContainer"] {
+  max-width: 1200px !important;
+  margin: 0 auto;
+}
+
+div[class*="ControlPaneContainer"] {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  border: 1px solid var(--border-color);
+  padding: 32px !important;
+  margin-top: 24px;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="date"],
+textarea,
+select {
+  border-radius: 8px !important;
+  border: 1px solid #d1d5db !important;
+  padding: 10px 14px !important;
+  background-color: #f9fafb !important;
+  transition: all 0.2s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--brand-blue) !important;
+  background-color: white !important;
+  box-shadow: 0 0 0 3px rgba(28, 92, 255, 0.1) !important;
+  outline: none;
+}
+
+/* Markdown Editor */
+div[class*="MarkdownEditor"] {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #d1d5db;
+}
+
+/* Labels */
+label {
+  font-weight: 600 !important;
+  color: var(--brand-dark) !important;
+  margin-bottom: 8px !important;
+  font-size: 0.95rem !important;
+}
