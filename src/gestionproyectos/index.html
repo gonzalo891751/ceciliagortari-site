@@ -2081,11 +2081,15 @@ permalink: gestionproyectos/index.html
         .pendiente-item-prio.alta { color: var(--magenta); }
         .pendiente-item-prio.media { color: var(--blue); }
         .pendiente-item-prio.baja { color: var(--text-muted); }
+        .pendiente-item-desc {
+            font-size: 0.78rem; color: var(--text-muted); line-height: 1.35;
+            margin-bottom: 0.35rem;
+            display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+            overflow: hidden; text-overflow: ellipsis;
+        }
         .pendiente-item-actions {
             display: flex; gap: 0.25rem; margin-top: 0.5rem;
-            opacity: 0; transition: opacity 0.15s;
         }
-        .pendiente-item:hover .pendiente-item-actions { opacity: 1; }
         .pendiente-action-btn {
             font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.5rem;
             border-radius: var(--radius-md); border: none; cursor: pointer;
@@ -2117,11 +2121,13 @@ permalink: gestionproyectos/index.html
         }
         .cal-day {
             min-height: 100px;
+            max-height: 120px;
             padding: 0.35rem;
             border-bottom: 1px solid var(--border-light);
             border-right: 1px solid var(--border-light);
             transition: background 0.15s;
             cursor: pointer;
+            overflow: hidden;
         }
         .cal-day:nth-child(7n) { border-right: none; }
         .cal-day:hover { background: #FAFAFF; }
@@ -2252,6 +2258,56 @@ permalink: gestionproyectos/index.html
             font-size: 0.65rem; color: var(--text-muted);
         }
         .recurrence-badge i { font-size: 0.75rem; }
+
+        /* Agenda preview modal */
+        .ag-preview-row {
+            display: flex; align-items: flex-start; gap: 0.6rem;
+            padding: 0.55rem 0; border-bottom: 1px solid var(--border-light);
+        }
+        .ag-preview-row:last-child { border-bottom: none; }
+        .ag-preview-row-icon {
+            width: 20px; flex-shrink: 0; text-align: center;
+            color: var(--text-muted); font-size: 0.9rem; padding-top: 0.1rem;
+        }
+        .ag-preview-row-label {
+            font-size: 0.72rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.1rem;
+        }
+        .ag-preview-row-value { font-size: 0.88rem; color: var(--text-main); line-height: 1.4; }
+        .ag-preview-title {
+            font-size: 1.15rem; font-weight: 700; color: var(--text-main);
+            margin-bottom: 0.75rem; line-height: 1.3;
+        }
+        .ag-preview-badge {
+            display: inline-flex; align-items: center; gap: 0.25rem;
+            font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.55rem;
+            border-radius: var(--radius-full);
+        }
+        .ag-preview-prio-alta { background: #FEE2E2; color: #B91C1C; }
+        .ag-preview-prio-media { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+        .ag-preview-prio-baja { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
+
+        /* Advanced section accordion */
+        .ag-advanced-toggle {
+            display: flex; align-items: center; gap: 0.35rem;
+            font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+            cursor: pointer; padding: 0.5rem 0; margin-bottom: 0.25rem;
+            user-select: none; transition: color 0.15s;
+        }
+        .ag-advanced-toggle:hover { color: var(--blue); }
+        .ag-advanced-caret { font-size: 0.75rem; transition: transform 0.2s; }
+        .ag-advanced-section {
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+        }
+        .ag-advanced-section.open { max-height: 600px; }
+        .ag-advanced-section.open ~ .ag-advanced-toggle .ag-advanced-caret,
+        .ag-advanced-toggle:has(+ .ag-advanced-section.open) .ag-advanced-caret {
+            transform: rotate(90deg);
+        }
+        .ag-checkbox-label {
+            display: flex; align-items: center; gap: 0.4rem;
+            font-size: 0.85rem; color: var(--text-muted); cursor: pointer;
+        }
 
         /* Agenda responsive */
         @media (max-width: 1024px) {
@@ -3076,74 +3132,69 @@ permalink: gestionproyectos/index.html
         </div><!-- /.app-main -->
     </div><!-- /#app-container -->
 
-    <!-- MODAL AGENDA EVENT -->
-    <div class="modal-overlay" id="agenda-modal">
-        <div class="modal-content" style="max-width:640px;">
+    <!-- MODAL AGENDA: VISTA PREVIA -->
+    <div class="modal-overlay" id="agenda-preview-modal">
+        <div class="modal-content" style="max-width:480px;">
             <div class="modal-header">
-                <h3 id="agenda-modal-title">Nuevo Evento de Agenda</h3>
+                <h3>Detalle del evento</h3>
+                <button class="close-btn" onclick="closeModal('agenda-preview-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="agenda-preview-body" style="padding:1.25rem;">
+                <!-- JS rendered -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger btn-sm" id="ag-preview-btn-delete" onclick="agendaDeleteFromPreview()" style="display:none;">Eliminar</button>
+                <div style="flex-grow:1;"></div>
+                <div class="footer-right">
+                    <button class="btn btn-outline" onclick="closeModal('agenda-preview-modal')">Cerrar</button>
+                    <button class="btn btn-primary" id="ag-preview-btn-edit" onclick="agendaEditFromPreview()"><i class="ph ph-pencil-simple" style="margin-right:0.3rem;"></i> Editar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL AGENDA: CREAR / EDITAR -->
+    <div class="modal-overlay" id="agenda-modal">
+        <div class="modal-content" style="max-width:560px;">
+            <div class="modal-header">
+                <h3 id="agenda-modal-title">Nuevo evento</h3>
                 <button class="close-btn" onclick="closeModal('agenda-modal')">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="agenda-form" onsubmit="event.preventDefault();">
                     <input type="hidden" id="ag-id">
-                    <div class="input-group full-width" style="margin-bottom:1rem;">
+
+                    <!-- Título -->
+                    <div class="input-group full-width" style="margin-bottom:0.85rem;">
                         <label for="ag-title">Título *</label>
-                        <input type="text" id="ag-title" class="input-control" placeholder="Ej: Reunión por dislexia..." required>
+                        <input type="text" id="ag-title" class="input-control" placeholder="Ej: Reunión con industriales..." required>
                     </div>
 
-                    <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;cursor:pointer;">
+                    <!-- Resumen rápido -->
+                    <div class="input-group" style="margin-bottom:0.85rem;">
+                        <label for="ag-description">Resumen rápido</label>
+                        <input type="text" id="ag-description" class="input-control" placeholder="Breve descripción (opcional)">
+                    </div>
+
+                    <!-- Pendiente sin fecha -->
+                    <label class="ag-checkbox-label" style="margin-bottom:0.75rem;">
                         <input type="checkbox" id="ag-sin-fecha" onchange="agendaToggleDateFields()"> Dejar pendiente (sin fecha definida)
                     </label>
 
-                    <div id="ag-date-fields" class="form-grid" style="margin-bottom:1rem;">
+                    <!-- Fecha + Hora (una sola) -->
+                    <div id="ag-date-fields" class="form-grid" style="margin-bottom:0.85rem;">
                         <div class="input-group">
                             <label for="ag-date">Fecha</label>
                             <input type="date" id="ag-date" class="input-control">
                         </div>
                         <div class="input-group">
-                            <label for="ag-start">Hora inicio</label>
+                            <label for="ag-start">Hora</label>
                             <input type="time" id="ag-start" class="input-control">
                         </div>
-                        <div class="input-group">
-                            <label for="ag-end">Hora fin</label>
-                            <input type="time" id="ag-end" class="input-control">
-                        </div>
-                        <div class="input-group">
-                            <label>&nbsp;</label>
-                            <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;color:var(--text-muted);cursor:pointer;margin-top:0.35rem;">
-                                <input type="checkbox" id="ag-allday"> Todo el día
-                            </label>
-                        </div>
                     </div>
 
-                    <div class="form-grid" style="margin-bottom:1rem;">
-                        <div class="input-group">
-                            <label for="ag-category">Categoría</label>
-                            <select id="ag-category" class="input-control">
-                                <option value="Reunión externa">Reunión externa</option>
-                                <option value="Reunión interna">Reunión interna</option>
-                                <option value="Comisión">Comisión</option>
-                                <option value="Sesión">Sesión</option>
-                                <option value="Presentación">Presentación</option>
-                                <option value="Investigación">Investigación</option>
-                                <option value="Territorio">Territorio</option>
-                                <option value="Seguimiento">Seguimiento</option>
-                                <option value="Pendiente por coordinar">Pendiente por coordinar</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="ag-status">Estado</label>
-                            <select id="ag-status" class="input-control">
-                                <option value="Pendiente">Pendiente</option>
-                                <option value="Confirmado">Confirmado</option>
-                                <option value="Reprogramar">Reprogramar</option>
-                                <option value="Realizado">Realizado</option>
-                                <option value="Suspendido">Suspendido</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-grid" style="margin-bottom:1rem;">
+                    <!-- Prioridad + Proyecto -->
+                    <div class="form-grid" style="margin-bottom:0.85rem;">
                         <div class="input-group">
                             <label for="ag-priority">Prioridad</label>
                             <select id="ag-priority" class="input-control">
@@ -3153,63 +3204,96 @@ permalink: gestionproyectos/index.html
                             </select>
                         </div>
                         <div class="input-group">
-                            <label for="ag-responsible">Responsable</label>
-                            <input type="text" id="ag-responsible" class="input-control" placeholder="Opcional">
-                        </div>
-                    </div>
-
-                    <div class="form-grid" style="margin-bottom:1rem;">
-                        <div class="input-group">
-                            <label for="ag-location-mode">Modalidad</label>
-                            <select id="ag-location-mode" class="input-control">
-                                <option value="">Sin definir</option>
-                                <option value="presencial">Presencial</option>
-                                <option value="virtual">Virtual (Zoom/Meet)</option>
-                                <option value="mixto">Mixto</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="ag-location-text">Lugar / Link</label>
-                            <input type="text" id="ag-location-text" class="input-control" placeholder="Cámara, Zoom, dirección...">
-                        </div>
-                    </div>
-
-                    <div class="form-grid" style="margin-bottom:1rem;">
-                        <div class="input-group">
                             <label for="ag-project">Proyecto relacionado</label>
                             <select id="ag-project" class="input-control">
                                 <option value="">Ninguno</option>
-                                <!-- JS populated -->
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="ag-recurrence">Recurrencia</label>
-                            <select id="ag-recurrence" class="input-control">
-                                <option value="">Sin recurrencia</option>
-                                <option value="weekly">Semanal</option>
-                                <option value="biweekly">Quincenal</option>
-                                <option value="monthly">Mensual</option>
                             </select>
                         </div>
                     </div>
 
-                    <div id="ag-recurrence-detail" style="display:none;margin-bottom:1rem;">
-                        <div class="form-grid">
+                    <!-- Recurrencia simple -->
+                    <div class="input-group" style="margin-bottom:0.85rem;">
+                        <label for="ag-recurrence">Recurrencia</label>
+                        <select id="ag-recurrence" class="input-control">
+                            <option value="">Sin recurrencia</option>
+                            <option value="weekly">Semanal</option>
+                            <option value="biweekly">Quincenal</option>
+                            <option value="monthly">Mensual</option>
+                        </select>
+                    </div>
+                    <div id="ag-recurrence-detail" style="display:none;margin-bottom:0.85rem;">
+                        <div class="input-group">
+                            <label for="ag-rec-until">Repetir hasta</label>
+                            <input type="date" id="ag-rec-until" class="input-control">
+                        </div>
+                    </div>
+
+                    <!-- Opciones avanzadas (colapsable) -->
+                    <div class="ag-advanced-toggle" onclick="document.getElementById('ag-advanced-section').classList.toggle('open')">
+                        <i class="ph ph-caret-right ag-advanced-caret"></i> Opciones avanzadas
+                    </div>
+                    <div id="ag-advanced-section" class="ag-advanced-section">
+                        <div class="form-grid" style="margin-bottom:0.85rem;">
                             <div class="input-group">
-                                <label for="ag-rec-until">Repetir hasta</label>
-                                <input type="date" id="ag-rec-until" class="input-control">
+                                <label for="ag-category">Categoría</label>
+                                <select id="ag-category" class="input-control">
+                                    <option value="Reunión externa">Reunión externa</option>
+                                    <option value="Reunión interna">Reunión interna</option>
+                                    <option value="Comisión">Comisión</option>
+                                    <option value="Sesión">Sesión</option>
+                                    <option value="Presentación">Presentación</option>
+                                    <option value="Investigación">Investigación</option>
+                                    <option value="Territorio">Territorio</option>
+                                    <option value="Seguimiento">Seguimiento</option>
+                                    <option value="Pendiente por coordinar">Pendiente por coordinar</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="ag-status">Estado</label>
+                                <select id="ag-status" class="input-control">
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="Confirmado">Confirmado</option>
+                                    <option value="Reprogramar">Reprogramar</option>
+                                    <option value="Realizado">Realizado</option>
+                                    <option value="Suspendido">Suspendido</option>
+                                </select>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="input-group" style="margin-bottom:1rem;">
-                        <label for="ag-description">Descripción</label>
-                        <textarea id="ag-description" class="input-control" rows="2" placeholder="Detalles, temas a tratar..." style="resize:vertical;"></textarea>
-                    </div>
-
-                    <div class="input-group" style="margin-bottom:0;">
-                        <label for="ag-notes">Notas internas</label>
-                        <textarea id="ag-notes" class="input-control" rows="2" placeholder="Links de Zoom, indicaciones..." style="resize:vertical;"></textarea>
+                        <div class="form-grid" style="margin-bottom:0.85rem;">
+                            <div class="input-group">
+                                <label for="ag-end">Hora fin</label>
+                                <input type="time" id="ag-end" class="input-control">
+                            </div>
+                            <div class="input-group">
+                                <label for="ag-responsible">Responsable</label>
+                                <input type="text" id="ag-responsible" class="input-control" placeholder="Opcional">
+                            </div>
+                        </div>
+                        <div class="form-grid" style="margin-bottom:0.85rem;">
+                            <div class="input-group">
+                                <label for="ag-location-mode">Modalidad</label>
+                                <select id="ag-location-mode" class="input-control">
+                                    <option value="">Sin definir</option>
+                                    <option value="presencial">Presencial</option>
+                                    <option value="virtual">Virtual (Zoom/Meet)</option>
+                                    <option value="mixto">Mixto</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="ag-location-text">Lugar / Link</label>
+                                <input type="text" id="ag-location-text" class="input-control" placeholder="Cámara, Zoom, dirección...">
+                            </div>
+                        </div>
+                        <div class="input-group" style="margin-bottom:0.85rem;">
+                            <label>&nbsp;</label>
+                            <label class="ag-checkbox-label">
+                                <input type="checkbox" id="ag-allday"> Todo el día
+                            </label>
+                        </div>
+                        <div class="input-group" style="margin-bottom:0;">
+                            <label for="ag-notes">Notas internas</label>
+                            <textarea id="ag-notes" class="input-control" rows="2" placeholder="Links de Zoom, indicaciones..." style="resize:vertical;"></textarea>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -8266,7 +8350,7 @@ permalink: gestionproyectos/index.html
                 const time = e.start_time ? e.start_time.slice(0,5) + ' ' : '';
                 const recIcon = e._recurrence_instance ? '<i class="ph ph-arrow-clockwise" style="font-size:0.6rem;margin-right:2px;"></i>' : '';
                 const realId = e._original_id || e.id;
-                return `<div class="cal-event-pill ${cls}" onclick="event.stopPropagation();openAgendaModal('${realId}')" title="${agendaEsc(e.title)}">${recIcon}${time}${agendaEsc(e.title)}</div>`;
+                return `<div class="cal-event-pill ${cls}" onclick="event.stopPropagation();openAgendaPreview('${realId}')" title="${agendaEsc(e.title)}">${recIcon}${time}${agendaEsc(e.title)}</div>`;
             }).join('');
             if (extra > 0) {
                 eventsHtml += `<div style="font-size:0.65rem;color:var(--text-muted);padding-left:0.35rem;">+${extra} más</div>`;
@@ -8333,7 +8417,7 @@ permalink: gestionproyectos/index.html
                         const cls = agendaCatClass(e.category);
                         const time = e.start_time ? e.start_time.slice(0,5) : '';
                         const realId = e._original_id || e.id;
-                        return `<div class="cal-week-event ${cls}" onclick="event.stopPropagation();openAgendaModal('${realId}')" title="${agendaEsc(e.title)}">${time} ${agendaEsc(e.title)}</div>`;
+                        return `<div class="cal-week-event ${cls}" onclick="event.stopPropagation();openAgendaPreview('${realId}')" title="${agendaEsc(e.title)}">${time} ${agendaEsc(e.title)}</div>`;
                     }).join('');
 
                     html += `<div class="cal-week-cell ${isToday ? 'today-col' : ''}" onclick="agendaClickDay('${dStr}')">${cellContent}</div>`;
@@ -8378,7 +8462,7 @@ permalink: gestionproyectos/index.html
                 const realId = ev._original_id || ev.id;
                 const recBadge = ev._recurrence_instance ? '<span class="recurrence-badge"><i class="ph ph-arrow-clockwise"></i></span>' : '';
 
-                html += `<div class="cal-list-item" onclick="openAgendaModal('${realId}')">
+                html += `<div class="cal-list-item" onclick="openAgendaPreview('${realId}')">
                     <div class="cal-list-time">${time}</div>
                     <div class="cal-list-info">
                         <div class="cal-list-title">${agendaEsc(ev.title)} ${recBadge}</div>
@@ -8410,15 +8494,17 @@ permalink: gestionproyectos/index.html
             container.innerHTML = agendaPendientes.map(p => {
                 const prioClass = p.priority === 'Alta' ? 'alta' : (p.priority === 'Baja' ? 'baja' : 'media');
                 const prioIcon = p.priority === 'Alta' ? 'ph-warning-circle' : (p.priority === 'Baja' ? 'ph-minus-circle' : 'ph-info');
-                return `<div class="pendiente-item" onclick="openAgendaModal('${p.id}')">
+                const descHtml = p.description ? `<div class="pendiente-item-desc">${agendaEsc(p.description)}</div>` : '';
+                return `<div class="pendiente-item" onclick="openAgendaPreview('${p.id}')">
                     <div class="pendiente-item-title">${agendaEsc(p.title)}</div>
+                    ${descHtml}
                     <div class="pendiente-item-meta">
                         <span class="pendiente-item-cat">${p.category}</span>
                         <i class="ph ${prioIcon} pendiente-item-prio ${prioClass}" title="Prioridad ${p.priority}"></i>
                     </div>
                     <div class="pendiente-item-actions">
-                        <button class="pendiente-action-btn agendar" onclick="event.stopPropagation();agendaConvertPendiente('${p.id}')">Agendar</button>
-                        <button class="pendiente-action-btn done" onclick="event.stopPropagation();agendaMarkDone('${p.id}')">Realizado</button>
+                        <button class="pendiente-action-btn agendar" onclick="event.stopPropagation();agendaConvertPendiente('${p.id}')"><i class="ph ph-calendar-plus" style="font-size:0.75rem;margin-right:2px;"></i> Agendar</button>
+                        <button class="pendiente-action-btn done" onclick="event.stopPropagation();agendaMarkDone('${p.id}')"><i class="ph ph-check" style="font-size:0.75rem;margin-right:2px;"></i> Realizado</button>
                     </div>
                 </div>`;
             }).join('');
@@ -8452,6 +8538,102 @@ permalink: gestionproyectos/index.html
             agendaLoadEvents();
         }
 
+        // ---- PREVIEW MODAL ----
+        let agendaPreviewId = null;
+
+        function openAgendaPreview(id) {
+            const ev = [...agendaEvents, ...agendaPendientes].find(e => e.id === id);
+            if (!ev) return;
+            agendaPreviewId = id;
+
+            const body = document.getElementById('agenda-preview-body');
+            const deleteBtn = document.getElementById('ag-preview-btn-delete');
+            if (deleteBtn) deleteBtn.style.display = 'inline-flex';
+
+            let html = `<div class="ag-preview-title">${agendaEsc(ev.title)}</div>`;
+
+            // Date & time
+            if (ev.event_date) {
+                const d = new Date(ev.event_date + 'T12:00:00');
+                const dateStr = d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+                const timeStr = ev.start_time ? ev.start_time.slice(0, 5) + (ev.end_time ? ' - ' + ev.end_time.slice(0, 5) : '') : 'Sin hora definida';
+                html += `<div class="ag-preview-row">
+                    <div class="ag-preview-row-icon"><i class="ph ph-calendar"></i></div>
+                    <div><div class="ag-preview-row-label">Fecha</div><div class="ag-preview-row-value">${dateStr}</div></div>
+                </div>`;
+                html += `<div class="ag-preview-row">
+                    <div class="ag-preview-row-icon"><i class="ph ph-clock"></i></div>
+                    <div><div class="ag-preview-row-label">Hora</div><div class="ag-preview-row-value">${timeStr}</div></div>
+                </div>`;
+            } else {
+                html += `<div class="ag-preview-row">
+                    <div class="ag-preview-row-icon"><i class="ph ph-push-pin"></i></div>
+                    <div><div class="ag-preview-row-value" style="color:var(--text-muted);font-style:italic;">Pendiente — sin fecha definida</div></div>
+                </div>`;
+            }
+
+            // Description
+            if (ev.description) {
+                html += `<div class="ag-preview-row">
+                    <div class="ag-preview-row-icon"><i class="ph ph-text-align-left"></i></div>
+                    <div><div class="ag-preview-row-label">Resumen</div><div class="ag-preview-row-value">${agendaEsc(ev.description)}</div></div>
+                </div>`;
+            }
+
+            // Priority
+            if (ev.priority) {
+                const prioClass = ev.priority === 'Alta' ? 'ag-preview-prio-alta' : (ev.priority === 'Baja' ? 'ag-preview-prio-baja' : 'ag-preview-prio-media');
+                html += `<div class="ag-preview-row">
+                    <div class="ag-preview-row-icon"><i class="ph ph-flag"></i></div>
+                    <div><div class="ag-preview-row-label">Prioridad</div><div class="ag-preview-row-value"><span class="ag-preview-badge ${prioClass}">${ev.priority}</span></div></div>
+                </div>`;
+            }
+
+            // Related project
+            if (ev.related_project_id && typeof projects !== 'undefined') {
+                const proj = projects.find(p => p.id === ev.related_project_id);
+                if (proj) {
+                    html += `<div class="ag-preview-row">
+                        <div class="ag-preview-row-icon"><i class="ph ph-folder"></i></div>
+                        <div><div class="ag-preview-row-label">Proyecto</div><div class="ag-preview-row-value">${agendaEsc(proj.titulo)}</div></div>
+                    </div>`;
+                }
+            }
+
+            // Recurrence
+            if (ev.recurrence_rule && ev.recurrence_rule.freq) {
+                const freqLabel = { weekly: 'Semanal', biweekly: 'Quincenal', monthly: 'Mensual' }[ev.recurrence_rule.freq] || ev.recurrence_rule.freq;
+                html += `<div class="ag-preview-row">
+                    <div class="ag-preview-row-icon"><i class="ph ph-arrow-clockwise"></i></div>
+                    <div><div class="ag-preview-row-label">Recurrencia</div><div class="ag-preview-row-value">${freqLabel}</div></div>
+                </div>`;
+            }
+
+            // Status (only if set and not default)
+            if (ev.status && ev.status !== 'Pendiente') {
+                html += `<div class="ag-preview-row">
+                    <div class="ag-preview-row-icon"><i class="ph ph-check-circle"></i></div>
+                    <div><div class="ag-preview-row-label">Estado</div><div class="ag-preview-row-value">${ev.status}</div></div>
+                </div>`;
+            }
+
+            body.innerHTML = html;
+            document.getElementById('agenda-preview-modal').classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function agendaEditFromPreview() {
+            closeModal('agenda-preview-modal');
+            if (agendaPreviewId) openAgendaModal(agendaPreviewId);
+        }
+
+        function agendaDeleteFromPreview() {
+            if (!agendaPreviewId) return;
+            agendaEditingId = agendaPreviewId;
+            closeModal('agenda-preview-modal');
+            agendaDelete();
+        }
+
         // ---- MODAL ----
         function openAgendaModal(id = null, isPendiente = false, prefillDate = null) {
             const form = document.getElementById('agenda-form');
@@ -8459,14 +8641,18 @@ permalink: gestionproyectos/index.html
             agendaEditingId = null;
 
             document.getElementById('ag-btn-delete').style.display = 'none';
-            document.getElementById('agenda-modal-title').textContent = 'Nuevo Evento de Agenda';
+            document.getElementById('agenda-modal-title').textContent = 'Nuevo evento';
             document.getElementById('ag-btn-save').textContent = 'Guardar evento';
             document.getElementById('ag-btn-save').disabled = false;
+
+            // Close advanced section by default for new events
+            const advSection = document.getElementById('ag-advanced-section');
+            if (advSection) advSection.classList.remove('open');
 
             // Populate project dropdown
             agendaPopulateProjects();
 
-            // Show recurrence detail
+            // Recurrence toggle
             document.getElementById('ag-recurrence').value = '';
             document.getElementById('ag-recurrence-detail').style.display = 'none';
             document.getElementById('ag-recurrence').onchange = function() {
@@ -8476,7 +8662,7 @@ permalink: gestionproyectos/index.html
             if (isPendiente) {
                 document.getElementById('ag-sin-fecha').checked = true;
                 agendaToggleDateFields();
-                document.getElementById('agenda-modal-title').textContent = 'Nuevo Pendiente';
+                document.getElementById('agenda-modal-title').textContent = 'Nuevo pendiente';
                 document.getElementById('ag-category').value = 'Pendiente por coordinar';
             } else {
                 document.getElementById('ag-sin-fecha').checked = false;
@@ -8491,7 +8677,7 @@ permalink: gestionproyectos/index.html
                 const ev = [...agendaEvents, ...agendaPendientes].find(e => e.id === id);
                 if (ev) {
                     agendaEditingId = id;
-                    document.getElementById('agenda-modal-title').textContent = 'Editar Evento';
+                    document.getElementById('agenda-modal-title').textContent = 'Editar evento';
                     document.getElementById('ag-btn-delete').style.display = 'inline-flex';
                     document.getElementById('ag-id').value = ev.id;
                     document.getElementById('ag-title').value = ev.title;
@@ -8523,6 +8709,9 @@ permalink: gestionproyectos/index.html
                         }
                         document.getElementById('ag-recurrence-detail').style.display = ev.recurrence_rule.freq ? 'block' : 'none';
                     }
+
+                    // Open advanced section in edit mode so all fields are accessible
+                    if (advSection) advSection.classList.add('open');
                 }
             }
 
