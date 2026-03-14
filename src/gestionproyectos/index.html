@@ -2277,6 +2277,9 @@ permalink: gestionproyectos/index.html
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
+        .proj-metrics.proj-metrics-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
         .proj-metric-card {
             background: var(--bg-surface);
             border-radius: var(--radius-lg);
@@ -2412,28 +2415,24 @@ permalink: gestionproyectos/index.html
         .proj-list-meta-item svg { width: 11px; height: 11px; flex-shrink: 0; }
         .proj-list-status {
             display: flex; flex-direction: column; align-items: flex-end;
-            gap: 0.3rem; flex-shrink: 0; min-width: 120px;
+            gap: 0.3rem; flex-shrink: 0; width: 130px;
         }
         .proj-status-badge {
             display: inline-flex; align-items: center; gap: 0.3rem;
             padding: 0.25rem 0.6rem; border-radius: var(--radius-full);
-            font-size: 0.7rem; font-weight: 600;
+            font-size: 0.7rem; font-weight: 600; white-space: nowrap;
         }
         .proj-status-pendiente { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
         .proj-status-trabajo { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
         .proj-status-presentado { background: var(--badge-green-bg); color: var(--badge-green-text); }
-        .proj-status-atrasado { background: var(--badge-red-bg); color: var(--badge-red-text); }
-        .proj-date-hint { font-size: 0.7rem; font-weight: 500; }
+        .proj-date-hint { font-size: 0.7rem; font-weight: 500; white-space: nowrap; }
         .proj-date-normal { color: var(--text-muted); }
-        .proj-date-urgent { color: var(--badge-yellow-text); font-weight: 600; }
-        .proj-date-alert { color: var(--badge-red-text); font-weight: 700; }
         .proj-date-success { color: var(--badge-green-text); font-weight: 500; }
         .proj-date-info { color: var(--blue); font-weight: 500; }
         .proj-list-actions {
             display: flex; align-items: center; gap: 0.2rem;
-            opacity: 0; transition: opacity 0.15s; flex-shrink: 0;
+            flex-shrink: 0;
         }
-        .proj-list-item:hover .proj-list-actions { opacity: 1; }
         .proj-action-btn {
             width: 30px; height: 30px; border-radius: var(--radius-md);
             border: 1px solid transparent; background: transparent; cursor: pointer;
@@ -2523,14 +2522,37 @@ permalink: gestionproyectos/index.html
         .proj-empty i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
         .proj-empty p { font-size: 0.9rem; }
 
+        /* Pagination */
+        .proj-pagination {
+            display: flex; justify-content: center; align-items: center;
+            gap: 0.25rem; padding: 1.25rem 0 0.5rem; flex-wrap: wrap;
+        }
+        .proj-page-btn {
+            min-width: 36px; height: 36px; border: 1px solid var(--border-light);
+            border-radius: var(--radius-md); background: var(--bg-surface);
+            font-family: var(--font-main); font-size: 0.85rem; font-weight: 600;
+            color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+            display: flex; align-items: center; justify-content: center; padding: 0 0.5rem;
+        }
+        .proj-page-btn:hover { background: var(--badge-gray-bg); border-color: var(--text-muted); }
+        .proj-page-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+        .proj-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .proj-page-btn:disabled:hover { background: var(--bg-surface); border-color: var(--border-light); }
+        .proj-page-ellipsis {
+            min-width: 28px; height: 36px; display: flex; align-items: center;
+            justify-content: center; font-size: 0.85rem; color: var(--text-muted);
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .proj-metrics { grid-template-columns: repeat(2, 1fr); }
+            .proj-metrics.proj-metrics-3 { grid-template-columns: repeat(3, 1fr); }
             .proj-board { flex-direction: column; }
             .proj-board-col { width: 100%; }
         }
         @media (max-width: 768px) {
             .proj-metrics { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+            .proj-metrics.proj-metrics-3 { grid-template-columns: 1fr 1fr 1fr; }
             .proj-metric-card { padding: 0.75rem; gap: 0.6rem; }
             .proj-metric-icon { width: 38px; height: 38px; font-size: 1rem; }
             .proj-metric-value { font-size: 1.35rem; }
@@ -2540,7 +2562,7 @@ permalink: gestionproyectos/index.html
             .proj-toolbar-left { overflow-x: auto; -webkit-overflow-scrolling: touch; }
             .proj-toolbar-right { flex-wrap: wrap; }
             .proj-tabs { width: 100%; min-width: max-content; }
-            .proj-tab-btn { flex: 1; text-align: center; justify-content: center; padding: 0.5rem 0.6rem; font-size: 0.75rem; }
+            .proj-tab-btn { flex: 1; text-align: center; justify-content: center; padding: 0.5rem 0.6rem; font-size: 0.72rem; }
 
             .proj-search-wrap { flex: 1; }
             .proj-search-input { width: 100%; }
@@ -2552,11 +2574,20 @@ permalink: gestionproyectos/index.html
             }
             .proj-list-id-type { width: auto; display: flex; align-items: center; gap: 0.5rem; }
             .proj-list-title { white-space: normal; -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
-            .proj-list-status { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
-            .proj-list-actions { opacity: 1; width: 100%; justify-content: flex-end; padding-top: 0.5rem; border-top: 1px solid var(--border-light); }
+            .proj-list-status { flex-direction: row; align-items: center; width: auto; justify-content: space-between; }
+            .proj-list-actions { width: 100%; justify-content: flex-end; padding-top: 0.5rem; border-top: 1px solid var(--border-light); }
 
             .proj-board { flex-direction: column; gap: 1rem; }
             .proj-board-grid { grid-template-columns: 1fr; }
+
+            .proj-pagination { padding: 1rem 0; }
+            .proj-page-btn { min-width: 32px; height: 32px; font-size: 0.8rem; }
+        }
+        @media (max-width: 480px) {
+            .proj-metrics.proj-metrics-3 { grid-template-columns: 1fr 1fr 1fr; gap: 0.4rem; }
+            .proj-metric-icon { width: 32px; height: 32px; font-size: 0.9rem; }
+            .proj-metric-value { font-size: 1.15rem; }
+            .proj-metric-label { font-size: 0.65rem; }
         }
     </style>
 </head>
@@ -2678,17 +2709,13 @@ permalink: gestionproyectos/index.html
             <!-- === VISTA PROYECTOS === -->
             <div id="projectsView" class="tab-view active">
 
-                <!-- Metrics Row -->
-                <div class="proj-metrics" id="proj-metrics">
-                    <div class="proj-metric-card" onclick="setProjTab('gestion')">
-                        <div class="proj-metric-icon blue"><i class="ph ph-briefcase"></i></div>
-                        <div><div class="proj-metric-label">En Gestión</div><div class="proj-metric-value" id="metric-gestion">0</div></div>
+                <!-- Metrics Row (3 KPI) -->
+                <div class="proj-metrics proj-metrics-3" id="proj-metrics">
+                    <div class="proj-metric-card" onclick="setProjTab('trabajo')">
+                        <div class="proj-metric-icon blue"><i class="ph ph-pencil-simple"></i></div>
+                        <div><div class="proj-metric-label">En Trabajo</div><div class="proj-metric-value" id="metric-trabajo">0</div></div>
                     </div>
-                    <div class="proj-metric-card" onclick="setProjTab('gestion')">
-                        <div class="proj-metric-icon orange"><i class="ph ph-warning-circle"></i></div>
-                        <div><div class="proj-metric-label">Requieren Atención</div><div class="proj-metric-value" id="metric-atencion">0</div></div>
-                    </div>
-                    <div class="proj-metric-card" onclick="setProjTab('gestion')">
+                    <div class="proj-metric-card" onclick="setProjTab('pendientes')">
                         <div class="proj-metric-icon gray"><i class="ph ph-clock"></i></div>
                         <div><div class="proj-metric-label">Pendientes</div><div class="proj-metric-value" id="metric-pendientes">0</div></div>
                     </div>
@@ -2702,11 +2729,14 @@ permalink: gestionproyectos/index.html
                 <div class="proj-toolbar">
                     <div class="proj-toolbar-left">
                         <div class="proj-tabs" id="proj-tabs">
-                            <button class="proj-tab-btn active" onclick="setProjTab('gestion')" id="proj-tab-gestion">
-                                <i class="ph ph-activity"></i> En Gestión <span class="proj-tab-badge" id="proj-tab-badge-gestion">0</span>
+                            <button class="proj-tab-btn active" onclick="setProjTab('trabajo')" id="proj-tab-trabajo">
+                                <i class="ph ph-pencil-simple"></i> En Trabajo <span class="proj-tab-badge" id="proj-tab-badge-trabajo">0</span>
+                            </button>
+                            <button class="proj-tab-btn" onclick="setProjTab('pendientes')" id="proj-tab-pendientes">
+                                <i class="ph ph-clock"></i> Pendientes <span class="proj-tab-badge" id="proj-tab-badge-pendientes">0</span>
                             </button>
                             <button class="proj-tab-btn" onclick="setProjTab('presentados')" id="proj-tab-presentados">
-                                <i class="ph ph-archive"></i> Presentados <span class="proj-tab-badge" id="proj-tab-badge-presentados">0</span>
+                                <i class="ph ph-check-circle"></i> Presentados <span class="proj-tab-badge" id="proj-tab-badge-presentados">0</span>
                             </button>
                             <button class="proj-tab-btn" onclick="setProjTab('todos')" id="proj-tab-todos">
                                 Todos <span class="proj-tab-badge" id="proj-tab-badge-todos">0</span>
@@ -2723,8 +2753,6 @@ permalink: gestionproyectos/index.html
                             <option value="Proyecto de Ley">Ley</option>
                             <option value="Proyecto de Resolución">Resolución</option>
                             <option value="Proyecto de Declaración">Declaración</option>
-                            <option value="Nota">Nota</option>
-                            <option value="Pedido de informe">Pedido inf.</option>
                         </select>
                         <div class="proj-toolbar-sep"></div>
                         <div class="proj-view-toggle">
@@ -2743,6 +2771,9 @@ permalink: gestionproyectos/index.html
 
                 <!-- Dynamic content area -->
                 <div id="proj-content-area"></div>
+
+                <!-- Pagination -->
+                <div class="proj-pagination" id="proj-pagination"></div>
 
             </div>
 
@@ -4177,13 +4208,15 @@ permalink: gestionproyectos/index.html
         /* =========================================
            PROYECTOS TAB / VIEW STATE
            ========================================= */
-        let projActiveTab = 'gestion'; // 'gestion' | 'presentados' | 'todos'
-        let projViewMode = 'list';     // 'list' | 'board'
+        let projActiveTab = 'trabajo'; // 'trabajo' | 'pendientes' | 'presentados' | 'todos'
+        let projViewMode = 'list';      // 'list' | 'board'
+        let projCurrentPage = 1;
+        const PROJ_PAGE_SIZE = 20;
 
         function setProjTab(tab) {
             projActiveTab = tab;
-            // Update tab button UI
-            ['gestion', 'presentados', 'todos'].forEach(t => {
+            projCurrentPage = 1; // reset page on tab change
+            ['trabajo', 'pendientes', 'presentados', 'todos'].forEach(t => {
                 const btn = document.getElementById('proj-tab-' + t);
                 if (btn) btn.classList.toggle('active', t === tab);
             });
@@ -4192,9 +4225,18 @@ permalink: gestionproyectos/index.html
 
         function setProjView(view) {
             projViewMode = view;
+            projCurrentPage = 1;
             document.getElementById('proj-view-list').classList.toggle('active', view === 'list');
             document.getElementById('proj-view-board').classList.toggle('active', view === 'board');
             renderUI();
+        }
+
+        function setProjPage(page) {
+            projCurrentPage = page;
+            renderUI();
+            // Scroll to top of content
+            const el = document.getElementById('proj-content-area');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function getTypeShortLabel(tipo) {
@@ -4218,26 +4260,17 @@ permalink: gestionproyectos/index.html
         }
 
         function getStatusBadgeInfo(p) {
-            const overdue = isOverdue(p.fecha_objetivo_presentacion, p.estado_preparacion);
-            if (overdue) return { cls: 'proj-status-atrasado', label: 'Atrasado', icon: 'ph-warning' };
-            if (p.estado_preparacion === 'En trabajo') return { cls: 'proj-status-trabajo', label: 'En Trabajo', icon: 'ph-pencil-simple' };
             if (p.estado_preparacion === 'Presentado') return { cls: 'proj-status-presentado', label: 'Presentado', icon: 'ph-check' };
+            if (p.estado_preparacion === 'En trabajo') return { cls: 'proj-status-trabajo', label: 'En Trabajo', icon: 'ph-pencil-simple' };
             return { cls: 'proj-status-pendiente', label: 'Pendiente', icon: 'ph-clock' };
         }
 
         function getDateHint(p) {
             if (p.estado_preparacion === 'Presentado') {
                 if (p.estado_tramite) return { text: p.estado_tramite, cls: 'proj-date-info' };
-                return { text: 'Presentado ' + (formatDateOnly(p.fecha_presentacion) || ''), cls: 'proj-date-success' };
-            }
-            const overdue = isOverdue(p.fecha_objetivo_presentacion, p.estado_preparacion);
-            if (overdue) {
-                const d = Math.abs(daysUntil(p.fecha_objetivo_presentacion));
-                return { text: 'Atrasado ' + d + ' día' + (d !== 1 ? 's' : ''), cls: 'proj-date-alert' };
+                return { text: formatDateOnly(p.fecha_presentacion) || '', cls: 'proj-date-success' };
             }
             if (p.fecha_objetivo_presentacion) {
-                const d = daysUntil(p.fecha_objetivo_presentacion);
-                if (d !== null && d <= 7) return { text: 'Vence en ' + d + ' día' + (d !== 1 ? 's' : ''), cls: 'proj-date-urgent' };
                 return { text: 'Obj: ' + formatDateOnly(p.fecha_objetivo_presentacion), cls: 'proj-date-normal' };
             }
             return { text: formatDateOnly(p.updated_at) ? 'Act. ' + formatDateOnly(p.updated_at) : '', cls: 'proj-date-normal' };
@@ -4250,6 +4283,25 @@ permalink: gestionproyectos/index.html
             if (hasMain) html += `<span class="doc-badge doc-badge-main" title="Documento cargado">${SVG_ICONS.fileText}</span>`;
             if (matCount > 0) html += `<span class="doc-badge doc-badge-materials" title="${matCount} material(es)">${SVG_ICONS.paperclip} ${matCount}</span>`;
             return html ? `<span class="proj-doc-badges">${html}</span>` : '';
+        }
+
+        function renderPagination(totalItems, currentPage, pageSize) {
+            const totalPages = Math.ceil(totalItems / pageSize);
+            if (totalPages <= 1) return '';
+            let html = '';
+            // Previous
+            html += `<button class="proj-page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="setProjPage(${currentPage - 1})">&#8249;</button>`;
+            // Page numbers with ellipsis
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    html += `<button class="proj-page-btn ${i === currentPage ? 'active' : ''}" onclick="setProjPage(${i})">${i}</button>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    html += `<span class="proj-page-ellipsis">…</span>`;
+                }
+            }
+            // Next
+            html += `<button class="proj-page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="setProjPage(${currentPage + 1})">&#8250;</button>`;
+            return html;
         }
 
         // Formateador robusto: Solo DD/MM/AAAA (sin hora)
@@ -4339,7 +4391,7 @@ permalink: gestionproyectos/index.html
             const filterTipoEl = document.getElementById('filter-tipo');
             const filterTipo = filterTipoEl ? filterTipoEl.value : '';
 
-            // Sort: most recently updated first
+            // Sort: most recently updated first (primary ordering)
             let sorted = [...projects].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 
             // Apply search + type filter
@@ -4352,60 +4404,66 @@ permalink: gestionproyectos/index.html
                 return matchSearch && matchTipo;
             });
 
-            // Split by status (for metrics, tabs, board)
-            const allGestion = filtered.filter(p => p.estado_preparacion !== 'Presentado');
+            // Split by state: En trabajo (has doc), Pendiente (no doc), Presentado
+            const allTrabajo = filtered.filter(p => p.estado_preparacion === 'En trabajo');
+            const allPendientes = filtered.filter(p => p.estado_preparacion === 'Pendiente');
             const allPresentados = filtered.filter(p => p.estado_preparacion === 'Presentado');
 
-            // --- Metrics (computed from ALL projects, not filtered) ---
-            const allProj = projects;
-            const metricGestion = allProj.filter(p => p.estado_preparacion !== 'Presentado').length;
-            const metricPendientes = allProj.filter(p => p.estado_preparacion === 'Pendiente').length;
-            const metricPresentados = allProj.filter(p => p.estado_preparacion === 'Presentado').length;
-            const metricAtencion = allProj.filter(p =>
-                p.estado_preparacion !== 'Presentado' && (
-                    isOverdue(p.fecha_objetivo_presentacion, p.estado_preparacion) ||
-                    isApproachingDeadline(p.fecha_objetivo_presentacion, p.estado_preparacion)
-                )
-            ).length;
+            // --- Metrics (computed from ALL projects, unfiltered) ---
+            const metricTrabajo = projects.filter(p => p.estado_preparacion === 'En trabajo').length;
+            const metricPendientes = projects.filter(p => p.estado_preparacion === 'Pendiente').length;
+            const metricPresentados = projects.filter(p => p.estado_preparacion === 'Presentado').length;
 
             const setMetric = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-            setMetric('metric-gestion', metricGestion);
-            setMetric('metric-atencion', metricAtencion);
+            setMetric('metric-trabajo', metricTrabajo);
             setMetric('metric-pendientes', metricPendientes);
             setMetric('metric-presentados', metricPresentados);
 
-            // --- Tab badges ---
-            setMetric('proj-tab-badge-gestion', allGestion.length);
+            // --- Tab badges (from filtered set) ---
+            setMetric('proj-tab-badge-trabajo', allTrabajo.length);
+            setMetric('proj-tab-badge-pendientes', allPendientes.length);
             setMetric('proj-tab-badge-presentados', allPresentados.length);
             setMetric('proj-tab-badge-todos', filtered.length);
 
             // --- Determine visible data based on active tab ---
             let visibleData;
-            if (projActiveTab === 'gestion') {
-                visibleData = allGestion;
+            if (projActiveTab === 'trabajo') {
+                visibleData = allTrabajo;
+            } else if (projActiveTab === 'pendientes') {
+                visibleData = allPendientes;
             } else if (projActiveTab === 'presentados') {
                 visibleData = allPresentados;
             } else {
                 visibleData = filtered;
             }
 
-            // Apply user sorting if set
-            visibleData = applySorting(visibleData);
-
             // --- Render content ---
             const container = document.getElementById('proj-content-area');
+            const paginationEl = document.getElementById('proj-pagination');
             if (!container) return;
 
             if (visibleData.length === 0) {
                 container.innerHTML = `<div class="proj-empty"><i class="ph ph-folder-dashed"></i><p>No se encontraron proyectos.</p></div>`;
+                if (paginationEl) paginationEl.innerHTML = '';
                 return;
             }
 
-            if (projViewMode === 'list') {
-                container.innerHTML = renderProjListView(visibleData);
-            } else {
-                container.innerHTML = renderProjBoardView(visibleData, allGestion, allPresentados);
+            // Board view: no pagination, show all
+            if (projViewMode === 'board') {
+                container.innerHTML = renderProjBoardView(visibleData, allTrabajo.concat(allPendientes), allPresentados);
+                if (paginationEl) paginationEl.innerHTML = '';
+                return;
             }
+
+            // List view: paginate
+            const totalItems = visibleData.length;
+            const totalPages = Math.ceil(totalItems / PROJ_PAGE_SIZE);
+            if (projCurrentPage > totalPages) projCurrentPage = totalPages;
+            const startIdx = (projCurrentPage - 1) * PROJ_PAGE_SIZE;
+            const pageData = visibleData.slice(startIdx, startIdx + PROJ_PAGE_SIZE);
+
+            container.innerHTML = renderProjListView(pageData);
+            if (paginationEl) paginationEl.innerHTML = renderPagination(totalItems, projCurrentPage, PROJ_PAGE_SIZE);
         }
 
         /* =========================================
@@ -4487,7 +4545,7 @@ permalink: gestionproyectos/index.html
                     <div class="proj-board">
                         <div class="proj-board-col col-active">
                             <div class="proj-board-col-header">
-                                <div class="proj-board-col-title"><span class="proj-board-col-dot"></span>En Gestión Operativa</div>
+                                <div class="proj-board-col-title"><span class="proj-board-col-dot"></span>En Trabajo / Pendientes</div>
                                 <span class="proj-board-col-count">${allGestion.length}</span>
                             </div>
                             <div class="proj-board-cards">${allGestion.length ? allGestion.map(p => renderBoardCard(p)).join('') : '<div class="proj-empty"><p>Sin proyectos activos.</p></div>'}</div>
@@ -4503,7 +4561,7 @@ permalink: gestionproyectos/index.html
                 `;
             }
 
-            // In "En Gestión" or "Presentados" tab: show as grid
+            // In specific tab (En Trabajo, Pendientes, Presentados): show as grid
             return `<div class="proj-board-grid">${visibleData.map(p => renderBoardCard(p)).join('')}</div>`;
         }
 
