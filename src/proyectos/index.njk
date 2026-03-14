@@ -139,6 +139,30 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         </div>
     </div>
 
+    <!-- Modal de Vista Previa PDF -->
+    <div id="plPreviewModal" class="pl-modal-overlay" aria-hidden="true" role="dialog" aria-label="Vista previa del documento">
+        <div class="pl-modal-content pl-preview-modal-content">
+            <div class="pl-modal-header">
+                <div class="pl-modal-header-info">
+                    <h2 id="plPreviewTitle" style="font-size:1rem;">Vista previa</h2>
+                </div>
+                <button class="pl-btn-close" aria-label="Cerrar vista previa" onclick="plClosePreview()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="pl-preview-body" id="plPreviewBody">
+                <div style="text-align:center;color:#838389;padding:3rem;font-size:0.9rem;">Cargando...</div>
+            </div>
+            <div class="pl-preview-footer">
+                <button class="pl-btn pl-btn-outline" onclick="plClosePreview()">Cerrar</button>
+                <a id="plPreviewDownloadBtn" href="#" class="pl-btn pl-btn-primary" target="_blank" rel="noopener" style="display:none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Descargar
+                </a>
+            </div>
+        </div>
+    </div>
+
 {% block scripts %}
     <script>
     (function() {
@@ -343,12 +367,19 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                     badgesHtml += '<span class="pl-badge pl-badge-aprobado">Aprobado</span>';
                 }
 
+                var hasDoc = p.has_main_doc || p.has_expediente;
+                var docLabel = p.has_expediente ? 'Descargar expediente' : 'Descargar proyecto';
                 var btnDescarga = '';
-                if (p.has_main_doc || p.has_expediente) {
+                var btnPreview = '';
+                if (hasDoc) {
                     btnDescarga =
                         '<button class="pl-btn pl-btn-outline" onclick="event.stopPropagation(); plDownloadMain(\'' + escapeHtml(p.id) + '\')">' +
                         '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
-                        'Descargar Doc.</button>';
+                        docLabel + '</button>';
+                    btnPreview =
+                        '<button class="pl-btn-preview" onclick="event.stopPropagation(); plOpenPreview(\'' + escapeHtml(p.id) + '\')" title="Vista previa">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
+                        'Ver expediente</button>';
                 }
 
                 // Authorship line
@@ -386,6 +417,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                     '</div>' +
                     '<div class="pl-card-actions">' +
                         '<button class="pl-btn pl-btn-primary" onclick="plOpenModal(\'' + escapeHtml(p.id) + '\')">Ver detalle completo</button>' +
+                        btnPreview +
                         btnDescarga +
                     '</div>';
 
@@ -556,6 +588,14 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
 
                 if (doc) {
                     var downloadUrl = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(doc.id) + '/download';
+                    var previewUrl = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(doc.id) + '/preview';
+                    var isPdf = doc.mime_type === 'application/pdf';
+                    var docKindLabel = doc.kind === 'expediente' ? 'Expediente' : 'Proyecto';
+                    var previewBtnHtml = isPdf
+                        ? '<button class="pl-btn-preview" onclick="plShowPreviewDirect(\'' + encodeURIComponent(projectId) + '\', \'' + encodeURIComponent(doc.id) + '\', \'' + escapeHtml(doc.original_name).replace(/'/g, "\\'") + '\')" title="Vista previa">' +
+                          '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
+                          'Ver ' + docKindLabel + '</button>'
+                        : '';
                     docsList.innerHTML =
                         '<div class="pl-doc-item">' +
                             '<div class="pl-doc-info">' +
@@ -570,7 +610,13 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
-                            '<a href="' + downloadUrl + '" class="pl-btn pl-btn-outline" target="_blank" rel="noopener">' + (doc.kind === 'expediente' ? 'Descargar Expediente' : 'Descargar Proyecto') + '</a>' +
+                            '<div class="pl-doc-actions">' +
+                                previewBtnHtml +
+                                '<a href="' + downloadUrl + '" class="pl-btn pl-btn-outline" target="_blank" rel="noopener">' +
+                                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+                                    'Descargar ' + docKindLabel +
+                                '</a>' +
+                            '</div>' +
                         '</div>';
                 } else {
                     docsList.innerHTML =
@@ -597,8 +643,117 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
 
         // Close on Escape
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
+            if (e.key === 'Escape' && modal.classList.contains('active') && !document.getElementById('plPreviewModal').classList.contains('active')) {
                 closeModal();
+            }
+        });
+
+        // ---- Preview ----
+        var previewModal = document.getElementById('plPreviewModal');
+
+        function showPreviewDirect(projectId, docId, originalName) {
+            var previewUrl = '/api/projects/public/' + projectId + '/documents/' + docId + '/preview';
+            var downloadUrl = '/api/projects/public/' + projectId + '/documents/' + docId + '/download';
+            var title = document.getElementById('plPreviewTitle');
+            var body = document.getElementById('plPreviewBody');
+            var dlBtn = document.getElementById('plPreviewDownloadBtn');
+
+            title.textContent = decodeURIComponent(originalName) || 'Vista previa';
+            body.innerHTML = '<iframe src="' + previewUrl + '" title="Vista previa del documento"></iframe>';
+            dlBtn.href = downloadUrl;
+            dlBtn.style.display = '';
+
+            previewModal.classList.add('active');
+            previewModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('pl-modal-open');
+        }
+        window.plShowPreviewDirect = showPreviewDirect;
+
+        function openPreview(projectId) {
+            // Fetch doc data and open preview with priority: expediente > main PDF
+            var title = document.getElementById('plPreviewTitle');
+            var body = document.getElementById('plPreviewBody');
+            var dlBtn = document.getElementById('plPreviewDownloadBtn');
+
+            title.textContent = 'Vista previa';
+            body.innerHTML = '<div style="text-align:center;color:#838389;padding:3rem;font-size:0.9rem;">Cargando...</div>';
+            dlBtn.style.display = 'none';
+
+            previewModal.classList.add('active');
+            previewModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('pl-modal-open');
+
+            fetch(API_URL + '/' + encodeURIComponent(projectId))
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    var doc = data.document;
+                    if (doc && doc.mime_type === 'application/pdf') {
+                        var previewUrl = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(doc.id) + '/preview';
+                        var downloadUrl = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(doc.id) + '/download';
+                        var kindLabel = doc.kind === 'expediente' ? 'Expediente' : 'Documento del Proyecto';
+
+                        title.textContent = kindLabel;
+                        body.innerHTML = '<iframe src="' + previewUrl + '" title="Vista previa del documento"></iframe>';
+                        dlBtn.href = downloadUrl;
+                        dlBtn.style.display = '';
+                    } else if (doc) {
+                        // Document exists but is not PDF
+                        var downloadUrl2 = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(doc.id) + '/download';
+                        title.textContent = 'Vista previa';
+                        body.innerHTML =
+                            '<div class="pl-no-preview">' +
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
+                                '<strong>No hay un PDF disponible para vista previa.</strong>' +
+                                '<p>El documento está disponible para descarga.</p>' +
+                                '<a href="' + downloadUrl2 + '" class="pl-btn pl-btn-outline" target="_blank" rel="noopener" style="margin-top:1rem;text-decoration:none;">' +
+                                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+                                    ' Descargar documento</a>' +
+                            '</div>';
+                        dlBtn.style.display = 'none';
+                    } else {
+                        title.textContent = 'Vista previa';
+                        body.innerHTML =
+                            '<div class="pl-no-preview">' +
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
+                                '<strong>No hay un PDF disponible para vista previa.</strong>' +
+                                '<p>El documento oficial aún no está disponible.</p>' +
+                            '</div>';
+                        dlBtn.style.display = 'none';
+                    }
+                })
+                .catch(function() {
+                    body.innerHTML =
+                        '<div class="pl-no-preview">' +
+                            '<strong>Error al cargar la vista previa.</strong>' +
+                            '<p>Intentá nuevamente en unos momentos.</p>' +
+                        '</div>';
+                    dlBtn.style.display = 'none';
+                });
+        }
+        window.plOpenPreview = openPreview;
+
+        function closePreview() {
+            previewModal.classList.remove('active');
+            previewModal.setAttribute('aria-hidden', 'true');
+            // Only remove modal-open if the detail modal is also closed
+            if (!modal.classList.contains('active')) {
+                document.body.classList.remove('pl-modal-open');
+            }
+            // Clear iframe to stop loading
+            document.getElementById('plPreviewBody').innerHTML = '';
+        }
+        window.plClosePreview = closePreview;
+
+        // Close preview on overlay click
+        previewModal.addEventListener('click', function(e) {
+            if (e.target === previewModal) closePreview();
+        });
+
+        // Close preview on Escape (preview takes priority over detail modal)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && previewModal.classList.contains('active')) {
+                e.stopImmediatePropagation();
+                closePreview();
             }
         });
 

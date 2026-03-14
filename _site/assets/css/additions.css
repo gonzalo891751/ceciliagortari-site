@@ -3859,6 +3859,77 @@ body.pl-modal-open {
     font-size: 0.82rem;
 }
 
+/* --- Public Preview Modal --- */
+.pl-preview-modal-content {
+    max-width: 900px;
+    width: 95vw;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+}
+.pl-preview-body {
+    flex: 1;
+    min-height: 0;
+    background: #F4F4F8;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 1rem;
+}
+.pl-preview-body iframe {
+    width: 100%;
+    height: 70vh;
+    border: none;
+    border-radius: 8px;
+}
+.pl-preview-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid #ECECF3;
+}
+.pl-preview-footer .pl-btn {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.pl-no-preview {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #838389;
+}
+.pl-no-preview svg {
+    display: block;
+    margin: 0 auto 1rem;
+    opacity: 0.35;
+}
+.pl-no-preview strong {
+    display: block;
+    font-size: 1rem;
+    color: #4E4E54;
+    margin-bottom: 0.5rem;
+}
+.pl-btn-preview {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.82rem;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid #D0D0DB;
+    border-radius: 8px;
+    background: #fff;
+    color: #4E4E54;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    text-decoration: none;
+}
+.pl-btn-preview:hover {
+    background: #F4F4F8;
+    border-color: #9F57A7;
+    color: #9F57A7;
+}
+
 /* --- Pagination --- */
 .pl-pagination {
     display: flex;
@@ -3969,9 +4040,20 @@ body.pl-modal-open {
         align-items: flex-start;
         gap: 1rem;
     }
-    .pl-doc-item .pl-btn {
+    .pl-doc-item .pl-btn,
+    .pl-doc-item .pl-btn-preview {
+        width: 100%;
+        justify-content: center;
+    }
+    .pl-doc-actions {
         width: 100%;
     }
+}
+.pl-doc-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
 }
 
 /* --- Focus Accessible --- */
