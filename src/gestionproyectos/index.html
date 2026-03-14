@@ -2407,6 +2407,12 @@ permalink: gestionproyectos/index.html
             margin-bottom: 0.2rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
         .proj-list-item:hover .proj-list-title { color: var(--blue); }
+        .proj-list-summary {
+            font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;
+            margin-bottom: 0.25rem;
+            display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+            overflow: hidden; text-overflow: ellipsis;
+        }
         .proj-list-meta {
             display: flex; align-items: center; gap: 0.65rem; font-size: 0.75rem;
             color: var(--text-muted);
@@ -2498,6 +2504,12 @@ permalink: gestionproyectos/index.html
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
         }
         .proj-board-card:hover .proj-board-card-title { color: var(--blue); }
+        .proj-board-card-summary {
+            font-size: 0.75rem; color: var(--text-muted); line-height: 1.35;
+            margin-bottom: 0.3rem;
+            display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+            overflow: hidden; text-overflow: ellipsis;
+        }
         .proj-board-card-meta {
             display: flex; align-items: center; gap: 0.5rem; font-size: 0.7rem;
             color: var(--text-muted);
@@ -2711,11 +2723,11 @@ permalink: gestionproyectos/index.html
 
                 <!-- Metrics Row (3 KPI) -->
                 <div class="proj-metrics proj-metrics-3" id="proj-metrics">
-                    <div class="proj-metric-card" onclick="setProjTab('trabajo')">
+                    <div class="proj-metric-card" onclick="setProjTab('gestion')">
                         <div class="proj-metric-icon blue"><i class="ph ph-pencil-simple"></i></div>
                         <div><div class="proj-metric-label">En Trabajo</div><div class="proj-metric-value" id="metric-trabajo">0</div></div>
                     </div>
-                    <div class="proj-metric-card" onclick="setProjTab('pendientes')">
+                    <div class="proj-metric-card" onclick="setProjTab('gestion')">
                         <div class="proj-metric-icon gray"><i class="ph ph-clock"></i></div>
                         <div><div class="proj-metric-label">Pendientes</div><div class="proj-metric-value" id="metric-pendientes">0</div></div>
                     </div>
@@ -2729,11 +2741,8 @@ permalink: gestionproyectos/index.html
                 <div class="proj-toolbar">
                     <div class="proj-toolbar-left">
                         <div class="proj-tabs" id="proj-tabs">
-                            <button class="proj-tab-btn active" onclick="setProjTab('trabajo')" id="proj-tab-trabajo">
-                                <i class="ph ph-pencil-simple"></i> En Trabajo <span class="proj-tab-badge" id="proj-tab-badge-trabajo">0</span>
-                            </button>
-                            <button class="proj-tab-btn" onclick="setProjTab('pendientes')" id="proj-tab-pendientes">
-                                <i class="ph ph-clock"></i> Pendientes <span class="proj-tab-badge" id="proj-tab-badge-pendientes">0</span>
+                            <button class="proj-tab-btn active" onclick="setProjTab('gestion')" id="proj-tab-gestion">
+                                <i class="ph ph-folder-open"></i> En gestión <span class="proj-tab-badge" id="proj-tab-badge-gestion">0</span>
                             </button>
                             <button class="proj-tab-btn" onclick="setProjTab('presentados')" id="proj-tab-presentados">
                                 <i class="ph ph-check-circle"></i> Presentados <span class="proj-tab-badge" id="proj-tab-badge-presentados">0</span>
@@ -4208,7 +4217,7 @@ permalink: gestionproyectos/index.html
         /* =========================================
            PROYECTOS TAB / VIEW STATE
            ========================================= */
-        let projActiveTab = 'trabajo'; // 'trabajo' | 'pendientes' | 'presentados' | 'todos'
+        let projActiveTab = 'gestion'; // 'gestion' | 'presentados' | 'todos'
         let projViewMode = 'list';      // 'list' | 'board'
         let projCurrentPage = 1;
         const PROJ_PAGE_SIZE = 20;
@@ -4216,7 +4225,7 @@ permalink: gestionproyectos/index.html
         function setProjTab(tab) {
             projActiveTab = tab;
             projCurrentPage = 1; // reset page on tab change
-            ['trabajo', 'pendientes', 'presentados', 'todos'].forEach(t => {
+            ['gestion', 'presentados', 'todos'].forEach(t => {
                 const btn = document.getElementById('proj-tab-' + t);
                 if (btn) btn.classList.toggle('active', t === tab);
             });
@@ -4420,17 +4429,15 @@ permalink: gestionproyectos/index.html
             setMetric('metric-presentados', metricPresentados);
 
             // --- Tab badges (from filtered set) ---
-            setMetric('proj-tab-badge-trabajo', allTrabajo.length);
-            setMetric('proj-tab-badge-pendientes', allPendientes.length);
+            const allGestion = allTrabajo.concat(allPendientes);
+            setMetric('proj-tab-badge-gestion', allGestion.length);
             setMetric('proj-tab-badge-presentados', allPresentados.length);
             setMetric('proj-tab-badge-todos', filtered.length);
 
             // --- Determine visible data based on active tab ---
             let visibleData;
-            if (projActiveTab === 'trabajo') {
-                visibleData = allTrabajo;
-            } else if (projActiveTab === 'pendientes') {
-                visibleData = allPendientes;
+            if (projActiveTab === 'gestion') {
+                visibleData = allGestion;
             } else if (projActiveTab === 'presentados') {
                 visibleData = allPresentados;
             } else {
@@ -4450,7 +4457,7 @@ permalink: gestionproyectos/index.html
 
             // Board view: no pagination, show all
             if (projViewMode === 'board') {
-                container.innerHTML = renderProjBoardView(visibleData, allTrabajo.concat(allPendientes), allPresentados);
+                container.innerHTML = renderProjBoardView(visibleData, allGestion, allPresentados);
                 if (paginationEl) paginationEl.innerHTML = '';
                 return;
             }
@@ -4516,6 +4523,7 @@ permalink: gestionproyectos/index.html
                         </div>
                         <div class="proj-list-main">
                             <div class="proj-list-title">${p.titulo}${docBadges}</div>
+                            ${p.resumen ? `<div class="proj-list-summary">${p.resumen}</div>` : ''}
                             <div class="proj-list-meta">
                                 ${p.area_tema ? `<span class="proj-list-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg> ${p.area_tema}</span>` : ''}
                                 ${resp ? `<span class="proj-list-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ${resp}</span>` : ''}
@@ -4579,6 +4587,7 @@ permalink: gestionproyectos/index.html
                         <span class="proj-status-badge ${status.cls}" style="font-size:0.65rem;padding:0.15rem 0.45rem;">${status.label}</span>
                     </div>
                     <div class="proj-board-card-title">${p.titulo}</div>
+                    ${p.resumen ? `<div class="proj-board-card-summary">${p.resumen}</div>` : ''}
                     <div class="proj-board-card-meta">
                         ${p.area_tema ? `<span><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg> ${p.area_tema}</span>` : ''}
                         <span>${p.id}</span>
