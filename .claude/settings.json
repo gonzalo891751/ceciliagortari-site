@@ -12,7 +12,20 @@
       "Bash(npx @11ty/eleventy)",
       "Bash(npx @11ty/eleventy --input=src --output=_site)",
       "Bash(find d:Gitceciliagortari-site -name *.sql -o -name *schema* -o -name *migration*)",
-      "Bash(xargs ls:*)"
+      "Bash(xargs ls:*)",
+      "Bash(npm list:*)",
+      "Bash(npm install:*)",
+      "Bash(mkdir -p _tools)",
+      "Bash(curl -s \"https://fonts.googleapis.com/css2?family=Outfit:wght@500;700\" -o _tools/outfit-css.txt -H \"User-Agent: Mozilla/4.0 \\(compatible; MSIE 6.0\\)\")",
+      "Bash(curl -s -L \"https://fonts.google.com/download?family=Outfit\" -o outfit.zip)",
+      "Bash(curl -s \"https://fonts.googleapis.com/css2?family=Outfit:wght@500;700\" -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" -o outfit-css2.txt)",
+      "Bash(curl -s -L \"https://fonts.gstatic.com/s/outfit/v15/QGYyz_MVcBeNP4NjuGObqx1XmO1I4QK1C4E.ttf\" -o Outfit-Medium.ttf)",
+      "Bash(curl -s -L \"https://fonts.gstatic.com/s/outfit/v15/QGYyz_MVcBeNP4NjuGObqx1XmO1I4deyC4E.ttf\" -o Outfit-Bold.ttf)",
+      "Bash(ls -la Outfit-*.ttf)",
+      "Bash(node _tools/generate-logos.js)",
+      "Bash(ls -la \"D:/Git/ceciliagortari-site/src/assets/prensa/logo-marca-\"*)",
+      "Bash(rm -rf _tools)",
+      "Bash(npm uninstall:*)"
     ]
   }
 }
