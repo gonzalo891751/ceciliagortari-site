@@ -3,184 +3,196 @@ const HEADERS = {
   "Cache-Control": "no-store",
 };
 
-const ENSURE_FOLDERS_SQL = `
-CREATE TABLE IF NOT EXISTS archive_folders (
-  id TEXT PRIMARY KEY,
-  name TEXT NOT NULL,
-  parent_id TEXT DEFAULT NULL,
-  sort_order INTEGER DEFAULT 0,
-  created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  deleted_at TEXT DEFAULT NULL
-)`;
-
-const ENSURE_FILES_SQL = `
-CREATE TABLE IF NOT EXISTS archive_files (
-  id TEXT PRIMARY KEY,
-  folder_id TEXT DEFAULT NULL,
-  original_name TEXT NOT NULL,
-  r2_key TEXT NOT NULL,
-  mime_type TEXT,
-  extension TEXT,
-  size_bytes INTEGER DEFAULT 0,
-  is_pinned INTEGER DEFAULT 0,
-  uploaded_by TEXT DEFAULT '',
-  created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  deleted_at TEXT DEFAULT NULL
-)`;
-
-async function ensureTables(db) {
-  await db.prepare(ENSURE_FOLDERS_SQL).run();
-  await db.prepare(ENSURE_FILES_SQL).run();
-}
-
-// GET /api/archivos?folder_id=&search=
+// GET /api/archivos?folder_id=&search=&pinned=1&recent=1
 export async function onRequestGet(context) {
   const db = context.env.DB;
   try {
-    await ensureTables(db);
-
     const url = new URL(context.request.url);
     const folderId = url.searchParams.get("folder_id") || null;
     const search = (url.searchParams.get("search") || "").trim().toLowerCase();
     const pinnedOnly = url.searchParams.get("pinned") === "1";
     const recentOnly = url.searchParams.get("recent") === "1";
 
-    // If searching, search across all folders
+    // Search mode
     if (search) {
       const like = `%${search}%`;
-      const { results: folders } = await db
-        .prepare(
-          `SELECT id, name, parent_id, sort_order, created_at, updated_at
+      const [foldersRes, filesRes] = await Promise.all([
+        db.prepare(
+          `SELECT id, name, parent_id, sort_order, created_at
            FROM archive_folders
            WHERE deleted_at IS NULL AND LOWER(name) LIKE ?
-           ORDER BY name ASC
-           LIMIT 50`
-        )
-        .bind(like)
-        .all();
-
-      const { results: files } = await db
-        .prepare(
-          `SELECT id, folder_id, original_name, r2_key, mime_type, extension,
-                  size_bytes, is_pinned, uploaded_by, created_at, updated_at
+           ORDER BY name ASC LIMIT 50`
+        ).bind(like).all(),
+        db.prepare(
+          `SELECT id, folder_id, original_name, mime_type, extension,
+                  size_bytes, is_pinned, created_at
            FROM archive_files
            WHERE deleted_at IS NULL AND LOWER(original_name) LIKE ?
-           ORDER BY updated_at DESC
-           LIMIT 50`
-        )
-        .bind(like)
-        .all();
+           ORDER BY updated_at DESC LIMIT 50`
+        ).bind(like).all(),
+      ]);
 
       return new Response(
-        JSON.stringify({ ok: true, folders: folders || [], files: files || [], search: true }),
+        JSON.stringify({
+          ok: true,
+          folders: foldersRes.results || [],
+          files: filesRes.results || [],
+          search: true,
+        }),
         { status: 200, headers: HEADERS }
       );
     }
 
-    // If pinned only
+    // Pinned only (standalone)
     if (pinnedOnly) {
-      const { results: files } = await db
-        .prepare(
-          `SELECT id, folder_id, original_name, r2_key, mime_type, extension,
-                  size_bytes, is_pinned, uploaded_by, created_at, updated_at
+      const { results } = await db.prepare(
+        `SELECT id, folder_id, original_name, mime_type, extension,
+                size_bytes, is_pinned, created_at
+         FROM archive_files
+         WHERE deleted_at IS NULL AND is_pinned = 1
+         ORDER BY updated_at DESC LIMIT 20`
+      ).all();
+
+      return new Response(
+        JSON.stringify({ ok: true, files: results || [], folders: [] }),
+        { status: 200, headers: HEADERS }
+      );
+    }
+
+    // Recent only (standalone)
+    if (recentOnly) {
+      const { results } = await db.prepare(
+        `SELECT id, folder_id, original_name, mime_type, extension,
+                size_bytes, is_pinned, created_at
+         FROM archive_files
+         WHERE deleted_at IS NULL
+         ORDER BY created_at DESC LIMIT 10`
+      ).all();
+
+      return new Response(
+        JSON.stringify({ ok: true, files: results || [], folders: [] }),
+        { status: 200, headers: HEADERS }
+      );
+    }
+
+    // --- Main folder listing ---
+    const isRoot = !folderId;
+
+    // Build all queries in parallel
+    const queries = [];
+
+    // 1. Folders in this level
+    if (folderId) {
+      queries.push(
+        db.prepare(
+          `SELECT f.id, f.name, f.parent_id, f.sort_order, f.created_at,
+                  (SELECT COUNT(*) FROM archive_files af WHERE af.folder_id = f.id AND af.deleted_at IS NULL) as file_count
+           FROM archive_folders f
+           WHERE f.parent_id = ? AND f.deleted_at IS NULL
+           ORDER BY f.sort_order ASC, f.name ASC`
+        ).bind(folderId).all()
+      );
+    } else {
+      queries.push(
+        db.prepare(
+          `SELECT f.id, f.name, f.parent_id, f.sort_order, f.created_at,
+                  (SELECT COUNT(*) FROM archive_files af WHERE af.folder_id = f.id AND af.deleted_at IS NULL) as file_count
+           FROM archive_folders f
+           WHERE f.parent_id IS NULL AND f.deleted_at IS NULL
+           ORDER BY f.sort_order ASC, f.name ASC`
+        ).all()
+      );
+    }
+
+    // 2. Files in this level
+    if (folderId) {
+      queries.push(
+        db.prepare(
+          `SELECT id, folder_id, original_name, mime_type, extension,
+                  size_bytes, is_pinned, created_at
+           FROM archive_files
+           WHERE folder_id = ? AND deleted_at IS NULL
+           ORDER BY updated_at DESC`
+        ).bind(folderId).all()
+      );
+    } else {
+      queries.push(
+        db.prepare(
+          `SELECT id, folder_id, original_name, mime_type, extension,
+                  size_bytes, is_pinned, created_at
+           FROM archive_files
+           WHERE folder_id IS NULL AND deleted_at IS NULL
+           ORDER BY updated_at DESC`
+        ).all()
+      );
+    }
+
+    // 3. Breadcrumb (only if inside a folder) — single query gets all ancestors
+    if (folderId) {
+      queries.push(
+        db.prepare(
+          `SELECT id, name, parent_id FROM archive_folders WHERE deleted_at IS NULL`
+        ).all()
+      );
+    }
+
+    // 4 & 5. If root, also get pinned + recent in parallel
+    if (isRoot) {
+      queries.push(
+        db.prepare(
+          `SELECT id, folder_id, original_name, mime_type, extension,
+                  size_bytes, is_pinned, created_at
            FROM archive_files
            WHERE deleted_at IS NULL AND is_pinned = 1
-           ORDER BY updated_at DESC
-           LIMIT 20`
-        )
-        .all();
-
-      return new Response(
-        JSON.stringify({ ok: true, files: files || [], folders: [] }),
-        { status: 200, headers: HEADERS }
+           ORDER BY updated_at DESC LIMIT 20`
+        ).all()
       );
-    }
-
-    // If recent only
-    if (recentOnly) {
-      const { results: files } = await db
-        .prepare(
-          `SELECT id, folder_id, original_name, r2_key, mime_type, extension,
-                  size_bytes, is_pinned, uploaded_by, created_at, updated_at
+      queries.push(
+        db.prepare(
+          `SELECT id, folder_id, original_name, mime_type, extension,
+                  size_bytes, is_pinned, created_at
            FROM archive_files
            WHERE deleted_at IS NULL
-           ORDER BY created_at DESC
-           LIMIT 10`
-        )
-        .all();
-
-      return new Response(
-        JSON.stringify({ ok: true, files: files || [], folders: [] }),
-        { status: 200, headers: HEADERS }
+           ORDER BY created_at DESC LIMIT 10`
+        ).all()
       );
     }
 
-    // List contents of a folder (or root)
-    let folderWhere, fileWhere;
-    let folderBinds, fileBinds;
+    // Execute all in parallel
+    const results = await Promise.all(queries);
 
-    if (folderId) {
-      folderWhere = "parent_id = ? AND deleted_at IS NULL";
-      fileWhere = "folder_id = ? AND deleted_at IS NULL";
-      folderBinds = [folderId];
-      fileBinds = [folderId];
-    } else {
-      folderWhere = "parent_id IS NULL AND deleted_at IS NULL";
-      fileWhere = "folder_id IS NULL AND deleted_at IS NULL";
-      folderBinds = [];
-      fileBinds = [];
-    }
+    const folders = results[0].results || [];
+    const files = results[1].results || [];
 
-    const { results: folders } = await db
-      .prepare(
-        `SELECT f.id, f.name, f.parent_id, f.sort_order, f.created_at, f.updated_at,
-                (SELECT COUNT(*) FROM archive_files af WHERE af.folder_id = f.id AND af.deleted_at IS NULL) as file_count
-         FROM archive_folders f
-         WHERE ${folderWhere}
-         ORDER BY f.sort_order ASC, f.name ASC`
-      )
-      .bind(...folderBinds)
-      .all();
-
-    const { results: files } = await db
-      .prepare(
-        `SELECT id, folder_id, original_name, r2_key, mime_type, extension,
-                size_bytes, is_pinned, uploaded_by, created_at, updated_at
-         FROM archive_files
-         WHERE ${fileWhere}
-         ORDER BY updated_at DESC`
-      )
-      .bind(...fileBinds)
-      .all();
-
-    // If viewing a specific folder, get breadcrumb path
+    // Build breadcrumb from all folders data (in-memory walk)
     let breadcrumb = [];
     if (folderId) {
+      const allFolders = results[2].results || [];
+      const byId = {};
+      allFolders.forEach(f => (byId[f.id] = f));
       let currentId = folderId;
       let depth = 0;
       while (currentId && depth < 10) {
-        const folder = await db
-          .prepare("SELECT id, name, parent_id FROM archive_folders WHERE id = ? AND deleted_at IS NULL")
-          .bind(currentId)
-          .first();
-        if (!folder) break;
-        breadcrumb.unshift({ id: folder.id, name: folder.name });
-        currentId = folder.parent_id;
+        const f = byId[currentId];
+        if (!f) break;
+        breadcrumb.unshift({ id: f.id, name: f.name });
+        currentId = f.parent_id;
         depth++;
       }
     }
 
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        folders: folders || [],
-        files: files || [],
-        breadcrumb,
-      }),
-      { status: 200, headers: HEADERS }
-    );
+    const response = { ok: true, folders, files, breadcrumb };
+
+    // Include pinned + recent for root
+    if (isRoot) {
+      response.pinned = results[2]?.results || [];
+      response.recent = results[3]?.results || [];
+    }
+
+    return new Response(JSON.stringify(response), {
+      status: 200,
+      headers: HEADERS,
+    });
   } catch (err) {
     return new Response(
       JSON.stringify({ ok: false, error: err.message }),

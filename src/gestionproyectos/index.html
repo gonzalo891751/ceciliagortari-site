@@ -4567,7 +4567,7 @@ permalink: gestionproyectos/index.html
             });
             if (tab === 'dashboard') renderDashboard();
             if (tab === 'gacetillas') loadGacetillas(1);
-            if (tab === 'archivos') archLoadFolder();
+            if (tab === 'archivos' && !archInitialized) archLoadFolder();
         }
 
         /* =========================================
@@ -5537,6 +5537,11 @@ permalink: gestionproyectos/index.html
         let archPendingUpload = null;
         let archRenameTarget = null;
         let archSearchTimer = null;
+
+        // --- Performance: folder cache ---
+        const archCache = new Map(); // key: folderId||'__root__' -> { folders, files, breadcrumb, pinned?, recent?, ts }
+        const ARCH_CACHE_TTL = 60000; // 60s TTL
+        let archInitialized = false; // first load guard
         let archIsSearching = false;
 
         // Clipboard state: { mode: 'cut'|'copy', fileId, fileName }
@@ -5636,7 +5641,57 @@ permalink: gestionproyectos/index.html
             archLoadFolder(archCurrentFolderId);
         }
 
-        // Load folder contents
+        // Cache helpers
+        function archCacheKey(folderId) { return folderId || '__root__'; }
+
+        function archCacheGet(folderId) {
+            const key = archCacheKey(folderId);
+            const entry = archCache.get(key);
+            if (!entry) return null;
+            if (Date.now() - entry.ts > ARCH_CACHE_TTL) { archCache.delete(key); return null; }
+            return entry;
+        }
+
+        function archCacheSet(folderId, data) {
+            archCache.set(archCacheKey(folderId), { ...data, ts: Date.now() });
+        }
+
+        function archInvalidateCache(folderId) {
+            // Invalidate specific folder + root (pinned/recent may have changed)
+            archCache.delete(archCacheKey(folderId));
+            archCache.delete('__root__');
+        }
+
+        function archInvalidateAll() { archCache.clear(); }
+
+        function archApplyData(data) {
+            archFolders = data.folders || [];
+            archFiles = data.files || [];
+            archBreadcrumb = data.breadcrumb || [];
+            archPinnedFiles = data.pinned || [];
+            archRecentFiles = data.recent || [];
+            archRenderBreadcrumb();
+            archRenderContent();
+        }
+
+        // Skeleton loader (lighter than spinner)
+        const ARCH_SKELETON = `<div class="arch-loading" style="opacity:0.5;">
+            <div style="display:flex;flex-direction:column;gap:0.75rem;width:100%;max-width:400px;">
+                <div style="height:14px;background:var(--border-light);border-radius:6px;width:40%;"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                    <div style="height:56px;background:var(--border-light);border-radius:var(--radius-md);"></div>
+                    <div style="height:56px;background:var(--border-light);border-radius:var(--radius-md);"></div>
+                </div>
+                <div style="height:14px;background:var(--border-light);border-radius:6px;width:30%;margin-top:0.5rem;"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;">
+                    <div style="height:80px;background:var(--border-light);border-radius:var(--radius-md);"></div>
+                    <div style="height:80px;background:var(--border-light);border-radius:var(--radius-md);"></div>
+                    <div style="height:80px;background:var(--border-light);border-radius:var(--radius-md);"></div>
+                </div>
+            </div>
+        </div>`;
+
+        // Load folder contents (with cache)
         async function archLoadFolder(folderId = null) {
             if (archIsSearching && folderId === undefined) return;
             archIsSearching = false;
@@ -5644,40 +5699,56 @@ permalink: gestionproyectos/index.html
             archSelectedFile = null;
             archCloseDetail();
             archCloseCtxMenu();
+            archInitialized = true;
 
+            // Try cache first — render immediately if available
+            const cached = archCacheGet(folderId);
+            if (cached) {
+                archApplyData(cached);
+                // Background refresh (silent)
+                archFetchFolder(folderId).then(data => {
+                    if (data) {
+                        archCacheSet(folderId, data);
+                        // Only re-render if still on this folder
+                        if (archCurrentFolderId === (folderId || null)) {
+                            archApplyData(data);
+                        }
+                    }
+                }).catch(() => {});
+                return;
+            }
+
+            // No cache: show skeleton and fetch
             const content = document.getElementById('arch-content');
-            content.innerHTML = '<div class="arch-loading"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin-icon"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg><div style="margin-top:0.5rem;">Cargando...</div></div>';
+            content.innerHTML = ARCH_SKELETON;
 
             try {
-                const params = new URLSearchParams();
-                if (folderId) params.set('folder_id', folderId);
-
-                const res = await fetch(`${ARCH_API}?${params}`);
-                const json = await res.json();
-                if (!json.ok) throw new Error(json.error);
-
-                archFolders = json.folders || [];
-                archFiles = json.files || [];
-                archBreadcrumb = json.breadcrumb || [];
-
-                // If at root, also load pinned and recent
-                if (!folderId) {
-                    const [pinnedRes, recentRes] = await Promise.all([
-                        fetch(`${ARCH_API}?pinned=1`).then(r => r.json()),
-                        fetch(`${ARCH_API}?recent=1`).then(r => r.json()),
-                    ]);
-                    archPinnedFiles = (pinnedRes.ok ? pinnedRes.files : []) || [];
-                    archRecentFiles = (recentRes.ok ? recentRes.files : []) || [];
-                } else {
-                    archPinnedFiles = [];
-                    archRecentFiles = [];
+                const data = await archFetchFolder(folderId);
+                if (!data) throw new Error('Error al cargar');
+                archCacheSet(folderId, data);
+                // Only render if still on this folder (user may have navigated away)
+                if (archCurrentFolderId === (folderId || null)) {
+                    archApplyData(data);
                 }
-
-                archRenderBreadcrumb();
-                archRenderContent();
             } catch (e) {
                 content.innerHTML = `<div class="arch-empty-state"><div class="title">Error al cargar</div><div class="desc">${escapeHtml(e.message)}</div></div>`;
             }
+        }
+
+        // Single fetch for a folder (root includes pinned+recent)
+        async function archFetchFolder(folderId) {
+            const params = new URLSearchParams();
+            if (folderId) params.set('folder_id', folderId);
+            const res = await fetch(`${ARCH_API}?${params}`);
+            const json = await res.json();
+            if (!json.ok) return null;
+            return {
+                folders: json.folders || [],
+                files: json.files || [],
+                breadcrumb: json.breadcrumb || [],
+                pinned: json.pinned || [],
+                recent: json.recent || [],
+            };
         }
 
         function archRenderBreadcrumb() {
@@ -6060,6 +6131,7 @@ permalink: gestionproyectos/index.html
                 if (!json.ok) throw new Error(json.error);
 
                 closeModal('arch-folder-modal');
+                archInvalidateAll();
                 archLoadFolder(archCurrentFolderId);
             } catch (e) {
                 const errDiv = document.getElementById('arch-folder-error');
@@ -6140,6 +6212,7 @@ permalink: gestionproyectos/index.html
                     btn.style.background = '';
                     btn.style.color = '';
                     closeModal('arch-upload-modal');
+                    archInvalidateAll();
                     archLoadFolder(archCurrentFolderId);
                 }, 600);
             } catch (e) {
@@ -6203,6 +6276,7 @@ permalink: gestionproyectos/index.html
 
                 closeModal('arch-rename-modal');
                 archRenameTarget = null;
+                archInvalidateAll();
                 archLoadFolder(archCurrentFolderId);
 
                 // If file detail was open, refresh it
@@ -6227,6 +6301,7 @@ permalink: gestionproyectos/index.html
                 const res = await fetch(`${ARCH_API}/folders/${encodeURIComponent(folderId)}`, { method: 'DELETE' });
                 const json = await res.json();
                 if (!json.ok) throw new Error(json.error);
+                archInvalidateAll();
                 archLoadFolder(archCurrentFolderId);
             } catch (e) {
                 alert('Error al eliminar: ' + e.message);
@@ -6244,6 +6319,7 @@ permalink: gestionproyectos/index.html
                 const json = await res.json();
                 if (!json.ok) throw new Error(json.error);
 
+                archInvalidateAll();
                 archLoadFolder(archCurrentFolderId);
             } catch (e) {
                 alert('Error al eliminar: ' + e.message);
@@ -6264,6 +6340,7 @@ permalink: gestionproyectos/index.html
                 const json = await res.json();
                 if (!json.ok) throw new Error(json.error);
 
+                archInvalidateAll();
                 archLoadFolder(archCurrentFolderId);
                 if (wasDetailOpen) {
                     setTimeout(() => archSelectFile(fileId), 200);
@@ -6348,6 +6425,7 @@ permalink: gestionproyectos/index.html
                 }
                 archClipboard = null;
                 archUpdatePasteBar();
+                archInvalidateAll();
                 archLoadFolder(archCurrentFolderId);
             } catch (e) {
                 alert('Error al pegar: ' + e.message);
@@ -6458,6 +6536,7 @@ permalink: gestionproyectos/index.html
                 closeModal('arch-move-modal');
                 archMoveTarget = null;
                 archMoveSelectedFolder = null;
+                archInvalidateAll();
                 archLoadFolder(archCurrentFolderId);
             } catch (e) {
                 errDiv.textContent = e.message;
@@ -6494,6 +6573,7 @@ permalink: gestionproyectos/index.html
                 });
                 const json = await res.json();
                 if (!json.ok) throw new Error(json.error);
+                archInvalidateAll();
                 archLoadFolder(archCurrentFolderId);
             } catch (e) {
                 alert('Error al reemplazar: ' + e.message);
@@ -6534,6 +6614,7 @@ permalink: gestionproyectos/index.html
                 });
                 const json = await res.json();
                 if (!json.ok) throw new Error(json.error);
+                archInvalidateAll();
                 archLoadFolder(archCurrentFolderId);
             } catch (e) {
                 alert('Error al mover: ' + e.message);

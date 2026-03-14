@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(xxd)"
+      "Bash(xxd)",
+      "Bash(node -e \":*)",
+      "Bash(node --input-type=module -e \"import\\(''./functions/api/archivos/index.js''\\).then\\(\\(\\) => console.log\\(''OK''\\)\\).catch\\(e => console.log\\(''Import check:'', e.message\\)\\)\")"
     ]
   }
 }
