@@ -15,7 +15,7 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
             <div class="prensa-hero__overlay"></div>
         </div>
         <div class="prensa-hero__content">
-            <span class="prensa-hero__eyebrow">Sala de prensa</span>
+            <span class="prensa-hero__eyebrow">Materiales para medios</span>
             <h1 class="prensa-hero__title">Prensa</h1>
             <p class="prensa-hero__subtitle">Información institucional y recursos oficiales para medios de comunicación.</p>
         </div>
@@ -60,26 +60,21 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
     <!-- ============================
          3) GALERÍA DE IMÁGENES
          ============================
-         Archivos reales en: src/assets/img/prensa/
-         Para agregar una imagen nueva: copiar un bloque gallery-item,
-         actualizar data-index, src, alt, título y orientación.
+         Archivos en: src/assets/img/prensa/prensa1.jpg … prensa7.jpg
+         Para agregar: copiar un bloque gallery-item y actualizar data-index y src.
          ============================ -->
     <section class="prensa-galeria" id="galeria">
         <div class="prensa-galeria__container">
             <div class="prensa-galeria__header">
                 <h2 class="prensa-galeria__title">Galería de imágenes</h2>
-                <p class="prensa-galeria__lead">Fotografías para uso en medios.</p>
+                <p class="prensa-galeria__lead">Fotografías oficiales para uso en medios de comunicación.</p>
             </div>
 
             <div class="prensa-galeria__grid" id="gallery-grid">
 
-                <!-- 1. prensa1.jpg — Horizontal -->
                 <div class="gallery-item" data-index="0">
                     <div class="gallery-item__img-wrap">
-                        <img src="/assets/img/prensa/prensa1.jpg"
-                             alt="Actividad legislativa en el recinto"
-                             loading="lazy"
-                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa1.jpg');">
+                        <img src="/assets/img/prensa/prensa1.jpg" alt="Cecilia Gortari - Imagen de prensa 1" loading="lazy">
                         <div class="gallery-item__overlay">
                             <span class="gallery-item__view-btn">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
@@ -87,29 +82,21 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                             </span>
                         </div>
                     </div>
-                    <div class="gallery-item__info">
-                        <span class="gallery-item__orient">Horizontal</span>
-                        <h3 class="gallery-item__title">Actividad legislativa en el recinto</h3>
-                        <div class="gallery-item__actions">
-                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                Ver
-                            </button>
-                            <a href="/assets/img/prensa/prensa1.jpg" download class="gallery-item__btn gallery-item__btn--download">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Bajar
-                            </a>
-                        </div>
+                    <div class="gallery-item__actions">
+                        <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            Ver
+                        </button>
+                        <a href="/assets/img/prensa/prensa1.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Descargar
+                        </a>
                     </div>
                 </div>
 
-                <!-- 2. prensa2.jpg — Vertical -->
-                <div class="gallery-item gallery-item--vertical" data-index="1">
+                <div class="gallery-item" data-index="1">
                     <div class="gallery-item__img-wrap">
-                        <img src="/assets/img/prensa/prensa2.jpg"
-                             alt="Retrato institucional"
-                             loading="lazy"
-                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa2.jpg');">
+                        <img src="/assets/img/prensa/prensa2.jpg" alt="Cecilia Gortari - Imagen de prensa 2" loading="lazy">
                         <div class="gallery-item__overlay">
                             <span class="gallery-item__view-btn">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
@@ -117,29 +104,21 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                             </span>
                         </div>
                     </div>
-                    <div class="gallery-item__info">
-                        <span class="gallery-item__orient gallery-item__orient--vertical">Vertical</span>
-                        <h3 class="gallery-item__title">Retrato institucional</h3>
-                        <div class="gallery-item__actions">
-                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                Ver
-                            </button>
-                            <a href="/assets/img/prensa/prensa2.jpg" download class="gallery-item__btn gallery-item__btn--download">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Bajar
-                            </a>
-                        </div>
+                    <div class="gallery-item__actions">
+                        <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            Ver
+                        </button>
+                        <a href="/assets/img/prensa/prensa2.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Descargar
+                        </a>
                     </div>
                 </div>
 
-                <!-- 3. prensa3.jpg — Vertical -->
-                <div class="gallery-item gallery-item--vertical" data-index="2">
+                <div class="gallery-item" data-index="2">
                     <div class="gallery-item__img-wrap">
-                        <img src="/assets/img/prensa/prensa3.jpg"
-                             alt="Retrato con saco magenta"
-                             loading="lazy"
-                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa3.jpg');">
+                        <img src="/assets/img/prensa/prensa3.jpg" alt="Cecilia Gortari - Imagen de prensa 3" loading="lazy">
                         <div class="gallery-item__overlay">
                             <span class="gallery-item__view-btn">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
@@ -147,29 +126,21 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                             </span>
                         </div>
                     </div>
-                    <div class="gallery-item__info">
-                        <span class="gallery-item__orient gallery-item__orient--vertical">Vertical</span>
-                        <h3 class="gallery-item__title">Retrato con saco magenta</h3>
-                        <div class="gallery-item__actions">
-                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                Ver
-                            </button>
-                            <a href="/assets/img/prensa/prensa3.jpg" download class="gallery-item__btn gallery-item__btn--download">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Bajar
-                            </a>
-                        </div>
+                    <div class="gallery-item__actions">
+                        <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            Ver
+                        </button>
+                        <a href="/assets/img/prensa/prensa3.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Descargar
+                        </a>
                     </div>
                 </div>
 
-                <!-- 4. prensa4.jpg — Horizontal -->
                 <div class="gallery-item" data-index="3">
                     <div class="gallery-item__img-wrap">
-                        <img src="/assets/img/prensa/prensa4.jpg"
-                             alt="Retrato en exterior"
-                             loading="lazy"
-                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa4.jpg');">
+                        <img src="/assets/img/prensa/prensa4.jpg" alt="Cecilia Gortari - Imagen de prensa 4" loading="lazy">
                         <div class="gallery-item__overlay">
                             <span class="gallery-item__view-btn">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
@@ -177,29 +148,21 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                             </span>
                         </div>
                     </div>
-                    <div class="gallery-item__info">
-                        <span class="gallery-item__orient">Horizontal</span>
-                        <h3 class="gallery-item__title">Retrato en exterior</h3>
-                        <div class="gallery-item__actions">
-                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                Ver
-                            </button>
-                            <a href="/assets/img/prensa/prensa4.jpg" download class="gallery-item__btn gallery-item__btn--download">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Bajar
-                            </a>
-                        </div>
+                    <div class="gallery-item__actions">
+                        <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            Ver
+                        </button>
+                        <a href="/assets/img/prensa/prensa4.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Descargar
+                        </a>
                     </div>
                 </div>
 
-                <!-- 5. prensa5.jpg — Horizontal -->
                 <div class="gallery-item" data-index="4">
                     <div class="gallery-item__img-wrap">
-                        <img src="/assets/img/prensa/prensa5.jpg"
-                             alt="Recorrida territorial"
-                             loading="lazy"
-                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa5.jpg');">
+                        <img src="/assets/img/prensa/prensa5.jpg" alt="Cecilia Gortari - Imagen de prensa 5" loading="lazy">
                         <div class="gallery-item__overlay">
                             <span class="gallery-item__view-btn">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
@@ -207,29 +170,21 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                             </span>
                         </div>
                     </div>
-                    <div class="gallery-item__info">
-                        <span class="gallery-item__orient">Horizontal</span>
-                        <h3 class="gallery-item__title">Recorrida territorial</h3>
-                        <div class="gallery-item__actions">
-                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                Ver
-                            </button>
-                            <a href="/assets/img/prensa/prensa5.jpg" download class="gallery-item__btn gallery-item__btn--download">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Bajar
-                            </a>
-                        </div>
+                    <div class="gallery-item__actions">
+                        <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            Ver
+                        </button>
+                        <a href="/assets/img/prensa/prensa5.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Descargar
+                        </a>
                     </div>
                 </div>
 
-                <!-- 6. prensa6.jpg — Vertical -->
-                <div class="gallery-item gallery-item--vertical" data-index="5">
+                <div class="gallery-item" data-index="5">
                     <div class="gallery-item__img-wrap">
-                        <img src="/assets/img/prensa/prensa6.jpg"
-                             alt="Intervención en el recinto"
-                             loading="lazy"
-                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa6.jpg');">
+                        <img src="/assets/img/prensa/prensa6.jpg" alt="Cecilia Gortari - Imagen de prensa 6" loading="lazy">
                         <div class="gallery-item__overlay">
                             <span class="gallery-item__view-btn">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
@@ -237,29 +192,21 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                             </span>
                         </div>
                     </div>
-                    <div class="gallery-item__info">
-                        <span class="gallery-item__orient gallery-item__orient--vertical">Vertical</span>
-                        <h3 class="gallery-item__title">Intervención en el recinto</h3>
-                        <div class="gallery-item__actions">
-                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                Ver
-                            </button>
-                            <a href="/assets/img/prensa/prensa6.jpg" download class="gallery-item__btn gallery-item__btn--download">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Bajar
-                            </a>
-                        </div>
+                    <div class="gallery-item__actions">
+                        <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            Ver
+                        </button>
+                        <a href="/assets/img/prensa/prensa6.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Descargar
+                        </a>
                     </div>
                 </div>
 
-                <!-- 7. prensa7.jpg — Horizontal -->
                 <div class="gallery-item" data-index="6">
                     <div class="gallery-item__img-wrap">
-                        <img src="/assets/img/prensa/prensa7.jpg"
-                             alt="Escuela de Emprendedores"
-                             loading="lazy"
-                             onerror="this.onerror=null; this.src=generarPlaceholder('prensa7.jpg');">
+                        <img src="/assets/img/prensa/prensa7.jpg" alt="Cecilia Gortari - Imagen de prensa 7" loading="lazy">
                         <div class="gallery-item__overlay">
                             <span class="gallery-item__view-btn">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
@@ -267,19 +214,15 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                             </span>
                         </div>
                     </div>
-                    <div class="gallery-item__info">
-                        <span class="gallery-item__orient">Horizontal</span>
-                        <h3 class="gallery-item__title">Escuela de Emprendedores</h3>
-                        <div class="gallery-item__actions">
-                            <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                                Ver
-                            </button>
-                            <a href="/assets/img/prensa/prensa7.jpg" download class="gallery-item__btn gallery-item__btn--download">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Bajar
-                            </a>
-                        </div>
+                    <div class="gallery-item__actions">
+                        <button class="gallery-item__btn gallery-item__btn--view" data-action="view">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            Ver
+                        </button>
+                        <a href="/assets/img/prensa/prensa7.jpg" download class="gallery-item__btn gallery-item__btn--download">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Descargar
+                        </a>
                     </div>
                 </div>
 
@@ -301,7 +244,7 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
 
             <h3 class="prensa-identidad__subtitle">Versiones de marca</h3>
 
-            <div class="prensa-identidad__grid">
+            <div class="prensa-identidad__grid prensa-identidad__grid--quad">
 
                 <!-- Logo 1: Color Fondo Claro -->
                 <div class="logo-card">
@@ -311,10 +254,7 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                     </div>
                     <h4 class="logo-card__name">Color (Fondos claros)</h4>
                     <div class="logo-card__downloads">
-                        <a href="/assets/prensa/Logo_Color_Claro.png" download class="logo-card__dl-btn">PNG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                        <a href="/assets/prensa/Logo_Color_Claro.svg" download class="logo-card__dl-btn">SVG
+                        <a href="/assets/img/logo-cecilia.png" download="Logo_CeciliaGortari_Color_Claro.png" class="logo-card__dl-btn logo-card__dl-btn--primary">Descargar PNG
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                         </a>
                     </div>
@@ -328,10 +268,7 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                     </div>
                     <h4 class="logo-card__name">Color (Fondos oscuros)</h4>
                     <div class="logo-card__downloads">
-                        <a href="/assets/prensa/Logo_Color_Oscuro.png" download class="logo-card__dl-btn">PNG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                        <a href="/assets/prensa/Logo_Color_Oscuro.svg" download class="logo-card__dl-btn">SVG
+                        <a href="/assets/img/logo-cecilia.png" download="Logo_CeciliaGortari_Color_Oscuro.png" class="logo-card__dl-btn logo-card__dl-btn--primary">Descargar PNG
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                         </a>
                     </div>
@@ -345,10 +282,7 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                     </div>
                     <h4 class="logo-card__name">Monocromo Negro</h4>
                     <div class="logo-card__downloads">
-                        <a href="/assets/prensa/Logo_Negro.png" download class="logo-card__dl-btn">PNG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                        <a href="/assets/prensa/Logo_Negro.svg" download class="logo-card__dl-btn">SVG
+                        <a href="/assets/img/logo-cecilia.png" download="Logo_CeciliaGortari_Mono_Negro.png" class="logo-card__dl-btn logo-card__dl-btn--primary">Descargar PNG
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                         </a>
                     </div>
@@ -362,25 +296,7 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                     </div>
                     <h4 class="logo-card__name">Monocromo Blanco</h4>
                     <div class="logo-card__downloads">
-                        <a href="/assets/prensa/Logo_Blanco.png" download class="logo-card__dl-btn">PNG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                        <a href="/assets/prensa/Logo_Blanco.svg" download class="logo-card__dl-btn">SVG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Logo 5: Recurso Especial -->
-                <div class="logo-card logo-card--special">
-                    <div class="logo-card__preview logo-card__preview--special">
-                        <img src="/assets/img/prensa/Ceciliagortarilogo.png" alt="Logo Cecilia Gortari" class="logo-card__special-img"
-                             onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'logo-card__wordmark text-white\'>Ceciliagortari<br>logo.png</span>';">
-                    </div>
-                    <h4 class="logo-card__name">Recurso Especial</h4>
-                    <p class="logo-card__note">Archivo nativo original (Blanco)</p>
-                    <div class="logo-card__downloads">
-                        <a href="/assets/img/prensa/Ceciliagortarilogo.png" download class="logo-card__dl-btn logo-card__dl-btn--primary">Descargar PNG
+                        <a href="/assets/img/logo-cecilia.png" download="Logo_CeciliaGortari_Mono_Blanco.png" class="logo-card__dl-btn logo-card__dl-btn--primary">Descargar PNG
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                         </a>
                     </div>
@@ -393,14 +309,13 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
 
             <div class="prensa-identidad__grid prensa-identidad__grid--duo">
 
-                <!-- Logo Cecilia Gortari -->
+                <!-- Logo Cecilia Gortari — fondo oscuro para apreciar letras blancas -->
                 <div class="logo-card">
-                    <div class="logo-card__preview logo-card__preview--light">
-                        <img src="/assets/img/logo-cecilia.png" alt="Logo Cecilia Gortari" class="logo-card__real-img"
-                             onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'logo-card__wordmark\'><span class=\'text-black\'>Cecilia</span><span style=color:#9F57A7>Gortari</span></span>';">
+                    <div class="logo-card__preview logo-card__preview--dark">
+                        <img src="/assets/img/logo-cecilia.png" alt="Logo Cecilia Gortari" class="logo-card__real-img">
                     </div>
                     <h4 class="logo-card__name">Cecilia Gortari</h4>
-                    <p class="logo-card__note">Diputada provincial</p>
+                    <p class="logo-card__note">Logo con transparencia (letras blancas)</p>
                     <div class="logo-card__downloads">
                         <a href="/assets/img/logo-cecilia.png" download class="logo-card__dl-btn logo-card__dl-btn--primary">Descargar PNG
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
@@ -408,11 +323,10 @@ extraCSS: "/assets/css/prensa-sala.css?v=202603141200"
                     </div>
                 </div>
 
-                <!-- Logo Escuela de Emprendedores -->
+                <!-- Logo Escuela de Emprendedores — fondo oscuro para apreciar letras blancas -->
                 <div class="logo-card">
-                    <div class="logo-card__preview logo-card__preview--light">
-                        <img src="/assets/img/logo-escuela.png" alt="Logo Escuela de Emprendedores" class="logo-card__real-img"
-                             onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\'logo-card__wordmark text-brand-magenta\'>Escuela de<br>Emprendedores</span>';">
+                    <div class="logo-card__preview logo-card__preview--dark">
+                        <img src="/assets/img/logo-escuela.png" alt="Logo Escuela de Emprendedores" class="logo-card__real-img">
                     </div>
                     <h4 class="logo-card__name">Escuela de Emprendedores</h4>
                     <div class="logo-card__downloads">

@@ -80,14 +80,12 @@
 
     Array.prototype.forEach.call(galleryItems, function (item) {
         var img = item.querySelector('.gallery-item__img-wrap img');
-        var titleEl = item.querySelector('.gallery-item__title');
         if (!img) return;
         var src = img.getAttribute('src');
         var filename = src.split('/').pop();
         imagesData.push({
             src: src,
-            fallback: window.generarPlaceholder(filename),
-            title: titleEl ? titleEl.textContent : 'Imagen',
+            title: filename.replace(/\.[^.]+$/, ''),
             filename: filename
         });
     });
@@ -126,10 +124,6 @@
         var data = imagesData[currentIndex];
         if (!data) return;
 
-        lbImg.onerror = function () {
-            this.onerror = null;
-            this.src = data.fallback;
-        };
         lbImg.src = data.src;
         lbImg.alt = data.title;
         lbTitle.textContent = data.title;
