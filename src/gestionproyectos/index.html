@@ -2265,6 +2265,299 @@ permalink: gestionproyectos/index.html
             .cal-day-number { font-size: 0.75rem; width: 20px; height: 20px; }
             .agenda-pendientes-panel { display: none; }
         }
+
+        /* =========================================
+           PROYECTOS MODULE REDESIGN
+           ========================================= */
+
+        /* Metrics cards */
+        .proj-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .proj-metric-card {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            padding: 1.15rem 1.25rem;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .proj-metric-card:hover { box-shadow: var(--shadow-md); }
+        .proj-metric-icon {
+            width: 46px; height: 46px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; font-size: 1.2rem;
+        }
+        .proj-metric-icon.blue { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+        .proj-metric-icon.orange { background: var(--badge-yellow-bg); color: var(--badge-yellow-text); }
+        .proj-metric-icon.gray { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
+        .proj-metric-icon.green { background: var(--badge-green-bg); color: var(--badge-green-text); }
+        .proj-metric-label { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.1rem; }
+        .proj-metric-value { font-size: 1.75rem; font-weight: 700; color: var(--text-main); line-height: 1; }
+
+        /* Toolbar */
+        .proj-toolbar {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+        }
+        .proj-toolbar-left { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+        .proj-toolbar-right { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+
+        /* Tabs (segmented control) */
+        .proj-tabs {
+            display: inline-flex; background: var(--bg-surface); border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg); padding: 3px; box-shadow: var(--shadow-sm);
+        }
+        .proj-tab-btn {
+            padding: 0.5rem 1.15rem; font-family: var(--font-main); font-size: 0.82rem;
+            font-weight: 600; border: none; border-radius: var(--radius-md);
+            cursor: pointer; transition: all 0.2s; background: transparent;
+            color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem;
+            white-space: nowrap;
+        }
+        .proj-tab-btn:hover { color: var(--blue); background: rgba(23,104,197,0.04); }
+        .proj-tab-btn.active { background: var(--blue); color: white; box-shadow: var(--shadow-sm); }
+        .proj-tab-badge {
+            font-size: 0.65rem; font-weight: 700; padding: 0.1rem 0.4rem;
+            border-radius: var(--radius-full); min-width: 18px; text-align: center;
+        }
+        .proj-tab-btn.active .proj-tab-badge { background: rgba(255,255,255,0.25); color: white; }
+        .proj-tab-btn:not(.active) .proj-tab-badge { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
+
+        /* View toggle */
+        .proj-view-toggle {
+            display: flex; border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            overflow: hidden; background: var(--bg-surface);
+        }
+        .proj-view-btn {
+            padding: 0.4rem 0.55rem; border: none; background: transparent; cursor: pointer;
+            color: var(--text-muted); transition: all 0.15s; display: flex; align-items: center;
+            justify-content: center;
+        }
+        .proj-view-btn:not(:last-child) { border-right: 1px solid var(--border-light); }
+        .proj-view-btn.active { background: var(--badge-gray-bg); color: var(--blue); }
+        .proj-view-btn:hover { background: var(--badge-gray-bg); }
+
+        /* Toolbar separator */
+        .proj-toolbar-sep {
+            width: 1px; height: 24px; background: var(--border-light);
+        }
+
+        /* Search */
+        .proj-search-wrap { position: relative; }
+        .proj-search-wrap svg {
+            position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); pointer-events: none;
+        }
+        .proj-search-input {
+            padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+            border: 1px solid var(--border-light); border-radius: var(--radius-lg);
+            font-size: 0.85rem; font-family: var(--font-main); width: 220px;
+            background: var(--bg-surface); transition: border-color 0.2s;
+        }
+        .proj-search-input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(23,104,197,0.1); }
+
+        /* Filter select */
+        .proj-filter-select {
+            padding: 0.5rem 1.5rem 0.5rem 0.75rem;
+            border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            font-size: 0.82rem; font-family: var(--font-main); background: var(--bg-surface);
+            color: var(--text-main); appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236E6E74' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 0.5rem center;
+            cursor: pointer;
+        }
+
+        /* List view */
+        .proj-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .proj-list-item {
+            background: var(--bg-surface); border-radius: var(--radius-lg); padding: 0.85rem 1.15rem;
+            border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);
+            display: flex; align-items: center; gap: 1rem;
+            cursor: pointer; transition: all 0.15s;
+        }
+        .proj-list-item:hover { box-shadow: var(--shadow-md); border-color: rgba(23,104,197,0.2); }
+        .proj-list-id-type { width: 110px; flex-shrink: 0; }
+        .proj-list-id {
+            font-size: 0.72rem; font-weight: 700; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.25rem;
+        }
+        .proj-type-badge {
+            display: inline-block; padding: 0.12rem 0.45rem; border-radius: var(--radius-full);
+            font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+        }
+        .proj-type-ley { background: var(--badge-purple-bg); color: var(--badge-purple-text); }
+        .proj-type-resolucion { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+        .proj-type-declaracion { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
+        .proj-type-nota { background: var(--badge-yellow-bg); color: var(--badge-yellow-text); }
+        .proj-type-pedido { background: rgba(36,188,222,0.12); color: #0E7490; }
+        .proj-list-main { flex: 1; min-width: 0; }
+        .proj-list-title {
+            font-size: 0.92rem; font-weight: 600; color: var(--text-main);
+            margin-bottom: 0.2rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .proj-list-item:hover .proj-list-title { color: var(--blue); }
+        .proj-list-meta {
+            display: flex; align-items: center; gap: 0.65rem; font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .proj-list-meta-item { display: flex; align-items: center; gap: 0.2rem; }
+        .proj-list-meta-item svg { width: 11px; height: 11px; flex-shrink: 0; }
+        .proj-list-status {
+            display: flex; flex-direction: column; align-items: flex-end;
+            gap: 0.3rem; flex-shrink: 0; min-width: 120px;
+        }
+        .proj-status-badge {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            padding: 0.25rem 0.6rem; border-radius: var(--radius-full);
+            font-size: 0.7rem; font-weight: 600;
+        }
+        .proj-status-pendiente { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
+        .proj-status-trabajo { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+        .proj-status-presentado { background: var(--badge-green-bg); color: var(--badge-green-text); }
+        .proj-status-atrasado { background: var(--badge-red-bg); color: var(--badge-red-text); }
+        .proj-date-hint { font-size: 0.7rem; font-weight: 500; }
+        .proj-date-normal { color: var(--text-muted); }
+        .proj-date-urgent { color: var(--badge-yellow-text); font-weight: 600; }
+        .proj-date-alert { color: var(--badge-red-text); font-weight: 700; }
+        .proj-date-success { color: var(--badge-green-text); font-weight: 500; }
+        .proj-date-info { color: var(--blue); font-weight: 500; }
+        .proj-list-actions {
+            display: flex; align-items: center; gap: 0.2rem;
+            opacity: 0; transition: opacity 0.15s; flex-shrink: 0;
+        }
+        .proj-list-item:hover .proj-list-actions { opacity: 1; }
+        .proj-action-btn {
+            width: 30px; height: 30px; border-radius: var(--radius-md);
+            border: 1px solid transparent; background: transparent; cursor: pointer;
+            color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+            transition: all 0.15s;
+        }
+        .proj-action-btn:hover { background: var(--badge-gray-bg); color: var(--blue); border-color: var(--border-light); }
+        .proj-action-btn.danger:hover { background: var(--badge-red-bg); color: var(--badge-red-text); }
+
+        /* Presentado extra info */
+        .proj-list-ref {
+            display: inline-flex; align-items: center; gap: 0.25rem;
+            font-size: 0.7rem; color: var(--text-muted); background: var(--bg-body);
+            padding: 0.15rem 0.45rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);
+            margin-top: 0.2rem;
+        }
+        .proj-list-ref svg { width: 10px; height: 10px; }
+
+        /* Doc badges inline */
+        .proj-doc-badges { display: inline-flex; gap: 0.25rem; margin-left: 0.4rem; vertical-align: middle; }
+
+        /* Board view */
+        .proj-board { display: flex; gap: 1.25rem; align-items: flex-start; }
+        .proj-board-col {
+            flex: 1; min-width: 0; border-radius: var(--radius-lg);
+            padding: 1rem; border: 1px solid var(--border-light);
+        }
+        .proj-board-col.col-active { background: var(--bg-body); }
+        .proj-board-col.col-presented { background: rgba(234,60,136,0.03); border-color: rgba(234,60,136,0.15); }
+        .proj-board-col-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 1rem; padding: 0 0.25rem;
+        }
+        .proj-board-col-title {
+            font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .proj-board-col.col-active .proj-board-col-title { color: var(--blue); }
+        .proj-board-col.col-presented .proj-board-col-title { color: var(--magenta); }
+        .proj-board-col-dot {
+            width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+        }
+        .col-active .proj-board-col-dot { background: var(--blue); }
+        .col-presented .proj-board-col-dot { background: var(--magenta); }
+        .proj-board-col-count {
+            font-size: 0.7rem; font-weight: 700; padding: 0.12rem 0.45rem;
+            border-radius: var(--radius-full); background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+        }
+        .proj-board-cards { display: flex; flex-direction: column; gap: 0.5rem; }
+        .proj-board-card {
+            background: var(--bg-surface); border-radius: var(--radius-lg); padding: 0.85rem;
+            border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);
+            cursor: pointer; transition: all 0.15s;
+        }
+        .proj-board-card:hover { box-shadow: var(--shadow-md); border-color: rgba(23,104,197,0.15); }
+        .proj-board-card-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 0.4rem;
+        }
+        .proj-board-card-title {
+            font-size: 0.85rem; font-weight: 600; color: var(--text-main);
+            margin-bottom: 0.3rem; line-height: 1.3;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .proj-board-card:hover .proj-board-card-title { color: var(--blue); }
+        .proj-board-card-meta {
+            display: flex; align-items: center; gap: 0.5rem; font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .proj-board-card-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 0.5rem; border-top: 1px solid var(--border-light);
+            margin-top: 0.5rem;
+        }
+        .proj-board-card-footer .proj-date-hint { font-size: 0.68rem; }
+
+        /* Board grid for filtered tabs */
+        .proj-board-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 0.6rem;
+        }
+
+        /* Empty state */
+        .proj-empty {
+            text-align: center; padding: 3rem; color: var(--text-muted);
+        }
+        .proj-empty i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
+        .proj-empty p { font-size: 0.9rem; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .proj-metrics { grid-template-columns: repeat(2, 1fr); }
+            .proj-board { flex-direction: column; }
+            .proj-board-col { width: 100%; }
+        }
+        @media (max-width: 768px) {
+            .proj-metrics { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+            .proj-metric-card { padding: 0.75rem; gap: 0.6rem; }
+            .proj-metric-icon { width: 38px; height: 38px; font-size: 1rem; }
+            .proj-metric-value { font-size: 1.35rem; }
+            .proj-metric-label { font-size: 0.7rem; }
+
+            .proj-toolbar { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+            .proj-toolbar-left { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .proj-toolbar-right { flex-wrap: wrap; }
+            .proj-tabs { width: 100%; min-width: max-content; }
+            .proj-tab-btn { flex: 1; text-align: center; justify-content: center; padding: 0.5rem 0.6rem; font-size: 0.75rem; }
+
+            .proj-search-wrap { flex: 1; }
+            .proj-search-input { width: 100%; }
+            .proj-filter-select { flex: 1; min-width: 0; }
+
+            .proj-list-item {
+                flex-direction: column; align-items: stretch;
+                padding: 0.85rem; gap: 0.5rem;
+            }
+            .proj-list-id-type { width: auto; display: flex; align-items: center; gap: 0.5rem; }
+            .proj-list-title { white-space: normal; -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+            .proj-list-status { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }
+            .proj-list-actions { opacity: 1; width: 100%; justify-content: flex-end; padding-top: 0.5rem; border-top: 1px solid var(--border-light); }
+
+            .proj-board { flex-direction: column; gap: 1rem; }
+            .proj-board-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -2379,97 +2672,78 @@ permalink: gestionproyectos/index.html
                 </div>
             </header>
 
-            <!-- Proyectos Filters (contextual, only visible in Proyectos tab) -->
-            <div class="module-filters active" id="proyectos-filters">
-                <input type="text" id="search-input" class="search-bar" placeholder="Buscar por título, área..." oninput="var ms=document.getElementById('mobile-search-input'); if(ms) ms.value=this.value; filterData()">
-                <select id="filter-tipo" class="input-control" style="width: auto;" onchange="filterData()">
-                    <option value="">Todos los Tipos</option>
-                    <option value="Proyecto de Ley">Proyecto de Ley</option>
-                    <option value="Proyecto de Resolución">Proyecto de Resolución</option>
-                    <option value="Proyecto de Declaración">Proyecto de Declaración</option>
-                    <option value="Nota">Nota</option>
-                    <option value="Pedido de informe">Pedido de informe</option>
-                </select>
-                <select id="filter-estado-grupo" class="input-control" style="width: auto;" onchange="filterData()">
-                    <option value="">Todos</option>
-                    <option value="pendientes_trabajo">Pendientes y en trabajo</option>
-                    <option value="presentados">Presentados</option>
-                </select>
-            </div>
-
-            <!-- Mobile Search (hidden on desktop) -->
-            <div class="mobile-search-row" id="mobile-search-row">
-                <div class="mobile-search-wrap">
-                    <span class="mobile-search-icon">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </span>
-                    <input type="text" id="mobile-search-input" class="search-bar" placeholder="Buscar por título, área o tema..." oninput="document.getElementById('search-input').value=this.value; filterData();">
-                </div>
-            </div>
-
-            <!-- Mobile Filters (hidden on desktop) -->
-            <div class="mobile-filter-row" id="mobile-filter-row">
-                <select onchange="document.getElementById('filter-tipo').value=this.value; filterData();">
-                    <option value="">Tipo</option>
-                    <option value="Proyecto de Ley">Ley</option>
-                    <option value="Proyecto de Resolución">Resolución</option>
-                    <option value="Proyecto de Declaración">Declaración</option>
-                    <option value="Nota">Nota</option>
-                    <option value="Pedido de informe">Pedido inf.</option>
-                </select>
-                <select onchange="document.getElementById('filter-estado-grupo').value=this.value; filterData();">
-                    <option value="">Estado</option>
-                    <option value="pendientes_trabajo">Pend. y trabajo</option>
-                    <option value="presentados">Presentados</option>
-                </select>
-                <select id="mobile-sort" onchange="changeMobileSort(this.value)">
-                    <option value="updated">Actualiz.</option>
-                    <option value="created">Creación</option>
-                    <option value="objetivo">Objetivo</option>
-                </select>
-            </div>
+            <!-- Old filters removed — now integrated into projectsView toolbar -->
 
             <main>
             <!-- === VISTA PROYECTOS === -->
             <div id="projectsView" class="tab-view active">
-                <h2 class="section-title">Pendientes y En trabajo <span class="badge badge-pendiente" id="count-pendientes">0</span></h2>
 
-                <div class="table-container" id="table-wrap-pendientes">
-                    <table id="table-pendientes">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th class="sortable" onclick="toggleSort('titulo')">Proyecto <span class="sort-indicator">▲▼</span></th>
-                                <th class="sortable" onclick="toggleSort('tipo')">Tipo & Área <span class="sort-indicator">▲▼</span></th>
-                                <th class="sortable" onclick="toggleSort('estado_preparacion')">Preparación <span class="sort-indicator">▲▼</span></th>
-                                <th>Tareas</th>
-                                <th class="sortable" onclick="toggleSort('fecha_objetivo_presentacion')">Fechas <span class="sort-indicator">▲▼</span></th>
-                                <th style="text-align:right">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-pendientes"></tbody>
-                    </table>
+                <!-- Metrics Row -->
+                <div class="proj-metrics" id="proj-metrics">
+                    <div class="proj-metric-card" onclick="setProjTab('gestion')">
+                        <div class="proj-metric-icon blue"><i class="ph ph-briefcase"></i></div>
+                        <div><div class="proj-metric-label">En Gestión</div><div class="proj-metric-value" id="metric-gestion">0</div></div>
+                    </div>
+                    <div class="proj-metric-card" onclick="setProjTab('gestion')">
+                        <div class="proj-metric-icon orange"><i class="ph ph-warning-circle"></i></div>
+                        <div><div class="proj-metric-label">Requieren Atención</div><div class="proj-metric-value" id="metric-atencion">0</div></div>
+                    </div>
+                    <div class="proj-metric-card" onclick="setProjTab('gestion')">
+                        <div class="proj-metric-icon gray"><i class="ph ph-clock"></i></div>
+                        <div><div class="proj-metric-label">Pendientes</div><div class="proj-metric-value" id="metric-pendientes">0</div></div>
+                    </div>
+                    <div class="proj-metric-card" onclick="setProjTab('presentados')">
+                        <div class="proj-metric-icon green"><i class="ph ph-check-circle"></i></div>
+                        <div><div class="proj-metric-label">Presentados</div><div class="proj-metric-value" id="metric-presentados">0</div></div>
+                    </div>
                 </div>
-                <div class="cards-container" id="cards-pendientes"></div>
 
-                <h2 class="section-title">Presentados <span class="badge badge-presentado" id="count-presentados">0</span></h2>
-
-                <div class="table-container" id="table-wrap-presentados">
-                    <table id="table-presentados">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th class="sortable" onclick="toggleSort('titulo')">Proyecto <span class="sort-indicator">▲▼</span></th>
-                                <th class="sortable" onclick="toggleSort('tipo')">Tipo & Área <span class="sort-indicator">▲▼</span></th>
-                                <th>Trámite</th>
-                                <th class="sortable" onclick="toggleSort('fecha_presentacion')">Fechas <span class="sort-indicator">▲▼</span></th>
-                                <th class="sortable" onclick="toggleSort('updated_at')">Actualizado <span class="sort-indicator">▲▼</span></th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-presentados"></tbody>
-                    </table>
+                <!-- Toolbar: Tabs + Search + Filters + View Toggle -->
+                <div class="proj-toolbar">
+                    <div class="proj-toolbar-left">
+                        <div class="proj-tabs" id="proj-tabs">
+                            <button class="proj-tab-btn active" onclick="setProjTab('gestion')" id="proj-tab-gestion">
+                                <i class="ph ph-activity"></i> En Gestión <span class="proj-tab-badge" id="proj-tab-badge-gestion">0</span>
+                            </button>
+                            <button class="proj-tab-btn" onclick="setProjTab('presentados')" id="proj-tab-presentados">
+                                <i class="ph ph-archive"></i> Presentados <span class="proj-tab-badge" id="proj-tab-badge-presentados">0</span>
+                            </button>
+                            <button class="proj-tab-btn" onclick="setProjTab('todos')" id="proj-tab-todos">
+                                Todos <span class="proj-tab-badge" id="proj-tab-badge-todos">0</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="proj-toolbar-right">
+                        <div class="proj-search-wrap">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" id="search-input" class="proj-search-input" placeholder="Buscar proyecto..." oninput="filterData()">
+                        </div>
+                        <select id="filter-tipo" class="proj-filter-select" onchange="filterData()">
+                            <option value="">Todos los tipos</option>
+                            <option value="Proyecto de Ley">Ley</option>
+                            <option value="Proyecto de Resolución">Resolución</option>
+                            <option value="Proyecto de Declaración">Declaración</option>
+                            <option value="Nota">Nota</option>
+                            <option value="Pedido de informe">Pedido inf.</option>
+                        </select>
+                        <div class="proj-toolbar-sep"></div>
+                        <div class="proj-view-toggle">
+                            <button class="proj-view-btn active" onclick="setProjView('list')" id="proj-view-list" title="Vista Lista">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                            </button>
+                            <button class="proj-view-btn" onclick="setProjView('board')" id="proj-view-board" title="Vista Tablero">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="cards-container" id="cards-presentados"></div>
+
+                <!-- Hidden: keeps filter-estado-grupo for backward compat -->
+                <select id="filter-estado-grupo" style="display:none;"><option value="">Todos</option></select>
+
+                <!-- Dynamic content area -->
+                <div id="proj-content-area"></div>
+
             </div>
 
             <!-- === VISTA DASHBOARD === -->
@@ -3868,6 +4142,21 @@ permalink: gestionproyectos/index.html
             return new Date(targetDate) < new Date(new Date().setHours(0,0,0,0));
         }
 
+        /* Days until a date, negative = overdue */
+        function daysUntil(dateStr) {
+            if (!dateStr) return null;
+            const target = new Date(dateStr);
+            const now = new Date(); now.setHours(0,0,0,0);
+            return Math.ceil((target - now) / (1000 * 60 * 60 * 24));
+        }
+
+        /* Check if fecha_objetivo is within 7 days */
+        function isApproachingDeadline(dateStr, state) {
+            if (!dateStr || state === 'Presentado') return false;
+            const d = daysUntil(dateStr);
+            return d !== null && d >= 0 && d <= 7;
+        }
+
         function getBadgeClass(type, value) {
             const map = {
                 prep: {
@@ -3883,6 +4172,84 @@ permalink: gestionproyectos/index.html
                 }
             };
             return map[type][value] || 'badge-pendiente';
+        }
+
+        /* =========================================
+           PROYECTOS TAB / VIEW STATE
+           ========================================= */
+        let projActiveTab = 'gestion'; // 'gestion' | 'presentados' | 'todos'
+        let projViewMode = 'list';     // 'list' | 'board'
+
+        function setProjTab(tab) {
+            projActiveTab = tab;
+            // Update tab button UI
+            ['gestion', 'presentados', 'todos'].forEach(t => {
+                const btn = document.getElementById('proj-tab-' + t);
+                if (btn) btn.classList.toggle('active', t === tab);
+            });
+            renderUI();
+        }
+
+        function setProjView(view) {
+            projViewMode = view;
+            document.getElementById('proj-view-list').classList.toggle('active', view === 'list');
+            document.getElementById('proj-view-board').classList.toggle('active', view === 'board');
+            renderUI();
+        }
+
+        function getTypeShortLabel(tipo) {
+            const map = {
+                'Proyecto de Ley': 'Ley',
+                'Proyecto de Resolución': 'Resolución',
+                'Proyecto de Declaración': 'Declaración',
+                'Nota': 'Nota',
+                'Pedido de informe': 'Pedido inf.'
+            };
+            return map[tipo] || tipo;
+        }
+
+        function getTypeBadgeClass(tipo) {
+            if (tipo.includes('Ley')) return 'proj-type-ley';
+            if (tipo.includes('Resolución')) return 'proj-type-resolucion';
+            if (tipo.includes('Declaración')) return 'proj-type-declaracion';
+            if (tipo === 'Nota') return 'proj-type-nota';
+            if (tipo.includes('Pedido') || tipo.includes('informe')) return 'proj-type-pedido';
+            return 'proj-type-declaracion';
+        }
+
+        function getStatusBadgeInfo(p) {
+            const overdue = isOverdue(p.fecha_objetivo_presentacion, p.estado_preparacion);
+            if (overdue) return { cls: 'proj-status-atrasado', label: 'Atrasado', icon: 'ph-warning' };
+            if (p.estado_preparacion === 'En trabajo') return { cls: 'proj-status-trabajo', label: 'En Trabajo', icon: 'ph-pencil-simple' };
+            if (p.estado_preparacion === 'Presentado') return { cls: 'proj-status-presentado', label: 'Presentado', icon: 'ph-check' };
+            return { cls: 'proj-status-pendiente', label: 'Pendiente', icon: 'ph-clock' };
+        }
+
+        function getDateHint(p) {
+            if (p.estado_preparacion === 'Presentado') {
+                if (p.estado_tramite) return { text: p.estado_tramite, cls: 'proj-date-info' };
+                return { text: 'Presentado ' + (formatDateOnly(p.fecha_presentacion) || ''), cls: 'proj-date-success' };
+            }
+            const overdue = isOverdue(p.fecha_objetivo_presentacion, p.estado_preparacion);
+            if (overdue) {
+                const d = Math.abs(daysUntil(p.fecha_objetivo_presentacion));
+                return { text: 'Atrasado ' + d + ' día' + (d !== 1 ? 's' : ''), cls: 'proj-date-alert' };
+            }
+            if (p.fecha_objetivo_presentacion) {
+                const d = daysUntil(p.fecha_objetivo_presentacion);
+                if (d !== null && d <= 7) return { text: 'Vence en ' + d + ' día' + (d !== 1 ? 's' : ''), cls: 'proj-date-urgent' };
+                return { text: 'Obj: ' + formatDateOnly(p.fecha_objetivo_presentacion), cls: 'proj-date-normal' };
+            }
+            return { text: formatDateOnly(p.updated_at) ? 'Act. ' + formatDateOnly(p.updated_at) : '', cls: 'proj-date-normal' };
+        }
+
+        function buildDocBadgesHtml(p) {
+            const hasMain = p.has_main_doc > 0;
+            const matCount = p.materials_count || 0;
+            let html = '';
+            if (hasMain) html += `<span class="doc-badge doc-badge-main" title="Documento cargado">${SVG_ICONS.fileText}</span>`;
+            if (matCount > 0) html += `<span class="doc-badge doc-badge-materials" title="${matCount} material(es)">${SVG_ICONS.paperclip} ${matCount}</span>`;
+            return html ? `<span class="proj-doc-badges">${html}</span>` : '';
         }
 
         // Formateador robusto: Solo DD/MM/AAAA (sin hora)
@@ -3967,201 +4334,203 @@ permalink: gestionproyectos/index.html
         };
 
         function renderUI() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const filterTipo = document.getElementById('filter-tipo').value;
-            const filterEstadoGrupo = document.getElementById('filter-estado-grupo').value;
+            const searchEl = document.getElementById('search-input');
+            const searchTerm = searchEl ? searchEl.value.toLowerCase() : '';
+            const filterTipoEl = document.getElementById('filter-tipo');
+            const filterTipo = filterTipoEl ? filterTipoEl.value : '';
 
-            // Mobile sort mode (applied via dropdown)
-            const isMobile = window.matchMedia('(max-width: 768px)').matches;
-            let sortFn;
-            if (isMobile && mobileSortMode === 'created') {
-                sortFn = (a, b) => new Date(b.created_at) - new Date(a.created_at);
-            } else if (isMobile && mobileSortMode === 'objetivo') {
-                sortFn = (a, b) => {
-                    const da = a.fecha_objetivo_presentacion ? new Date(a.fecha_objetivo_presentacion) : new Date('2099-12-31');
-                    const db = b.fecha_objetivo_presentacion ? new Date(b.fecha_objetivo_presentacion) : new Date('2099-12-31');
-                    return da - db;
-                };
-            } else {
-                sortFn = (a, b) => new Date(b.updated_at) - new Date(a.updated_at);
-            }
-            let filtered = projects.sort(sortFn);
+            // Sort: most recently updated first
+            let sorted = [...projects].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 
-            // Filtros globales
-            filtered = filtered.filter(p => {
+            // Apply search + type filter
+            let filtered = sorted.filter(p => {
                 const matchSearch = p.titulo.toLowerCase().includes(searchTerm) ||
                                     (p.resumen && p.resumen.toLowerCase().includes(searchTerm)) ||
-                                    (p.area_tema && p.area_tema.toLowerCase().includes(searchTerm));
+                                    (p.area_tema && p.area_tema.toLowerCase().includes(searchTerm)) ||
+                                    (p.id && p.id.toLowerCase().includes(searchTerm));
                 const matchTipo = filterTipo === '' || p.tipo === filterTipo;
-                let matchEstado = true;
-                if (filterEstadoGrupo === 'pendientes_trabajo') {
-                    matchEstado = p.estado_preparacion === 'Pendiente' || p.estado_preparacion === 'En trabajo';
-                } else if (filterEstadoGrupo === 'presentados') {
-                    matchEstado = p.estado_preparacion === 'Presentado';
-                }
-                return matchSearch && matchTipo && matchEstado;
+                return matchSearch && matchTipo;
             });
 
-            // Separar en dos tablas
-            let pendientes = filtered.filter(p => p.estado_preparacion !== 'Presentado');
-            let presentados = filtered.filter(p => p.estado_preparacion === 'Presentado');
+            // Split by status (for metrics, tabs, board)
+            const allGestion = filtered.filter(p => p.estado_preparacion !== 'Presentado');
+            const allPresentados = filtered.filter(p => p.estado_preparacion === 'Presentado');
 
-            // Apply user sorting
-            pendientes = applySorting(pendientes);
-            presentados = applySorting(presentados);
+            // --- Metrics (computed from ALL projects, not filtered) ---
+            const allProj = projects;
+            const metricGestion = allProj.filter(p => p.estado_preparacion !== 'Presentado').length;
+            const metricPendientes = allProj.filter(p => p.estado_preparacion === 'Pendiente').length;
+            const metricPresentados = allProj.filter(p => p.estado_preparacion === 'Presentado').length;
+            const metricAtencion = allProj.filter(p =>
+                p.estado_preparacion !== 'Presentado' && (
+                    isOverdue(p.fecha_objetivo_presentacion, p.estado_preparacion) ||
+                    isApproachingDeadline(p.fecha_objetivo_presentacion, p.estado_preparacion)
+                )
+            ).length;
 
-            document.getElementById('count-pendientes').innerText = pendientes.length;
-            document.getElementById('count-presentados').innerText = presentados.length;
+            const setMetric = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            setMetric('metric-gestion', metricGestion);
+            setMetric('metric-atencion', metricAtencion);
+            setMetric('metric-pendientes', metricPendientes);
+            setMetric('metric-presentados', metricPresentados);
 
-            renderTable('tbody-pendientes', 'cards-pendientes', pendientes, false);
-            renderTable('tbody-presentados', 'cards-presentados', presentados, true);
-            updateSortIndicators();
-        }
+            // --- Tab badges ---
+            setMetric('proj-tab-badge-gestion', allGestion.length);
+            setMetric('proj-tab-badge-presentados', allPresentados.length);
+            setMetric('proj-tab-badge-todos', filtered.length);
 
-        function renderTable(tbodyId, cardsId, dataArray, isPresentadoTable) {
-            const tbody = document.getElementById(tbodyId);
-            const cardsContainer = document.getElementById(cardsId);
-            tbody.innerHTML = '';
-            cardsContainer.innerHTML = '';
+            // --- Determine visible data based on active tab ---
+            let visibleData;
+            if (projActiveTab === 'gestion') {
+                visibleData = allGestion;
+            } else if (projActiveTab === 'presentados') {
+                visibleData = allPresentados;
+            } else {
+                visibleData = filtered;
+            }
 
-            if (dataArray.length === 0) {
-                const emptyMsg = `<tr><td colspan="7" style="text-align:center; color: var(--text-muted); padding: 2rem;">No se encontraron proyectos en esta categoría.</td></tr>`;
-                tbody.innerHTML = emptyMsg;
-                cardsContainer.innerHTML = `<div style="text-align:center; color: var(--text-muted); padding: 2rem;">Vacío.</div>`;
+            // Apply user sorting if set
+            visibleData = applySorting(visibleData);
+
+            // --- Render content ---
+            const container = document.getElementById('proj-content-area');
+            if (!container) return;
+
+            if (visibleData.length === 0) {
+                container.innerHTML = `<div class="proj-empty"><i class="ph ph-folder-dashed"></i><p>No se encontraron proyectos.</p></div>`;
                 return;
             }
 
-            dataArray.forEach(p => {
-                const overdue = isOverdue(p.fecha_objetivo_presentacion, p.estado_preparacion);
-                const overdueHtml = overdue ? `<div class="overdue-alert"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Atrasado</div>` : '';
+            if (projViewMode === 'list') {
+                container.innerHTML = renderProjListView(visibleData);
+            } else {
+                container.innerHTML = renderProjBoardView(visibleData, allGestion, allPresentados);
+            }
+        }
 
-                const tramiteBadge = p.estado_tramite ? `<span class="badge ${getBadgeClass('tramite', p.estado_tramite)}">${p.estado_tramite}</span>` : '<span style="color:#aaa; font-size:0.8rem">-</span>';
-                const respText = (p.responsable && p.responsable !== 'Sin asignar') ? `${SVG_ICONS.user} ${p.responsable}` : '<span style="color:var(--text-muted)">—</span>';
+        /* =========================================
+           LIST VIEW RENDERER
+           ========================================= */
+        function renderProjListView(data) {
+            let html = '<div class="proj-list">';
+            data.forEach(p => {
+                const isPresentado = p.estado_preparacion === 'Presentado';
+                const status = getStatusBadgeInfo(p);
+                const dateHint = getDateHint(p);
+                const typeLabel = getTypeShortLabel(p.tipo);
+                const typeClass = getTypeBadgeClass(p.tipo);
+                const docBadges = buildDocBadgesHtml(p);
+                const hasAnyDoc = (p.has_main_doc > 0) || (p.materials_count > 0);
+                const resp = (p.responsable && p.responsable !== 'Sin asignar') ? p.responsable : '';
 
-                // Doc badges
-                const hasMain = p.has_main_doc > 0;
-                const matCount = p.materials_count || 0;
-                let docBadgesHtml = '';
-                if (hasMain) docBadgesHtml += `<span class="doc-badge doc-badge-main" title="Documento cargado">${SVG_ICONS.fileText}</span>`;
-                if (matCount > 0) docBadgesHtml += `<span class="doc-badge doc-badge-materials" title="${matCount} material(es)">${SVG_ICONS.paperclip} ${matCount}</span>`;
+                // Action plan mini progress
+                const ap = p.action_plan || [];
+                const apTotal = ap.length;
+                const apDone = ap.filter(t => t.done).length;
+                const apHtml = apTotal > 0 ? `<span class="proj-list-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg> ${apDone}/${apTotal}</span>` : '';
 
-                const hasAnyDoc = hasMain || matCount > 0;
+                // Presentado reference info
+                const refHtml = isPresentado && p.estado_tramite
+                    ? `<div class="proj-list-ref"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg> ${p.estado_tramite}</div>`
+                    : '';
 
-                // Action plan progress
-                const apTasks = p.action_plan || [];
-                const apTotal = apTasks.length;
-                const apDone = apTasks.filter(t => t.done).length;
-                const apPercent = apTotal === 0 ? 0 : Math.round((apDone / apTotal) * 100);
-                const apProgressHtml = apTotal > 0
-                    ? `<div class="table-progress">
-                        <div class="table-progress-bar"><div class="table-progress-fill ${apPercent === 100 ? 'complete' : ''}" style="width:${apPercent}%"></div></div>
-                        <span class="table-progress-text">${apDone}/${apTotal}</span>
-                       </div>`
-                    : '<span style="color:var(--text-muted);font-size:0.75rem;">—</span>';
-
-                // --- Desktop Row ---
-                const tr = document.createElement('tr');
-                tr.onclick = () => openProjectDetail(p.id);
-
-                let tdContent = `
-                    <td style="font-weight:600; color:var(--text-muted)">${p.id}</td>
-                    <td>
-                        <div class="project-title">${p.titulo}${docBadgesHtml}</div>
-                        <div class="project-desc">${p.resumen || 'Sin resumen'}</div>
-                    </td>
-                    <td>
-                        <div style="font-size:0.85rem; font-weight:500;">${p.tipo}</div>
-                        <div style="font-size:0.8rem; color:var(--text-muted)">${p.area_tema || '-'}</div>
-                    </td>
-                `;
-
-                if (!isPresentadoTable) {
-                    tdContent += `
-                        <td>
-                            <span class="badge ${getBadgeClass('prep', p.estado_preparacion)}">${p.estado_preparacion}</span>
-                            ${overdueHtml}
-                        </td>
-                        <td>${apProgressHtml}</td>
-                        <td class="project-date-item">
-                            <div style="color:var(--text-muted); font-size:0.75rem;">Creado: ${formatDateOnly(p.created_at)}</div>
-                            ${p.fecha_objetivo_presentacion ? `<div>Obj: <strong>${formatDateOnly(p.fecha_objetivo_presentacion)}</strong></div>` : ''}
-                        </td>
-                        <td style="text-align:right; white-space:nowrap;">
-                            <button class="btn-icon" title="Marcar como presentado" aria-label="Presentar" onclick="openQuickPresentar('${p.id}', event)">${SVG_ICONS.checkCircle}</button>
-                            <button class="btn-icon" title="Asignar responsable" aria-label="Responsable" onclick="openQuickResponsable('${p.id}', event)">${SVG_ICONS.user}</button>
-                            ${hasAnyDoc ? `<button class="btn-icon" title="Ver documentos" aria-label="Documentos" onclick="openDocumentsModal('${p.id}', event)" style="color:var(--blue)">${SVG_ICONS.download}</button>` : ''}
-                            <button class="btn-icon" title="Eliminar proyecto" aria-label="Eliminar" onclick="quickDelete('${p.id}', event)">${SVG_ICONS.trash}</button>
-                        </td>
+                // Actions
+                let actionsHtml = '';
+                if (!isPresentado) {
+                    actionsHtml = `
+                        <button class="proj-action-btn" title="Presentar" onclick="openQuickPresentar('${p.id}', event)">${SVG_ICONS.checkCircle}</button>
+                        <button class="proj-action-btn" title="Responsable" onclick="openQuickResponsable('${p.id}', event)">${SVG_ICONS.user}</button>
+                        ${hasAnyDoc ? `<button class="proj-action-btn" title="Documentos" onclick="openDocumentsModal('${p.id}', event)">${SVG_ICONS.download}</button>` : ''}
+                        <button class="proj-action-btn danger" title="Eliminar" onclick="quickDelete('${p.id}', event)">${SVG_ICONS.trash}</button>
                     `;
                 } else {
-                    tdContent += `
-                        <td>${tramiteBadge}</td>
-                        <td class="project-date-item">
-                            <div style="color:var(--magenta);">Presentado: <strong>${formatDateOnly(p.fecha_presentacion)}</strong></div>
-                            ${p.fecha_objetivo_presentacion ? `<div style="color:var(--text-muted)">Obj: ${formatDateOnly(p.fecha_objetivo_presentacion)}</div>` : ''}
-                            <div style="color:var(--text-muted); font-size:0.75rem; margin-top:2px;">Creado: ${formatDateOnly(p.created_at)}</div>
-                        </td>
-                        <td style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">${formatDateOnly(p.updated_at)}</td>
+                    actionsHtml = `
+                        ${hasAnyDoc ? `<button class="proj-action-btn" title="Documentos" onclick="openDocumentsModal('${p.id}', event)">${SVG_ICONS.download}</button>` : ''}
+                        <button class="proj-action-btn" title="Editar" onclick="openModal('${p.id}'); event.stopPropagation();">${SVG_ICONS.eye}</button>
                     `;
                 }
-                tr.innerHTML = tdContent;
-                tbody.appendChild(tr);
 
-                // --- Mobile Card ---
-                const card = document.createElement('div');
-                card.className = 'mobile-card';
-                card.onclick = () => openProjectDetail(p.id);
-
-                let cardHtml = `
-                    <div class="mobile-card-header">
-                        <span class="mobile-card-id">${p.id}${docBadgesHtml}</span>
-                        ${!isPresentadoTable ? `<span class="badge ${getBadgeClass('prep', p.estado_preparacion)}">${p.estado_preparacion}</span>` : tramiteBadge}
-                    </div>
-                    <div class="project-title">${p.titulo}</div>
-                    <div class="project-desc" style="margin-bottom:0.5rem">${p.resumen || 'Sin resumen'}</div>
-                    <div class="mobile-card-info-grid">
-                        <div class="info-item">
-                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
-                            <span>${p.tipo}</span>
+                html += `
+                    <div class="proj-list-item" onclick="openProjectDetail('${p.id}')">
+                        <div class="proj-list-id-type">
+                            <div class="proj-list-id">${p.id}</div>
+                            <span class="proj-type-badge ${typeClass}">${typeLabel}</span>
                         </div>
-                        <div class="info-item">
-                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                            <span>${respText}</span>
-                        </div>
-                        <div class="info-item">
-                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                            <span>${formatDateOnly(p.created_at)}</span>
-                        </div>
-                        <div class="info-item" style="${p.area_tema ? '' : 'color:var(--text-muted);'}">
-                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                            <span>${p.area_tema || 'Sin área'}</span>
-                        </div>
-                    </div>
-                    ${overdueHtml}
-                `;
-
-                if (!isPresentadoTable) {
-                    cardHtml += `
-                        ${p.fecha_objetivo_presentacion ? `<div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem;">Obj: <strong>${formatDateOnly(p.fecha_objetivo_presentacion)}</strong></div>` : ''}
-                        <div class="action-container">
-                            <div class="action-group">
-                                <button class="btn-icon" title="Marcar como presentado" aria-label="Presentar" onclick="openQuickPresentar('${p.id}', event)">${SVG_ICONS.checkCircle}</button>
-                                <button class="btn-icon" title="Asignar responsable" aria-label="Responsable" onclick="openQuickResponsable('${p.id}', event)">${SVG_ICONS.user}</button>
-                                ${hasAnyDoc ? `<button class="btn-icon" title="Ver documentos" aria-label="Documentos" onclick="openDocumentsModal('${p.id}', event)" style="color:var(--blue)">${SVG_ICONS.download}</button>` : ''}
+                        <div class="proj-list-main">
+                            <div class="proj-list-title">${p.titulo}${docBadges}</div>
+                            <div class="proj-list-meta">
+                                ${p.area_tema ? `<span class="proj-list-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg> ${p.area_tema}</span>` : ''}
+                                ${resp ? `<span class="proj-list-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ${resp}</span>` : ''}
+                                ${apHtml}
                             </div>
-                            <button class="btn-icon-danger" title="Eliminar proyecto" aria-label="Eliminar" onclick="quickDelete('${p.id}', event)">${SVG_ICONS.trash}</button>
+                            ${refHtml}
                         </div>
-                    `;
-                } else {
-                    cardHtml += `
-                        <div style="font-size:0.8rem; font-weight:600; color:var(--magenta); margin-top:0.25rem;">Presentado: ${formatDateOnly(p.fecha_presentacion)}</div>
-                        <div style="font-size:0.75rem; color:var(--text-muted);">Actualizado: ${formatDateOnly(p.updated_at)}</div>
-                    `;
-                }
-
-                card.innerHTML = cardHtml;
-                cardsContainer.appendChild(card);
+                        <div class="proj-list-status">
+                            <span class="proj-status-badge ${status.cls}"><i class="ph ${status.icon}" style="font-size:0.7rem"></i> ${status.label}</span>
+                            <span class="proj-date-hint ${dateHint.cls}">${dateHint.text}</span>
+                        </div>
+                        <div class="proj-list-actions">${actionsHtml}</div>
+                    </div>
+                `;
             });
+            html += '</div>';
+            return html;
+        }
+
+        /* =========================================
+           BOARD VIEW RENDERER
+           ========================================= */
+        function renderProjBoardView(visibleData, allGestion, allPresentados) {
+            // In "Todos" tab: show two columns (Activos vs Presentados)
+            if (projActiveTab === 'todos') {
+                return `
+                    <div class="proj-board">
+                        <div class="proj-board-col col-active">
+                            <div class="proj-board-col-header">
+                                <div class="proj-board-col-title"><span class="proj-board-col-dot"></span>En Gestión Operativa</div>
+                                <span class="proj-board-col-count">${allGestion.length}</span>
+                            </div>
+                            <div class="proj-board-cards">${allGestion.length ? allGestion.map(p => renderBoardCard(p)).join('') : '<div class="proj-empty"><p>Sin proyectos activos.</p></div>'}</div>
+                        </div>
+                        <div class="proj-board-col col-presented">
+                            <div class="proj-board-col-header">
+                                <div class="proj-board-col-title"><span class="proj-board-col-dot"></span>Presentados / Historial</div>
+                                <span class="proj-board-col-count">${allPresentados.length}</span>
+                            </div>
+                            <div class="proj-board-cards">${allPresentados.length ? allPresentados.map(p => renderBoardCard(p)).join('') : '<div class="proj-empty"><p>Sin proyectos presentados.</p></div>'}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // In "En Gestión" or "Presentados" tab: show as grid
+            return `<div class="proj-board-grid">${visibleData.map(p => renderBoardCard(p)).join('')}</div>`;
+        }
+
+        function renderBoardCard(p) {
+            const isPresentado = p.estado_preparacion === 'Presentado';
+            const status = getStatusBadgeInfo(p);
+            const dateHint = getDateHint(p);
+            const typeLabel = getTypeShortLabel(p.tipo);
+            const typeClass = getTypeBadgeClass(p.tipo);
+
+            return `
+                <div class="proj-board-card" onclick="openProjectDetail('${p.id}')">
+                    <div class="proj-board-card-header">
+                        <span class="proj-type-badge ${typeClass}">${typeLabel}</span>
+                        <span class="proj-status-badge ${status.cls}" style="font-size:0.65rem;padding:0.15rem 0.45rem;">${status.label}</span>
+                    </div>
+                    <div class="proj-board-card-title">${p.titulo}</div>
+                    <div class="proj-board-card-meta">
+                        ${p.area_tema ? `<span><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg> ${p.area_tema}</span>` : ''}
+                        <span>${p.id}</span>
+                    </div>
+                    <div class="proj-board-card-footer">
+                        <span class="proj-date-hint ${dateHint.cls}"><svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> ${dateHint.text}</span>
+                        <span style="font-size:0.65rem;font-weight:700;color:var(--text-muted);">${p.id}</span>
+                    </div>
+                </div>
+            `;
         }
 
         /* =========================================
@@ -5480,15 +5849,7 @@ permalink: gestionproyectos/index.html
             const headerTitle = document.getElementById('header-module-title');
             if (headerTitle) headerTitle.textContent = titleMap[tab] || tab;
 
-            // Contextual filters: only show proyecto filters on proyectos tab
-            const projFilters = document.getElementById('proyectos-filters');
-            if (projFilters) projFilters.classList.toggle('active', tab === 'proyectos');
-
-            // Mobile search/filter rows: only show on proyectos tab
-            const mobileSearch = document.getElementById('mobile-search-row');
-            const mobileFilter = document.getElementById('mobile-filter-row');
-            if (mobileSearch) mobileSearch.style.display = (tab === 'proyectos') ? '' : 'none';
-            if (mobileFilter) mobileFilter.style.display = (tab === 'proyectos') ? '' : 'none';
+            // (Old proyectos-filters, mobile-search-row, mobile-filter-row removed — now integrated into projectsView toolbar)
 
             // Contextual header action button
             const btnNew = document.getElementById('header-btn-new');
