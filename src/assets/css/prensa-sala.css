@@ -621,6 +621,41 @@
     border-color: #11103B;
 }
 
+/* Subtítulos de sección dentro de Identidad Visual */
+.prensa-identidad__subtitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #11103B;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.prensa-identidad__subtitle--spaced {
+    margin-top: 3.5rem;
+}
+
+/* Grid de 2 columnas para logos institucionales */
+.prensa-identidad__grid--duo {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 40rem;
+    margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+    .prensa-identidad__grid--duo {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Imagen real dentro de preview de logo */
+.logo-card__real-img {
+    max-width: 80%;
+    max-height: 70%;
+    object-fit: contain;
+}
+
 /* --------------------------------
    5) BLOQUE FINAL DE CONTACTO
    -------------------------------- */
