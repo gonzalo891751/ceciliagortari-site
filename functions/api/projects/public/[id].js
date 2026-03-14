@@ -12,7 +12,8 @@ export async function onRequestGet(context) {
     const project = await db
       .prepare(
         `SELECT id, tipo, titulo, area_tema, resumen,
-                fecha_presentacion, estado_tramite, created_at
+                fecha_presentacion, estado_tramite, created_at,
+                tipo_autoria, autor_principal
          FROM projects
          WHERE id = ?
            AND estado_preparacion = 'Presentado'

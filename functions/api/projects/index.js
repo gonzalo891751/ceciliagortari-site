@@ -20,7 +20,9 @@ CREATE TABLE IF NOT EXISTS ${TABLE} (
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
   deleted_at TEXT DEFAULT NULL,
-  action_plan TEXT DEFAULT '[]'
+  action_plan TEXT DEFAULT '[]',
+  tipo_autoria TEXT NOT NULL DEFAULT 'propio',
+  autor_principal TEXT DEFAULT ''
 )`;
 
 const CREATE_DOCS_TABLE_SQL = `
@@ -45,6 +47,13 @@ async function ensureTable(db) {
   } catch (e) {
     await db.prepare(`ALTER TABLE ${TABLE} ADD COLUMN action_plan TEXT DEFAULT '[]'`).run();
   }
+  // Ensure authorship columns exist
+  try {
+    await db.prepare(`SELECT tipo_autoria FROM ${TABLE} LIMIT 1`).all();
+  } catch (e) {
+    await db.prepare(`ALTER TABLE ${TABLE} ADD COLUMN tipo_autoria TEXT NOT NULL DEFAULT 'propio'`).run();
+    await db.prepare(`ALTER TABLE ${TABLE} ADD COLUMN autor_principal TEXT DEFAULT ''`).run();
+  }
 }
 
 export async function onRequestGet(context) {
@@ -57,7 +66,7 @@ export async function onRequestGet(context) {
         `SELECT p.id, p.tipo, p.titulo, p.responsable, p.area_tema, p.resumen,
                 p.estado_preparacion, p.fecha_objetivo_presentacion,
                 p.fecha_presentacion, p.estado_tramite, p.created_at, p.updated_at,
-                p.action_plan,
+                p.action_plan, p.tipo_autoria, p.autor_principal,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'main') AS has_main_doc,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'material') AS materials_count,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'expediente') AS has_expediente
@@ -128,6 +137,8 @@ export async function onRequestPost(context) {
       created_at: body.created_at,
       updated_at: body.updated_at,
       action_plan: actionPlanStr,
+      tipo_autoria: body.tipo_autoria || "propio",
+      autor_principal: body.autor_principal || "",
     };
 
     // UPSERT: INSERT OR REPLACE
@@ -136,8 +147,9 @@ export async function onRequestPost(context) {
         `INSERT INTO ${TABLE}
            (id, tipo, titulo, responsable, area_tema, resumen,
             estado_preparacion, fecha_objetivo_presentacion,
-            fecha_presentacion, estado_tramite, created_at, updated_at, deleted_at, action_plan)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?)
+            fecha_presentacion, estado_tramite, created_at, updated_at, deleted_at,
+            action_plan, tipo_autoria, autor_principal)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)
          ON CONFLICT(id) DO UPDATE SET
            tipo = excluded.tipo,
            titulo = excluded.titulo,
@@ -150,7 +162,9 @@ export async function onRequestPost(context) {
            estado_tramite = excluded.estado_tramite,
            updated_at = excluded.updated_at,
            deleted_at = NULL,
-           action_plan = excluded.action_plan`
+           action_plan = excluded.action_plan,
+           tipo_autoria = excluded.tipo_autoria,
+           autor_principal = excluded.autor_principal`
       )
       .bind(
         project.id,
@@ -165,7 +179,9 @@ export async function onRequestPost(context) {
         project.estado_tramite,
         project.created_at,
         project.updated_at,
-        project.action_plan
+        project.action_plan,
+        project.tipo_autoria,
+        project.autor_principal
       )
       .run();
 

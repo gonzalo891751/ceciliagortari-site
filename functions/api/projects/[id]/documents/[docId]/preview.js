@@ -41,7 +41,7 @@ export async function onRequestGet(context) {
 
     const ext = getExtension(doc.original_name);
     const slugTitle = slugify(project ? project.titulo : "proyecto");
-    const kindSuffix = doc.kind === "main" ? "Proyecto" : "Material";
+    const kindSuffix = doc.kind === "expediente" ? "Expediente" : (doc.kind === "main" ? "Proyecto" : "Material");
     const filename = `${projectId}_${slugTitle}_${kindSuffix}${ext}`;
 
     const object = await bucket.get(doc.stored_key);

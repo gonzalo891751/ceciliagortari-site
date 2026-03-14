@@ -10,7 +10,8 @@
       "Bash(node -c \"functions/api/agenda/[id].js\")",
       "Bash(node -p \"const f=require\\(''fs''\\).readFileSync\\(''dist/gestionproyectos/index.html'',''utf8''\\); [''div'',''table'',''tr'',''th'',''td'',''main''].map\\(t=>[t,\\(f.match\\(new RegExp\\(''<''+t+''[ >]'',''g''\\)\\)||[]\\).length,\\(f.match\\(new RegExp\\(''</''+t+''>'',''g''\\)\\)||[]\\).length].join\\('': ''\\)\\).join\\(''\\\\n''\\)\")",
       "Bash(npx @11ty/eleventy)",
-      "Bash(npx @11ty/eleventy --input=src --output=_site)"
+      "Bash(npx @11ty/eleventy --input=src --output=_site)",
+      "Bash(find d:Gitceciliagortari-site -name *.sql -o -name *schema* -o -name *migration*)"
     ]
   }
 }

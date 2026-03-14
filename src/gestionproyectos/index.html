@@ -3367,6 +3367,19 @@ permalink: gestionproyectos/index.html
                         </div>
 
                         <div class="input-group">
+                            <label for="f-tipo-autoria">Autoría</label>
+                            <select id="f-tipo-autoria" class="input-control" onchange="handleAutoriaChange()">
+                                <option value="propio">Propio de Cecilia</option>
+                                <option value="acompanado">Autor externo — Cecilia acompaña</option>
+                                <option value="coautoria">Coautoría</option>
+                            </select>
+                        </div>
+                        <div class="input-group autoria-external-field" id="autoria-external-group" style="display:none;">
+                            <label for="f-autor-principal">Autor principal</label>
+                            <input type="text" id="f-autor-principal" class="input-control" placeholder="Ej: Emiliano Fernández">
+                        </div>
+
+                        <div class="input-group">
                             <label for="f-area">Área / Tema</label>
                             <input type="text" id="f-area" class="input-control" list="topicSuggestions" placeholder="Ej: Salud, Educación..." autocomplete="off" oninput="checkTopicTypo()">
                             <datalist id="topicSuggestions"></datalist>
@@ -4593,6 +4606,13 @@ permalink: gestionproyectos/index.html
                 const apDone = ap.filter(t => t.done).length;
                 const apHtml = apTotal > 0 ? `<span class="proj-list-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg> ${apDone}/${apTotal}</span>` : '';
 
+                // Authorship badge
+                const autoriaHtml = (p.tipo_autoria === 'acompanado' && p.autor_principal)
+                    ? `<span class="proj-list-meta-item" style="color:var(--badge-blue-text);"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> ${p.autor_principal}</span>`
+                    : (p.tipo_autoria === 'coautoria' && p.autor_principal
+                        ? `<span class="proj-list-meta-item" style="color:var(--badge-blue-text);"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Coautoría: ${p.autor_principal}</span>`
+                        : '');
+
                 // Presentado reference info
                 const refHtml = isPresentado && p.estado_tramite
                     ? `<div class="proj-list-ref"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg> ${p.estado_tramite}</div>`
@@ -4612,8 +4632,7 @@ permalink: gestionproyectos/index.html
                     actionsHtml = `
                         ${!hasExpediente ? `<button class="proj-action-btn expediente-upload" title="Subir expediente PDF" onclick="openExpedienteUpload('${p.id}', event)"><i class="ph ph-file-arrow-up" style="font-size:0.85rem;"></i></button>` : `<span class="proj-expediente-ok" title="Expediente cargado"><i class="ph ph-seal-check"></i></span>`}
                         ${hasAnyDoc || hasExpediente ? `<button class="proj-action-btn" title="Documentos" onclick="openDocumentsModal('${p.id}', event)">${SVG_ICONS.download}</button>` : ''}
-                        <button class="proj-action-btn" title="Ver detalle" onclick="event.stopPropagation(); openProjectDetail('${p.id}')">${SVG_ICONS.eye}</button>
-                        <button class="proj-action-btn" title="Editar" onclick="event.stopPropagation(); openModal('${p.id}')"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                        <button class="proj-action-btn" title="Ver PDF" onclick="event.stopPropagation(); openSmartPreview('${p.id}')">${SVG_ICONS.eye}</button>
                     `;
                 }
 
@@ -4630,6 +4649,7 @@ permalink: gestionproyectos/index.html
                                 ${p.area_tema ? `<span class="proj-list-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg> ${p.area_tema}</span>` : ''}
                                 ${resp ? `<span class="proj-list-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ${resp}</span>` : ''}
                                 ${apHtml}
+                                ${autoriaHtml}
                             </div>
                             ${refHtml}
                         </div>
@@ -4717,6 +4737,7 @@ permalink: gestionproyectos/index.html
             saveBtn.style.background = '';
             saveBtn.style.color = '';
             handlePrepChange(); // Reset conditional fields
+            handleAutoriaChange(); // Reset authorship fields
 
             if (id) {
                 document.getElementById('modal-title').innerText = 'Editar Proyecto';
@@ -4728,6 +4749,9 @@ permalink: gestionproyectos/index.html
                     document.getElementById('f-titulo').value = p.titulo;
                     document.getElementById('f-tipo').value = p.tipo;
                     document.getElementById('f-responsable').value = p.responsable || 'Sin asignar';
+                    document.getElementById('f-tipo-autoria').value = p.tipo_autoria || 'propio';
+                    document.getElementById('f-autor-principal').value = p.autor_principal || '';
+                    handleAutoriaChange();
                     document.getElementById('f-area').value = p.area_tema;
                     document.getElementById('f-resumen').value = p.resumen;
                     document.getElementById('f-estado-prep').value = p.estado_preparacion;
@@ -4768,6 +4792,17 @@ permalink: gestionproyectos/index.html
             // Unlock scroll if no other modal is open
             if (!document.querySelector('.modal-overlay.active')) {
                 document.body.classList.remove('modal-open');
+            }
+        }
+
+        function handleAutoriaChange() {
+            const val = document.getElementById('f-tipo-autoria').value;
+            const extGroup = document.getElementById('autoria-external-group');
+            if (val === 'acompanado' || val === 'coautoria') {
+                extGroup.style.display = 'block';
+            } else {
+                extGroup.style.display = 'none';
+                document.getElementById('f-autor-principal').value = '';
             }
         }
 
@@ -4834,7 +4869,9 @@ permalink: gestionproyectos/index.html
                 estado_tramite: estadoPrep === 'Presentado' ? document.getElementById('f-estado-tramite').value : '',
                 created_at: isNew ? now : (projects.find(p => p.id === id)?.created_at || now),
                 updated_at: now,
-                action_plan: tempChecklist
+                action_plan: tempChecklist,
+                tipo_autoria: document.getElementById('f-tipo-autoria').value,
+                autor_principal: document.getElementById('f-autor-principal').value.trim()
             };
 
             // UX: botón en estado loading
@@ -5214,6 +5251,10 @@ permalink: gestionproyectos/index.html
                 chipsHtml += `<span class="detail-chip detail-chip--tramite">${escapeHtml(p.estado_tramite)}</span>`;
             const respLabel = (p.responsable && p.responsable !== 'Sin asignar') ? p.responsable : 'Sin asignar';
             chipsHtml += `<span class="detail-chip detail-chip--responsable">${IC.user} ${escapeHtml(respLabel)}</span>`;
+            if (p.tipo_autoria === 'acompanado' && p.autor_principal)
+                chipsHtml += `<span class="detail-chip" style="background:var(--badge-blue-bg);color:var(--badge-blue-text);"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Autor: ${escapeHtml(p.autor_principal)} · Cecilia acompaña</span>`;
+            else if (p.tipo_autoria === 'coautoria' && p.autor_principal)
+                chipsHtml += `<span class="detail-chip" style="background:var(--badge-blue-bg);color:var(--badge-blue-text);"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Coautoría con ${escapeHtml(p.autor_principal)}</span>`;
 
             // --- Dates card ---
             const dateCreated = formatDateOnly(p.created_at) || '—';
@@ -6191,6 +6232,65 @@ permalink: gestionproyectos/index.html
             }
 
             document.getElementById('preview-modal').classList.add('active');
+        }
+
+        async function openSmartPreview(projectId) {
+            // Smart preview: expediente PDF > main doc PDF > no preview message
+            try {
+                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`);
+                if (!res.ok) throw new Error('Error');
+                const data = await res.json();
+
+                // Priority: expediente (always PDF) > main doc (only if PDF)
+                let doc = null;
+                let label = '';
+                if (data.expediente) {
+                    doc = data.expediente;
+                    label = 'Expediente definitivo';
+                } else if (data.main && data.main.mime_type === 'application/pdf') {
+                    doc = data.main;
+                    label = 'Documento del Proyecto';
+                }
+
+                const container = document.getElementById('preview-container');
+                const title = document.getElementById('preview-modal-title');
+                const downloadBtn = document.getElementById('preview-download-btn');
+
+                if (doc) {
+                    title.textContent = label + ' — ' + (doc.original_name || '');
+                    const previewUrl = `/api/projects/${encodeURIComponent(projectId)}/documents/${encodeURIComponent(doc.id)}/preview`;
+                    const downloadUrl = `/api/projects/${encodeURIComponent(projectId)}/documents/${encodeURIComponent(doc.id)}/download`;
+                    downloadBtn.onclick = () => { window.open(downloadUrl, '_blank'); };
+                    downloadBtn.style.display = '';
+                    container.innerHTML = `<iframe src="${previewUrl}" title="Vista previa PDF"></iframe>`;
+                } else {
+                    // No PDF available
+                    title.textContent = 'Vista previa';
+                    downloadBtn.style.display = 'none';
+                    let hint = 'No hay un PDF disponible para vista previa.';
+                    if (data.main) {
+                        hint += ' El documento principal es de tipo ' + (data.main.original_name || '').split('.').pop().toUpperCase() + '.';
+                        const dlUrl = `/api/projects/${encodeURIComponent(projectId)}/documents/${encodeURIComponent(data.main.id)}/download`;
+                        container.innerHTML = `<div class="no-preview">
+                            ${SVG_ICONS.fileLarge}
+                            <div style="font-size:0.95rem;font-weight:600;margin-bottom:0.5rem;">${hint}</div>
+                            <a href="${dlUrl}" class="btn btn-outline btn-sm" style="margin-top:0.75rem;text-decoration:none;" target="_blank" rel="noopener">
+                                ${SVG_ICONS.download} Descargar documento
+                            </a>
+                        </div>`;
+                    } else {
+                        container.innerHTML = `<div class="no-preview">
+                            ${SVG_ICONS.fileLarge}
+                            <div style="font-size:0.95rem;font-weight:600;margin-bottom:0.5rem;">${hint}</div>
+                            <div style="font-size:0.85rem;">Subí un expediente o documento principal desde el detalle del proyecto.</div>
+                        </div>`;
+                    }
+                }
+
+                document.getElementById('preview-modal').classList.add('active');
+            } catch (e) {
+                alert('Error al cargar vista previa. Intentá nuevamente.');
+            }
         }
 
         /* =========================================

@@ -247,6 +247,7 @@
                     </h3>
                     <p id="plModalSummary">Texto del resumen completo.</p>
                     <div id="plModalTramite" class="pl-modal-tramite" style="display:none;"></div>
+                    <div id="plModalAutoria" class="pl-modal-autoria" style="display:none;"></div>
                 </div>
 
                 <div class="pl-modal-section" id="plModalDocsSection" style="display:none;">
@@ -474,6 +475,18 @@
                         'Descargar Doc.</button>';
                 }
 
+                // Authorship line
+                var autoriaLine = '';
+                if (p.tipo_autoria === 'acompanado' && p.autor_principal) {
+                    autoriaLine = '<div class="pl-meta-item pl-autoria-line">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
+                        'Autor: ' + escapeHtml(p.autor_principal) + ' · <em>Acompañado por Cecilia Gortari</em></div>';
+                } else if (p.tipo_autoria === 'coautoria' && p.autor_principal) {
+                    autoriaLine = '<div class="pl-meta-item pl-autoria-line">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
+                        'Coautoría: ' + escapeHtml(p.autor_principal) + ' y Cecilia Gortari</div>';
+                }
+
                 var card = document.createElement('article');
                 card.className = 'pl-card';
                 card.setAttribute('data-tipo', tipoSlug);
@@ -490,6 +503,7 @@
                             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
                             'Presentado: ' + formatDate(p.fecha_presentacion) +
                         '</div>' +
+                        autoriaLine +
                         '<div class="pl-meta-item" style="margin-top:4px;">' +
                             '<strong style="color:#2C2C31">ID: ' + escapeHtml(p.id) + '</strong>' +
                         '</div>' +
@@ -614,6 +628,22 @@
                 tramiteEl.style.display = '';
             } else {
                 tramiteEl.style.display = 'none';
+            }
+
+            // Authorship info
+            var autoriaEl = document.getElementById('plModalAutoria');
+            if (p.tipo_autoria === 'acompanado' && p.autor_principal) {
+                autoriaEl.innerHTML =
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
+                    'Autor principal: <strong>' + escapeHtml(p.autor_principal) + '</strong> · Acompañado por Cecilia Gortari';
+                autoriaEl.style.display = '';
+            } else if (p.tipo_autoria === 'coautoria' && p.autor_principal) {
+                autoriaEl.innerHTML =
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
+                    'Coautoría: <strong>' + escapeHtml(p.autor_principal) + '</strong> y Cecilia Gortari';
+                autoriaEl.style.display = '';
+            } else {
+                autoriaEl.style.display = 'none';
             }
 
             // Docs — fetch from detail endpoint

@@ -3844,6 +3844,21 @@ body.pl-modal-open {
     border-top: 1px solid #ECECF3;
 }
 
+.pl-modal-autoria {
+    font-size: 0.875rem;
+    color: #4E6A8E;
+    margin-top: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    background: #EEF4FB;
+    border-radius: 6px;
+    line-height: 1.5;
+}
+
+.pl-autoria-line {
+    color: #4E6A8E;
+    font-size: 0.82rem;
+}
+
 /* --- Pagination --- */
 .pl-pagination {
     display: flex;
