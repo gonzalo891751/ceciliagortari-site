@@ -3,7 +3,11 @@
     "allow": [
       "Bash(xxd)",
       "Bash(node -e \":*)",
-      "Bash(node --input-type=module -e \"import\\(''./functions/api/archivos/index.js''\\).then\\(\\(\\) => console.log\\(''OK''\\)\\).catch\\(e => console.log\\(''Import check:'', e.message\\)\\)\")"
+      "Bash(node --input-type=module -e \"import\\(''./functions/api/archivos/index.js''\\).then\\(\\(\\) => console.log\\(''OK''\\)\\).catch\\(e => console.log\\(''Import check:'', e.message\\)\\)\")",
+      "Bash(npx @11ty/eleventy --input=src --output=dist --dryrun)",
+      "Bash(npx @11ty/eleventy --input=src --output=dist)",
+      "Bash(node -c functions/api/agenda/index.js)",
+      "Bash(node -c \"functions/api/agenda/[id].js\")"
     ]
   }
 }

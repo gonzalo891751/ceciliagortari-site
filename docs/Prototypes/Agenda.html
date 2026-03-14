@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda - Gestión de Proyectos | Cecilia Gortari</title>
+    
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons (Ligeros y modernos) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            magenta: '#9F57A7',
+                            azul: '#1C5CFF',
+                            turquesa: '#24BCDE',
+                            naranja: '#FBA85F',
+                            rosa: '#E4BFE8',
+                            gris: '#4E4E54',
+                            bg: '#F8F9FA',
+                            card: '#FFFFFF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #F8F9FA; color: #4E4E54; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #1C5CFF, #9F57A7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1C5CFF 0%, #24BCDE 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 4px 15px rgba(28, 92, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 1px;
+            background-color: #E2E8F0;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .calendar-day {
+            background-color: #FFFFFF;
+            min-height: 120px;
+            padding: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        .calendar-day:hover { background-color: #F8FAFC; }
+        .calendar-day.other-month { background-color: #F8FAFC; color: #94A3B8; }
+        .calendar-day.today { background-color: #EFF6FF; }
+        .calendar-day.today .day-number {
+            background-color: #1C5CFF;
+            color: white;
+            border-radius: 9999px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .event-pill {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.4rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        
+        /* Event Categories Colors */
+        .cat-reunion-ext { background-color: #EFF6FF; color: #1C5CFF; border-left-color: #1C5CFF; }
+        .cat-reunion-int { background-color: #FDF4FF; color: #9F57A7; border-left-color: #9F57A7; }
+        .cat-comision { background-color: #ECFEFF; color: #0E7490; border-left-color: #24BCDE; }
+        .cat-sesion { background-color: #FFF7ED; color: #C2410C; border-left-color: #FBA85F; }
+        .cat-presentacion { background-color: #FDF2F8; color: #BE185D; border-left-color: #E4BFE8; }
+        
+        /* Week View Grid */
+        .week-grid {
+            display: grid;
+            grid-template-columns: 60px repeat(7, minmax(0, 1fr));
+            gap: 1px;
+            background-color: #E2E8F0;
+            border: 1px solid #E2E8F0;
+        }
+        .week-cell { background-color: #FFFFFF; min-height: 60px; padding: 0.25rem; }
+        .week-header { background-color: #F8FAFC; font-weight: 500; text-align: center; padding: 0.75rem; }
+        .time-col { background-color: #F8FAFC; text-align: center; font-size: 0.75rem; color: #64748B; padding-top: 0.5rem; }
+
+        /* Modal */
+        .modal-overlay {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden font-sans">
+
+    <!-- Sidebar Navegación Principal -->
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col hidden md:flex z-20 shadow-soft">
+        <div class="h-16 flex items-center px-6 border-b border-gray-100">
+            <span class="text-xl font-bold gradient-text tracking-tight">GORTARI<span class="font-light">GESTIÓN</span></span>
+        </div>
+        
+        <nav class="flex-1 py-6 px-4 space-y-2">
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors group">
+                <i class="ph ph-squares-four text-xl mr-3 group-hover:text-brand-azul"></i>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors group">
+                <i class="ph ph-folder-open text-xl mr-3 group-hover:text-brand-azul"></i>
+                <span class="font-medium">Proyectos</span>
+            </a>
+            <!-- Active Tab -->
+            <a href="#" class="flex items-center px-4 py-2.5 bg-brand-azul/10 text-brand-azul rounded-lg transition-colors relative">
+                <div class="absolute left-0 top-2 bottom-2 w-1 bg-brand-azul rounded-r-full"></div>
+                <i class="ph ph-calendar-blank text-xl mr-3 text-brand-azul"></i>
+                <span class="font-medium">Agenda</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors group">
+                <i class="ph ph-newspaper text-xl mr-3 group-hover:text-brand-azul"></i>
+                <span class="font-medium">Gacetillas</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors group">
+                <i class="ph ph-files text-xl mr-3 group-hover:text-brand-azul"></i>
+                <span class="font-medium">Archivos</span>
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-gray-100">
+            <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full bg-brand-magenta flex items-center justify-center text-white font-bold text-sm">
+                    CG
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm font-semibold text-gray-800">Equipo Cecilia</p>
+                    <p class="text-xs text-gray-500">Legislativo</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden bg-brand-bg relative">
+        
+        <!-- Topbar -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-10">
+            <div class="flex items-center">
+                <button class="md:hidden mr-4 text-gray-500 hover:text-brand-azul">
+                    <i class="ph ph-list text-2xl"></i>
+                </button>
+                <h1 class="text-xl font-semibold text-gray-800">Agenda Legislativa</h1>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="relative hidden sm:block">
+                    <i class="ph ph-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" placeholder="Buscar en agenda..." class="pl-9 pr-4 py-2 bg-gray-100 border-transparent rounded-lg text-sm focus:bg-white focus:border-brand-azul focus:ring-2 focus:ring-brand-azul/20 outline-none w-64 transition-all">
+                </div>
+                <button class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100">
+                    <i class="ph ph-bell text-xl"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Agenda Toolbar -->
+        <div class="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center space-x-4">
+                <button onclick="changeDate('today')" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                    Hoy
+                </button>
+                <div class="flex items-center space-x-2">
+                    <button onclick="changeDate('prev')" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 text-gray-600 transition-colors">
+                        <i class="ph ph-caret-left font-bold"></i>
+                    </button>
+                    <button onclick="changeDate('next')" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 text-gray-600 transition-colors">
+                        <i class="ph ph-caret-right font-bold"></i>
+                    </button>
+                </div>
+                <h2 id="current-date-display" class="text-xl font-semibold text-gray-800 capitalize w-48">Marzo 2026</h2>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <!-- View Toggles -->
+                <div class="bg-gray-200 p-1 rounded-lg flex text-sm font-medium">
+                    <button onclick="setView('month')" id="btn-view-month" class="px-3 py-1.5 rounded-md shadow-sm bg-white text-gray-800 transition-all">Mes</button>
+                    <button onclick="setView('week')" id="btn-view-week" class="px-3 py-1.5 rounded-md text-gray-600 hover:text-gray-800 transition-all">Semana</button>
+                    <button onclick="setView('list')" id="btn-view-list" class="px-3 py-1.5 rounded-md text-gray-600 hover:text-gray-800 transition-all">Lista</button>
+                </div>
+                
+                <button onclick="openModal()" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center shadow-md">
+                    <i class="ph ph-plus mr-2 font-bold"></i>
+                    Nuevo Evento
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="flex-1 overflow-hidden flex px-6 pb-6 gap-6">
+            
+            <!-- Sidebar Agenda (Pendientes) -->
+            <div class="w-80 flex flex-col gap-6 hidden lg:flex">
+                <!-- Resumen Mini -->
+                <div class="bg-white rounded-xl shadow-soft p-5 border border-gray-100">
+                    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Resumen Semanal</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-50 rounded-lg p-3 border border-blue-100">
+                            <span class="text-2xl font-bold text-brand-azul block">4</span>
+                            <span class="text-xs font-medium text-blue-800">Eventos Hoy</span>
+                        </div>
+                        <div class="bg-magenta-50 rounded-lg p-3 border border-purple-100" style="background-color: #FDF4FF;">
+                            <span class="text-2xl font-bold text-brand-magenta block">12</span>
+                            <span class="text-xs font-medium text-purple-800">Esta Semana</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pendientes de Agendar -->
+                <div class="bg-white rounded-xl shadow-soft border border-gray-100 flex-1 flex flex-col overflow-hidden">
+                    <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                        <h3 class="font-semibold text-gray-800 flex items-center">
+                            <i class="ph ph-push-pin text-brand-naranja mr-2 text-lg"></i>
+                            Por Coordinar (Pendientes)
+                        </h3>
+                        <button onclick="openModal(true)" class="text-gray-400 hover:text-brand-azul transition-colors" title="Agregar pendiente">
+                            <i class="ph ph-plus-circle text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="flex-1 overflow-y-auto p-4 space-y-3" id="pendientes-list">
+                        <!-- Items generados por JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area (Calendario/Lista) -->
+            <div class="flex-1 bg-white rounded-xl shadow-soft border border-gray-100 overflow-hidden flex flex-col">
+                <!-- Vista MES -->
+                <div id="view-month" class="flex-1 flex flex-col h-full">
+                    <div class="grid grid-cols-7 text-center border-b border-gray-200 bg-gray-50">
+                        <div class="py-2 text-sm font-semibold text-gray-500">Lun</div>
+                        <div class="py-2 text-sm font-semibold text-gray-500">Mar</div>
+                        <div class="py-2 text-sm font-semibold text-gray-500">Mié</div>
+                        <div class="py-2 text-sm font-semibold text-gray-500">Jue</div>
+                        <div class="py-2 text-sm font-semibold text-gray-500">Vie</div>
+                        <div class="py-2 text-sm font-semibold text-gray-500">Sáb</div>
+                        <div class="py-2 text-sm font-semibold text-gray-500">Dom</div>
+                    </div>
+                    <div class="calendar-grid flex-1 overflow-y-auto" id="month-grid">
+                        <!-- Generado por JS -->
+                    </div>
+                </div>
+
+                <!-- Vista SEMANA -->
+                <div id="view-week" class="flex-1 flex flex-col h-full hidden overflow-y-auto">
+                    <div class="week-grid min-w-[800px]">
+                        <!-- Headers -->
+                        <div class="week-header border-b border-gray-200">Hora</div>
+                        <div class="week-header border-b border-gray-200">Lun 16</div>
+                        <div class="week-header border-b border-gray-200">Mar 17</div>
+                        <div class="week-header border-b border-gray-200 bg-blue-50/50">Mié 18</div>
+                        <div class="week-header border-b border-gray-200">Jue 19</div>
+                        <div class="week-header border-b border-gray-200">Vie 20</div>
+                        <div class="week-header border-b border-gray-200">Sáb 21</div>
+                        <div class="week-header border-b border-gray-200">Dom 22</div>
+                        <!-- Generado por JS -->
+                    </div>
+                </div>
+
+                <!-- Vista LISTA -->
+                <div id="view-list" class="flex-1 hidden overflow-y-auto p-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-gray-800">Próximos Eventos</h3>
+                        <div class="flex space-x-2">
+                            <select class="border border-gray-300 rounded-lg text-sm px-3 py-1.5 focus:outline-none focus:border-brand-azul">
+                                <option>Todas las categorías</option>
+                                <option>Reunión Externa</option>
+                                <option>Comisión</option>
+                                <option>Sesión</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                        <table class="min-w-full text-left text-sm whitespace-nowrap">
+                            <thead class="uppercase tracking-wider border-b border-gray-200 bg-gray-50 text-gray-500 text-xs font-semibold">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Fecha y Hora</th>
+                                    <th scope="col" class="px-6 py-3">Título</th>
+                                    <th scope="col" class="px-6 py-3">Categoría</th>
+                                    <th scope="col" class="px-6 py-3">Estado</th>
+                                    <th scope="col" class="px-6 py-3 text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-tbody" class="divide-y divide-gray-200 bg-white">
+                                <!-- Generado por JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL NUEVO EVENTO -->
+    <div id="event-modal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4 overflow-hidden transform scale-95 transition-transform duration-300" id="modal-content">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h2 class="text-lg font-bold text-gray-800" id="modal-title">Nuevo Evento de Agenda</h2>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-700 transition-colors">
+                    <i class="ph ph-x text-xl"></i>
+                </button>
+            </div>
+            
+            <form class="p-6 space-y-4" onsubmit="event.preventDefault(); closeModal();">
+                <!-- Título -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Título del Evento / Tarea *</label>
+                    <input type="text" placeholder="Ej. Reunión con comisión directiva..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-azul/20 focus:border-brand-azul outline-none transition-all text-gray-800" required>
+                </div>
+
+                <!-- Opciones rápidas de fecha -->
+                <div class="flex items-center space-x-4 mb-2">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="check-sin-fecha" class="rounded text-brand-azul focus:ring-brand-azul border-gray-300 w-4 h-4 cursor-pointer" onchange="toggleDateFields()">
+                        <span class="ml-2 text-sm text-gray-600 font-medium">Dejar pendiente (Sin fecha definida)</span>
+                    </label>
+                </div>
+
+                <!-- Fecha y Hora -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="date-time-fields">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+                        <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-azul/20 focus:border-brand-azul outline-none text-gray-800">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Hora Inicio</label>
+                        <input type="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-azul/20 focus:border-brand-azul outline-none text-gray-800">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Hora Fin</label>
+                        <input type="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-azul/20 focus:border-brand-azul outline-none text-gray-800">
+                    </div>
+                </div>
+
+                <!-- Categoría y Ubicación -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-azul/20 focus:border-brand-azul outline-none text-gray-800 bg-white">
+                            <option value="Reunión externa">Reunión Externa</option>
+                            <option value="Reunión interna">Reunión Interna</option>
+                            <option value="Comisión">Comisión Legislativa</option>
+                            <option value="Sesión">Sesión</option>
+                            <option value="Presentación">Presentación / Acto</option>
+                            <option value="Territorio">Trabajo en Territorio</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Modalidad / Ubicación</label>
+                        <div class="flex relative">
+                            <span class="inline-flex items-center px-3 border border-r-0 border-gray-300 bg-gray-50 text-gray-500 rounded-l-lg">
+                                <i class="ph ph-map-pin"></i>
+                            </span>
+                            <input type="text" placeholder="Cámara, Zoom, Dirección..." class="flex-1 px-3 py-2 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-brand-azul/20 focus:border-brand-azul outline-none text-gray-800">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proyecto Relacionado y Prioridad -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Proyecto Relacionado (Opcional)</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-azul/20 focus:border-brand-azul outline-none text-gray-800 bg-white">
+                            <option value="">Ninguno</option>
+                            <option value="1">Ley de Dislexia</option>
+                            <option value="2">Prevención de Abigeato</option>
+                            <option value="3">Fomento Agroecológico</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Prioridad</label>
+                        <div class="flex space-x-4 mt-2">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="priority" value="alta" class="text-brand-magenta focus:ring-brand-magenta w-4 h-4">
+                                <span class="ml-2 text-sm text-gray-700">Alta</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="priority" value="media" checked class="text-brand-azul focus:ring-brand-azul w-4 h-4">
+                                <span class="ml-2 text-sm text-gray-700">Media</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="priority" value="baja" class="text-gray-400 focus:ring-gray-400 w-4 h-4">
+                                <span class="ml-2 text-sm text-gray-700">Baja</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notas -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Notas internas</label>
+                    <textarea rows="2" placeholder="Detalles, links de zoom, temas a tratar..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-azul/20 focus:border-brand-azul outline-none text-gray-800 resize-none"></textarea>
+                </div>
+
+                <!-- Actions -->
+                <div class="pt-4 border-t border-gray-100 flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="closeModal()" class="px-5 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">Cancelar</button>
+                    <button type="submit" class="btn-primary px-6 py-2 text-white rounded-lg font-medium shadow-md">Guardar Evento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE LOGICA (Prototipo) -->
+    <script>
+        // Datos Mockeados (Marzo 2026 - Referencia)
+        const mockEvents = [
+            { id: 1, title: 'Presentación de proyectos', date: '2026-03-02', time: '09:00', cat: 'Presentación', class: 'cat-presentacion', status: 'Realizado' },
+            { id: 2, title: 'Comisiones legislativas', date: '2026-03-10', time: '10:00', cat: 'Comisión', class: 'cat-comision', status: 'Realizado' },
+            { id: 3, title: 'Reunión por derechos humanos (Tema 24M)', date: '2026-03-17', time: '17:30', cat: 'Reunión externa', class: 'cat-reunion-ext', status: 'Confirmado' },
+            { id: 4, title: 'Sesión ordinaria', date: '2026-03-18', time: '09:30', cat: 'Sesión', class: 'cat-sesion', status: 'Confirmado' },
+            { id: 5, title: 'Reunión interna Equipo Gortari', date: '2026-03-19', time: '17:00', cat: 'Reunión interna', class: 'cat-reunion-int', status: 'Confirmado' },
+            { id: 6, title: 'Acto Conmemorativo', date: '2026-03-24', time: '10:00', cat: 'Presentación', class: 'cat-presentacion', status: 'Confirmado' }
+        ];
+
+        const mockPendientes = [
+            { id: 101, title: 'Reunión por proyecto de dislexia', cat: 'Pendiente', priority: 'Alta' },
+            { id: 102, title: 'Reunión por abigeato (Zona Sur)', cat: 'Pendiente', priority: 'Media' },
+            { id: 103, title: 'Reunión con sector agroecológico', cat: 'Territorio', priority: 'Media' },
+            { id: 104, title: 'Encuentro Jóvenes por el clima', cat: 'Reunión externa', priority: 'Baja' }
+        ];
+
+        // Estado inicial
+        let currentDate = new Date(2026, 2, 18); // 18 de Marzo 2026 (Simulando "Hoy" para mostrar la semana con datos)
+        let currentView = 'month'; // 'month', 'week', 'list'
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMonthGrid();
+            renderWeekGrid();
+            renderList();
+            renderPendientes();
+            updateHeader();
+        });
+
+        // Cambio de vistas
+        function setView(view) {
+            currentView = view;
+            
+            // UI Toggle Buttons
+            const btns = ['month', 'week', 'list'];
+            btns.forEach(b => {
+                const el = document.getElementById(`btn-view-${b}`);
+                if(b === view) {
+                    el.className = 'px-3 py-1.5 rounded-md shadow-sm bg-white text-gray-800 transition-all font-medium';
+                } else {
+                    el.className = 'px-3 py-1.5 rounded-md text-gray-600 hover:text-gray-800 transition-all font-medium';
+                }
+            });
+
+            // UI Containers
+            document.getElementById('view-month').classList.add('hidden');
+            document.getElementById('view-week').classList.add('hidden');
+            document.getElementById('view-list').classList.add('hidden');
+            document.getElementById(`view-${view}`).classList.remove('hidden');
+            
+            updateHeader();
+        }
+
+        // Navegación de Fechas
+        function changeDate(action) {
+            if(currentView === 'month') {
+                if(action === 'prev') currentDate.setMonth(currentDate.getMonth() - 1);
+                if(action === 'next') currentDate.setMonth(currentDate.getMonth() + 1);
+                if(action === 'today') currentDate = new Date(2026, 2, 18);
+                renderMonthGrid();
+            } else if (currentView === 'week') {
+                if(action === 'prev') currentDate.setDate(currentDate.getDate() - 7);
+                if(action === 'next') currentDate.setDate(currentDate.getDate() + 7);
+                if(action === 'today') currentDate = new Date(2026, 2, 18);
+                renderWeekGrid();
+            }
+            updateHeader();
+        }
+
+        function updateHeader() {
+            const display = document.getElementById('current-date-display');
+            const options = { month: 'long', year: 'numeric' };
+            
+            if(currentView === 'week') {
+                // Cálculo simple de semana
+                let start = new Date(currentDate);
+                let day = start.getDay();
+                let diff = start.getDate() - day + (day == 0 ? -6:1);
+                start.setDate(diff);
+                
+                let end = new Date(start);
+                end.setDate(end.getDate() + 6);
+                
+                display.innerText = `${start.getDate()} - ${end.getDate()} ${start.toLocaleDateString('es-AR', {month: 'short'})} ${start.getFullYear()}`;
+            } else {
+                display.innerText = currentDate.toLocaleDateString('es-AR', options);
+            }
+        }
+
+        // Render VISTA MES
+        function renderMonthGrid() {
+            const grid = document.getElementById('month-grid');
+            grid.innerHTML = '';
+            
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            
+            // Ajustar para empezar en Lunes (1) en vez de Domingo (0)
+            let startingDay = firstDay.getDay() - 1;
+            if(startingDay === -1) startingDay = 6;
+            
+            // Días mes anterior
+            const prevLastDay = new Date(year, month, 0).getDate();
+            for(let i = startingDay - 1; i >= 0; i--) {
+                grid.innerHTML += `<div class="calendar-day other-month"><span class="day-number text-sm font-medium">${prevLastDay - i}</span></div>`;
+            }
+            
+            // Días mes actual
+            for(let i = 1; i <= lastDay.getDate(); i++) {
+                // Formato YYYY-MM-DD para buscar eventos
+                const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                const isToday = (i === 18 && month === 2 && year === 2026); // Hardcodeado hoy prototipo
+                
+                const eventsHTML = mockEvents
+                    .filter(e => e.date === dateStr)
+                    .map(e => `<div class="event-pill ${e.class}" title="${e.title}">${e.time} ${e.title}</div>`)
+                    .join('');
+
+                grid.innerHTML += `
+                    <div class="calendar-day flex flex-col ${isToday ? 'today' : ''}">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="day-number text-sm font-semibold">${i}</span>
+                        </div>
+                        <div class="flex-1 overflow-y-auto no-scrollbar">
+                            ${eventsHTML}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Rellenar cuadrícula final
+            const totalCells = grid.children.length;
+            const remaining = 42 - totalCells; // 6 filas completas
+            for(let i = 1; i <= remaining; i++) {
+                grid.innerHTML += `<div class="calendar-day other-month"><span class="day-number text-sm font-medium">${i}</span></div>`;
+            }
+        }
+
+        // Render VISTA SEMANA (Prototipo visual)
+        function renderWeekGrid() {
+            const grid = document.querySelector('.week-grid');
+            // Mantener solo los headers
+            let html = grid.innerHTML.split('<!-- Generado por JS -->')[0] + '<!-- Generado por JS -->';
+            
+            // Generar horas de 8:00 a 20:00
+            for(let hour = 8; hour <= 20; hour++) {
+                html += `<div class="time-col border-b border-gray-200">${hour}:00</div>`;
+                
+                for(let day = 1; day <= 7; day++) {
+                    let cellContent = '';
+                    let bgClass = (day === 3) ? 'bg-blue-50/20' : ''; // Resaltar "Hoy" (Miércoles)
+                    
+                    // Eventos hardcodeados para el prototipo en horarios específicos
+                    if(hour === 17 && day === 2) {
+                        cellContent = `<div class="event-pill cat-reunion-ext p-2 h-full shadow-sm">17:30 Reunión DDHH<br><span class="text-xs opacity-70">Cámara</span></div>`;
+                    }
+                    if(hour === 9 && day === 3) {
+                        cellContent = `<div class="event-pill cat-sesion p-2 h-full shadow-sm">09:30 Sesión ordinaria<br><span class="text-xs opacity-70">Recinto</span></div>`;
+                    }
+                    if(hour === 17 && day === 4) {
+                        cellContent = `<div class="event-pill cat-reunion-int p-2 h-full shadow-sm">17:00 Equipo Interno<br><span class="text-xs opacity-70">Oficina</span></div>`;
+                    }
+
+                    html += `<div class="week-cell border-b border-gray-200 border-r border-gray-100 ${bgClass}">${cellContent}</div>`;
+                }
+            }
+            grid.innerHTML = html;
+        }
+
+        // Render VISTA LISTA
+        function renderList() {
+            const tbody = document.getElementById('list-tbody');
+            tbody.innerHTML = mockEvents.map(e => `
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4">
+                        <div class="flex flex-col">
+                            <span class="font-medium text-gray-800">${e.date.split('-').reverse().join('/')}</span>
+                            <span class="text-xs text-gray-500 flex items-center mt-1"><i class="ph ph-clock mr-1"></i>${e.time} hs</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 font-medium text-gray-800">${e.title}</td>
+                    <td class="px-6 py-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${e.class.replace('cat-', 'border-').replace('bg-', 'bg-opacity-50 ')}">
+                            ${e.cat}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="text-sm text-gray-600 flex items-center">
+                            <span class="w-2 h-2 rounded-full ${e.status === 'Confirmado' ? 'bg-green-500' : 'bg-gray-400'} mr-2"></span>
+                            ${e.status}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right text-sm font-medium">
+                        <button class="text-brand-azul hover:text-blue-800 mx-1"><i class="ph ph-pencil-simple text-lg"></i></button>
+                        <button class="text-gray-400 hover:text-red-500 mx-1"><i class="ph ph-trash text-lg"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render PENDIENTES SIDEBAR
+        function renderPendientes() {
+            const container = document.getElementById('pendientes-list');
+            container.innerHTML = mockPendientes.map(p => {
+                let prioColor = p.priority === 'Alta' ? 'text-brand-magenta' : (p.priority === 'Media' ? 'text-brand-azul' : 'text-gray-400');
+                return `
+                <div class="p-3 border border-gray-200 rounded-lg hover:border-brand-azul hover:shadow-md transition-all bg-white cursor-pointer group">
+                    <div class="flex justify-between items-start mb-1">
+                        <h4 class="text-sm font-semibold text-gray-800 group-hover:text-brand-azul transition-colors">${p.title}</h4>
+                        <i class="ph ph-warning-circle ${prioColor}" title="Prioridad ${p.priority}"></i>
+                    </div>
+                    <div class="flex items-center justify-between mt-2">
+                        <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">${p.cat}</span>
+                        <button class="text-xs text-brand-azul font-medium opacity-0 group-hover:opacity-100 transition-opacity">Agendar</button>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('event-modal');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal(isPendiente = false) {
+            modal.classList.remove('hidden');
+            // Pequeño delay para la animación
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+            
+            if(isPendiente) {
+                document.getElementById('check-sin-fecha').checked = true;
+                toggleDateFields();
+                document.getElementById('modal-title').innerText = "Nuevo Pendiente por Coordinar";
+            } else {
+                document.getElementById('check-sin-fecha').checked = false;
+                toggleDateFields();
+                document.getElementById('modal-title').innerText = "Nuevo Evento de Agenda";
+            }
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // duración de la transición
+        }
+
+        function toggleDateFields() {
+            const isChecked = document.getElementById('check-sin-fecha').checked;
+            const dateFields = document.getElementById('date-time-fields');
+            if(isChecked) {
+                dateFields.style.opacity = '0.4';
+                dateFields.style.pointerEvents = 'none';
+                dateFields.querySelectorAll('input').forEach(el => el.value = '');
+            } else {
+                dateFields.style.opacity = '1';
+                dateFields.style.pointerEvents = 'auto';
+            }
+        }
+    </script>
+</body>
+</html>

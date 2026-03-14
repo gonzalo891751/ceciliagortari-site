@@ -15,6 +15,9 @@ permalink: gestionproyectos/index.html
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
     <style>
         /* =========================================
            1. BRAND TOKENS & CSS VARIABLES
@@ -137,9 +140,10 @@ permalink: gestionproyectos/index.html
         #app-container { display: none; }
         .header {
             background-color: var(--bg-surface); border-bottom: 1px solid var(--border-light);
-            position: sticky; top: 0; z-index: 100; padding: 1rem 2rem; box-shadow: var(--shadow-sm);
+            position: relative; top: 0; z-index: 100; padding: 0.75rem 1.5rem; box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
         }
-        .header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
         .brand { display: flex; align-items: center; gap: 0.5rem; }
         .brand-title { font-size: 1.25rem; font-weight: 700; color: var(--blue); }
         .brand-subtitle { font-size: 0.85rem; color: var(--magenta); font-weight: 500; }
@@ -748,7 +752,13 @@ permalink: gestionproyectos/index.html
             .cards-container { display: block; }
             .form-grid { grid-template-columns: 1fr; }
             main { padding: 1rem; padding-bottom: 5rem; /* room for FAB */ }
+
+            /* App layout on mobile: full height, no sidebar */
+            .app-layout { height: 100vh; height: 100dvh; }
             .doc-item-name { max-width: 150px; }
+
+            /* --- Module filters: hidden on mobile (use mobile search/filter rows instead) --- */
+            .module-filters { display: none !important; }
 
             /* --- Header: compact, NOT sticky --- */
             .header {
@@ -1676,6 +1686,585 @@ permalink: gestionproyectos/index.html
             font-weight: 600;
             color: var(--blue);
         }
+
+        /* =========================================
+           SIDEBAR LAYOUT
+           ========================================= */
+        .app-layout {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .app-sidebar {
+            width: 240px;
+            min-width: 240px;
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            z-index: 300;
+            transition: width 0.25s ease, min-width 0.25s ease;
+            box-shadow: 2px 0 12px -4px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .app-sidebar.collapsed {
+            width: 64px;
+            min-width: 64px;
+        }
+
+        .sidebar-brand {
+            height: 56px;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            border-bottom: 1px solid var(--border-light);
+            flex-shrink: 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .sidebar-brand-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--blue), var(--magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        .sidebar-brand-text span { font-weight: 300; }
+        .app-sidebar.collapsed .sidebar-brand-text { display: none; }
+        .sidebar-brand-icon {
+            width: 32px; height: 32px; border-radius: 8px;
+            background: linear-gradient(135deg, var(--blue), var(--magenta));
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.85rem; flex-shrink: 0; margin-right: 0.65rem;
+        }
+        .app-sidebar.collapsed .sidebar-brand-icon { margin-right: 0; }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 0.75rem 0.5rem;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 0.75rem;
+            margin-bottom: 0.15rem;
+            border-radius: var(--radius-md);
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+            white-space: nowrap;
+            position: relative;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: var(--font-main);
+        }
+        .sidebar-nav-item:hover {
+            background: rgba(23,104,197,0.06);
+            color: var(--blue);
+        }
+        .sidebar-nav-item.active {
+            background: rgba(23,104,197,0.1);
+            color: var(--blue);
+            font-weight: 600;
+        }
+        .sidebar-nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.4rem;
+            bottom: 0.4rem;
+            width: 3px;
+            background: var(--blue);
+            border-radius: 0 3px 3px 0;
+        }
+        .sidebar-nav-item i {
+            font-size: 1.25rem;
+            width: 28px;
+            text-align: center;
+            flex-shrink: 0;
+            margin-right: 0.65rem;
+        }
+        .sidebar-nav-item-label {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .app-sidebar.collapsed .sidebar-nav-item-label { display: none; }
+        .app-sidebar.collapsed .sidebar-nav-item i { margin-right: 0; }
+        .app-sidebar.collapsed .sidebar-nav-item {
+            justify-content: center;
+            padding: 0.6rem;
+        }
+        /* Tooltip on collapsed sidebar */
+        .app-sidebar.collapsed .sidebar-nav-item[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            left: calc(100% + 8px);
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--text-main);
+            color: white;
+            padding: 0.3rem 0.65rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+            z-index: 999;
+            pointer-events: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .sidebar-footer {
+            padding: 0.75rem;
+            border-top: 1px solid var(--border-light);
+            flex-shrink: 0;
+        }
+        .sidebar-user-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            overflow: hidden;
+        }
+        .sidebar-avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--magenta); color: white; font-weight: 700;
+            font-size: 0.75rem; display: flex; align-items: center;
+            justify-content: center; flex-shrink: 0;
+        }
+        .sidebar-user-info { overflow: hidden; }
+        .sidebar-user-name { font-size: 0.82rem; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sidebar-user-role { font-size: 0.7rem; color: var(--text-muted); }
+        .app-sidebar.collapsed .sidebar-user-info { display: none; }
+
+        .sidebar-collapse-btn {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; padding: 0.5rem; margin-top: 0.5rem;
+            border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            background: var(--bg-body); cursor: pointer; color: var(--text-muted);
+            font-size: 1rem; transition: all 0.15s;
+        }
+        .sidebar-collapse-btn:hover { background: var(--badge-gray-bg); color: var(--text-main); }
+        .app-sidebar.collapsed .sidebar-collapse-btn i { transform: rotate(180deg); }
+
+        /* Sidebar overlay for mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(2px);
+            z-index: 290;
+        }
+        .sidebar-overlay.active { display: block; }
+
+        /* App main content area */
+        .app-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-width: 0;
+        }
+        .app-main > main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Header adjustments for sidebar layout */
+        .app-layout .header {
+            position: relative;
+            z-index: 100;
+        }
+
+        /* Hamburger button (visible only on mobile) */
+        .sidebar-hamburger {
+            display: none;
+            background: none; border: none; cursor: pointer;
+            color: var(--text-main); font-size: 1.5rem;
+            padding: 0.25rem; margin-right: 0.75rem;
+        }
+
+        /* Module-specific filters container */
+        .module-filters {
+            padding: 0.5rem 2rem;
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border-light);
+            display: none;
+        }
+        .module-filters.active { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+
+        /* Mobile sidebar behavior */
+        @media (max-width: 768px) {
+            .app-sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0; bottom: 0;
+                width: 240px;
+                min-width: 240px;
+                transition: left 0.3s ease;
+                box-shadow: 4px 0 20px -4px rgba(0,0,0,0.15);
+            }
+            .app-sidebar.collapsed {
+                width: 240px;
+                min-width: 240px;
+            }
+            .app-sidebar.mobile-open {
+                left: 0;
+            }
+            .app-sidebar.mobile-open .sidebar-nav-item-label { display: inline; }
+            .app-sidebar.mobile-open .sidebar-brand-text { display: inline; }
+            .app-sidebar.mobile-open .sidebar-user-info { display: block; }
+            .app-sidebar.mobile-open .sidebar-nav-item i { margin-right: 0.65rem; }
+            .app-sidebar.mobile-open .sidebar-nav-item { justify-content: flex-start; padding: 0.6rem 0.75rem; }
+
+            .sidebar-hamburger { display: flex; align-items: center; }
+            .sidebar-collapse-btn { display: none; }
+
+            .module-filters { padding: 0.5rem 1rem; }
+            .module-filters .search-bar { width: 100%; }
+        }
+
+        /* =========================================
+           AGENDA MODULE CSS
+           ========================================= */
+        /* Agenda toolbar */
+        .agenda-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .agenda-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .agenda-toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .agenda-nav-btn {
+            width: 32px; height: 32px; border-radius: var(--radius-md);
+            border: 1px solid var(--border-light); background: var(--bg-surface);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted); transition: all 0.15s; font-size: 1rem;
+        }
+        .agenda-nav-btn:hover { background: var(--badge-gray-bg); color: var(--text-main); }
+        .agenda-date-display {
+            font-size: 1.15rem; font-weight: 600; color: var(--text-main);
+            min-width: 180px; text-transform: capitalize;
+        }
+        .agenda-view-toggle {
+            display: flex; background: var(--bg-body); border-radius: var(--radius-md);
+            padding: 3px; border: 1px solid var(--border-light);
+        }
+        .agenda-view-btn {
+            padding: 0.35rem 0.75rem; border: none; border-radius: 6px;
+            background: transparent; font-family: var(--font-main); font-size: 0.82rem;
+            font-weight: 600; color: var(--text-muted); cursor: pointer;
+            transition: all 0.15s;
+        }
+        .agenda-view-btn.active {
+            background: var(--bg-surface); color: var(--text-main);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        /* Agenda workspace: calendar + pendientes side by side */
+        .agenda-workspace {
+            display: flex;
+            gap: 1.5rem;
+            min-height: 0;
+        }
+        .agenda-calendar-area {
+            flex: 1;
+            min-width: 0;
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .agenda-pendientes-panel {
+            width: 300px;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Week summary mini cards */
+        .agenda-summary-card {
+            background: var(--bg-surface); border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);
+            padding: 1rem;
+        }
+        .agenda-summary-card h4 {
+            font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.75rem;
+        }
+        .agenda-summary-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+        }
+        .agenda-summary-item {
+            padding: 0.5rem; border-radius: var(--radius-md); text-align: center;
+        }
+        .agenda-summary-item.blue { background: var(--badge-blue-bg); }
+        .agenda-summary-item.purple { background: var(--badge-purple-bg); }
+        .agenda-summary-number { font-size: 1.5rem; font-weight: 700; line-height: 1; }
+        .agenda-summary-item.blue .agenda-summary-number { color: var(--badge-blue-text); }
+        .agenda-summary-item.purple .agenda-summary-number { color: var(--badge-purple-text); }
+        .agenda-summary-label { font-size: 0.68rem; font-weight: 600; color: var(--text-muted); margin-top: 0.15rem; }
+
+        /* Pendientes list card */
+        .agenda-pendientes-card {
+            background: var(--bg-surface); border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);
+            flex: 1; display: flex; flex-direction: column; overflow: hidden;
+        }
+        .agenda-pendientes-header {
+            padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-light);
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-body);
+        }
+        .agenda-pendientes-header h4 {
+            font-size: 0.88rem; font-weight: 600; color: var(--text-main);
+            display: flex; align-items: center; gap: 0.4rem;
+        }
+        .agenda-pendientes-header h4 i { color: #FBA85F; }
+        .agenda-pendientes-list {
+            flex: 1; overflow-y: auto; padding: 0.75rem;
+        }
+        .pendiente-item {
+            padding: 0.75rem; border: 1px solid var(--border-light);
+            border-radius: var(--radius-md); margin-bottom: 0.5rem;
+            cursor: pointer; transition: all 0.15s; background: var(--bg-surface);
+        }
+        .pendiente-item:hover {
+            border-color: var(--blue);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .pendiente-item-title {
+            font-size: 0.85rem; font-weight: 600; color: var(--text-main);
+            margin-bottom: 0.35rem;
+        }
+        .pendiente-item:hover .pendiente-item-title { color: var(--blue); }
+        .pendiente-item-meta {
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .pendiente-item-cat {
+            font-size: 0.7rem; font-weight: 600; padding: 0.15rem 0.4rem;
+            border-radius: var(--radius-full); background: var(--badge-gray-bg);
+            color: var(--badge-gray-text);
+        }
+        .pendiente-item-prio {
+            font-size: 0.85rem;
+        }
+        .pendiente-item-prio.alta { color: var(--magenta); }
+        .pendiente-item-prio.media { color: var(--blue); }
+        .pendiente-item-prio.baja { color: var(--text-muted); }
+        .pendiente-item-actions {
+            display: flex; gap: 0.25rem; margin-top: 0.5rem;
+            opacity: 0; transition: opacity 0.15s;
+        }
+        .pendiente-item:hover .pendiente-item-actions { opacity: 1; }
+        .pendiente-action-btn {
+            font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-md); border: none; cursor: pointer;
+            font-family: var(--font-main); transition: all 0.15s;
+        }
+        .pendiente-action-btn.agendar {
+            background: var(--badge-blue-bg); color: var(--badge-blue-text);
+        }
+        .pendiente-action-btn.agendar:hover { background: var(--blue); color: white; }
+        .pendiente-action-btn.done {
+            background: var(--badge-green-bg); color: var(--badge-green-text);
+        }
+        .pendiente-action-btn.done:hover { background: #10B981; color: white; }
+
+        /* Calendar month grid */
+        .cal-month-header {
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            background: var(--bg-body); border-bottom: 1px solid var(--border-light);
+        }
+        .cal-month-header div {
+            padding: 0.5rem; text-align: center; font-size: 0.78rem;
+            font-weight: 600; color: var(--text-muted); text-transform: uppercase;
+        }
+        .cal-month-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            flex: 1;
+            overflow-y: auto;
+        }
+        .cal-day {
+            min-height: 100px;
+            padding: 0.35rem;
+            border-bottom: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
+            transition: background 0.15s;
+            cursor: pointer;
+        }
+        .cal-day:nth-child(7n) { border-right: none; }
+        .cal-day:hover { background: #FAFAFF; }
+        .cal-day.other-month { background: var(--bg-body); }
+        .cal-day.other-month .cal-day-number { color: var(--border-light); }
+        .cal-day.today { background: rgba(23,104,197,0.04); }
+        .cal-day-number {
+            font-size: 0.82rem; font-weight: 600; color: var(--text-muted);
+            width: 24px; height: 24px; display: flex; align-items: center;
+            justify-content: center; border-radius: 50%; margin-bottom: 0.2rem;
+        }
+        .cal-day.today .cal-day-number {
+            background: var(--blue); color: white;
+        }
+        .cal-event-pill {
+            font-size: 0.68rem; font-weight: 500; padding: 0.15rem 0.35rem;
+            border-radius: 4px; margin-bottom: 0.15rem; cursor: pointer;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            border-left: 3px solid transparent; transition: all 0.1s;
+        }
+        .cal-event-pill:hover { filter: brightness(0.95); transform: translateX(1px); }
+
+        /* Event category colors */
+        .cat-reunion-ext { background: var(--badge-blue-bg); color: var(--badge-blue-text); border-left-color: var(--blue); }
+        .cat-reunion-int { background: var(--badge-purple-bg); color: var(--badge-purple-text); border-left-color: #9F57A7; }
+        .cat-comision { background: #ECFEFF; color: #0E7490; border-left-color: #24BCDE; }
+        .cat-sesion { background: var(--badge-yellow-bg); color: var(--badge-yellow-text); border-left-color: #FBA85F; }
+        .cat-presentacion { background: #FDF2F8; color: #BE185D; border-left-color: var(--magenta); }
+        .cat-investigacion { background: #F0FDF4; color: #166534; border-left-color: #10B981; }
+        .cat-territorio { background: #FFF7ED; color: #9A3412; border-left-color: #F97316; }
+        .cat-seguimiento { background: var(--badge-gray-bg); color: var(--badge-gray-text); border-left-color: #6B7280; }
+        .cat-pendiente { background: #FFFBEB; color: #92400E; border-left-color: #F59E0B; }
+
+        /* Week view */
+        .cal-week-container { overflow-x: auto; flex: 1; }
+        .cal-week-grid {
+            display: grid;
+            grid-template-columns: 56px repeat(7, minmax(100px, 1fr));
+            min-width: 700px;
+        }
+        .cal-week-header-cell {
+            padding: 0.6rem 0.35rem; text-align: center;
+            font-size: 0.78rem; font-weight: 600; color: var(--text-muted);
+            background: var(--bg-body); border-bottom: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
+        }
+        .cal-week-header-cell:last-child { border-right: none; }
+        .cal-week-header-cell.today { background: rgba(23,104,197,0.08); color: var(--blue); }
+        .cal-week-header-cell .week-day-num {
+            font-size: 1.15rem; font-weight: 700; display: block;
+        }
+        .cal-week-time {
+            padding: 0.25rem 0.35rem; text-align: center;
+            font-size: 0.72rem; color: var(--text-muted);
+            background: var(--bg-body); border-bottom: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
+        }
+        .cal-week-cell {
+            min-height: 52px; padding: 0.2rem;
+            border-bottom: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
+            position: relative; cursor: pointer;
+        }
+        .cal-week-cell:last-child { border-right: none; }
+        .cal-week-cell:hover { background: #FAFAFF; }
+        .cal-week-cell.today-col { background: rgba(23,104,197,0.03); }
+        .cal-week-event {
+            font-size: 0.68rem; padding: 0.25rem 0.35rem;
+            border-radius: 4px; margin-bottom: 0.15rem;
+            border-left: 3px solid transparent;
+            cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        /* List view */
+        .cal-list-container { overflow-y: auto; flex: 1; padding: 1rem; }
+        .cal-list-group-header {
+            font-size: 0.82rem; font-weight: 700; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.04em;
+            padding: 0.5rem 0; border-bottom: 1px solid var(--border-light);
+            margin-bottom: 0.5rem; margin-top: 1rem;
+        }
+        .cal-list-group-header:first-child { margin-top: 0; }
+        .cal-list-item {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 0.75rem; border-radius: var(--radius-md);
+            border: 1px solid var(--border-light); margin-bottom: 0.5rem;
+            cursor: pointer; transition: all 0.15s; background: var(--bg-surface);
+        }
+        .cal-list-item:hover {
+            border-color: var(--blue); box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .cal-list-time {
+            font-size: 0.82rem; font-weight: 600; color: var(--text-main);
+            min-width: 55px; text-align: center;
+        }
+        .cal-list-info { flex: 1; min-width: 0; }
+        .cal-list-title { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+        .cal-list-detail {
+            font-size: 0.75rem; color: var(--text-muted); display: flex;
+            align-items: center; gap: 0.5rem; margin-top: 0.15rem;
+        }
+        .cal-list-status {
+            display: flex; align-items: center; gap: 0.35rem;
+            font-size: 0.78rem; font-weight: 500;
+        }
+        .cal-list-status-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+        }
+        .status-confirmado { background: #10B981; }
+        .status-pendiente { background: var(--badge-gray-text); }
+        .status-realizado { background: var(--blue); }
+        .status-reprogramar { background: #F59E0B; }
+        .status-suspendido { background: var(--badge-red-text); }
+        .cal-list-actions {
+            display: flex; gap: 0.25rem; flex-shrink: 0;
+        }
+
+        /* Agenda empty state */
+        .agenda-empty {
+            text-align: center; padding: 3rem 1rem; color: var(--text-muted);
+        }
+        .agenda-empty i { font-size: 3rem; opacity: 0.3; margin-bottom: 0.75rem; }
+        .agenda-empty p { font-size: 0.9rem; }
+
+        /* Recurrence badge */
+        .recurrence-badge {
+            display: inline-flex; align-items: center; gap: 0.2rem;
+            font-size: 0.65rem; color: var(--text-muted);
+        }
+        .recurrence-badge i { font-size: 0.75rem; }
+
+        /* Agenda responsive */
+        @media (max-width: 1024px) {
+            .agenda-pendientes-panel { display: none; }
+        }
+        @media (max-width: 768px) {
+            .agenda-toolbar { flex-direction: column; align-items: stretch; }
+            .agenda-toolbar-left, .agenda-toolbar-right { justify-content: space-between; }
+            .cal-day { min-height: 60px; }
+            .cal-event-pill { font-size: 0.6rem; }
+            .cal-day-number { font-size: 0.75rem; width: 20px; height: 20px; }
+            .agenda-pendientes-panel { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -1705,41 +2294,94 @@ permalink: gestionproyectos/index.html
     </div>
 
     <!-- APLICACIÓN PRINCIPAL -->
-    <div id="app-container">
-        <header class="header">
-            <div class="header-top">
-                <div class="brand">
-                    <div>
-                        <div class="brand-title">Gestión de Proyectos</div>
-                        <div class="brand-subtitle">Cecilia Gortari (Privado)</div>
+    <div id="app-container" class="app-layout">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside id="app-sidebar" class="app-sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon">CG</div>
+                <span class="sidebar-brand-text">GORTARI<span>GESTIÓN</span></span>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="sidebar-nav-item active" id="nav-proyectos" title="Proyectos" onclick="switchTab('proyectos')">
+                    <i class="ph ph-folder-open"></i>
+                    <span class="sidebar-nav-item-label">Proyectos</span>
+                </button>
+                <button class="sidebar-nav-item" id="nav-agenda" title="Agenda" onclick="switchTab('agenda')">
+                    <i class="ph ph-calendar-blank"></i>
+                    <span class="sidebar-nav-item-label">Agenda</span>
+                </button>
+                <button class="sidebar-nav-item" id="nav-gacetillas" title="Gacetillas" onclick="switchTab('gacetillas')">
+                    <i class="ph ph-newspaper"></i>
+                    <span class="sidebar-nav-item-label">Gacetillas</span>
+                </button>
+                <button class="sidebar-nav-item" id="nav-archivos" title="Archivos" onclick="switchTab('archivos')">
+                    <i class="ph ph-files"></i>
+                    <span class="sidebar-nav-item-label">Archivos</span>
+                </button>
+                <button class="sidebar-nav-item" id="nav-dashboard" title="Dashboard" onclick="switchTab('dashboard')">
+                    <i class="ph ph-squares-four"></i>
+                    <span class="sidebar-nav-item-label">Dashboard</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user-row">
+                    <div class="sidebar-avatar">CG</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name">Equipo Cecilia</div>
+                        <div class="sidebar-user-role">Legislativo</div>
                     </div>
                 </div>
-                <!-- Desktop controls (hidden on mobile via CSS) -->
-                <div class="header-controls">
-                    <span id="save-indicator" class="save-indicator">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        Guardado
-                    </span>
-                    <button class="btn btn-primary" onclick="openModal()">+ Nuevo</button>
-                    <button class="btn btn-outline" id="btn-refresh" onclick="manualRefresh()">&#x21bb; Actualizar</button>
-                    <button class="btn btn-outline" onclick="exportReportPDF()">Exportar</button>
-                    <button class="btn btn-outline btn-sm" onclick="logout()" title="Cerrar sesión" style="color:var(--text-muted);">Salir</button>
-                </div>
-                <!-- Mobile icon buttons (hidden on desktop via CSS) -->
-                <div class="header-controls mobile-header-icons">
-                    <button class="btn-icon-mobile" onclick="manualRefresh()" aria-label="Actualizar">&#x21bb;</button>
-                    <button class="btn-icon-mobile" onclick="exportReportPDF()" aria-label="Exportar PDF">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                    </button>
-                    <button class="btn-icon-mobile danger" onclick="logout()" aria-label="Salir">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                    </button>
-                </div>
+                <button class="sidebar-collapse-btn" onclick="toggleSidebarCollapse()" title="Contraer menú">
+                    <i class="ph ph-caret-left"></i>
+                </button>
             </div>
-            <!-- Desktop search & filters (hidden on mobile via CSS) -->
-            <div class="header-controls" style="margin-top: 0.5rem;">
-                <input type="text" id="search-input" class="search-bar" placeholder="Buscar por título, área..." oninput="var ms=document.getElementById('mobile-search-input'); if(ms) ms.value=this.value; filterData()">
+        </aside>
 
+        <!-- Mobile sidebar overlay -->
+        <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="app-main">
+            <header class="header">
+                <div class="header-top">
+                    <div style="display:flex;align-items:center;">
+                        <button class="sidebar-hamburger" onclick="openMobileSidebar()" aria-label="Menú">
+                            <i class="ph ph-list"></i>
+                        </button>
+                        <div class="brand">
+                            <div>
+                                <div class="brand-title" id="header-module-title">Proyectos</div>
+                                <div class="brand-subtitle">Cecilia Gortari (Privado)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Desktop controls (hidden on mobile via CSS) -->
+                    <div class="header-controls" id="header-actions">
+                        <span id="save-indicator" class="save-indicator">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Guardado
+                        </span>
+                        <button class="btn btn-primary" id="header-btn-new" onclick="openModal()">+ Nuevo proyecto</button>
+                        <button class="btn btn-outline" id="btn-refresh" onclick="manualRefresh()">&#x21bb; Actualizar</button>
+                        <button class="btn btn-outline" id="header-btn-export" onclick="exportReportPDF()">Exportar</button>
+                        <button class="btn btn-outline btn-sm" onclick="logout()" title="Cerrar sesión" style="color:var(--text-muted);">Salir</button>
+                    </div>
+                    <!-- Mobile icon buttons (hidden on desktop via CSS) -->
+                    <div class="header-controls mobile-header-icons">
+                        <button class="btn-icon-mobile" onclick="manualRefresh()" aria-label="Actualizar">&#x21bb;</button>
+                        <button class="btn-icon-mobile" onclick="exportReportPDF()" aria-label="Exportar PDF">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                        </button>
+                        <button class="btn-icon-mobile danger" onclick="logout()" aria-label="Salir">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Proyectos Filters (contextual, only visible in Proyectos tab) -->
+            <div class="module-filters active" id="proyectos-filters">
+                <input type="text" id="search-input" class="search-bar" placeholder="Buscar por título, área..." oninput="var ms=document.getElementById('mobile-search-input'); if(ms) ms.value=this.value; filterData()">
                 <select id="filter-tipo" class="input-control" style="width: auto;" onchange="filterData()">
                     <option value="">Todos los Tipos</option>
                     <option value="Proyecto de Ley">Proyecto de Ley</option>
@@ -1748,56 +2390,46 @@ permalink: gestionproyectos/index.html
                     <option value="Nota">Nota</option>
                     <option value="Pedido de informe">Pedido de informe</option>
                 </select>
-
                 <select id="filter-estado-grupo" class="input-control" style="width: auto;" onchange="filterData()">
                     <option value="">Todos</option>
                     <option value="pendientes_trabajo">Pendientes y en trabajo</option>
                     <option value="presentados">Presentados</option>
                 </select>
             </div>
-        </header>
 
-        <!-- Mobile Search (hidden on desktop) -->
-        <div class="mobile-search-row">
-            <div class="mobile-search-wrap">
-                <span class="mobile-search-icon">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </span>
-                <input type="text" id="mobile-search-input" class="search-bar" placeholder="Buscar por título, área o tema..." oninput="document.getElementById('search-input').value=this.value; filterData();">
+            <!-- Mobile Search (hidden on desktop) -->
+            <div class="mobile-search-row" id="mobile-search-row">
+                <div class="mobile-search-wrap">
+                    <span class="mobile-search-icon">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </span>
+                    <input type="text" id="mobile-search-input" class="search-bar" placeholder="Buscar por título, área o tema..." oninput="document.getElementById('search-input').value=this.value; filterData();">
+                </div>
             </div>
-        </div>
 
-        <!-- Mobile Filters (hidden on desktop) -->
-        <div class="mobile-filter-row">
-            <select onchange="document.getElementById('filter-tipo').value=this.value; filterData();">
-                <option value="">Tipo</option>
-                <option value="Proyecto de Ley">Ley</option>
-                <option value="Proyecto de Resolución">Resolución</option>
-                <option value="Proyecto de Declaración">Declaración</option>
-                <option value="Nota">Nota</option>
-                <option value="Pedido de informe">Pedido inf.</option>
-            </select>
-            <select onchange="document.getElementById('filter-estado-grupo').value=this.value; filterData();">
-                <option value="">Estado</option>
-                <option value="pendientes_trabajo">Pend. y trabajo</option>
-                <option value="presentados">Presentados</option>
-            </select>
-            <select id="mobile-sort" onchange="changeMobileSort(this.value)">
-                <option value="updated">Actualiz.</option>
-                <option value="created">Creación</option>
-                <option value="objetivo">Objetivo</option>
-            </select>
-        </div>
+            <!-- Mobile Filters (hidden on desktop) -->
+            <div class="mobile-filter-row" id="mobile-filter-row">
+                <select onchange="document.getElementById('filter-tipo').value=this.value; filterData();">
+                    <option value="">Tipo</option>
+                    <option value="Proyecto de Ley">Ley</option>
+                    <option value="Proyecto de Resolución">Resolución</option>
+                    <option value="Proyecto de Declaración">Declaración</option>
+                    <option value="Nota">Nota</option>
+                    <option value="Pedido de informe">Pedido inf.</option>
+                </select>
+                <select onchange="document.getElementById('filter-estado-grupo').value=this.value; filterData();">
+                    <option value="">Estado</option>
+                    <option value="pendientes_trabajo">Pend. y trabajo</option>
+                    <option value="presentados">Presentados</option>
+                </select>
+                <select id="mobile-sort" onchange="changeMobileSort(this.value)">
+                    <option value="updated">Actualiz.</option>
+                    <option value="created">Creación</option>
+                    <option value="objetivo">Objetivo</option>
+                </select>
+            </div>
 
-        <!-- TABS -->
-        <div class="tabs-bar">
-            <button class="tab-btn active" id="tab-proyectos" onclick="switchTab('proyectos')">Proyectos</button>
-            <button class="tab-btn" id="tab-dashboard" onclick="switchTab('dashboard')">Dashboard</button>
-            <button class="tab-btn" id="tab-gacetillas" onclick="switchTab('gacetillas')">Gacetillas</button>
-            <button class="tab-btn" id="tab-archivos" onclick="switchTab('archivos')">Archivos</button>
-        </div>
-
-        <main>
+            <main>
             <!-- === VISTA PROYECTOS === -->
             <div id="projectsView" class="tab-view active">
                 <h2 class="section-title">Pendientes y En trabajo <span class="badge badge-pendiente" id="count-pendientes">0</span></h2>
@@ -2039,12 +2671,245 @@ permalink: gestionproyectos/index.html
                     </div>
                 </div>
             </div>
+
+            <!-- === VISTA AGENDA === -->
+            <div id="agendaView" class="tab-view">
+                <!-- Agenda Toolbar -->
+                <div class="agenda-toolbar">
+                    <div class="agenda-toolbar-left">
+                        <button class="btn btn-outline btn-sm" onclick="agendaGoToday()">Hoy</button>
+                        <button class="agenda-nav-btn" onclick="agendaNav('prev')"><i class="ph ph-caret-left"></i></button>
+                        <button class="agenda-nav-btn" onclick="agendaNav('next')"><i class="ph ph-caret-right"></i></button>
+                        <span class="agenda-date-display" id="agenda-date-display">Marzo 2026</span>
+                    </div>
+                    <div class="agenda-toolbar-right">
+                        <div class="agenda-view-toggle">
+                            <button class="agenda-view-btn active" id="agenda-btn-month" onclick="agendaSetView('month')">Mes</button>
+                            <button class="agenda-view-btn" id="agenda-btn-week" onclick="agendaSetView('week')">Semana</button>
+                            <button class="agenda-view-btn" id="agenda-btn-list" onclick="agendaSetView('list')">Lista</button>
+                        </div>
+                        <button class="btn btn-primary" onclick="openAgendaModal()">
+                            <i class="ph ph-plus" style="margin-right:0.3rem;"></i> Nuevo evento
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Agenda workspace: calendar + pendientes -->
+                <div class="agenda-workspace">
+                    <!-- Pendientes panel (left on desktop, hidden on small screens) -->
+                    <div class="agenda-pendientes-panel">
+                        <!-- Summary -->
+                        <div class="agenda-summary-card">
+                            <h4>Resumen semanal</h4>
+                            <div class="agenda-summary-grid">
+                                <div class="agenda-summary-item blue">
+                                    <div class="agenda-summary-number" id="agenda-count-today">0</div>
+                                    <div class="agenda-summary-label">Eventos hoy</div>
+                                </div>
+                                <div class="agenda-summary-item purple">
+                                    <div class="agenda-summary-number" id="agenda-count-week">0</div>
+                                    <div class="agenda-summary-label">Esta semana</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pendientes list -->
+                        <div class="agenda-pendientes-card">
+                            <div class="agenda-pendientes-header">
+                                <h4><i class="ph ph-push-pin"></i> Por coordinar</h4>
+                                <button class="btn-icon" onclick="openAgendaModal(null, true)" title="Nuevo pendiente" style="border:none;">
+                                    <i class="ph ph-plus-circle" style="font-size:1.2rem;color:var(--text-muted);"></i>
+                                </button>
+                            </div>
+                            <div class="agenda-pendientes-list" id="agenda-pendientes-list">
+                                <!-- JS rendered -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calendar area -->
+                    <div class="agenda-calendar-area">
+                        <!-- Month view -->
+                        <div id="agenda-view-month">
+                            <div class="cal-month-header">
+                                <div>Lun</div><div>Mar</div><div>Mié</div>
+                                <div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
+                            </div>
+                            <div class="cal-month-grid" id="agenda-month-grid">
+                                <!-- JS rendered -->
+                            </div>
+                        </div>
+                        <!-- Week view -->
+                        <div id="agenda-view-week" style="display:none;">
+                            <div class="cal-week-container">
+                                <div class="cal-week-grid" id="agenda-week-grid">
+                                    <!-- JS rendered -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- List view -->
+                        <div id="agenda-view-list" style="display:none;">
+                            <div class="cal-list-container" id="agenda-list-container">
+                                <!-- JS rendered -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <!-- FAB: Nuevo Proyecto (mobile only, hidden on desktop via CSS) -->
         <button id="fab-new-project" onclick="openFabAction()" aria-label="Nuevo">
             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </button>
+        </div><!-- /.app-main -->
+    </div><!-- /#app-container -->
+
+    <!-- MODAL AGENDA EVENT -->
+    <div class="modal-overlay" id="agenda-modal">
+        <div class="modal-content" style="max-width:640px;">
+            <div class="modal-header">
+                <h3 id="agenda-modal-title">Nuevo Evento de Agenda</h3>
+                <button class="close-btn" onclick="closeModal('agenda-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="agenda-form" onsubmit="event.preventDefault();">
+                    <input type="hidden" id="ag-id">
+                    <div class="input-group full-width" style="margin-bottom:1rem;">
+                        <label for="ag-title">Título *</label>
+                        <input type="text" id="ag-title" class="input-control" placeholder="Ej: Reunión por dislexia..." required>
+                    </div>
+
+                    <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;cursor:pointer;">
+                        <input type="checkbox" id="ag-sin-fecha" onchange="agendaToggleDateFields()"> Dejar pendiente (sin fecha definida)
+                    </label>
+
+                    <div id="ag-date-fields" class="form-grid" style="margin-bottom:1rem;">
+                        <div class="input-group">
+                            <label for="ag-date">Fecha</label>
+                            <input type="date" id="ag-date" class="input-control">
+                        </div>
+                        <div class="input-group">
+                            <label for="ag-start">Hora inicio</label>
+                            <input type="time" id="ag-start" class="input-control">
+                        </div>
+                        <div class="input-group">
+                            <label for="ag-end">Hora fin</label>
+                            <input type="time" id="ag-end" class="input-control">
+                        </div>
+                        <div class="input-group">
+                            <label>&nbsp;</label>
+                            <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;color:var(--text-muted);cursor:pointer;margin-top:0.35rem;">
+                                <input type="checkbox" id="ag-allday"> Todo el día
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="margin-bottom:1rem;">
+                        <div class="input-group">
+                            <label for="ag-category">Categoría</label>
+                            <select id="ag-category" class="input-control">
+                                <option value="Reunión externa">Reunión externa</option>
+                                <option value="Reunión interna">Reunión interna</option>
+                                <option value="Comisión">Comisión</option>
+                                <option value="Sesión">Sesión</option>
+                                <option value="Presentación">Presentación</option>
+                                <option value="Investigación">Investigación</option>
+                                <option value="Territorio">Territorio</option>
+                                <option value="Seguimiento">Seguimiento</option>
+                                <option value="Pendiente por coordinar">Pendiente por coordinar</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="ag-status">Estado</label>
+                            <select id="ag-status" class="input-control">
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Confirmado">Confirmado</option>
+                                <option value="Reprogramar">Reprogramar</option>
+                                <option value="Realizado">Realizado</option>
+                                <option value="Suspendido">Suspendido</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="margin-bottom:1rem;">
+                        <div class="input-group">
+                            <label for="ag-priority">Prioridad</label>
+                            <select id="ag-priority" class="input-control">
+                                <option value="Alta">Alta</option>
+                                <option value="Media" selected>Media</option>
+                                <option value="Baja">Baja</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="ag-responsible">Responsable</label>
+                            <input type="text" id="ag-responsible" class="input-control" placeholder="Opcional">
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="margin-bottom:1rem;">
+                        <div class="input-group">
+                            <label for="ag-location-mode">Modalidad</label>
+                            <select id="ag-location-mode" class="input-control">
+                                <option value="">Sin definir</option>
+                                <option value="presencial">Presencial</option>
+                                <option value="virtual">Virtual (Zoom/Meet)</option>
+                                <option value="mixto">Mixto</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="ag-location-text">Lugar / Link</label>
+                            <input type="text" id="ag-location-text" class="input-control" placeholder="Cámara, Zoom, dirección...">
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="margin-bottom:1rem;">
+                        <div class="input-group">
+                            <label for="ag-project">Proyecto relacionado</label>
+                            <select id="ag-project" class="input-control">
+                                <option value="">Ninguno</option>
+                                <!-- JS populated -->
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="ag-recurrence">Recurrencia</label>
+                            <select id="ag-recurrence" class="input-control">
+                                <option value="">Sin recurrencia</option>
+                                <option value="weekly">Semanal</option>
+                                <option value="biweekly">Quincenal</option>
+                                <option value="monthly">Mensual</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="ag-recurrence-detail" style="display:none;margin-bottom:1rem;">
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="ag-rec-until">Repetir hasta</label>
+                                <input type="date" id="ag-rec-until" class="input-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group" style="margin-bottom:1rem;">
+                        <label for="ag-description">Descripción</label>
+                        <textarea id="ag-description" class="input-control" rows="2" placeholder="Detalles, temas a tratar..." style="resize:vertical;"></textarea>
+                    </div>
+
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label for="ag-notes">Notas internas</label>
+                        <textarea id="ag-notes" class="input-control" rows="2" placeholder="Links de Zoom, indicaciones..." style="resize:vertical;"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger btn-sm" id="ag-btn-delete" onclick="agendaDelete()" style="display:none;">Eliminar</button>
+                <div style="flex-grow:1;"></div>
+                <div class="footer-right">
+                    <button class="btn btn-outline" onclick="closeModal('agenda-modal')">Cancelar</button>
+                    <button class="btn btn-primary" id="ag-btn-save" onclick="agendaSave()">Guardar evento</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL NUEVO/EDITAR (Split View) -->
@@ -2705,7 +3570,7 @@ permalink: gestionproyectos/index.html
             const authUntil = parseInt(localStorage.getItem(AUTH_KEY));
             if (authUntil && Date.now() < authUntil) {
                 document.getElementById('pin-screen').style.display = 'none';
-                document.getElementById('app-container').style.display = 'block';
+                document.getElementById('app-container').style.display = 'flex';
                 loadData();
             } else {
                 localStorage.removeItem(AUTH_KEY);
@@ -2724,7 +3589,7 @@ permalink: gestionproyectos/index.html
                     localStorage.setItem(AUTH_KEY, String(Date.now() + AUTH_DURATION));
                 }
                 document.getElementById('pin-screen').style.display = 'none';
-                document.getElementById('app-container').style.display = 'block';
+                document.getElementById('app-container').style.display = 'flex';
                 loadData();
             } else {
                 alert('PIN incorrecto.');
@@ -4552,22 +5417,68 @@ permalink: gestionproyectos/index.html
            TABS SWITCHING
            ========================================= */
         function switchTab(tab) {
-            const tabs = ['proyectos', 'dashboard', 'gacetillas', 'archivos'];
-            const viewMap = { proyectos: 'projectsView', dashboard: 'dashboardView', gacetillas: 'gacetillasView', archivos: 'archivosView' };
+            const tabs = ['proyectos', 'agenda', 'dashboard', 'gacetillas', 'archivos'];
+            const viewMap = { proyectos: 'projectsView', agenda: 'agendaView', dashboard: 'dashboardView', gacetillas: 'gacetillasView', archivos: 'archivosView' };
+
+            // Update sidebar nav items
             tabs.forEach(t => {
-                document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+                const navItem = document.getElementById('nav-' + t);
+                if (navItem) navItem.classList.toggle('active', t === tab);
                 const view = document.getElementById(viewMap[t]);
-                if (t === tab) {
-                    view.style.display = 'block';
-                    requestAnimationFrame(() => { view.classList.add('active'); });
-                } else {
-                    view.classList.remove('active');
-                    view.style.display = 'none';
+                if (view) {
+                    if (t === tab) {
+                        view.style.display = 'block';
+                        requestAnimationFrame(() => { view.classList.add('active'); });
+                    } else {
+                        view.classList.remove('active');
+                        view.style.display = 'none';
+                    }
                 }
             });
+
+            // Contextual header title
+            const titleMap = { proyectos: 'Proyectos', agenda: 'Agenda Legislativa', dashboard: 'Dashboard', gacetillas: 'Gacetillas', archivos: 'Archivos' };
+            const headerTitle = document.getElementById('header-module-title');
+            if (headerTitle) headerTitle.textContent = titleMap[tab] || tab;
+
+            // Contextual filters: only show proyecto filters on proyectos tab
+            const projFilters = document.getElementById('proyectos-filters');
+            if (projFilters) projFilters.classList.toggle('active', tab === 'proyectos');
+
+            // Mobile search/filter rows: only show on proyectos tab
+            const mobileSearch = document.getElementById('mobile-search-row');
+            const mobileFilter = document.getElementById('mobile-filter-row');
+            if (mobileSearch) mobileSearch.style.display = (tab === 'proyectos') ? '' : 'none';
+            if (mobileFilter) mobileFilter.style.display = (tab === 'proyectos') ? '' : 'none';
+
+            // Contextual header action button
+            const btnNew = document.getElementById('header-btn-new');
+            const btnExport = document.getElementById('header-btn-export');
+            if (btnNew) {
+                const actionMap = {
+                    proyectos: { text: '+ Nuevo proyecto', fn: 'openModal()' },
+                    agenda: { text: '+ Nuevo evento', fn: 'openAgendaModal()' },
+                    gacetillas: { text: '+ Nueva gacetilla', fn: 'openGacetillaModal()' },
+                    archivos: { text: '+ Subir archivo', fn: 'archOpenUploadModal()' },
+                    dashboard: { text: '', fn: '' },
+                };
+                const action = actionMap[tab] || actionMap.proyectos;
+                btnNew.textContent = action.text;
+                btnNew.setAttribute('onclick', action.fn);
+                btnNew.style.display = action.text ? '' : 'none';
+            }
+            if (btnExport) {
+                btnExport.style.display = (tab === 'proyectos' || tab === 'dashboard') ? '' : 'none';
+            }
+
+            // Close mobile sidebar if open
+            closeMobileSidebar();
+
+            // Module-specific init
             if (tab === 'dashboard') renderDashboard();
             if (tab === 'gacetillas') loadGacetillas(1);
             if (tab === 'archivos' && !archInitialized) archLoadFolder();
+            if (tab === 'agenda' && !agendaInitialized) initAgenda();
         }
 
         /* =========================================
@@ -5486,12 +6397,15 @@ permalink: gestionproyectos/index.html
 
         /* --- FAB dynamic action based on current tab --- */
         function openFabAction() {
-            const gacTab = document.getElementById('tab-gacetillas');
-            const archTab = document.getElementById('tab-archivos');
-            if (archTab && archTab.classList.contains('active')) {
+            const navAgenda = document.getElementById('nav-agenda');
+            const navGac = document.getElementById('nav-gacetillas');
+            const navArch = document.getElementById('nav-archivos');
+            if (navArch && navArch.classList.contains('active')) {
                 archOpenUploadModal();
-            } else if (gacTab && gacTab.classList.contains('active')) {
+            } else if (navGac && navGac.classList.contains('active')) {
                 openGacetillaModal();
+            } else if (navAgenda && navAgenda.classList.contains('active')) {
+                openAgendaModal();
             } else {
                 openModal();
             }
@@ -5500,7 +6414,7 @@ permalink: gestionproyectos/index.html
         /* =========================================
            MODAL MANAGEMENT: ESCAPE + CLICK OUTSIDE
            ========================================= */
-        const MODAL_IDS = ['arch-move-modal', 'arch-detail-modal', 'arch-rename-modal', 'arch-upload-modal', 'arch-folder-modal', 'gacetilla-modal', 'gacetilla-detail-modal', 'project-modal', 'project-detail-modal', 'documents-modal', 'preview-modal', 'quick-presentar-modal', 'quick-responsable-modal'];
+        const MODAL_IDS = ['agenda-modal', 'arch-move-modal', 'arch-detail-modal', 'arch-rename-modal', 'arch-upload-modal', 'arch-folder-modal', 'gacetilla-modal', 'gacetilla-detail-modal', 'project-modal', 'project-detail-modal', 'documents-modal', 'preview-modal', 'quick-presentar-modal', 'quick-responsable-modal'];
 
         // Escape key: close topmost modal
         document.addEventListener('keydown', (e) => {
@@ -6622,6 +7536,682 @@ permalink: gestionproyectos/index.html
         }
 
         /* =========================================
+           SIDEBAR LOGIC
+           ========================================= */
+        function toggleSidebarCollapse() {
+            const sidebar = document.getElementById('app-sidebar');
+            sidebar.classList.toggle('collapsed');
+            localStorage.setItem('sidebar_collapsed', sidebar.classList.contains('collapsed') ? '1' : '0');
+        }
+        function openMobileSidebar() {
+            const sidebar = document.getElementById('app-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.add('mobile-open');
+            overlay.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+        function closeMobileSidebar() {
+            const sidebar = document.getElementById('app-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+        // Restore sidebar state
+        (function() {
+            if (localStorage.getItem('sidebar_collapsed') === '1') {
+                const sb = document.getElementById('app-sidebar');
+                if (sb) sb.classList.add('collapsed');
+            }
+        })();
+
+        /* =========================================
+           AGENDA MODULE — FULL IMPLEMENTATION
+           ========================================= */
+        const AGENDA_API = '/api/agenda';
+        let agendaInitialized = false;
+        let agendaEvents = [];       // all loaded events (with date)
+        let agendaPendientes = [];    // events without date
+        let agendaCurrentDate = new Date();
+        let agendaCurrentView = 'month';
+        let agendaEditingId = null;
+
+        function initAgenda() {
+            agendaInitialized = true;
+            agendaLoadEvents();
+        }
+
+        async function agendaLoadEvents() {
+            try {
+                // Load events for current visible range + pending
+                const range = agendaGetVisibleRange();
+                const url = new URL(AGENDA_API, window.location.origin);
+                url.searchParams.set('from', range.from);
+                url.searchParams.set('to', range.to);
+                url.searchParams.set('include_pending', 'true');
+
+                const res = await fetch(url);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+
+                agendaEvents = data.filter(e => e.event_date !== null);
+                agendaPendientes = data.filter(e => e.event_date === null);
+
+                agendaRender();
+            } catch (err) {
+                console.error('Agenda load error:', err);
+                // If API unavailable, still render empty
+                agendaRender();
+            }
+        }
+
+        function agendaGetVisibleRange() {
+            const d = agendaCurrentDate;
+            const y = d.getFullYear();
+            const m = d.getMonth();
+            // Return a wide range to include prev/next month overflow
+            const from = new Date(y, m - 1, 1).toISOString().split('T')[0];
+            const to = new Date(y, m + 2, 0).toISOString().split('T')[0];
+            return { from, to };
+        }
+
+        function agendaRender() {
+            agendaUpdateHeader();
+            agendaUpdateSummary();
+            agendaRenderPendientes();
+
+            if (agendaCurrentView === 'month') agendaRenderMonth();
+            else if (agendaCurrentView === 'week') agendaRenderWeek();
+            else agendaRenderList();
+        }
+
+        function agendaUpdateHeader() {
+            const display = document.getElementById('agenda-date-display');
+            if (!display) return;
+            const d = agendaCurrentDate;
+            if (agendaCurrentView === 'week') {
+                const start = agendaGetWeekStart(d);
+                const end = new Date(start);
+                end.setDate(end.getDate() + 6);
+                display.textContent = `${start.getDate()} - ${end.getDate()} ${start.toLocaleDateString('es-AR', {month: 'short'})} ${start.getFullYear()}`;
+            } else {
+                display.textContent = d.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' });
+            }
+        }
+
+        function agendaUpdateSummary() {
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            const weekStart = agendaGetWeekStart(today);
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            const weekEndStr = weekEnd.toISOString().split('T')[0];
+            const weekStartStr = weekStart.toISOString().split('T')[0];
+
+            const allEventsWithRecurrence = agendaExpandRecurrences(agendaEvents, weekStartStr, weekEndStr);
+
+            const countToday = allEventsWithRecurrence.filter(e => e.event_date === todayStr).length;
+            const countWeek = allEventsWithRecurrence.filter(e => e.event_date >= weekStartStr && e.event_date <= weekEndStr).length;
+
+            const elToday = document.getElementById('agenda-count-today');
+            const elWeek = document.getElementById('agenda-count-week');
+            if (elToday) elToday.textContent = countToday;
+            if (elWeek) elWeek.textContent = countWeek;
+        }
+
+        function agendaGetWeekStart(d) {
+            const date = new Date(d);
+            const day = date.getDay();
+            const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+            date.setDate(diff);
+            date.setHours(0, 0, 0, 0);
+            return date;
+        }
+
+        // ---- Recurrence expansion ----
+        function agendaExpandRecurrences(events, from, to) {
+            const result = [];
+            const fromDate = new Date(from + 'T00:00:00');
+            const toDate = new Date(to + 'T23:59:59');
+
+            for (const ev of events) {
+                result.push(ev); // Always include the original
+
+                if (!ev.recurrence_rule || !ev.event_date) continue;
+
+                const rule = ev.recurrence_rule;
+                const freq = rule.freq;
+                const until = rule.until ? new Date(rule.until + 'T23:59:59') : toDate;
+                const endDate = until < toDate ? until : toDate;
+                const baseDate = new Date(ev.event_date + 'T00:00:00');
+
+                let interval = 1;
+                if (freq === 'biweekly') interval = 2;
+
+                let cursor = new Date(baseDate);
+                while (true) {
+                    if (freq === 'weekly' || freq === 'biweekly') {
+                        cursor.setDate(cursor.getDate() + 7 * interval);
+                    } else if (freq === 'monthly') {
+                        cursor.setMonth(cursor.getMonth() + 1);
+                    } else {
+                        break;
+                    }
+
+                    if (cursor > endDate) break;
+                    if (cursor < fromDate) continue;
+
+                    const dateStr = cursor.toISOString().split('T')[0];
+                    // Don't duplicate the original date
+                    if (dateStr === ev.event_date) continue;
+
+                    result.push({
+                        ...ev,
+                        event_date: dateStr,
+                        _recurrence_instance: true,
+                        _original_id: ev.id,
+                        id: ev.id + '_rec_' + dateStr,
+                    });
+                }
+            }
+            return result;
+        }
+
+        // ---- Category CSS class ----
+        function agendaCatClass(cat) {
+            const map = {
+                'Reunión externa': 'cat-reunion-ext',
+                'Reunión interna': 'cat-reunion-int',
+                'Comisión': 'cat-comision',
+                'Sesión': 'cat-sesion',
+                'Presentación': 'cat-presentacion',
+                'Investigación': 'cat-investigacion',
+                'Territorio': 'cat-territorio',
+                'Seguimiento': 'cat-seguimiento',
+                'Pendiente por coordinar': 'cat-pendiente',
+            };
+            return map[cat] || 'cat-seguimiento';
+        }
+
+        function agendaStatusDot(status) {
+            const map = {
+                'Confirmado': 'status-confirmado',
+                'Pendiente': 'status-pendiente',
+                'Realizado': 'status-realizado',
+                'Reprogramar': 'status-reprogramar',
+                'Suspendido': 'status-suspendido',
+            };
+            return map[status] || 'status-pendiente';
+        }
+
+        // ---- MONTH VIEW ----
+        function agendaRenderMonth() {
+            const grid = document.getElementById('agenda-month-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            const y = agendaCurrentDate.getFullYear();
+            const m = agendaCurrentDate.getMonth();
+            const firstDay = new Date(y, m, 1);
+            const lastDay = new Date(y, m + 1, 0);
+
+            let startDay = firstDay.getDay() - 1;
+            if (startDay === -1) startDay = 6;
+
+            const today = new Date();
+            const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+            // Get expanded events for this month view range
+            const prevMonthLast = new Date(y, m, 0).getDate();
+            const rangeFrom = new Date(y, m, 1 - startDay).toISOString().split('T')[0];
+            const rangeTo = new Date(y, m + 1, 6).toISOString().split('T')[0]; // extra days
+            const expanded = agendaExpandRecurrences(agendaEvents, rangeFrom, rangeTo);
+
+            // Previous month days
+            for (let i = startDay - 1; i >= 0; i--) {
+                const dayNum = prevMonthLast - i;
+                const dateStr = new Date(y, m - 1, dayNum).toISOString().split('T')[0];
+                grid.innerHTML += agendaMonthDayCell(dayNum, dateStr, true, todayStr, expanded);
+            }
+
+            // Current month days
+            for (let d = 1; d <= lastDay.getDate(); d++) {
+                const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                grid.innerHTML += agendaMonthDayCell(d, dateStr, false, todayStr, expanded);
+            }
+
+            // Fill remaining cells (up to 42)
+            const totalCells = grid.children.length;
+            const remaining = (totalCells <= 35 ? 35 : 42) - totalCells;
+            for (let i = 1; i <= remaining; i++) {
+                const dateStr = new Date(y, m + 1, i).toISOString().split('T')[0];
+                grid.innerHTML += agendaMonthDayCell(i, dateStr, true, todayStr, expanded);
+            }
+        }
+
+        function agendaMonthDayCell(dayNum, dateStr, isOther, todayStr, events) {
+            const isToday = dateStr === todayStr;
+            const dayEvents = events.filter(e => e.event_date === dateStr).slice(0, 3);
+            const extra = events.filter(e => e.event_date === dateStr).length - 3;
+
+            let eventsHtml = dayEvents.map(e => {
+                const cls = agendaCatClass(e.category);
+                const time = e.start_time ? e.start_time.slice(0,5) + ' ' : '';
+                const recIcon = e._recurrence_instance ? '<i class="ph ph-arrow-clockwise" style="font-size:0.6rem;margin-right:2px;"></i>' : '';
+                const realId = e._original_id || e.id;
+                return `<div class="cal-event-pill ${cls}" onclick="event.stopPropagation();openAgendaModal('${realId}')" title="${agendaEsc(e.title)}">${recIcon}${time}${agendaEsc(e.title)}</div>`;
+            }).join('');
+            if (extra > 0) {
+                eventsHtml += `<div style="font-size:0.65rem;color:var(--text-muted);padding-left:0.35rem;">+${extra} más</div>`;
+            }
+
+            return `<div class="cal-day ${isOther ? 'other-month' : ''} ${isToday ? 'today' : ''}" onclick="agendaClickDay('${dateStr}')">
+                <div class="cal-day-number">${dayNum}</div>
+                ${eventsHtml}
+            </div>`;
+        }
+
+        function agendaClickDay(dateStr) {
+            openAgendaModal(null, false, dateStr);
+        }
+
+        // ---- WEEK VIEW ----
+        function agendaRenderWeek() {
+            const grid = document.getElementById('agenda-week-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            const weekStart = agendaGetWeekStart(agendaCurrentDate);
+            const today = new Date();
+            const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            const expanded = agendaExpandRecurrences(agendaEvents, weekStart.toISOString().split('T')[0], weekEnd.toISOString().split('T')[0]);
+
+            const dayNames = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+
+            // Header row
+            let html = '<div class="cal-week-header-cell">Hora</div>';
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(weekStart);
+                d.setDate(d.getDate() + i);
+                const dStr = d.toISOString().split('T')[0];
+                const isToday = dStr === todayStr;
+                html += `<div class="cal-week-header-cell ${isToday ? 'today' : ''}">
+                    ${dayNames[i]} <span class="week-day-num">${d.getDate()}</span>
+                </div>`;
+            }
+
+            // Hour rows (8:00 - 20:00)
+            for (let h = 8; h <= 20; h++) {
+                const hourStr = String(h).padStart(2, '0') + ':00';
+                html += `<div class="cal-week-time">${h}:00</div>`;
+
+                for (let i = 0; i < 7; i++) {
+                    const d = new Date(weekStart);
+                    d.setDate(d.getDate() + i);
+                    const dStr = d.toISOString().split('T')[0];
+                    const isToday = dStr === todayStr;
+
+                    // Find events that start in this hour
+                    const hourEvents = expanded.filter(e => {
+                        if (e.event_date !== dStr) return false;
+                        if (!e.start_time) return h === 8; // all-day or no-time events show at 8
+                        const eventHour = parseInt(e.start_time.split(':')[0]);
+                        return eventHour === h;
+                    });
+
+                    let cellContent = hourEvents.map(e => {
+                        const cls = agendaCatClass(e.category);
+                        const time = e.start_time ? e.start_time.slice(0,5) : '';
+                        const realId = e._original_id || e.id;
+                        return `<div class="cal-week-event ${cls}" onclick="event.stopPropagation();openAgendaModal('${realId}')" title="${agendaEsc(e.title)}">${time} ${agendaEsc(e.title)}</div>`;
+                    }).join('');
+
+                    html += `<div class="cal-week-cell ${isToday ? 'today-col' : ''}" onclick="agendaClickDay('${dStr}')">${cellContent}</div>`;
+                }
+            }
+
+            grid.innerHTML = html;
+        }
+
+        // ---- LIST VIEW ----
+        function agendaRenderList() {
+            const container = document.getElementById('agenda-list-container');
+            if (!container) return;
+
+            const y = agendaCurrentDate.getFullYear();
+            const m = agendaCurrentDate.getMonth();
+            const from = `${y}-${String(m+1).padStart(2,'0')}-01`;
+            const to = new Date(y, m + 1, 0).toISOString().split('T')[0];
+
+            const expanded = agendaExpandRecurrences(agendaEvents, from, to);
+            const sorted = expanded.filter(e => e.event_date >= from && e.event_date <= to)
+                .sort((a, b) => (a.event_date + (a.start_time || '')) > (b.event_date + (b.start_time || '')) ? 1 : -1);
+
+            if (sorted.length === 0) {
+                container.innerHTML = '<div class="agenda-empty"><i class="ph ph-calendar-x"></i><p>No hay eventos en este período</p></div>';
+                return;
+            }
+
+            let html = '';
+            let lastDate = '';
+            for (const ev of sorted) {
+                if (ev.event_date !== lastDate) {
+                    const d = new Date(ev.event_date + 'T12:00:00');
+                    const label = d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
+                    html += `<div class="cal-list-group-header">${label}</div>`;
+                    lastDate = ev.event_date;
+                }
+
+                const cls = agendaCatClass(ev.category);
+                const statusCls = agendaStatusDot(ev.status);
+                const time = ev.start_time ? ev.start_time.slice(0,5) : 'S/H';
+                const realId = ev._original_id || ev.id;
+                const recBadge = ev._recurrence_instance ? '<span class="recurrence-badge"><i class="ph ph-arrow-clockwise"></i></span>' : '';
+
+                html += `<div class="cal-list-item" onclick="openAgendaModal('${realId}')">
+                    <div class="cal-list-time">${time}</div>
+                    <div class="cal-list-info">
+                        <div class="cal-list-title">${agendaEsc(ev.title)} ${recBadge}</div>
+                        <div class="cal-list-detail">
+                            <span class="cal-event-pill ${cls}" style="font-size:0.7rem;padding:0.1rem 0.35rem;">${ev.category}</span>
+                            ${ev.location_text ? '<span><i class="ph ph-map-pin" style="font-size:0.7rem;"></i> ' + agendaEsc(ev.location_text) + '</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="cal-list-status">
+                        <span class="cal-list-status-dot ${statusCls}"></span>
+                        <span style="font-size:0.78rem;color:var(--text-muted);">${ev.status}</span>
+                    </div>
+                </div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // ---- PENDIENTES PANEL ----
+        function agendaRenderPendientes() {
+            const container = document.getElementById('agenda-pendientes-list');
+            if (!container) return;
+
+            if (agendaPendientes.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:1.5rem;color:var(--text-muted);font-size:0.85rem;">Sin pendientes</div>';
+                return;
+            }
+
+            container.innerHTML = agendaPendientes.map(p => {
+                const prioClass = p.priority === 'Alta' ? 'alta' : (p.priority === 'Baja' ? 'baja' : 'media');
+                const prioIcon = p.priority === 'Alta' ? 'ph-warning-circle' : (p.priority === 'Baja' ? 'ph-minus-circle' : 'ph-info');
+                return `<div class="pendiente-item" onclick="openAgendaModal('${p.id}')">
+                    <div class="pendiente-item-title">${agendaEsc(p.title)}</div>
+                    <div class="pendiente-item-meta">
+                        <span class="pendiente-item-cat">${p.category}</span>
+                        <i class="ph ${prioIcon} pendiente-item-prio ${prioClass}" title="Prioridad ${p.priority}"></i>
+                    </div>
+                    <div class="pendiente-item-actions">
+                        <button class="pendiente-action-btn agendar" onclick="event.stopPropagation();agendaConvertPendiente('${p.id}')">Agendar</button>
+                        <button class="pendiente-action-btn done" onclick="event.stopPropagation();agendaMarkDone('${p.id}')">Realizado</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // ---- NAVIGATION ----
+        function agendaSetView(view) {
+            agendaCurrentView = view;
+            ['month', 'week', 'list'].forEach(v => {
+                const btn = document.getElementById('agenda-btn-' + v);
+                if (btn) btn.classList.toggle('active', v === view);
+                const el = document.getElementById('agenda-view-' + v);
+                if (el) el.style.display = (v === view) ? '' : 'none';
+            });
+            agendaRender();
+        }
+
+        function agendaNav(dir) {
+            if (agendaCurrentView === 'month') {
+                agendaCurrentDate.setMonth(agendaCurrentDate.getMonth() + (dir === 'next' ? 1 : -1));
+            } else if (agendaCurrentView === 'week') {
+                agendaCurrentDate.setDate(agendaCurrentDate.getDate() + (dir === 'next' ? 7 : -7));
+            } else {
+                agendaCurrentDate.setMonth(agendaCurrentDate.getMonth() + (dir === 'next' ? 1 : -1));
+            }
+            agendaLoadEvents();
+        }
+
+        function agendaGoToday() {
+            agendaCurrentDate = new Date();
+            agendaLoadEvents();
+        }
+
+        // ---- MODAL ----
+        function openAgendaModal(id = null, isPendiente = false, prefillDate = null) {
+            const form = document.getElementById('agenda-form');
+            form.reset();
+            agendaEditingId = null;
+
+            document.getElementById('ag-btn-delete').style.display = 'none';
+            document.getElementById('agenda-modal-title').textContent = 'Nuevo Evento de Agenda';
+            document.getElementById('ag-btn-save').textContent = 'Guardar evento';
+            document.getElementById('ag-btn-save').disabled = false;
+
+            // Populate project dropdown
+            agendaPopulateProjects();
+
+            // Show recurrence detail
+            document.getElementById('ag-recurrence').value = '';
+            document.getElementById('ag-recurrence-detail').style.display = 'none';
+            document.getElementById('ag-recurrence').onchange = function() {
+                document.getElementById('ag-recurrence-detail').style.display = this.value ? 'block' : 'none';
+            };
+
+            if (isPendiente) {
+                document.getElementById('ag-sin-fecha').checked = true;
+                agendaToggleDateFields();
+                document.getElementById('agenda-modal-title').textContent = 'Nuevo Pendiente';
+                document.getElementById('ag-category').value = 'Pendiente por coordinar';
+            } else {
+                document.getElementById('ag-sin-fecha').checked = false;
+                agendaToggleDateFields();
+                if (prefillDate) {
+                    document.getElementById('ag-date').value = prefillDate;
+                }
+            }
+
+            if (id) {
+                // Edit mode: find event in loaded data
+                const ev = [...agendaEvents, ...agendaPendientes].find(e => e.id === id);
+                if (ev) {
+                    agendaEditingId = id;
+                    document.getElementById('agenda-modal-title').textContent = 'Editar Evento';
+                    document.getElementById('ag-btn-delete').style.display = 'inline-flex';
+                    document.getElementById('ag-id').value = ev.id;
+                    document.getElementById('ag-title').value = ev.title;
+                    document.getElementById('ag-description').value = ev.description || '';
+                    document.getElementById('ag-notes').value = ev.notes || '';
+                    document.getElementById('ag-category').value = ev.category || '';
+                    document.getElementById('ag-status').value = ev.status || 'Pendiente';
+                    document.getElementById('ag-priority').value = ev.priority || 'Media';
+                    document.getElementById('ag-responsible').value = ev.responsible || '';
+                    document.getElementById('ag-location-mode').value = ev.location_mode || '';
+                    document.getElementById('ag-location-text').value = ev.location_text || '';
+                    document.getElementById('ag-project').value = ev.related_project_id || '';
+
+                    if (ev.event_date) {
+                        document.getElementById('ag-sin-fecha').checked = false;
+                        document.getElementById('ag-date').value = ev.event_date;
+                        document.getElementById('ag-start').value = ev.start_time || '';
+                        document.getElementById('ag-end').value = ev.end_time || '';
+                        document.getElementById('ag-allday').checked = !!ev.all_day;
+                    } else {
+                        document.getElementById('ag-sin-fecha').checked = true;
+                    }
+                    agendaToggleDateFields();
+
+                    if (ev.recurrence_rule) {
+                        document.getElementById('ag-recurrence').value = ev.recurrence_rule.freq || '';
+                        if (ev.recurrence_rule.until) {
+                            document.getElementById('ag-rec-until').value = ev.recurrence_rule.until;
+                        }
+                        document.getElementById('ag-recurrence-detail').style.display = ev.recurrence_rule.freq ? 'block' : 'none';
+                    }
+                }
+            }
+
+            document.getElementById('agenda-modal').classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function agendaToggleDateFields() {
+            const checked = document.getElementById('ag-sin-fecha').checked;
+            const fields = document.getElementById('ag-date-fields');
+            fields.style.opacity = checked ? '0.4' : '1';
+            fields.style.pointerEvents = checked ? 'none' : 'auto';
+            if (checked) {
+                fields.querySelectorAll('input').forEach(el => el.value = '');
+            }
+        }
+
+        function agendaPopulateProjects() {
+            const sel = document.getElementById('ag-project');
+            const current = sel.value;
+            sel.innerHTML = '<option value="">Ninguno</option>';
+            if (typeof projects !== 'undefined' && Array.isArray(projects)) {
+                projects.forEach(p => {
+                    sel.innerHTML += `<option value="${p.id}">${agendaEsc(p.titulo)}</option>`;
+                });
+            }
+            sel.value = current;
+        }
+
+        // ---- SAVE ----
+        async function agendaSave() {
+            const title = document.getElementById('ag-title').value.trim();
+            if (!title) { alert('El título es obligatorio.'); return; }
+
+            const btn = document.getElementById('ag-btn-save');
+            btn.disabled = true;
+            btn.textContent = 'Guardando...';
+
+            const sinFecha = document.getElementById('ag-sin-fecha').checked;
+            const id = agendaEditingId || ('ag_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8));
+            const now = new Date().toISOString();
+
+            let recurrenceRule = null;
+            const recFreq = document.getElementById('ag-recurrence').value;
+            if (recFreq) {
+                recurrenceRule = {
+                    freq: recFreq,
+                    until: document.getElementById('ag-rec-until').value || null,
+                };
+            }
+
+            const payload = {
+                id: id,
+                title: title,
+                description: document.getElementById('ag-description').value.trim(),
+                event_date: sinFecha ? null : (document.getElementById('ag-date').value || null),
+                start_time: sinFecha ? null : (document.getElementById('ag-start').value || null),
+                end_time: sinFecha ? null : (document.getElementById('ag-end').value || null),
+                all_day: document.getElementById('ag-allday').checked,
+                category: document.getElementById('ag-category').value,
+                status: document.getElementById('ag-status').value,
+                priority: document.getElementById('ag-priority').value,
+                responsible: document.getElementById('ag-responsible').value.trim() || null,
+                location_mode: document.getElementById('ag-location-mode').value || null,
+                location_text: document.getElementById('ag-location-text').value.trim() || null,
+                related_project_id: document.getElementById('ag-project').value || null,
+                recurrence_rule: recurrenceRule,
+                notes: document.getElementById('ag-notes').value.trim() || null,
+                created_at: agendaEditingId ? undefined : now,
+                updated_at: now,
+            };
+
+            // Remove undefined fields
+            Object.keys(payload).forEach(k => { if (payload[k] === undefined) delete payload[k]; });
+
+            try {
+                let res;
+                if (agendaEditingId) {
+                    res = await fetch(`${AGENDA_API}/${encodeURIComponent(id)}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload),
+                    });
+                } else {
+                    res = await fetch(AGENDA_API, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload),
+                    });
+                }
+
+                const json = await res.json();
+                if (!json.ok && res.status >= 400) throw new Error(json.error || 'Error al guardar');
+
+                closeModal('agenda-modal');
+                agendaLoadEvents();
+            } catch (err) {
+                alert('Error: ' + err.message);
+                btn.disabled = false;
+                btn.textContent = 'Guardar evento';
+            }
+        }
+
+        // ---- DELETE ----
+        async function agendaDelete() {
+            if (!agendaEditingId) return;
+            if (!confirm('¿Eliminar este evento?')) return;
+
+            try {
+                const res = await fetch(`${AGENDA_API}/${encodeURIComponent(agendaEditingId)}`, {
+                    method: 'DELETE',
+                });
+                const json = await res.json();
+                if (!json.ok) throw new Error(json.error);
+
+                closeModal('agenda-modal');
+                agendaLoadEvents();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        // ---- CONVERT PENDIENTE TO EVENT ----
+        function agendaConvertPendiente(id) {
+            openAgendaModal(id, false);
+            // Uncheck "sin fecha" so user can add a date
+            document.getElementById('ag-sin-fecha').checked = false;
+            agendaToggleDateFields();
+        }
+
+        // ---- MARK DONE ----
+        async function agendaMarkDone(id) {
+            try {
+                const now = new Date().toISOString();
+                const res = await fetch(`${AGENDA_API}/${encodeURIComponent(id)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: 'Realizado', completed_at: now }),
+                });
+                const json = await res.json();
+                if (!json.ok) throw new Error(json.error);
+                agendaLoadEvents();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        // ---- HELPERS ----
+        function agendaEsc(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        /* =========================================
            MOBILE COMPACT BAR (scroll listener)
            ========================================= */
         (function() {
@@ -6632,8 +8222,10 @@ permalink: gestionproyectos/index.html
             function onScroll() {
                 if (!ticking) {
                     requestAnimationFrame(() => {
+                        const scrollContainer = document.querySelector('.app-main > main');
+                        const scrollTop = scrollContainer ? scrollContainer.scrollTop : window.scrollY;
                         if (mq.matches) {
-                            bar.classList.toggle('is-visible', window.scrollY > 80);
+                            bar.classList.toggle('is-visible', scrollTop > 80);
                         } else {
                             bar.classList.remove('is-visible');
                         }
@@ -6643,7 +8235,16 @@ permalink: gestionproyectos/index.html
                 }
             }
 
-            window.addEventListener('scroll', onScroll, { passive: true });
+            // Listen on main content scroll instead of window
+            const attachScroll = () => {
+                const scrollContainer = document.querySelector('.app-main > main');
+                if (scrollContainer) {
+                    scrollContainer.addEventListener('scroll', onScroll, { passive: true });
+                }
+                window.addEventListener('scroll', onScroll, { passive: true });
+            };
+            // Delay attachment to ensure DOM is ready
+            setTimeout(attachScroll, 100);
             mq.addEventListener('change', () => {
                 if (!mq.matches) bar.classList.remove('is-visible');
             });
