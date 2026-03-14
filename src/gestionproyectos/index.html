@@ -213,11 +213,13 @@ permalink: gestionproyectos/index.html
             backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
         }
         .modal-overlay.active { display: flex; }
+        .modal-overlay.stacked { z-index: 1010; }
         .modal-content {
             background: var(--bg-surface); border-radius: var(--radius-lg); width: 100%;
             max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); position: relative;
         }
         .modal-content.sm { max-width: 400px; }
+        .modal-content.md { max-width: 520px; }
         .modal-content.split-view {
             max-width: 1200px; display: flex; flex-direction: column; overflow: hidden;
         }
@@ -1221,45 +1223,83 @@ permalink: gestionproyectos/index.html
         }
 
         /* File detail modal content */
-        .arch-detail-icon {
-            width: 56px; height: 56px; border-radius: var(--radius-lg);
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 1rem;
+        .arch-detail-hero {
+            display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;
         }
+        .arch-detail-icon {
+            width: 52px; height: 52px; border-radius: var(--radius-lg);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .arch-detail-hero-text { min-width: 0; }
         .arch-detail-name {
             font-size: 1.1rem; font-weight: 700; color: var(--text-main);
-            margin-bottom: 0.25rem; word-break: break-word;
+            margin-bottom: 0.15rem; word-break: break-word; line-height: 1.3;
         }
         .arch-detail-type {
             font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
-            color: var(--text-muted); margin-bottom: 1.25rem;
+            color: var(--text-muted);
         }
+        .arch-detail-preview {
+            margin-bottom: 1.25rem; border-radius: var(--radius-md); overflow: hidden;
+            border: 1px solid var(--border-light); background: var(--bg-body);
+        }
+        .arch-detail-preview iframe {
+            width: 100%; height: 50vh; border: none; display: block;
+        }
+        .arch-detail-preview img {
+            width: 100%; max-height: 50vh; object-fit: contain; display: block;
+        }
+        .arch-detail-preview-fallback {
+            padding: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.85rem;
+        }
+        .arch-detail-preview-fallback svg { margin-bottom: 0.5rem; opacity: 0.5; }
         .arch-detail-actions {
-            display: flex; gap: 0.5rem; margin-bottom: 1.25rem;
+            display: flex; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap;
         }
-        .arch-detail-actions .btn { flex: 1; }
+        .arch-detail-actions .btn { flex: 1; min-width: 0; }
         .arch-detail-info {
             border-top: 1px solid var(--border-light); padding-top: 1rem;
         }
         .arch-detail-info-row {
             display: flex; justify-content: space-between; align-items: flex-start;
-            padding: 0.5rem 0; font-size: 0.85rem;
+            padding: 0.45rem 0; font-size: 0.85rem;
         }
         .arch-detail-info-row .label { color: var(--text-muted); font-weight: 500; }
-        .arch-detail-info-row .value { color: var(--text-main); font-weight: 600; text-align: right; max-width: 60%; word-break: break-word; }
+        .arch-detail-info-row .value { color: var(--text-main); font-weight: 600; text-align: right; max-width: 65%; word-break: break-word; }
         .arch-detail-secondary {
-            border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 0.75rem;
+            border-top: 1px solid var(--border-light); padding-top: 0.75rem; margin-top: 0.75rem;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem;
         }
         .arch-detail-secondary button {
             display: flex; align-items: center; gap: 0.5rem;
-            width: 100%; padding: 0.6rem 0.75rem; background: none;
+            width: 100%; padding: 0.55rem 0.75rem; background: none;
             border: none; cursor: pointer; font-family: var(--font-main);
-            font-size: 0.85rem; font-weight: 500; color: var(--text-muted);
+            font-size: 0.82rem; font-weight: 500; color: var(--text-muted);
             border-radius: var(--radius-md); transition: all 0.15s; text-align: left;
         }
         .arch-detail-secondary button:hover { background: var(--badge-gray-bg); color: var(--text-main); }
         .arch-detail-secondary button.danger { color: var(--badge-red-text); }
         .arch-detail-secondary button.danger:hover { background: var(--badge-red-bg); }
+        .arch-detail-secondary button.full-span { grid-column: 1 / -1; }
+
+        /* Folder header (inside folder view) */
+        .arch-folder-header {
+            display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+        }
+        .arch-folder-back {
+            width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border-light);
+            background: var(--bg-surface); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.15s; flex-shrink: 0; color: var(--text-muted);
+        }
+        .arch-folder-back:hover { background: var(--badge-gray-bg); color: var(--blue); border-color: var(--blue); }
+        .arch-folder-header-text { min-width: 0; }
+        .arch-folder-header-title {
+            font-size: 1.15rem; font-weight: 700; color: var(--text-main);
+            line-height: 1.3; margin: 0;
+        }
+        .arch-folder-header-sub {
+            font-size: 0.78rem; color: var(--text-muted); font-weight: 500; margin-top: 0.1rem;
+        }
 
         /* Upload modal drop zone */
         .arch-drop-zone {
@@ -1957,6 +1997,8 @@ permalink: gestionproyectos/index.html
             <div id="archivosView" class="tab-view">
                 <!-- Breadcrumb -->
                 <div class="arch-breadcrumb" id="arch-breadcrumb"></div>
+                <!-- Folder header (shown inside folders) -->
+                <div class="arch-folder-header" id="arch-folder-header" style="display:none;"></div>
 
                 <!-- Toolbar -->
                 <div class="arch-toolbar">
@@ -2450,7 +2492,7 @@ permalink: gestionproyectos/index.html
 
     <!-- MODAL: DETALLE DE ARCHIVO (Archivos) -->
     <div class="modal-overlay" id="arch-detail-modal">
-        <div class="modal-content sm">
+        <div class="modal-content md">
             <div class="modal-header">
                 <h3 style="color:var(--blue)">Detalles del archivo</h3>
                 <button class="close-btn" onclick="closeModal('arch-detail-modal')">&times;</button>
@@ -5424,6 +5466,9 @@ permalink: gestionproyectos/index.html
         }
 
         function openGacPreview(gacId, fileName) {
+            // Close gacetilla detail modal so it doesn't stack behind
+            closeModal('gacetilla-detail-modal');
+
             const previewContainer = document.getElementById('preview-container');
             const previewTitle = document.getElementById('preview-modal-title');
             const downloadBtn = document.getElementById('preview-download-btn');
@@ -5453,12 +5498,14 @@ permalink: gestionproyectos/index.html
         }
 
         /* =========================================
-           ESCAPE KEY HANDLER
+           MODAL MANAGEMENT: ESCAPE + CLICK OUTSIDE
            ========================================= */
+        const MODAL_IDS = ['arch-move-modal', 'arch-detail-modal', 'arch-rename-modal', 'arch-upload-modal', 'arch-folder-modal', 'gacetilla-modal', 'gacetilla-detail-modal', 'project-modal', 'project-detail-modal', 'documents-modal', 'preview-modal', 'quick-presentar-modal', 'quick-responsable-modal'];
+
+        // Escape key: close topmost modal
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const modals = ['arch-move-modal', 'arch-detail-modal', 'arch-rename-modal', 'arch-upload-modal', 'arch-folder-modal', 'gacetilla-modal', 'gacetilla-detail-modal', 'project-modal', 'project-detail-modal', 'documents-modal', 'preview-modal', 'quick-presentar-modal', 'quick-responsable-modal'];
-                for (const modalId of modals) {
+                for (const modalId of MODAL_IDS) {
                     const el = document.getElementById(modalId);
                     if (el && el.classList.contains('active')) {
                         closeModal(modalId);
@@ -5466,6 +5513,13 @@ permalink: gestionproyectos/index.html
                     }
                 }
             }
+        });
+
+        // Click outside modal content = close
+        document.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('modal-overlay') || !e.target.classList.contains('active')) return;
+            // Only close if the click was directly on the overlay, not on modal-content inside
+            closeModal(e.target.id);
         });
 
         /* =========================================
@@ -5628,6 +5682,7 @@ permalink: gestionproyectos/index.html
 
         function archRenderBreadcrumb() {
             const bc = document.getElementById('arch-breadcrumb');
+            const fh = document.getElementById('arch-folder-header');
             let html = `<a onclick="archLoadFolder(null)">Archivos</a>`;
 
             archBreadcrumb.forEach((item, i) => {
@@ -5640,6 +5695,32 @@ permalink: gestionproyectos/index.html
             });
 
             bc.innerHTML = html;
+
+            // Folder header with back button
+            if (archBreadcrumb.length > 0 && !archIsSearching) {
+                const current = archBreadcrumb[archBreadcrumb.length - 1];
+                const parentId = archBreadcrumb.length > 1 ? archBreadcrumb[archBreadcrumb.length - 2].id : null;
+                const fileCount = archFiles.length;
+                const folderCount = archFolders.length;
+                const parts = [];
+                if (folderCount > 0) parts.push(`${folderCount} carpeta${folderCount !== 1 ? 's' : ''}`);
+                if (fileCount > 0) parts.push(`${fileCount} archivo${fileCount !== 1 ? 's' : ''}`);
+                const subLabel = parts.length > 0 ? parts.join(', ') : 'Vacía';
+
+                fh.innerHTML = `
+                    <button class="arch-folder-back" onclick="archLoadFolder(${parentId ? "'" + parentId + "'" : 'null'})" title="Volver">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <div class="arch-folder-header-text">
+                        <div class="arch-folder-header-title">${archFolderIconSvg(18)} ${escapeHtml(current.name)}</div>
+                        <div class="arch-folder-header-sub">${subLabel}</div>
+                    </div>
+                `;
+                fh.style.display = 'flex';
+            } else {
+                fh.style.display = 'none';
+                fh.innerHTML = '';
+            }
         }
 
         function archRenderContent() {
@@ -5783,11 +5864,30 @@ permalink: gestionproyectos/index.html
                 const f = json.file;
                 const ext = getFileExt(f.original_name);
                 const iconBg = archGetFileIconColor(ext);
+                const safeName = escapeHtml(f.original_name).replace(/'/g, "\\'");
+                const isPdf = (f.mime_type === 'application/pdf' || (ext || '').toLowerCase() === 'pdf');
+                const isImage = ['png','jpg','jpeg','webp','gif'].includes((ext || '').toLowerCase());
+
+                // Build preview section
+                let previewHtml = '';
+                if (isPdf) {
+                    const previewUrl = `${ARCH_API}/files/${encodeURIComponent(f.id)}/download?mode=inline`;
+                    previewHtml = `<div class="arch-detail-preview"><iframe src="${previewUrl}"></iframe></div>`;
+                } else if (isImage) {
+                    const imgUrl = `${ARCH_API}/files/${encodeURIComponent(f.id)}/download?mode=inline`;
+                    previewHtml = `<div class="arch-detail-preview"><img src="${imgUrl}" alt="${escapeHtml(f.original_name)}"></div>`;
+                }
 
                 body.innerHTML = `
-                    <div class="arch-detail-icon" style="background:${iconBg}12;">${archFileIconSvg(ext, 32)}</div>
-                    <div class="arch-detail-name">${escapeHtml(f.original_name)}</div>
-                    <div class="arch-detail-type">${escapeHtml((ext || 'archivo').toUpperCase())} · ${formatFileSize(f.size_bytes)}</div>
+                    <div class="arch-detail-hero">
+                        <div class="arch-detail-icon" style="background:${iconBg}12;">${archFileIconSvg(ext, 28)}</div>
+                        <div class="arch-detail-hero-text">
+                            <div class="arch-detail-name">${escapeHtml(f.original_name)}</div>
+                            <div class="arch-detail-type">${escapeHtml((ext || 'archivo').toUpperCase())} · ${formatFileSize(f.size_bytes)}</div>
+                        </div>
+                    </div>
+
+                    ${previewHtml}
 
                     <div class="arch-detail-actions">
                         <a href="${ARCH_API}/files/${encodeURIComponent(f.id)}/download" class="btn btn-secondary btn-sm" style="text-decoration:none;color:white;justify-content:center;">
@@ -5795,9 +5895,6 @@ permalink: gestionproyectos/index.html
                         </a>
                         <button class="btn btn-outline btn-sm" onclick="archCloseDetail(); archOpenMoveModal('${f.id}', 'move')">
                             ${ARCH_ICONS.move} Mover
-                        </button>
-                        <button class="btn btn-outline btn-sm" onclick="archCloseDetail(); archOpenMoveModal('${f.id}', 'copy')">
-                            ${ARCH_ICONS.copy} Copiar a…
                         </button>
                         <button class="btn btn-outline btn-sm" onclick="archCloseDetail(); archOpenReplace('${f.id}')">
                             ${ARCH_ICONS.replace} Reemplazar
@@ -5822,21 +5919,18 @@ permalink: gestionproyectos/index.html
                             <span class="value">${formatDateOnly(f.created_at) || '—'}</span>
                         </div>
                         ${f.uploaded_by ? `<div class="arch-detail-info-row"><span class="label">Subido por</span><span class="value">${escapeHtml(f.uploaded_by)}</span></div>` : ''}
-                        <div class="arch-detail-info-row">
-                            <span class="label">Fijado</span>
-                            <span class="value">${f.is_pinned ? 'Sí' : 'No'}</span>
-                        </div>
                     </div>
 
                     <div class="arch-detail-secondary">
-                        <button onclick="archCloseDetail(); archCutFile('${f.id}', '${escapeHtml(f.original_name).replace(/'/g, "\\'")}')">${ARCH_ICONS.cut} Cortar</button>
-                        <button onclick="archCloseDetail(); archCopyFile('${f.id}', '${escapeHtml(f.original_name).replace(/'/g, "\\'")}')">${ARCH_ICONS.copy} Copiar</button>
+                        <button onclick="archCloseDetail(); archCutFile('${f.id}', '${safeName}')">${ARCH_ICONS.cut} Cortar</button>
+                        <button onclick="archCloseDetail(); archCopyFile('${f.id}', '${safeName}')">${ARCH_ICONS.copy} Copiar</button>
+                        <button onclick="archCloseDetail(); archOpenMoveModal('${f.id}', 'copy')">${ARCH_ICONS.copy} Copiar a…</button>
                         <button onclick="archTogglePin('${f.id}', ${f.is_pinned ? 0 : 1})">
                             <svg width="16" height="16" fill="${f.is_pinned ? '#FBA85F' : 'none'}" stroke="${f.is_pinned ? '#FBA85F' : 'currentColor'}" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path></svg>
-                            ${f.is_pinned ? 'Quitar de fijados' : 'Fijar documento'}
+                            ${f.is_pinned ? 'Quitar fijado' : 'Fijar'}
                         </button>
-                        <button onclick="archOpenRenameModal('file', '${f.id}', '${escapeHtml(f.original_name).replace(/'/g, "\\'")}')">${ARCH_ICONS.rename} Renombrar archivo</button>
-                        <button class="danger" onclick="archDeleteFile('${f.id}', '${escapeHtml(f.original_name).replace(/'/g, "\\'")}')">${ARCH_ICONS.trash} Eliminar archivo</button>
+                        <button onclick="archCloseDetail(); archOpenRenameModal('file', '${f.id}', '${safeName}')">${ARCH_ICONS.rename} Renombrar</button>
+                        <button class="danger" onclick="archDeleteFile('${f.id}', '${safeName}')">${ARCH_ICONS.trash} Eliminar</button>
                     </div>
                 `;
             } catch (e) {
@@ -6060,6 +6154,7 @@ permalink: gestionproyectos/index.html
         // Rename
         function archOpenRenameModal(type, id, currentName) {
             archCloseCtxMenu();
+            archCloseDetail();
             archRenameTarget = { type, id };
             const modal = document.getElementById('arch-rename-modal');
             const input = document.getElementById('arch-rename-input');
@@ -6141,6 +6236,7 @@ permalink: gestionproyectos/index.html
         // Delete file
         async function archDeleteFile(fileId, fileName) {
             archCloseCtxMenu();
+            archCloseDetail();
             if (!confirm(`¿Eliminar el archivo "${fileName}"?\nEsta acción no se puede deshacer.`)) return;
 
             try {
@@ -6148,7 +6244,6 @@ permalink: gestionproyectos/index.html
                 const json = await res.json();
                 if (!json.ok) throw new Error(json.error);
 
-                if (archSelectedFile === fileId) archCloseDetail();
                 archLoadFolder(archCurrentFolderId);
             } catch (e) {
                 alert('Error al eliminar: ' + e.message);
@@ -6158,6 +6253,8 @@ permalink: gestionproyectos/index.html
         // Toggle pin
         async function archTogglePin(fileId, pinValue) {
             archCloseCtxMenu();
+            const wasDetailOpen = archSelectedFile === fileId;
+            archCloseDetail();
             try {
                 const res = await fetch(`${ARCH_API}/files/${encodeURIComponent(fileId)}`, {
                     method: 'PATCH',
@@ -6168,7 +6265,7 @@ permalink: gestionproyectos/index.html
                 if (!json.ok) throw new Error(json.error);
 
                 archLoadFolder(archCurrentFolderId);
-                if (archSelectedFile === fileId) {
+                if (wasDetailOpen) {
                     setTimeout(() => archSelectFile(fileId), 200);
                 }
             } catch (e) {
