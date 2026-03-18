@@ -574,13 +574,10 @@ jsonLd: |
         </div>
     </section>
 
-{% block scripts %}
-    <!-- Prensa Data + Site JS -->
-    <!-- <script src="/assets/js/prensa-data.js?v=202503061200"></script> --> <!-- Deprecated -->
+    <!-- Page-specific scripts (site.js is loaded by base layout) -->
     <script defer src="/assets/js/prensa-feed.js?v=202503061200"></script>
     <script defer src="/assets/js/bio-animations.js?v=202503061200"></script>
     <script defer src="/assets/js/home-redesign.js?v=202601081200"></script>
-    <script src="/assets/js/site.js?v=202503061200"></script>
 
     <!-- Proyectos Legislativos: Home Section (live data) -->
     <script>
@@ -644,4 +641,3 @@ jsonLd: |
             });
     })();
     </script>
-{% endblock %}

@@ -15,6 +15,10 @@
 
     if (!toggle || !mobileMenu) return;
 
+    // Guard against double-initialization (e.g. if script is loaded twice)
+    if (toggle.dataset.menuInit) return;
+    toggle.dataset.menuInit = '1';
+
     function openMenu() {
       toggle.classList.add('active');
       mobileMenu.classList.add('active');
@@ -30,6 +34,8 @@
     }
 
     toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-controls', 'mobile-menu');
+    mobileMenu.id = mobileMenu.id || 'mobile-menu';
 
     toggle.addEventListener('click', function (e) {
       e.preventDefault();

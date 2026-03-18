@@ -34,7 +34,10 @@
       "Bash(do echo:*)",
       "Read(//d/Git/ceciliagortari-site/dist/**)",
       "Bash(done)",
-      "Bash(grep -r \"plLoadProjects\\\\|plOpenModal\\\\|plGoToPage\" D:Gitceciliagortari-sitesrc --include=*.js --include=*.njk)"
+      "Bash(grep -r \"plLoadProjects\\\\|plOpenModal\\\\|plGoToPage\" D:Gitceciliagortari-sitesrc --include=*.js --include=*.njk)",
+      "Bash(node -c src/assets/js/site.js)",
+      "Bash(for f:*)",
+      "Read(//d/Git/ceciliagortari-site/**)"
     ]
   }
 }
