@@ -1986,17 +1986,20 @@ permalink: gestionproyectos/index.html
         }
         .agenda-view-toggle {
             display: flex; background: var(--bg-body); border-radius: var(--radius-md);
-            padding: 3px; border: 1px solid var(--border-light);
+            padding: 3px; border: 1px solid var(--border-light); gap: 2px;
         }
         .agenda-view-btn {
-            padding: 0.35rem 0.75rem; border: none; border-radius: 6px;
+            padding: 0.45rem 0.85rem; border: none; border-radius: 6px;
             background: transparent; font-family: var(--font-main); font-size: 0.82rem;
             font-weight: 600; color: var(--text-muted); cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.15s; display: flex; align-items: center; gap: 0.3rem;
+            min-height: 36px;
         }
+        .agenda-view-btn i { font-size: 1rem; }
+        .agenda-view-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.6); }
         .agenda-view-btn.active {
-            background: var(--bg-surface); color: var(--text-main);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            background: var(--bg-surface); color: var(--blue);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         /* Agenda workspace: calendar + pendientes side by side */
@@ -2254,6 +2257,41 @@ permalink: gestionproyectos/index.html
         .status-realizado { background: var(--blue); }
         .status-reprogramar { background: #F59E0B; }
         .status-suspendido { background: var(--badge-red-text); }
+        .status-vencido { background: #F59E0B; }
+
+        /* Quick status dropdown */
+        .cal-list-quick-wrap { position: relative; flex-shrink: 0; }
+        .cal-list-quick-btn {
+            width: 32px; height: 32px; border-radius: var(--radius-md);
+            border: 1px solid var(--border-light); background: var(--bg-surface);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted); transition: all 0.15s; font-size: 1rem;
+        }
+        .cal-list-quick-btn:hover { background: var(--badge-gray-bg); color: var(--text-main); }
+        .cal-list-quick-menu {
+            display: none; position: absolute; right: 0; top: 100%; margin-top: 4px;
+            background: var(--bg-surface); border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg); border: 1px solid var(--border-light);
+            z-index: 50; min-width: 180px; padding: 0.35rem;
+            animation: qmFadeIn 0.12s ease;
+        }
+        .cal-list-quick-menu.open { display: block; }
+        @keyframes qmFadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+        .qm-item {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 0.65rem; border-radius: 6px; cursor: pointer;
+            font-size: 0.82rem; font-weight: 500; color: var(--text-main);
+            transition: background 0.1s; border: none; background: none;
+            width: 100%; font-family: var(--font-main); text-align: left;
+        }
+        .qm-item:hover { background: var(--bg-body); }
+        .qm-item i { font-size: 1rem; width: 18px; text-align: center; }
+        .qm-item.realizado i { color: #10B981; }
+        .qm-item.pendiente i { color: var(--text-muted); }
+        .qm-item.cancelado i { color: var(--badge-red-text); }
+        .qm-item.reprogramar i { color: #F59E0B; }
+        .qm-sep { height: 1px; background: var(--border-light); margin: 0.25rem 0.35rem; }
+
         .cal-list-actions {
             display: flex; gap: 0.25rem; flex-shrink: 0;
         }
@@ -2334,6 +2372,248 @@ permalink: gestionproyectos/index.html
             .cal-day-number { font-size: 0.75rem; width: 20px; height: 20px; }
             .agenda-pendientes-panel { display: none; }
         }
+
+        /* =========================================
+           AGENDA: DAY DETAIL SHEET
+           ========================================= */
+        .agenda-day-detail-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+            display: none; z-index: 1000; padding: 0;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+        }
+        .agenda-day-detail-overlay.active {
+            display: flex; align-items: flex-end; justify-content: center;
+        }
+        .agenda-day-sheet {
+            background: var(--bg-surface); width: 100%;
+            max-height: 85vh; max-height: 85dvh;
+            border-radius: 16px 16px 0 0;
+            display: flex; flex-direction: column;
+            box-shadow: var(--shadow-lg);
+            animation: adshSlideUp 0.25s ease-out;
+        }
+        @keyframes adshSlideUp {
+            from { transform: translateY(100%); opacity: 0.5; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .adsh-handle {
+            width: 36px; height: 4px; border-radius: 2px;
+            background: #CBD5E1; margin: 0.6rem auto 0;
+        }
+        .adsh-header {
+            padding: 0.85rem 1.25rem 0.75rem;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .adsh-header-info { flex: 1; }
+        .adsh-header-info h3 {
+            font-size: 1.05rem; font-weight: 700; color: var(--text-main);
+            text-transform: capitalize; line-height: 1.3;
+        }
+        .adsh-badge {
+            display: inline-flex; align-items: center; gap: 0.25rem;
+            font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.55rem;
+            border-radius: var(--radius-full); margin-top: 0.35rem;
+        }
+        .adsh-body {
+            flex: 1; overflow-y: auto; padding: 0.75rem 1rem;
+            -webkit-overflow-scrolling: touch;
+        }
+        .adsh-event {
+            display: flex; align-items: flex-start; gap: 0.65rem;
+            padding: 0.75rem; border-radius: var(--radius-md);
+            border: 1px solid var(--border-light); margin-bottom: 0.5rem;
+            background: var(--bg-surface); transition: all 0.15s; cursor: pointer;
+        }
+        .adsh-event:hover { border-color: var(--blue); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .adsh-event:last-child { margin-bottom: 0; }
+        .adsh-event-time {
+            min-width: 46px; text-align: center; flex-shrink: 0; padding-top: 0.05rem;
+        }
+        .adsh-event-time-main {
+            font-size: 0.82rem; font-weight: 700; color: var(--text-main); line-height: 1.2;
+        }
+        .adsh-event-time-end {
+            font-size: 0.65rem; color: var(--text-muted); line-height: 1.2;
+        }
+        .adsh-event-info { flex: 1; min-width: 0; }
+        .adsh-event-title {
+            font-size: 0.88rem; font-weight: 600; color: var(--text-main);
+            margin-bottom: 0.2rem; line-height: 1.3;
+        }
+        .adsh-event-meta {
+            display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;
+        }
+        .adsh-event-cat {
+            font-size: 0.65rem; font-weight: 600; padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+        }
+        .adsh-event-status {
+            display: inline-flex; align-items: center; gap: 0.2rem;
+            font-size: 0.7rem; color: var(--text-muted);
+        }
+        .adsh-event-status-dot {
+            width: 6px; height: 6px; border-radius: 50%; display: inline-block;
+        }
+        .adsh-event-desc {
+            font-size: 0.75rem; color: var(--text-muted); line-height: 1.3;
+            margin-top: 0.2rem;
+            display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+            overflow: hidden;
+        }
+        .adsh-event-project {
+            font-size: 0.7rem; color: var(--blue); margin-top: 0.2rem;
+            display: flex; align-items: center; gap: 0.2rem;
+        }
+        .adsh-event-actions { flex-shrink: 0; }
+        .adsh-action-btn {
+            width: 30px; height: 30px; border-radius: var(--radius-md);
+            border: 1px solid var(--border-light); background: var(--bg-surface);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted); transition: all 0.15s; font-size: 0.8rem;
+        }
+        .adsh-action-btn:hover { background: var(--badge-blue-bg); color: var(--blue); }
+        .adsh-footer {
+            padding: 0.85rem 1.25rem; border-top: 1px solid var(--border-light);
+            background: var(--bg-body); flex-shrink: 0;
+        }
+        .adsh-footer .btn { width: 100%; justify-content: center; }
+        .adsh-empty {
+            text-align: center; padding: 2.5rem 1rem;
+        }
+        .adsh-empty-icon {
+            font-size: 2.5rem; color: var(--border-light); margin-bottom: 0.75rem;
+        }
+        .adsh-empty p { font-size: 0.88rem; color: var(--text-muted); }
+
+        @media (min-width: 769px) {
+            .agenda-day-detail-overlay.active {
+                align-items: center; padding: 1rem;
+            }
+            .agenda-day-sheet {
+                max-width: 540px; max-height: 80vh;
+                border-radius: var(--radius-lg);
+                animation: none;
+            }
+            .adsh-handle { display: none; }
+            .adsh-footer .btn { width: auto; }
+            .adsh-footer {
+                display: flex; justify-content: flex-end;
+                border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            }
+        }
+
+        /* =========================================
+           AGENDA: MOBILE INFO PANEL
+           ========================================= */
+        .agenda-mobile-panel { display: none; }
+        @media (max-width: 1024px) {
+            .agenda-mobile-panel {
+                display: flex; flex-direction: column; gap: 0.75rem;
+                margin-bottom: 1rem;
+            }
+        }
+        .ams-strip { display: flex; gap: 0.5rem; }
+        .ams-item {
+            flex: 1; padding: 0.55rem 0.5rem; border-radius: var(--radius-md);
+            text-align: center; font-size: 0.7rem; font-weight: 600;
+            color: var(--text-muted); line-height: 1.2;
+        }
+        .ams-item span {
+            font-size: 1.2rem; font-weight: 700; display: block; margin-bottom: 0.1rem;
+        }
+        .ams-item.blue { background: var(--badge-blue-bg); }
+        .ams-item.blue span { color: var(--badge-blue-text); }
+        .ams-item.purple { background: var(--badge-purple-bg); }
+        .ams-item.purple span { color: var(--badge-purple-text); }
+        .ams-item.amber { background: var(--badge-yellow-bg); }
+        .ams-item.amber span { color: var(--badge-yellow-text); }
+
+        .amt-card {
+            background: var(--bg-surface); border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+        .amt-header {
+            padding: 0.55rem 0.85rem; background: var(--bg-body);
+            border-bottom: 1px solid var(--border-light);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .amt-header h4 {
+            font-size: 0.78rem; font-weight: 700; color: var(--text-main);
+            display: flex; align-items: center; gap: 0.35rem;
+        }
+        .amt-header h4 i { color: var(--blue); font-size: 0.9rem; }
+        .amt-view-all {
+            font-size: 0.72rem; font-weight: 600; color: var(--blue);
+            cursor: pointer; border: none; background: none; font-family: var(--font-main);
+        }
+        .amt-view-all:hover { text-decoration: underline; }
+        .amt-list { padding: 0.35rem 0.5rem; }
+        .amt-event {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.4rem 0.35rem; border-radius: 6px;
+            cursor: pointer; transition: background 0.12s;
+        }
+        .amt-event:hover { background: var(--bg-body); }
+        .amt-event-time {
+            font-size: 0.75rem; font-weight: 600; color: var(--text-main);
+            min-width: 38px; text-align: center;
+        }
+        .amt-event-title {
+            flex: 1; font-size: 0.8rem; font-weight: 500; color: var(--text-main);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .amt-event-cat {
+            font-size: 0.6rem; font-weight: 600; padding: 0.08rem 0.3rem;
+            border-radius: 4px; flex-shrink: 0;
+        }
+        .amt-event-dot {
+            width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+        }
+        .amt-empty {
+            text-align: center; padding: 0.75rem;
+            color: var(--text-muted); font-size: 0.8rem;
+        }
+        .amt-date-label {
+            font-size: 0.68rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.03em;
+            padding: 0.3rem 0.35rem 0.15rem; margin-top: 0.15rem;
+        }
+
+        .amc-card {
+            background: var(--bg-surface); border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+        .amc-header {
+            padding: 0.55rem 0.85rem; display: flex;
+            justify-content: space-between; align-items: center;
+            cursor: pointer; transition: background 0.12s; user-select: none;
+        }
+        .amc-header:hover { background: var(--bg-body); }
+        .amc-header h4 {
+            font-size: 0.78rem; font-weight: 700; color: var(--text-main);
+            display: flex; align-items: center; gap: 0.35rem;
+        }
+        .amc-header h4 i.ph-push-pin { color: #FBA85F; font-size: 0.9rem; }
+        .amc-count {
+            font-size: 0.68rem; font-weight: 700; padding: 0.08rem 0.4rem;
+            border-radius: var(--radius-full); background: var(--badge-yellow-bg);
+            color: var(--badge-yellow-text); margin-left: 0.15rem;
+        }
+        .amc-caret {
+            font-size: 0.8rem; color: var(--text-muted); transition: transform 0.2s;
+        }
+        .amc-card.open .amc-caret { transform: rotate(180deg); }
+        .amc-body {
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+        }
+        .amc-card.open .amc-body {
+            max-height: 400px; overflow-y: auto;
+            border-top: 1px solid var(--border-light);
+        }
+        .amc-list { padding: 0.5rem 0.75rem 0.75rem; }
 
         /* =========================================
            PROYECTOS MODULE REDESIGN
@@ -3065,13 +3345,48 @@ permalink: gestionproyectos/index.html
                     </div>
                     <div class="agenda-toolbar-right">
                         <div class="agenda-view-toggle">
-                            <button class="agenda-view-btn active" id="agenda-btn-month" onclick="agendaSetView('month')">Mes</button>
-                            <button class="agenda-view-btn" id="agenda-btn-week" onclick="agendaSetView('week')">Semana</button>
-                            <button class="agenda-view-btn" id="agenda-btn-list" onclick="agendaSetView('list')">Lista</button>
+                            <button class="agenda-view-btn active" id="agenda-btn-list" onclick="agendaSetView('list')"><i class="ph ph-list-bullets"></i> Lista</button>
+                            <button class="agenda-view-btn" id="agenda-btn-month" onclick="agendaSetView('month')"><i class="ph ph-calendar-dots"></i> Mes</button>
+                            <button class="agenda-view-btn" id="agenda-btn-week" onclick="agendaSetView('week')"><i class="ph ph-calendar"></i> Semana</button>
                         </div>
                         <button class="btn btn-primary" onclick="openAgendaModal()">
                             <i class="ph ph-plus" style="margin-right:0.3rem;"></i> Nuevo evento
                         </button>
+                    </div>
+                </div>
+
+                <!-- Mobile info panel (visible on ≤1024px when pendientes panel is hidden) -->
+                <div class="agenda-mobile-panel">
+                    <div class="ams-strip">
+                        <div class="ams-item blue">
+                            <span id="ams-count-today">0</span>Hoy
+                        </div>
+                        <div class="ams-item purple">
+                            <span id="ams-count-week">0</span>Semana
+                        </div>
+                        <div class="ams-item amber">
+                            <span id="ams-count-pending">0</span>Pendientes
+                        </div>
+                    </div>
+                    <div class="amt-card">
+                        <div class="amt-header">
+                            <h4><i class="ph ph-calendar-check"></i> <span id="amt-section-title">Hoy</span></h4>
+                            <button class="amt-view-all" onclick="agendaSetView('list')">Ver lista completa</button>
+                        </div>
+                        <div class="amt-list" id="amt-today-list">
+                            <!-- JS rendered -->
+                        </div>
+                    </div>
+                    <div class="amc-card" id="amc-card">
+                        <div class="amc-header" onclick="toggleMobileCoord()">
+                            <h4><i class="ph ph-push-pin"></i> Por coordinar <span class="amc-count" id="amc-count-badge">0</span></h4>
+                            <i class="ph ph-caret-down amc-caret"></i>
+                        </div>
+                        <div class="amc-body">
+                            <div class="amc-list" id="amc-pendientes-list">
+                                <!-- JS rendered -->
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -3110,7 +3425,7 @@ permalink: gestionproyectos/index.html
                     <!-- Calendar area -->
                     <div class="agenda-calendar-area">
                         <!-- Month view -->
-                        <div id="agenda-view-month">
+                        <div id="agenda-view-month" style="display:none;">
                             <div class="cal-month-header">
                                 <div>Lun</div><div>Mar</div><div>Mié</div>
                                 <div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
@@ -3128,7 +3443,7 @@ permalink: gestionproyectos/index.html
                             </div>
                         </div>
                         <!-- List view -->
-                        <div id="agenda-view-list" style="display:none;">
+                        <div id="agenda-view-list">
                             <div class="cal-list-container" id="agenda-list-container">
                                 <!-- JS rendered -->
                             </div>
@@ -3162,6 +3477,28 @@ permalink: gestionproyectos/index.html
                     <button class="btn btn-outline" onclick="closeModal('agenda-preview-modal')">Cerrar</button>
                     <button class="btn btn-primary" id="ag-preview-btn-edit" onclick="agendaEditFromPreview()"><i class="ph ph-pencil-simple" style="margin-right:0.3rem;"></i> Editar</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DAY DETAIL SHEET (bottom sheet on mobile, modal on desktop) -->
+    <div class="agenda-day-detail-overlay" id="agenda-day-detail" onclick="if(event.target===this) closeDayDetail()">
+        <div class="agenda-day-sheet">
+            <div class="adsh-handle"></div>
+            <div class="adsh-header">
+                <div class="adsh-header-info">
+                    <h3 id="adsh-title"></h3>
+                    <div class="adsh-badge" id="adsh-count-badge"></div>
+                </div>
+                <button class="close-btn" onclick="closeDayDetail()">&times;</button>
+            </div>
+            <div class="adsh-body" id="adsh-body">
+                <!-- JS rendered -->
+            </div>
+            <div class="adsh-footer" id="adsh-footer">
+                <button class="btn btn-primary" id="adsh-new-btn">
+                    <i class="ph ph-plus" style="margin-right:0.3rem;"></i> Nuevo evento
+                </button>
             </div>
         </div>
     </div>
@@ -3266,9 +3603,9 @@ permalink: gestionproyectos/index.html
                                 <select id="ag-status" class="input-control">
                                     <option value="Pendiente">Pendiente</option>
                                     <option value="Confirmado">Confirmado</option>
-                                    <option value="Reprogramar">Reprogramar</option>
+                                    <option value="Reprogramar">Reprogramado</option>
                                     <option value="Realizado">Realizado</option>
-                                    <option value="Suspendido">Suspendido</option>
+                                    <option value="Cancelado">Cancelado</option>
                                 </select>
                             </div>
                         </div>
@@ -3316,6 +3653,39 @@ permalink: gestionproyectos/index.html
                 <div class="footer-right">
                     <button class="btn btn-outline" onclick="closeModal('agenda-modal')">Cancelar</button>
                     <button class="btn btn-primary" id="ag-btn-save" onclick="agendaSave()">Guardar evento</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL REPROGRAMAR (mini) -->
+    <div class="modal-overlay" id="reprogram-modal">
+        <div class="modal-content sm">
+            <div class="modal-header">
+                <h3>Reprogramar evento</h3>
+                <button class="close-btn" onclick="closeModal('reprogram-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">
+                    <i class="ph ph-calendar-plus" style="margin-right:0.25rem;"></i>
+                    <strong id="reprogram-event-title"></strong>
+                </p>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="reprogram-date">Nueva fecha *</label>
+                        <input type="date" id="reprogram-date" class="input-control" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="reprogram-time">Nueva hora</label>
+                        <input type="time" id="reprogram-time" class="input-control">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div style="flex-grow:1;"></div>
+                <div class="footer-right">
+                    <button class="btn btn-outline" onclick="closeModal('reprogram-modal')">Cancelar</button>
+                    <button class="btn btn-primary" id="reprogram-save-btn" onclick="saveReprogramar()">Reprogramar</button>
                 </div>
             </div>
         </div>
@@ -8468,7 +8838,7 @@ permalink: gestionproyectos/index.html
         let agendaEvents = [];       // all loaded events (with date)
         let agendaPendientes = [];    // events without date
         let agendaCurrentDate = new Date();
-        let agendaCurrentView = 'month';
+        let agendaCurrentView = 'list';
         let agendaEditingId = null;
 
         function initAgenda() {
@@ -8514,6 +8884,7 @@ permalink: gestionproyectos/index.html
             agendaUpdateHeader();
             agendaUpdateSummary();
             agendaRenderPendientes();
+            agendaRenderMobilePanel();
 
             if (agendaCurrentView === 'month') agendaRenderMonth();
             else if (agendaCurrentView === 'week') agendaRenderWeek();
@@ -8634,9 +9005,29 @@ permalink: gestionproyectos/index.html
                 'Pendiente': 'status-pendiente',
                 'Realizado': 'status-realizado',
                 'Reprogramar': 'status-reprogramar',
+                'Reprogramado': 'status-reprogramar',
                 'Suspendido': 'status-suspendido',
+                'Cancelado': 'status-suspendido',
+                'Vencido': 'status-vencido',
             };
             return map[status] || 'status-pendiente';
+        }
+
+        // Compute display status: past "Pendiente" events show as "Vencido"
+        function agendaComputedStatus(ev) {
+            if (ev.status !== 'Pendiente') return ev.status;
+            if (!ev.event_date) return ev.status;
+
+            const now = new Date();
+            const endRef = ev.end_time || ev.start_time;
+            let eventEnd;
+            if (endRef) {
+                eventEnd = new Date(ev.event_date + 'T' + endRef);
+            } else {
+                eventEnd = new Date(ev.event_date + 'T23:59:59');
+            }
+            if (eventEnd < now) return 'Vencido';
+            return ev.status;
         }
 
         // ---- MONTH VIEW ----
@@ -8707,7 +9098,230 @@ permalink: gestionproyectos/index.html
         }
 
         function agendaClickDay(dateStr) {
-            openAgendaModal(null, false, dateStr);
+            openDayDetail(dateStr);
+        }
+
+        // ---- DAY DETAIL ----
+        let agendaDayDetailDate = null;
+
+        function openDayDetail(dateStr) {
+            agendaDayDetailDate = dateStr;
+            const d = new Date(dateStr + 'T12:00:00');
+            const title = d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+            document.getElementById('adsh-title').textContent = title;
+
+            // Get events for this day (with recurrence expansion)
+            const expanded = agendaExpandRecurrences(agendaEvents, dateStr, dateStr);
+            const dayEvents = expanded.filter(e => e.event_date === dateStr)
+                .sort((a, b) => (a.start_time || '99:99') > (b.start_time || '99:99') ? 1 : -1);
+
+            const countBadge = document.getElementById('adsh-count-badge');
+            const body = document.getElementById('adsh-body');
+
+            // Set up "Nuevo evento" button with this date
+            document.getElementById('adsh-new-btn').onclick = function() {
+                closeDayDetail();
+                openAgendaModal(null, false, dateStr);
+            };
+
+            if (dayEvents.length === 0) {
+                countBadge.textContent = 'Sin eventos';
+                countBadge.style.background = 'var(--badge-gray-bg)';
+                countBadge.style.color = 'var(--badge-gray-text)';
+                body.innerHTML = '<div class="adsh-empty">' +
+                    '<div class="adsh-empty-icon"><i class="ph ph-calendar-blank"></i></div>' +
+                    '<p>No hay eventos para este d\u00eda</p></div>';
+            } else {
+                countBadge.textContent = dayEvents.length + (dayEvents.length === 1 ? ' evento' : ' eventos');
+                countBadge.style.background = 'var(--badge-blue-bg)';
+                countBadge.style.color = 'var(--badge-blue-text)';
+
+                let html = '';
+                for (const ev of dayEvents) {
+                    const realId = ev._original_id || ev.id;
+                    const catCls = agendaCatClass(ev.category);
+                    const displayStatus = agendaComputedStatus(ev);
+                    const statusCls = agendaStatusDot(displayStatus);
+                    const timeMain = ev.start_time ? ev.start_time.slice(0, 5) : 'S/H';
+                    const timeEnd = ev.end_time ? ev.end_time.slice(0, 5) : '';
+                    const recIcon = ev._recurrence_instance ? ' <i class="ph ph-arrow-clockwise" style="font-size:0.7rem;color:var(--text-muted);"></i>' : '';
+
+                    let descHtml = '';
+                    if (ev.description) {
+                        descHtml = '<div class="adsh-event-desc">' + agendaEsc(ev.description) + '</div>';
+                    }
+
+                    let projectHtml = '';
+                    if (ev.related_project_id && typeof projects !== 'undefined') {
+                        const proj = projects.find(function(p) { return p.id === ev.related_project_id; });
+                        if (proj) {
+                            projectHtml = '<div class="adsh-event-project"><i class="ph ph-folder"></i> ' + agendaEsc(proj.titulo) + '</div>';
+                        }
+                    }
+
+                    html += '<div class="adsh-event" onclick="dayDetailViewEvent(\'' + realId + '\')">' +
+                        '<div class="adsh-event-time">' +
+                            '<div class="adsh-event-time-main">' + timeMain + '</div>' +
+                            (timeEnd ? '<div class="adsh-event-time-end">' + timeEnd + '</div>' : '') +
+                        '</div>' +
+                        '<div class="adsh-event-info">' +
+                            '<div class="adsh-event-title">' + agendaEsc(ev.title) + recIcon + '</div>' +
+                            '<div class="adsh-event-meta">' +
+                                '<span class="adsh-event-cat ' + catCls + '">' + ev.category + '</span>' +
+                                '<span class="adsh-event-status"><span class="adsh-event-status-dot ' + statusCls + '"></span> ' + displayStatus + '</span>' +
+                            '</div>' +
+                            descHtml +
+                            projectHtml +
+                        '</div>' +
+                        '<div class="adsh-event-actions">' +
+                            '<button class="adsh-action-btn" onclick="event.stopPropagation();dayDetailEditEvent(\'' + realId + '\')" title="Editar">' +
+                                '<i class="ph ph-pencil-simple"></i>' +
+                            '</button>' +
+                        '</div>' +
+                    '</div>';
+                }
+                body.innerHTML = html;
+            }
+
+            document.getElementById('agenda-day-detail').classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeDayDetail() {
+            document.getElementById('agenda-day-detail').classList.remove('active');
+            if (!document.querySelector('.modal-overlay.active, .agenda-day-detail-overlay.active')) {
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function dayDetailViewEvent(id) {
+            closeDayDetail();
+            openAgendaPreview(id);
+        }
+
+        function dayDetailEditEvent(id) {
+            closeDayDetail();
+            openAgendaModal(id);
+        }
+
+        // ---- MOBILE PANEL RENDER ----
+        function agendaRenderMobilePanel() {
+            if (!window.matchMedia('(max-width: 1024px)').matches) return;
+
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            const weekStart = agendaGetWeekStart(today);
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            const weekStartStr = weekStart.toISOString().split('T')[0];
+            const weekEndStr = weekEnd.toISOString().split('T')[0];
+
+            const expanded = agendaExpandRecurrences(agendaEvents, weekStartStr, weekEndStr);
+
+            // Summary counts
+            const countToday = expanded.filter(e => e.event_date === todayStr).length;
+            const countWeek = expanded.filter(e => e.event_date >= weekStartStr && e.event_date <= weekEndStr).length;
+
+            const elMToday = document.getElementById('ams-count-today');
+            const elMWeek = document.getElementById('ams-count-week');
+            const elMPending = document.getElementById('ams-count-pending');
+            if (elMToday) elMToday.textContent = countToday;
+            if (elMWeek) elMWeek.textContent = countWeek;
+            if (elMPending) elMPending.textContent = agendaPendientes.length;
+
+            // Today / Upcoming section
+            const todayList = document.getElementById('amt-today-list');
+            const sectionTitle = document.getElementById('amt-section-title');
+            if (!todayList) return;
+
+            const todayEvents = expanded.filter(e => e.event_date === todayStr)
+                .sort((a, b) => (a.start_time || '99:99') > (b.start_time || '99:99') ? 1 : -1);
+
+            if (todayEvents.length > 0) {
+                sectionTitle.textContent = 'Hoy, ' + today.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric' });
+                todayList.innerHTML = todayEvents.map(function(ev) {
+                    const catCls = agendaCatClass(ev.category);
+                    const statusCls = agendaStatusDot(agendaComputedStatus(ev));
+                    const time = ev.start_time ? ev.start_time.slice(0, 5) : 'S/H';
+                    const realId = ev._original_id || ev.id;
+                    return '<div class="amt-event" onclick="openAgendaPreview(\'' + realId + '\')">' +
+                        '<div class="amt-event-time">' + time + '</div>' +
+                        '<div class="amt-event-title">' + agendaEsc(ev.title) + '</div>' +
+                        '<span class="amt-event-cat ' + catCls + '">' + ev.category + '</span>' +
+                        '<span class="amt-event-dot ' + statusCls + '"></span>' +
+                    '</div>';
+                }).join('');
+            } else {
+                // Show upcoming events instead
+                const futureEnd = new Date(today);
+                futureEnd.setDate(futureEnd.getDate() + 14);
+                const futureEndStr = futureEnd.toISOString().split('T')[0];
+                const expandedFuture = agendaExpandRecurrences(agendaEvents, todayStr, futureEndStr);
+                const upcoming = expandedFuture.filter(e => e.event_date > todayStr)
+                    .sort((a, b) => (a.event_date + (a.start_time || '')) > (b.event_date + (b.start_time || '')) ? 1 : -1)
+                    .slice(0, 5);
+
+                sectionTitle.textContent = 'Pr\u00f3ximos eventos';
+
+                if (upcoming.length > 0) {
+                    let html = '';
+                    let lastDate = '';
+                    for (const ev of upcoming) {
+                        if (ev.event_date !== lastDate) {
+                            const dd = new Date(ev.event_date + 'T12:00:00');
+                            const label = dd.toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' });
+                            html += '<div class="amt-date-label">' + label + '</div>';
+                            lastDate = ev.event_date;
+                        }
+                        const catCls = agendaCatClass(ev.category);
+                        const statusCls = agendaStatusDot(agendaComputedStatus(ev));
+                        const time = ev.start_time ? ev.start_time.slice(0, 5) : 'S/H';
+                        const realId = ev._original_id || ev.id;
+                        html += '<div class="amt-event" onclick="openAgendaPreview(\'' + realId + '\')">' +
+                            '<div class="amt-event-time">' + time + '</div>' +
+                            '<div class="amt-event-title">' + agendaEsc(ev.title) + '</div>' +
+                            '<span class="amt-event-cat ' + catCls + '">' + ev.category + '</span>' +
+                            '<span class="amt-event-dot ' + statusCls + '"></span>' +
+                        '</div>';
+                    }
+                    todayList.innerHTML = html;
+                } else {
+                    todayList.innerHTML = '<div class="amt-empty">Sin eventos pr\u00f3ximos</div>';
+                }
+            }
+
+            // Por coordinar mobile section
+            const coordList = document.getElementById('amc-pendientes-list');
+            const coordCount = document.getElementById('amc-count-badge');
+            if (coordCount) coordCount.textContent = agendaPendientes.length;
+
+            if (coordList) {
+                if (agendaPendientes.length === 0) {
+                    coordList.innerHTML = '<div style="text-align:center;padding:0.75rem;color:var(--text-muted);font-size:0.82rem;">Sin pendientes</div>';
+                } else {
+                    coordList.innerHTML = agendaPendientes.map(function(p) {
+                        const prioClass = p.priority === 'Alta' ? 'alta' : (p.priority === 'Baja' ? 'baja' : 'media');
+                        const prioIcon = p.priority === 'Alta' ? 'ph-warning-circle' : (p.priority === 'Baja' ? 'ph-minus-circle' : 'ph-info');
+                        return '<div class="pendiente-item" onclick="openAgendaPreview(\'' + p.id + '\')">' +
+                            '<div class="pendiente-item-title">' + agendaEsc(p.title) + '</div>' +
+                            '<div class="pendiente-item-meta">' +
+                                '<span class="pendiente-item-cat">' + p.category + '</span>' +
+                                '<i class="ph ' + prioIcon + ' pendiente-item-prio ' + prioClass + '" title="Prioridad ' + p.priority + '"></i>' +
+                            '</div>' +
+                            '<div class="pendiente-item-actions">' +
+                                '<button class="pendiente-action-btn agendar" onclick="event.stopPropagation();agendaConvertPendiente(\'' + p.id + '\')"><i class="ph ph-calendar-plus" style="font-size:0.75rem;margin-right:2px;"></i> Agendar</button>' +
+                                '<button class="pendiente-action-btn done" onclick="event.stopPropagation();agendaMarkDone(\'' + p.id + '\')"><i class="ph ph-check" style="font-size:0.75rem;margin-right:2px;"></i> Realizado</button>' +
+                            '</div>' +
+                        '</div>';
+                    }).join('');
+                }
+            }
+        }
+
+        function toggleMobileCoord() {
+            const card = document.getElementById('amc-card');
+            if (card) card.classList.toggle('open');
         }
 
         // ---- WEEK VIEW ----
@@ -8786,7 +9400,7 @@ permalink: gestionproyectos/index.html
                 .sort((a, b) => (a.event_date + (a.start_time || '')) > (b.event_date + (b.start_time || '')) ? 1 : -1);
 
             if (sorted.length === 0) {
-                container.innerHTML = '<div class="agenda-empty"><i class="ph ph-calendar-x"></i><p>No hay eventos en este período</p></div>';
+                container.innerHTML = '<div class="agenda-empty"><i class="ph ph-calendar-x"></i><p>No hay eventos en este per\u00edodo</p></div>';
                 return;
             }
 
@@ -8796,30 +9410,68 @@ permalink: gestionproyectos/index.html
                 if (ev.event_date !== lastDate) {
                     const d = new Date(ev.event_date + 'T12:00:00');
                     const label = d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
-                    html += `<div class="cal-list-group-header">${label}</div>`;
+                    html += '<div class="cal-list-group-header">' + label + '</div>';
                     lastDate = ev.event_date;
                 }
 
                 const cls = agendaCatClass(ev.category);
-                const statusCls = agendaStatusDot(ev.status);
+                const displayStatus = agendaComputedStatus(ev);
+                const statusCls = agendaStatusDot(displayStatus);
                 const time = ev.start_time ? ev.start_time.slice(0,5) : 'S/H';
                 const realId = ev._original_id || ev.id;
-                const recBadge = ev._recurrence_instance ? '<span class="recurrence-badge"><i class="ph ph-arrow-clockwise"></i></span>' : '';
+                const isRecurrence = ev._recurrence_instance;
+                const recBadge = isRecurrence ? '<span class="recurrence-badge"><i class="ph ph-arrow-clockwise"></i></span>' : '';
 
-                html += `<div class="cal-list-item" onclick="openAgendaPreview('${realId}')">
-                    <div class="cal-list-time">${time}</div>
-                    <div class="cal-list-info">
-                        <div class="cal-list-title">${agendaEsc(ev.title)} ${recBadge}</div>
-                        <div class="cal-list-detail">
-                            <span class="cal-event-pill ${cls}" style="font-size:0.7rem;padding:0.1rem 0.35rem;">${ev.category}</span>
-                            ${ev.location_text ? '<span><i class="ph ph-map-pin" style="font-size:0.7rem;"></i> ' + agendaEsc(ev.location_text) + '</span>' : ''}
-                        </div>
-                    </div>
-                    <div class="cal-list-status">
-                        <span class="cal-list-status-dot ${statusCls}"></span>
-                        <span style="font-size:0.78rem;color:var(--text-muted);">${ev.status}</span>
-                    </div>
-                </div>`;
+                // Description snippet
+                let descSnippet = '';
+                if (ev.description) {
+                    descSnippet = '<div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + agendaEsc(ev.description) + '</div>';
+                }
+
+                // Project badge
+                let projBadge = '';
+                if (ev.related_project_id && typeof projects !== 'undefined') {
+                    const proj = projects.find(function(p) { return p.id === ev.related_project_id; });
+                    if (proj) {
+                        projBadge = '<span style="font-size:0.7rem;color:var(--blue);"><i class="ph ph-folder" style="font-size:0.65rem;"></i> ' + agendaEsc(proj.titulo) + '</span>';
+                    }
+                }
+
+                // Quick action menu (only for non-recurrence instances)
+                let quickAction = '';
+                if (!isRecurrence) {
+                    quickAction = '<div class="cal-list-quick-wrap">' +
+                        '<button class="cal-list-quick-btn" onclick="event.stopPropagation();agendaToggleQuickMenu(\'' + realId + '\', this)" title="Cambiar estado">' +
+                            '<i class="ph ph-dots-three-vertical"></i>' +
+                        '</button>' +
+                        '<div class="cal-list-quick-menu" id="qm-' + realId + '">' +
+                            '<button class="qm-item realizado" onclick="event.stopPropagation();agendaQuickStatus(\'' + realId + '\', \'Realizado\')"><i class="ph ph-check-circle"></i> Realizado</button>' +
+                            '<button class="qm-item pendiente" onclick="event.stopPropagation();agendaQuickStatus(\'' + realId + '\', \'Pendiente\')"><i class="ph ph-clock"></i> Pendiente</button>' +
+                            '<button class="qm-item pendiente" onclick="event.stopPropagation();agendaQuickStatus(\'' + realId + '\', \'Confirmado\')"><i class="ph ph-seal-check"></i> Confirmado</button>' +
+                            '<div class="qm-sep"></div>' +
+                            '<button class="qm-item reprogramar" onclick="event.stopPropagation();openReprogramar(\'' + realId + '\')"><i class="ph ph-calendar-plus"></i> Reprogramar</button>' +
+                            '<button class="qm-item cancelado" onclick="event.stopPropagation();agendaQuickStatus(\'' + realId + '\', \'Cancelado\')"><i class="ph ph-x-circle"></i> Cancelado</button>' +
+                        '</div>' +
+                    '</div>';
+                }
+
+                html += '<div class="cal-list-item" onclick="openAgendaPreview(\'' + realId + '\')">' +
+                    '<div class="cal-list-time">' + time + '</div>' +
+                    '<div class="cal-list-info">' +
+                        '<div class="cal-list-title">' + agendaEsc(ev.title) + ' ' + recBadge + '</div>' +
+                        '<div class="cal-list-detail">' +
+                            '<span class="cal-event-pill ' + cls + '" style="font-size:0.7rem;padding:0.1rem 0.35rem;">' + ev.category + '</span>' +
+                            (ev.location_text ? '<span><i class="ph ph-map-pin" style="font-size:0.7rem;"></i> ' + agendaEsc(ev.location_text) + '</span>' : '') +
+                            projBadge +
+                        '</div>' +
+                        descSnippet +
+                    '</div>' +
+                    '<div class="cal-list-status">' +
+                        '<span class="cal-list-status-dot ' + statusCls + '"></span>' +
+                        '<span style="font-size:0.78rem;color:var(--text-muted);">' + displayStatus + '</span>' +
+                    '</div>' +
+                    quickAction +
+                '</div>';
             }
 
             container.innerHTML = html;
@@ -9200,6 +9852,109 @@ permalink: gestionproyectos/index.html
                 agendaLoadEvents();
             } catch (err) {
                 alert('Error: ' + err.message);
+            }
+        }
+
+        // ---- QUICK STATUS CHANGE ----
+        function agendaToggleQuickMenu(id, btnEl) {
+            // Close all other open menus
+            document.querySelectorAll('.cal-list-quick-menu.open').forEach(function(m) {
+                if (m.id !== 'qm-' + id) m.classList.remove('open');
+            });
+            const menu = document.getElementById('qm-' + id);
+            if (menu) menu.classList.toggle('open');
+        }
+
+        // Close quick menus on outside click
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.cal-list-quick-wrap')) {
+                document.querySelectorAll('.cal-list-quick-menu.open').forEach(function(m) {
+                    m.classList.remove('open');
+                });
+            }
+        });
+
+        async function agendaQuickStatus(id, newStatus) {
+            // Close menu
+            document.querySelectorAll('.cal-list-quick-menu.open').forEach(function(m) {
+                m.classList.remove('open');
+            });
+
+            try {
+                const payload = { status: newStatus };
+                if (newStatus === 'Realizado') {
+                    payload.completed_at = new Date().toISOString();
+                }
+                payload.updated_at = new Date().toISOString();
+
+                const res = await fetch(AGENDA_API + '/' + encodeURIComponent(id), {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                const json = await res.json();
+                if (!json.ok && res.status >= 400) throw new Error(json.error || 'Error');
+                agendaLoadEvents();
+            } catch (err) {
+                alert('Error al cambiar estado: ' + err.message);
+            }
+        }
+
+        // ---- REPROGRAMAR ----
+        let reprogramarEventId = null;
+
+        function openReprogramar(id) {
+            // Close quick menu
+            document.querySelectorAll('.cal-list-quick-menu.open').forEach(function(m) {
+                m.classList.remove('open');
+            });
+
+            reprogramarEventId = id;
+            const ev = agendaEvents.find(function(e) { return e.id === id; });
+            if (!ev) return;
+
+            document.getElementById('reprogram-date').value = ev.event_date || '';
+            document.getElementById('reprogram-time').value = ev.start_time || '';
+            document.getElementById('reprogram-event-title').textContent = ev.title;
+
+            document.getElementById('reprogram-modal').classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+
+        async function saveReprogramar() {
+            if (!reprogramarEventId) return;
+
+            const newDate = document.getElementById('reprogram-date').value;
+            if (!newDate) { alert('Seleccion\u00e1 una fecha.'); return; }
+
+            const newTime = document.getElementById('reprogram-time').value || null;
+            const btn = document.getElementById('reprogram-save-btn');
+            btn.disabled = true;
+            btn.textContent = 'Guardando...';
+
+            try {
+                const payload = {
+                    event_date: newDate,
+                    start_time: newTime,
+                    status: 'Pendiente',
+                    updated_at: new Date().toISOString(),
+                };
+
+                const res = await fetch(AGENDA_API + '/' + encodeURIComponent(reprogramarEventId), {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                const json = await res.json();
+                if (!json.ok && res.status >= 400) throw new Error(json.error || 'Error');
+
+                closeModal('reprogram-modal');
+                agendaLoadEvents();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Reprogramar';
             }
         }
 

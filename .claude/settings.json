@@ -25,7 +25,8 @@
       "Bash(node _tools/generate-logos.js)",
       "Bash(ls -la \"D:/Git/ceciliagortari-site/src/assets/prensa/logo-marca-\"*)",
       "Bash(rm -rf _tools)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(python3:*)"
     ]
   }
 }
