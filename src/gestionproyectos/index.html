@@ -18,6 +18,13 @@ permalink: gestionproyectos/index.html
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
+    <!-- PDF.js for text extraction from PDFs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+
+    <!-- Mammoth.js for DOCX text extraction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
     <style>
         /* =========================================
            1. BRAND TOKENS & CSS VARIABLES
@@ -503,6 +510,179 @@ permalink: gestionproyectos/index.html
             border-radius: 2px; transition: width 0.3s; width: 0%;
         }
         .upload-progress-text { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+        /* =========================================
+           7e. AUTOCOMPLETAR UI
+           ========================================= */
+        .autocomplete-banner {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.85rem 1rem; margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, rgba(23,104,197,0.06), rgba(114,216,254,0.08));
+            border: 1px solid rgba(23,104,197,0.15); border-radius: var(--radius-md);
+        }
+        .autocomplete-banner-text { font-size: 0.82rem; color: var(--text-muted); flex: 1; line-height: 1.4; }
+        .autocomplete-banner-text strong { color: var(--text-main); }
+        .btn-autocomplete {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600;
+            color: #fff; background: var(--blue); border: none; border-radius: var(--radius-md);
+            cursor: pointer; transition: background 0.2s, transform 0.1s; white-space: nowrap;
+            font-family: 'Outfit', sans-serif;
+        }
+        .btn-autocomplete:hover { background: #1256a3; transform: translateY(-1px); }
+        .btn-autocomplete:active { transform: translateY(0); }
+        .btn-autocomplete:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-autocomplete svg { width: 16px; height: 16px; }
+
+        .autocomplete-status {
+            display: none; padding: 0.75rem 1rem; margin-bottom: 1rem;
+            border-radius: var(--radius-md); font-size: 0.82rem;
+            border: 1px solid var(--border-light);
+        }
+        .autocomplete-status.active { display: block; }
+        .autocomplete-status.loading {
+            background: var(--badge-blue-bg); color: var(--badge-blue-text);
+            border-color: rgba(23,104,197,0.2);
+        }
+        .autocomplete-status.success {
+            background: var(--badge-green-bg); color: var(--badge-green-text);
+            border-color: rgba(6,95,70,0.2);
+        }
+        .autocomplete-status.error {
+            background: var(--badge-red-bg); color: var(--badge-red-text);
+            border-color: rgba(153,27,27,0.2);
+        }
+        .autocomplete-status.warning {
+            background: var(--badge-yellow-bg); color: var(--badge-yellow-text);
+            border-color: rgba(146,64,14,0.2);
+        }
+
+        /* Preview overlay for autocompletar results */
+        .ac-preview-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        }
+        .ac-preview-overlay.active { opacity: 1; pointer-events: all; }
+        .ac-preview-card {
+            background: var(--bg-surface); border-radius: 12px;
+            width: 90%; max-width: 520px; max-height: 85vh;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        .ac-preview-header {
+            padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-light);
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .ac-preview-header h4 { margin: 0; font-size: 1rem; font-weight: 600; color: var(--text-main); flex: 1; }
+        .ac-preview-body { padding: 1.25rem 1.5rem; overflow-y: auto; flex: 1; }
+        .ac-preview-footer {
+            padding: 1rem 1.5rem; border-top: 1px solid var(--border-light);
+            display: flex; justify-content: flex-end; gap: 0.5rem;
+        }
+        .ac-field-row {
+            display: flex; align-items: flex-start; gap: 0.75rem;
+            padding: 0.6rem 0; border-bottom: 1px solid rgba(231,232,255,0.5);
+        }
+        .ac-field-row:last-child { border-bottom: none; }
+        .ac-field-label {
+            font-size: 0.78rem; font-weight: 600; color: var(--text-muted);
+            min-width: 120px; padding-top: 0.15rem;
+        }
+        .ac-field-value { font-size: 0.85rem; color: var(--text-main); flex: 1; line-height: 1.4; }
+        .ac-field-value.conflict {
+            background: var(--badge-yellow-bg); padding: 0.3rem 0.5rem;
+            border-radius: var(--radius-sm); font-size: 0.82rem;
+        }
+        .ac-field-badge {
+            display: inline-block; font-size: 0.7rem; font-weight: 600;
+            padding: 0.1rem 0.4rem; border-radius: var(--radius-full);
+            margin-left: 0.35rem; vertical-align: middle;
+        }
+        .ac-badge-new { background: var(--badge-green-bg); color: var(--badge-green-text); }
+        .ac-badge-conflict { background: var(--badge-yellow-bg); color: var(--badge-yellow-text); }
+        .ac-badge-skip { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
+        .ac-confidence {
+            display: inline-flex; align-items: center; gap: 0.25rem;
+            font-size: 0.7rem; color: var(--text-muted); margin-left: 0.5rem;
+        }
+        .ac-no-detect {
+            font-size: 0.82rem; color: var(--text-muted); font-style: italic;
+            padding: 0.5rem 0;
+        }
+        @keyframes acPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .ac-loading-pulse { animation: acPulse 1.5s ease-in-out infinite; }
+
+        /* Draft indicator */
+        .draft-indicator {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            font-size: 0.72rem; font-weight: 500; color: var(--badge-yellow-text);
+            background: var(--badge-yellow-bg); padding: 0.15rem 0.5rem;
+            border-radius: var(--radius-full); margin-left: 0.5rem;
+        }
+
+        /* OCR progress indicator */
+        .ocr-progress-container {
+            margin-top: 0.5rem; padding: 0.75rem 1rem;
+            background: var(--badge-blue-bg); border-radius: var(--radius-md);
+            border: 1px solid rgba(23,104,197,0.15);
+        }
+        .ocr-progress-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 0.5rem; font-size: 0.8rem; color: var(--badge-blue-text);
+        }
+        .ocr-progress-bar {
+            height: 6px; background: rgba(23,104,197,0.15);
+            border-radius: 3px; overflow: hidden;
+        }
+        .ocr-progress-fill {
+            height: 100%; background: var(--blue);
+            border-radius: 3px; transition: width 0.3s; width: 0%;
+        }
+        .ocr-progress-pages {
+            font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;
+        }
+
+        /* Confidence bar (visual) */
+        .ac-conf-bar {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            margin-left: 0.5rem; vertical-align: middle;
+        }
+        .ac-conf-bar-track {
+            width: 40px; height: 5px; background: var(--border-light);
+            border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle;
+        }
+        .ac-conf-bar-fill {
+            height: 100%; border-radius: 3px; transition: width 0.3s;
+        }
+        .ac-conf-bar-fill.high { width: 100%; background: var(--badge-green-text); }
+        .ac-conf-bar-fill.medium { width: 60%; background: var(--badge-yellow-text); }
+        .ac-conf-bar-fill.low { width: 30%; background: var(--badge-red-text); }
+        .ac-conf-label {
+            font-size: 0.68rem; font-weight: 500;
+        }
+
+        /* Per-field toggle in preview */
+        .ac-field-toggle {
+            display: flex; align-items: center; gap: 0.25rem; flex-shrink: 0;
+            margin-left: auto; padding-left: 0.5rem;
+        }
+        .ac-field-toggle input[type="checkbox"] {
+            width: 15px; height: 15px; cursor: pointer;
+            accent-color: var(--blue);
+        }
+        .ac-field-row.disabled {
+            opacity: 0.4;
+        }
+        .ac-source-tag {
+            display: inline-block; font-size: 0.68rem; font-weight: 500;
+            padding: 0.1rem 0.4rem; border-radius: var(--radius-full);
+            background: var(--badge-blue-bg); color: var(--badge-blue-text);
+            margin-bottom: 0.5rem;
+        }
 
         /* =========================================
            7d. TABLE DOC BADGES
@@ -3822,15 +4002,28 @@ permalink: gestionproyectos/index.html
                     </div>
                 </div>
 
-                <!-- Columna Derecha: Documentos -->
+                <!-- Columna Derecha: Documentos + Autocompletar -->
                 <div class="split-right">
                     <div class="section-label" style="color: var(--accent);">
                         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
                         Archivos y Fuentes
                     </div>
 
+                    <!-- Autocompletar banner (shown when expediente or main doc exists) -->
+                    <div class="autocomplete-banner" id="autocomplete-banner" style="display:none;">
+                        <svg width="20" height="20" fill="none" stroke="var(--blue)" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                        <div class="autocomplete-banner-text">
+                            <strong>Documento cargado.</strong> Podés autocompletar los datos del proyecto a partir del archivo subido.
+                        </div>
+                        <button type="button" class="btn-autocomplete" id="btn-autocomplete" onclick="handleAutoComplete()">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                            Autocompletar
+                        </button>
+                    </div>
+                    <div class="autocomplete-status" id="autocomplete-status"></div>
+
                     <div id="split-docs-content">
-                        <!-- Filled by JS: either upload zones or "save first" message -->
+                        <!-- Filled by JS: upload zones -->
                     </div>
                 </div>
             </div>
@@ -4186,6 +4379,27 @@ permalink: gestionproyectos/index.html
 
     <!-- Hidden input for replace file -->
     <input type="file" id="arch-replace-input" style="display:none;" onchange="archExecReplace(this)" accept=".pdf,.doc,.docx,.xlsx,.xls,.pptx,.ppt,.png,.jpg,.jpeg,.webp,.gif,.txt,.csv,.rtf,.odt,.ods">
+
+    <!-- AUTOCOMPLETAR: Preview/Confirmation Overlay -->
+    <div class="ac-preview-overlay" id="ac-preview-overlay">
+        <div class="ac-preview-card">
+            <div class="ac-preview-header">
+                <svg width="22" height="22" fill="none" stroke="var(--blue)" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                <h4>Datos detectados en el documento</h4>
+                <button class="close-btn" onclick="closeAutoCompletePreview()" style="position:static;">&times;</button>
+            </div>
+            <div class="ac-preview-body" id="ac-preview-body">
+                <!-- Filled by JS -->
+            </div>
+            <div class="ac-preview-footer">
+                <button type="button" class="btn btn-outline" onclick="closeAutoCompletePreview()">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btn-ac-apply" onclick="applyAutoCompleteData()">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg>
+                    Aplicar datos
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
         /* =========================================
@@ -4883,7 +5097,8 @@ permalink: gestionproyectos/index.html
             const filterTipo = filterTipoEl ? filterTipoEl.value : '';
 
             // Sort: most recently updated first (primary ordering)
-            let sorted = [...projects].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+            // Exclude unsaved drafts from the list
+            let sorted = [...projects].filter(p => p.titulo !== '(Borrador)').sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 
             // Apply search + type filter
             let filtered = sorted.filter(p => {
@@ -4900,10 +5115,11 @@ permalink: gestionproyectos/index.html
             const allPendientes = filtered.filter(p => p.estado_preparacion === 'Pendiente');
             const allPresentados = filtered.filter(p => p.estado_preparacion === 'Presentado');
 
-            // --- Metrics (computed from ALL projects, unfiltered) ---
-            const metricTrabajo = projects.filter(p => p.estado_preparacion === 'En trabajo').length;
-            const metricPendientes = projects.filter(p => p.estado_preparacion === 'Pendiente').length;
-            const metricPresentados = projects.filter(p => p.estado_preparacion === 'Presentado').length;
+            // --- Metrics (computed from ALL projects, unfiltered, excluding drafts) ---
+            const realProjects = projects.filter(p => p.titulo !== '(Borrador)');
+            const metricTrabajo = realProjects.filter(p => p.estado_preparacion === 'En trabajo').length;
+            const metricPendientes = realProjects.filter(p => p.estado_preparacion === 'Pendiente').length;
+            const metricPresentados = realProjects.filter(p => p.estado_preparacion === 'Presentado').length;
 
             const setMetric = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
             setMetric('metric-trabajo', metricTrabajo);
@@ -5095,7 +5311,7 @@ permalink: gestionproyectos/index.html
         /* =========================================
            MODALS (NUEVO/EDITAR)
            ========================================= */
-        function openModal(id = null) {
+        async function openModal(id = null) {
             const modal = document.getElementById('project-modal');
             const form = document.getElementById('project-form');
             form.reset();
@@ -5108,6 +5324,15 @@ permalink: gestionproyectos/index.html
             saveBtn.style.color = '';
             handlePrepChange(); // Reset conditional fields
             handleAutoriaChange(); // Reset authorship fields
+
+            // Reset autocomplete state
+            const acBanner = document.getElementById('autocomplete-banner');
+            if (acBanner) acBanner.style.display = 'none';
+            const acStatus = document.getElementById('autocomplete-status');
+            if (acStatus) acStatus.className = 'autocomplete-status';
+            _lastAutoCompleteData = null;
+            _draftProjectId = null;
+            _draftSavedByUser = false;
 
             if (id) {
                 document.getElementById('modal-title').innerText = 'Editar Proyecto';
@@ -5139,7 +5364,6 @@ permalink: gestionproyectos/index.html
                 loadSplitDocs(id);
             } else {
                 document.getElementById('modal-title').innerText = 'Nuevo Proyecto';
-                document.getElementById('f-id').value = '';
                 document.getElementById('btn-delete').style.display = 'none';
 
                 // Defaults
@@ -5147,9 +5371,26 @@ permalink: gestionproyectos/index.html
                 document.getElementById('f-responsable').value = 'Sin asignar';
                 tempChecklist = [];
 
-                // Show "save first" message for docs
+                // Auto-create draft project so uploads work immediately
                 document.getElementById('split-docs-content').innerHTML =
-                    '<div style="text-align:center;color:var(--text-muted);padding:2rem;font-size:0.85rem;font-style:italic;">Guardá el proyecto primero para subir documentos.</div>';
+                    '<div style="text-align:center;color:var(--text-muted);padding:1.5rem;font-size:0.85rem;"><span class="ac-loading-pulse">Preparando zona de archivos...</span></div>';
+
+                // Show modal immediately, create draft in background
+                renderEditChecklist();
+                document.body.classList.add('modal-open');
+                modal.classList.add('active');
+
+                const draftId = await createDraftProject();
+                if (draftId) {
+                    _draftProjectId = draftId;
+                    document.getElementById('f-id').value = draftId;
+                    loadSplitDocs(draftId);
+                } else {
+                    // Fallback: show message if draft creation failed
+                    document.getElementById('split-docs-content').innerHTML =
+                        '<div style="text-align:center;color:var(--text-muted);padding:2rem;font-size:0.85rem;font-style:italic;">No se pudo conectar al servidor. Completá los datos y guardá para habilitar archivos.</div>';
+                }
+                return; // Already showed modal above
             }
 
             renderEditChecklist();
@@ -5159,6 +5400,14 @@ permalink: gestionproyectos/index.html
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
+
+            // If closing project modal with an unsaved draft, clean it up
+            if (modalId === 'project-modal' && _draftProjectId && !_draftSavedByUser) {
+                const draftId = _draftProjectId;
+                _draftProjectId = null;
+                cleanupDraftProject(draftId);
+            }
+
             // Unlock scroll if no other modal is open
             if (!document.querySelector('.modal-overlay.active')) {
                 document.body.classList.remove('modal-open');
@@ -5181,26 +5430,13 @@ permalink: gestionproyectos/index.html
             const condFields = document.querySelectorAll('.conditional-field');
             const tramiteSelect = document.getElementById('f-estado-tramite');
             const fechaPresInput = document.getElementById('f-fecha-presentacion');
-            const expSection = document.getElementById('split-expediente-section');
 
             if (prepVal === 'Presentado') {
                 condFields.forEach(el => el.style.display = 'block');
-                // Show expediente section and reload docs to populate it
-                if (expSection) {
-                    const wasHidden = expSection.style.display === 'none';
-                    expSection.style.display = 'block';
-                    // Only reload docs if section was hidden (user just changed state)
-                    if (wasHidden) {
-                        const projectId = document.getElementById('f-id').value;
-                        if (projectId) loadSplitDocs(projectId);
-                    }
-                }
             } else {
                 condFields.forEach(el => el.style.display = 'none');
                 tramiteSelect.value = '';
                 fechaPresInput.value = '';
-                // Hide expediente section
-                if (expSection) expSection.style.display = 'none';
             }
         }
 
@@ -5224,6 +5460,8 @@ permalink: gestionproyectos/index.html
 
             const id = document.getElementById('f-id').value;
             const now = new Date().toISOString();
+            // A draft already has an ID — treat it as an update, not a new project
+            const isDraft = _draftProjectId && id === _draftProjectId;
             const isNew = !id;
 
             const projectData = {
@@ -5257,6 +5495,12 @@ permalink: gestionproyectos/index.html
                 // Éxito: usar datos devueltos por API como fuente de verdad
                 const savedProject = result.project || projectData;
 
+                // Mark draft as saved so closeModal won't delete it
+                if (isDraft) {
+                    _draftSavedByUser = true;
+                    _draftProjectId = null;
+                }
+
                 if (isNew) {
                     savedProject.has_main_doc = 0;
                     savedProject.materials_count = 0;
@@ -5279,6 +5523,15 @@ permalink: gestionproyectos/index.html
                     document.getElementById('modal-title').innerText = 'Editar Proyecto';
                     document.getElementById('btn-delete').style.display = 'block';
                     loadSplitDocs(savedProject.id);
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
+                    saveBtn.style.background = 'var(--badge-green-bg)';
+                    saveBtn.style.color = 'var(--badge-green-text)';
+                    setTimeout(() => { saveBtn.innerHTML = originalHTML; saveBtn.style.background = ''; saveBtn.style.color = ''; }, 2000);
+                } else if (isDraft) {
+                    // Draft saved for first time: stay in modal, show success
+                    document.getElementById('modal-title').innerText = 'Editar Proyecto';
+                    document.getElementById('btn-delete').style.display = 'block';
                     saveBtn.disabled = false;
                     saveBtn.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
                     saveBtn.style.background = 'var(--badge-green-bg)';
@@ -5393,6 +5646,10 @@ permalink: gestionproyectos/index.html
             const id = directId || document.getElementById('f-id').value;
 
             if(confirm('¿Estás seguro de eliminar este proyecto? Esta acción no se puede deshacer.')) {
+                // Prevent draft cleanup from double-deleting
+                if (_draftProjectId === id) {
+                    _draftProjectId = null;
+                }
                 projects = projects.filter(p => p.id !== id);
                 closeModal('project-modal');
                 renderUI();
@@ -5820,8 +6077,8 @@ permalink: gestionproyectos/index.html
             const isPresentado = proj && proj.estado_preparacion === 'Presentado';
 
             container.innerHTML = `
-                <!-- Expediente definitivo (solo Presentado) -->
-                <div class="upload-section" id="split-expediente-section" style="display:${isPresentado ? 'block' : 'none'};">
+                <!-- Expediente definitivo (always visible for upload-first flow) -->
+                <div class="upload-section" id="split-expediente-section">
                     <div class="upload-section-title">
                         <i class="ph ph-seal-check" style="font-size:0.9rem;"></i>
                         Expediente definitivo
@@ -5886,6 +6143,9 @@ permalink: gestionproyectos/index.html
             setTimeout(() => {
                 setupDragDrop('main-upload-zone', 'main-file-input');
                 setupDragDrop('materials-upload-zone', 'materials-file-input');
+                // Also setup for expediente zone if visible
+                const expZone = document.querySelector('#split-expediente-upload .upload-zone');
+                if (expZone) setupDragDrop('split-expediente-upload', 'split-expediente-file-input');
             }, 50);
 
             // Load existing documents
@@ -5924,6 +6184,8 @@ permalink: gestionproyectos/index.html
                 } else {
                     materialsList.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:0.5rem;font-size:0.85rem;">Sin materiales</div>';
                 }
+                // Update autocomplete banner after docs loaded
+                updateAutoCompleteBanner();
             } catch (e) {
                 document.getElementById('main-doc-display').innerHTML = '<div style="color:var(--badge-red-text);padding:0.5rem;font-size:0.85rem;">Error cargando documentos.</div>';
             }
@@ -6504,6 +6766,8 @@ permalink: gestionproyectos/index.html
                     p.has_expediente = data.expediente ? 1 : 0;
                     renderUI();
                 }
+                // Update autocomplete banner visibility
+                updateAutoCompleteBanner();
             } catch (e) { /* ignore */ }
         }
 
@@ -6685,6 +6949,849 @@ permalink: gestionproyectos/index.html
         }
 
         // Drag & drop setup is now done dynamically in loadSplitDocs()
+
+        /* =========================================
+           AUTOCOMPLETAR: DRAFT MANAGEMENT
+           ========================================= */
+        let _draftProjectId = null; // Track if current modal is a new draft
+        let _draftSavedByUser = false; // True once user clicks "Guardar"
+
+        async function createDraftProject() {
+            const id = generateID();
+            const now = new Date().toISOString();
+            const draft = {
+                id,
+                titulo: '(Borrador)',
+                tipo: 'Proyecto de Ley',
+                responsable: 'Sin asignar',
+                area_tema: '',
+                resumen: '',
+                estado_preparacion: 'Pendiente',
+                fecha_objetivo_presentacion: '',
+                fecha_presentacion: '',
+                estado_tramite: '',
+                created_at: now,
+                updated_at: now,
+                action_plan: [],
+                tipo_autoria: 'propio',
+                autor_principal: ''
+            };
+
+            const result = await apiSave(draft);
+            if (result.ok) {
+                const saved = result.project || draft;
+                saved.has_main_doc = 0;
+                saved.materials_count = 0;
+                saved.has_expediente = 0;
+                projects.push(saved);
+                localStorage.setItem(DB_KEY, JSON.stringify(projects));
+                return saved.id;
+            }
+            return null;
+        }
+
+        async function cleanupDraftProject(draftId) {
+            if (!draftId) return;
+            // Check if the draft still has the placeholder title (never truly saved)
+            const p = projects.find(x => x.id === draftId);
+            if (!p) return;
+            // If user gave it a real title, don't cleanup
+            if (p.titulo && p.titulo !== '(Borrador)') return;
+
+            // Delete uploaded docs first (they're on R2)
+            try {
+                const docsRes = await fetch(`/api/projects/${encodeURIComponent(draftId)}/documents`);
+                if (docsRes.ok) {
+                    const docs = await docsRes.json();
+                    if (docs.main) await fetch(`/api/projects/${encodeURIComponent(draftId)}/documents/main`, { method: 'DELETE' });
+                    if (docs.expediente) await fetch(`/api/projects/${encodeURIComponent(draftId)}/documents/expediente`, { method: 'DELETE' });
+                    if (docs.materials) {
+                        for (const m of docs.materials) {
+                            await fetch(`/api/projects/${encodeURIComponent(draftId)}/documents/materials/${encodeURIComponent(m.id)}`, { method: 'DELETE' });
+                        }
+                    }
+                }
+            } catch (_) { /* best effort */ }
+
+            // Delete the project record
+            await apiDelete(draftId);
+            projects = projects.filter(x => x.id !== draftId);
+            localStorage.setItem(DB_KEY, JSON.stringify(projects));
+            renderUI();
+        }
+
+        /* =========================================
+           AUTOCOMPLETAR: TEXT EXTRACTION
+           ========================================= */
+
+        // --- Tesseract.js lazy loader ---
+        let _tesseractLoaded = false;
+        let _tesseractLoading = false;
+
+        async function loadTesseract() {
+            if (_tesseractLoaded && window.Tesseract) return true;
+            if (_tesseractLoading) {
+                // Wait for existing load
+                for (let i = 0; i < 60; i++) {
+                    await new Promise(r => setTimeout(r, 500));
+                    if (_tesseractLoaded) return true;
+                }
+                return false;
+            }
+            _tesseractLoading = true;
+            try {
+                await new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+                _tesseractLoaded = !!window.Tesseract;
+                return _tesseractLoaded;
+            } catch (e) {
+                _tesseractLoading = false;
+                return false;
+            }
+        }
+
+        // --- PDF text extraction (digital text layer) ---
+        async function extractTextFromPDF(file) {
+            if (!window.pdfjsLib) throw new Error('PDF.js no está disponible');
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let fullText = '';
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                // Smarter join: respect item positions to preserve word boundaries
+                let pageText = '';
+                let lastY = null;
+                for (const item of content.items) {
+                    if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
+                        pageText += '\n'; // Line break when Y position changes
+                    } else if (pageText && !pageText.endsWith(' ') && !pageText.endsWith('\n')) {
+                        pageText += ' ';
+                    }
+                    pageText += item.str;
+                    lastY = item.transform[5];
+                }
+                fullText += pageText + '\n\n';
+            }
+            return fullText.trim();
+        }
+
+        // --- OCR via Tesseract.js (for scanned PDFs) ---
+        async function extractTextFromPDFWithOCR(file, onProgress) {
+            if (!window.pdfjsLib) throw new Error('PDF.js no está disponible');
+
+            // Load Tesseract lazily
+            if (onProgress) onProgress('loading_tesseract', 0, 0);
+            const loaded = await loadTesseract();
+            if (!loaded) throw new Error('OCR_LOAD_FAILED');
+
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            const totalPages = Math.min(pdf.numPages, 5); // Limit to first 5 pages for performance
+            let fullText = '';
+
+            // Create Tesseract worker
+            const worker = await Tesseract.createWorker('spa', 1, {
+                logger: () => {} // Silent
+            });
+
+            try {
+                for (let i = 1; i <= totalPages; i++) {
+                    if (onProgress) onProgress('ocr_page', i, totalPages);
+
+                    const page = await pdf.getPage(i);
+                    const viewport = page.getViewport({ scale: 2.0 }); // Higher scale = better OCR
+
+                    // Render page to canvas
+                    const canvas = document.createElement('canvas');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    const ctx = canvas.getContext('2d');
+                    await page.render({ canvasContext: ctx, viewport }).promise;
+
+                    // Run OCR on canvas
+                    const { data: { text } } = await worker.recognize(canvas);
+                    fullText += text + '\n\n';
+
+                    // Clean up canvas
+                    canvas.width = 0;
+                    canvas.height = 0;
+                }
+            } finally {
+                await worker.terminate();
+            }
+
+            return fullText.trim();
+        }
+
+        // --- DOCX text extraction ---
+        async function extractTextFromDOCX(file) {
+            if (!window.mammoth) throw new Error('Mammoth.js no está disponible');
+            const arrayBuffer = await file.arrayBuffer();
+            const result = await mammoth.extractRawText({ arrayBuffer });
+            return result.value.trim();
+        }
+
+        // --- Unified extraction with OCR fallback ---
+        async function extractTextFromFile(file, onProgress) {
+            const name = file.name.toLowerCase();
+            const type = file.type;
+
+            if (type === 'application/pdf' || name.endsWith('.pdf')) {
+                // First try digital text extraction
+                const digitalText = await extractTextFromPDF(file);
+
+                // Check if enough text was extracted (scanned PDFs yield very little)
+                if (digitalText && digitalText.length >= 100) {
+                    return { text: digitalText, method: 'digital' };
+                }
+
+                // Fallback to OCR
+                if (onProgress) onProgress('ocr_needed', 0, 0);
+                try {
+                    const ocrText = await extractTextFromPDFWithOCR(file, onProgress);
+                    if (ocrText && ocrText.length >= 30) {
+                        return { text: ocrText, method: 'ocr' };
+                    }
+                } catch (ocrErr) {
+                    if (ocrErr.message === 'OCR_LOAD_FAILED') {
+                        // OCR library couldn't load, return what we have
+                        if (digitalText && digitalText.length >= 30) {
+                            return { text: digitalText, method: 'digital' };
+                        }
+                        throw new Error('OCR_UNAVAILABLE');
+                    }
+                    throw ocrErr;
+                }
+
+                // Neither method worked
+                throw new Error('NO_TEXT_EXTRACTED');
+            }
+
+            if (type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || name.endsWith('.docx')) {
+                const text = await extractTextFromDOCX(file);
+                return { text, method: 'docx' };
+            }
+
+            if (name.endsWith('.doc')) {
+                throw new Error('DOC_NOT_SUPPORTED');
+            }
+            throw new Error('UNSUPPORTED_FORMAT');
+        }
+
+        /* =========================================
+           AUTOCOMPLETAR: PATTERN-BASED PARSER (v2)
+           ========================================= */
+        function parseDocumentText(text, extractionMethod) {
+            const result = {
+                tipo: null,
+                titulo: null,
+                tipo_autoria: null,
+                autor_principal: null,
+                coautores: [],
+                resumen: null,
+                estado: null,
+                fecha_presentacion: null,
+                area_tema: null,
+                numero_expediente: null,
+                _confidence: {},
+                _source: extractionMethod || 'digital'
+            };
+
+            if (!text || text.length < 30) return result;
+
+            // Normalize whitespace but preserve line structure
+            const normalized = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+            // Collapse multiple spaces within lines
+            const collapsed = normalized.replace(/[ \t]+/g, ' ');
+            // OCR text needs extra cleanup
+            const isOCR = extractionMethod === 'ocr';
+            const cleanText = isOCR
+                ? collapsed.replace(/[|¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿]/g, '').replace(/\s{3,}/g, '  ')
+                : collapsed;
+
+            // 1. TIPO DE PROYECTO (multiple patterns for OCR tolerance)
+            const tipoPatterns = [
+                { pattern: /PROYECTO\s+DE\s+LEY/i, value: 'Proyecto de Ley' },
+                { pattern: /PROYECTO\s+DE\s+RESOLUCI[OÓ]N/i, value: 'Proyecto de Resolución' },
+                { pattern: /PROYECTO\s+DE\s+DECLARACI[OÓ]N/i, value: 'Proyecto de Declaración' },
+                // OCR-tolerant variants
+                { pattern: /PROY(?:ECTO)?\s+DE\s+DECL(?:ARACION|ARACIÓN)/i, value: 'Proyecto de Declaración' },
+                { pattern: /PROY(?:ECTO)?\s+DE\s+RES(?:OLUCION|OLUCIÓN)/i, value: 'Proyecto de Resolución' }
+            ];
+            for (const tp of tipoPatterns) {
+                if (tp.pattern.test(cleanText)) {
+                    result.tipo = tp.value;
+                    result._confidence.tipo = isOCR ? 'medium' : 'high';
+                    break;
+                }
+            }
+
+            // 2. NÚMERO DE EXPEDIENTE (expanded patterns)
+            const exptePatterns = [
+                /EXPTE\.?\s*(?:N[°º.]?\s*)?(\d{3,6})/i,
+                /Expediente\s+(?:N[°º.]?\s*)?(\d{3,6})/i,
+                /EXP(?:TE|EDIENTE)[.\s]*(\d{3,6})/i,
+                /EXPTE\s+(\d{4,6})\s+INGRESO/i
+            ];
+            for (const pat of exptePatterns) {
+                const m = cleanText.match(pat);
+                if (m) {
+                    result.numero_expediente = m[1];
+                    result._confidence.numero_expediente = isOCR ? 'medium' : 'high';
+                    break;
+                }
+            }
+
+            // 3. FECHA DE PRESENTACIÓN (multiple date formats)
+            const datePatterns = [
+                // "INGRESO 16/03/25 HORA 11.30" or "INGRESO 16/03/25"
+                { re: /INGRESO\s+(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/i, conf: 'high' },
+                // "INGRESO dd/mm/yy HORA"
+                { re: /INGRESO\s+(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})\s+HORA/i, conf: 'high' },
+                // "fecha de ingreso: dd/mm/yyyy"
+                { re: /fecha\s+de\s+ingreso[:\s]+(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/i, conf: 'medium' },
+                // Generic date near "presentación" or "ingreso"
+                { re: /(?:presentaci[oó]n|ingreso)\s*[:\s]+.*?(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})/i, conf: 'medium' }
+            ];
+
+            for (const dp of datePatterns) {
+                if (result.fecha_presentacion) break;
+                const m = cleanText.match(dp.re);
+                if (m) {
+                    let [, day, month, year] = m;
+                    if (year.length === 2) year = (parseInt(year) > 50 ? '19' : '20') + year;
+                    const dateStr = `${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')}`;
+                    const d = new Date(dateStr);
+                    if (!isNaN(d.getTime()) && d.getFullYear() >= 2020 && d.getFullYear() <= 2030) {
+                        result.fecha_presentacion = dateStr;
+                        result._confidence.fecha_presentacion = isOCR ? 'medium' : dp.conf;
+                    }
+                }
+            }
+
+            // 4. ESTADO - if we found EXPTE + INGRESO data, it's "Presentado"
+            if (result.numero_expediente || result.fecha_presentacion) {
+                result.estado = 'Presentado';
+                result._confidence.estado = 'high';
+            }
+
+            // 5. INICIADORES / AUTORÍA (expanded patterns for various document formats)
+            let iniciadorText = null;
+            const iniciadorPatterns = [
+                /INICIADOR(?:ES)?[:\s]+(.+?)(?:\.\-|\n\s*\n|OBJETO)/is,
+                /INICIADOR(?:ES)?[:\s]*[:.]?\s*(.+?)(?:\n\s*(?:OBJETO|FUNDAMENTOS))/is,
+                // PDF.js may break "INICIADOR:" across items
+                /INICIADOR[:\s]+(.+?)(?:OBJETO)/is
+            ];
+            for (const pat of iniciadorPatterns) {
+                const m = cleanText.match(pat);
+                if (m) {
+                    iniciadorText = m[1].trim().replace(/\.\-$/, '').replace(/\s+/g, ' ').trim();
+                    break;
+                }
+            }
+
+            // Also try to find names from the signature block at the bottom
+            let signatureNames = [];
+            const signatureMatch = cleanText.match(/(?:MARIA\s+CECILIA\s+GORTARI|CECILIA\s+GORTARI)[\s\S]{0,200}(?:Diputad[oa]\s+(?:Nacional|Provincial))/gi);
+            if (signatureMatch) {
+                // Extract all names near "Diputado/a Nacional" in signature area
+                const sigBlock = cleanText.substring(cleanText.lastIndexOf('Diputad') > -1 ? Math.max(0, cleanText.lastIndexOf('MARIA CECILIA GORTARI', cleanText.lastIndexOf('Diputad'))) : cleanText.length - 500);
+                const sigNames = sigBlock.match(/([A-ZÁÉÍÓÚÑ]+(?:\s+[A-ZÁÉÍÓÚÑ]+){1,4})\s*\n?\s*Diputad[oa]/gi);
+                if (sigNames) {
+                    signatureNames = sigNames.map(s => {
+                        const nameOnly = s.replace(/\s*\n?\s*Diputad[oa].*/i, '').trim();
+                        // Title-case the name
+                        return nameOnly.split(/\s+/).map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ');
+                    });
+                }
+            }
+
+            if (iniciadorText) {
+                const names = extractNames(iniciadorText);
+                classifyAuthorship(result, names, iniciadorText, isOCR);
+            } else if (signatureNames.length > 0) {
+                classifyAuthorship(result, signatureNames, signatureNames.join(', '), isOCR);
+                if (result._confidence.tipo_autoria) {
+                    result._confidence.tipo_autoria = 'medium'; // Lower confidence from signatures
+                }
+            }
+
+            // 6. OBJETO / TÍTULO (expanded patterns)
+            const objetoPatterns = [
+                /OBJETO[:\s]+(.+?)(?:\n\s*\n|FUNDAMENTOS|Honorable\s+C[aá]mara)/is,
+                /OBJETO[:\s]+(.+?)(?:\n\s*FUNDAMENTOS)/is,
+                /OBJETO[:\s]*[:.]?\s*(.+?)(?:\n\n)/is
+            ];
+            for (const pat of objetoPatterns) {
+                if (result.titulo) break;
+                const m = cleanText.match(pat);
+                if (m) {
+                    let obj = m[1].trim()
+                        .replace(/\.\-$/, '').trim()
+                        .replace(/\s+/g, ' ');
+                    if (obj.length > 300) obj = obj.substring(0, 300) + '...';
+                    if (obj.length >= 10) {
+                        result.titulo = obj;
+                        result._confidence.titulo = isOCR ? 'medium' : 'high';
+                    }
+                }
+            }
+
+            // 7. RESUMEN
+            if (result.titulo) {
+                let resumen = result.titulo.replace(/\.{3}$/, '');
+                if (resumen.length > 200) resumen = resumen.substring(0, 200) + '...';
+                result.resumen = resumen;
+                result._confidence.resumen = 'medium';
+            }
+            // Try FUNDAMENTOS first substantive paragraph (skip "Honorable Cámara")
+            const fundPatterns = [
+                /FUNDAMENTOS[:\s]*(?:\n\s*Honorable\s+C[aá]mara[:\s]*)?\n(.+?)(?:\n\s*\n)/is,
+                /FUNDAMENTOS[:\s]*\n(.+?)(?:\n\s*\n)/is
+            ];
+            for (const pat of fundPatterns) {
+                const m = cleanText.match(pat);
+                if (m) {
+                    let fundFirst = m[1].trim().replace(/\s+/g, ' ');
+                    // Skip if it's just "Honorable Cámara:" or similar greeting
+                    if (/^Honorable\s+C[aá]mara/i.test(fundFirst)) continue;
+                    // Skip very short matches
+                    if (fundFirst.length < 30) continue;
+                    if (fundFirst.length > 400) continue;
+                    result.resumen = fundFirst.length > 200 ? fundFirst.substring(0, 200) + '...' : fundFirst;
+                    result._confidence.resumen = isOCR ? 'low' : 'medium';
+                    break;
+                }
+            }
+
+            // 8. ÁREA / TEMA (expanded keyword map with weighted scoring)
+            const topicKeywords = {
+                'Salud': [
+                    /salud\s+sexual/gi, /salud\s+p[uú]blica/gi, /salud\s+reproductiva/gi,
+                    /salud\s+mental/gi, /sanitari[ao]/gi, /hospital/gi, /m[eé]dic[oa]/gi,
+                    /PMO/g, /obra\s+social/gi, /IOSCOR/g, /IVE|ILE/g,
+                    /anticonceptiv/gi, /embarazo/gi, /procreaci[oó]n/gi
+                ],
+                'Derechos Humanos': [
+                    /derechos\s+humanos/gi, /identidad\s+de\s+g[eé]nero/gi,
+                    /discriminaci[oó]n/gi, /diversidad/gi, /g[eé]nero\s+autopercibid/gi,
+                    /trans(?:g[eé]nero)?/gi, /travesti/gi, /LGBTQ?/gi,
+                    /Convenci[oó]n\s+Americana/gi
+                ],
+                'Educación': [/educaci[oó]n/gi, /escuela/gi, /universitari/gi, /docente/gi, /educativ/gi],
+                'Presupuesto': [
+                    /presupuest/gi, /fiscal/gi, /gasto\s+p[uú]blico/gi,
+                    /austeridad/gi, /consejero/gi, /asesor/gi,
+                    /haberes/gi, /remuneraci/gi, /planta\s+de\s+personal/gi
+                ],
+                'Transparencia': [
+                    /transparencia/gi, /acceso\s+a\s+la\s+informaci[oó]n/gi,
+                    /rendici[oó]n\s+de\s+cuentas/gi, /control\s+legislativo/gi,
+                    /pedido\s+de\s+informe/gi, /n[oó]mina/gi
+                ],
+                'Ambiente': [/ambient[ae]/gi, /ecolog/gi, /contaminaci/gi, /residuo/gi, /sustentab/gi],
+                'Infraestructura': [/infraestructura/gi, /obra\s+p[uú]blica/gi, /vialidad/gi, /ruta/gi, /puente/gi],
+                'Seguridad': [/seguridad/gi, /polic[ií]/gi, /delito/gi, /penal/gi],
+                'Economía': [/econom[ií]/gi, /producci[oó]n/gi, /industrial/gi, /comerci/gi],
+                'Trabajo': [/trabajo/gi, /empleo/gi, /laboral/gi, /sindic/gi]
+            };
+
+            const detectedTopics = [];
+            for (const [topic, patterns] of Object.entries(topicKeywords)) {
+                let count = 0;
+                for (const re of patterns) {
+                    const matches = cleanText.match(re);
+                    if (matches) count += matches.length;
+                }
+                if (count >= 1) {
+                    detectedTopics.push({ topic, count });
+                }
+            }
+            if (detectedTopics.length > 0) {
+                detectedTopics.sort((a, b) => b.count - a.count);
+                result.area_tema = detectedTopics[0].topic;
+                const confThreshold = isOCR ? 5 : 3;
+                result._confidence.area_tema = detectedTopics[0].count >= confThreshold ? 'medium' : 'low';
+            }
+
+            return result;
+        }
+
+        function classifyAuthorship(result, names, rawText, isOCR) {
+            const ceciliaVariants = /gortari|cecilia\s*gortari|mar[ií]a\s*cecilia\s*gortari/i;
+            const hasCecilia = names.some(n => ceciliaVariants.test(n)) || ceciliaVariants.test(rawText);
+            const otherNames = names.filter(n => !ceciliaVariants.test(n));
+
+            if (hasCecilia && otherNames.length > 0) {
+                result.tipo_autoria = 'coautoria';
+                result.coautores = otherNames;
+                result.autor_principal = otherNames.join(', ');
+                result._confidence.tipo_autoria = isOCR ? 'medium' : 'high';
+            } else if (hasCecilia) {
+                result.tipo_autoria = 'propio';
+                result._confidence.tipo_autoria = isOCR ? 'medium' : 'high';
+            } else if (names.length > 0) {
+                result.tipo_autoria = 'acompanado';
+                result.autor_principal = names.join(', ');
+                result._confidence.tipo_autoria = 'medium';
+            }
+        }
+
+        function extractNames(text) {
+            const names = [];
+            let clean = text
+                .replace(/Dip(?:utad[oa])?\.?\s*/gi, '')
+                .replace(/Diputad[oa]\s+(?:Nacional|Provincial)?\s*/gi, '')
+                .replace(/Senador[a]?\s*/gi, '')
+                .replace(/\.\-$/g, '')
+                .trim();
+
+            // Split by common separators: comma, "y", semicolon, period-dash
+            const parts = clean.split(/\s*[,;]\s*|\s+y\s+|\.\-/i);
+            for (let part of parts) {
+                part = part.trim().replace(/^[\s,]+|[\s,]+$/g, '');
+                // Must have at least 2 words (name + surname)
+                if (part && part.split(/\s+/).length >= 2 && part.length >= 5) {
+                    names.push(part);
+                }
+            }
+            return names;
+        }
+
+        /* =========================================
+           AUTOCOMPLETAR: MAIN FLOW
+           ========================================= */
+        let _lastAutoCompleteData = null; // Store for apply step
+
+        async function handleAutoComplete() {
+            const projectId = document.getElementById('f-id').value;
+            if (!projectId) return;
+
+            const statusEl = document.getElementById('autocomplete-status');
+            const btn = document.getElementById('btn-autocomplete');
+
+            // Determine which file to analyze (priority: expediente > main doc)
+            statusEl.className = 'autocomplete-status active loading';
+            statusEl.innerHTML = '<span class="ac-loading-pulse">Analizando documento...</span>';
+            btn.disabled = true;
+
+            try {
+                // Fetch document list to find what's available
+                const docsRes = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`);
+                if (!docsRes.ok) throw new Error('No se pudieron cargar los documentos');
+                const docs = await docsRes.json();
+
+                // Pick the right document (expediente > main, skip materials)
+                let targetDoc = null;
+                let sourceLabel = '';
+                if (docs.expediente) {
+                    targetDoc = docs.expediente;
+                    sourceLabel = 'expediente definitivo';
+                } else if (docs.main) {
+                    targetDoc = docs.main;
+                    sourceLabel = 'documento del proyecto';
+                }
+
+                if (!targetDoc) {
+                    statusEl.className = 'autocomplete-status active warning';
+                    statusEl.textContent = 'Subí un expediente definitivo o documento del proyecto para autocompletar.';
+                    btn.disabled = false;
+                    setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 5000);
+                    return;
+                }
+
+                // Check if format is supported
+                const mime = targetDoc.mime_type || '';
+                const fname = (targetDoc.original_name || '').toLowerCase();
+                if (!mime.includes('pdf') && !fname.endsWith('.pdf') &&
+                    !mime.includes('wordprocessingml') && !fname.endsWith('.docx')) {
+                    if (fname.endsWith('.doc')) {
+                        statusEl.className = 'autocomplete-status active warning';
+                        statusEl.textContent = 'El formato .DOC no es compatible con la lectura automática. Convertilo a PDF o DOCX e intentá nuevamente.';
+                    } else {
+                        statusEl.className = 'autocomplete-status active warning';
+                        statusEl.textContent = 'Formato no compatible. Solo se pueden analizar archivos PDF o DOCX.';
+                    }
+                    btn.disabled = false;
+                    setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 5000);
+                    return;
+                }
+
+                // Download the file for analysis
+                statusEl.innerHTML = '<span class="ac-loading-pulse">Descargando archivo para análisis...</span>';
+                const downloadUrl = `/api/projects/${encodeURIComponent(projectId)}/documents/${encodeURIComponent(targetDoc.id)}/download`;
+                const fileRes = await fetch(downloadUrl);
+                if (!fileRes.ok) throw new Error('No se pudo descargar el documento');
+
+                const blob = await fileRes.blob();
+                const file = new File([blob], targetDoc.original_name || 'document', { type: mime });
+
+                // Extract text
+                statusEl.innerHTML = '<span class="ac-loading-pulse">Extrayendo texto del documento...</span>';
+                let extractedText = '';
+                let extractionMethod = 'digital';
+
+                // OCR progress callback
+                function onProgress(type, current, total) {
+                    if (type === 'ocr_needed') {
+                        statusEl.innerHTML = `<span class="ac-loading-pulse">PDF escaneado detectado. Iniciando OCR...</span>
+                            <div class="ocr-progress-container" id="ocr-progress">
+                                <div class="ocr-progress-header"><span>Reconocimiento óptico (OCR)</span><span id="ocr-pct">0%</span></div>
+                                <div class="ocr-progress-bar"><div class="ocr-progress-fill" id="ocr-fill"></div></div>
+                                <div class="ocr-progress-pages" id="ocr-pages">Preparando...</div>
+                            </div>`;
+                    } else if (type === 'ocr_page') {
+                        const pct = total > 0 ? Math.round((current / total) * 100) : 0;
+                        const fillEl = document.getElementById('ocr-fill');
+                        const pctEl = document.getElementById('ocr-pct');
+                        const pagesEl = document.getElementById('ocr-pages');
+                        if (fillEl) fillEl.style.width = pct + '%';
+                        if (pctEl) pctEl.textContent = pct + '%';
+                        if (pagesEl) pagesEl.textContent = `Página ${current} de ${total}`;
+                    }
+                }
+
+                try {
+                    const extraction = await extractTextFromFile(file, onProgress);
+                    extractedText = extraction.text;
+                    extractionMethod = extraction.method;
+                } catch (extractErr) {
+                    if (extractErr.message === 'DOC_NOT_SUPPORTED') {
+                        statusEl.className = 'autocomplete-status active warning';
+                        statusEl.textContent = 'El formato .DOC no es compatible. Convertilo a PDF o DOCX.';
+                    } else if (extractErr.message === 'OCR_UNAVAILABLE') {
+                        statusEl.className = 'autocomplete-status active warning';
+                        statusEl.textContent = 'PDF escaneado detectado pero no se pudo cargar el motor OCR. Verificá tu conexión a internet.';
+                    } else if (extractErr.message === 'NO_TEXT_EXTRACTED') {
+                        statusEl.className = 'autocomplete-status active warning';
+                        statusEl.textContent = 'No se pudo extraer texto del documento, ni digital ni por OCR. Completá los datos manualmente.';
+                    } else {
+                        statusEl.className = 'autocomplete-status active error';
+                        statusEl.textContent = 'No se pudo leer automáticamente el documento. Completá los datos manualmente.';
+                    }
+                    btn.disabled = false;
+                    setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 6000);
+                    return;
+                }
+
+                if (!extractedText || extractedText.length < 30) {
+                    statusEl.className = 'autocomplete-status active warning';
+                    statusEl.textContent = 'No se pudo extraer suficiente texto del documento. Completá los datos manualmente.';
+                    btn.disabled = false;
+                    setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 6000);
+                    return;
+                }
+
+                // Parse text
+                statusEl.innerHTML = '<span class="ac-loading-pulse">Detectando datos del proyecto...</span>';
+                const parsed = parseDocumentText(extractedText, extractionMethod);
+                parsed._source = extractionMethod;
+
+                // If expediente was the source, always suggest "Presentado"
+                if (sourceLabel === 'expediente definitivo' && !parsed.estado) {
+                    parsed.estado = 'Presentado';
+                    parsed._confidence.estado = 'high';
+                }
+
+                // Count detected fields
+                const detectedFields = ['tipo', 'titulo', 'tipo_autoria', 'resumen', 'estado', 'fecha_presentacion', 'area_tema', 'numero_expediente']
+                    .filter(k => parsed[k]);
+
+                if (detectedFields.length === 0) {
+                    statusEl.className = 'autocomplete-status active warning';
+                    statusEl.textContent = 'No se pudieron detectar datos estructurados en el documento. Completá los campos manualmente.';
+                    btn.disabled = false;
+                    setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 5000);
+                    return;
+                }
+
+                const methodLabel = { digital: 'lectura digital', ocr: 'OCR', docx: 'lectura DOCX' }[extractionMethod] || 'análisis';
+                statusEl.className = 'autocomplete-status active success';
+                statusEl.textContent = `Se detectaron ${detectedFields.length} campo(s) desde el ${sourceLabel} (${methodLabel}). Revisá los datos antes de aplicar.`;
+
+                // Store and show preview
+                _lastAutoCompleteData = parsed;
+                showAutoCompletePreview(parsed);
+                btn.disabled = false;
+                setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 3000);
+
+            } catch (err) {
+                statusEl.className = 'autocomplete-status active error';
+                statusEl.textContent = 'Error al analizar: ' + err.message;
+                btn.disabled = false;
+                setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 6000);
+            }
+        }
+
+        /* =========================================
+           AUTOCOMPLETAR: PREVIEW & CONFIRMATION
+           ========================================= */
+        function showAutoCompletePreview(data) {
+            const body = document.getElementById('ac-preview-body');
+
+            const fields = [
+                { key: 'tipo', label: 'Tipo de proyecto', formId: 'f-tipo' },
+                { key: 'titulo', label: 'Título / Objeto', formId: 'f-titulo' },
+                { key: 'tipo_autoria', label: 'Autoría', formId: 'f-tipo-autoria', format: v => {
+                    const map = { propio: 'Propio de Cecilia', coautoria: 'Coautoría', acompanado: 'Autor externo' };
+                    return map[v] || v;
+                }},
+                { key: 'autor_principal', label: 'Coautores', formId: 'f-autor-principal' },
+                { key: 'resumen', label: 'Resumen', formId: 'f-resumen' },
+                { key: 'estado', label: 'Estado', formId: 'f-estado-prep' },
+                { key: 'fecha_presentacion', label: 'Fecha de presentación', formId: 'f-fecha-presentacion', format: v => {
+                    if (!v) return v;
+                    const [y, m, d] = v.split('-');
+                    return `${d}/${m}/${y}`;
+                }},
+                { key: 'area_tema', label: 'Área / Tema', formId: 'f-area' },
+                { key: 'numero_expediente', label: 'N° Expediente', formId: null }
+            ];
+
+            // Source tag
+            const sourceLabel = { digital: 'PDF digital', ocr: 'OCR (escaneado)', docx: 'DOCX' }[data._source] || 'Documento';
+            let html = `<div class="ac-source-tag">${escapeHtml(sourceLabel)}</div>`;
+            let hasAny = false;
+            let fieldIdx = 0;
+
+            for (const field of fields) {
+                const val = data[field.key];
+                if (!val) continue;
+                hasAny = true;
+                fieldIdx++;
+
+                const displayVal = field.format ? field.format(val) : val;
+                const confidence = data._confidence[field.key] || 'medium';
+                const confLabel = { high: 'Alta', medium: 'Media', low: 'Baja' }[confidence];
+                const confColor = { high: 'var(--badge-green-text)', medium: 'var(--badge-yellow-text)', low: 'var(--badge-red-text)' }[confidence];
+
+                // Check if form field already has a value
+                let badge = '<span class="ac-field-badge ac-badge-new">nuevo</span>';
+                if (field.formId) {
+                    const el = document.getElementById(field.formId);
+                    const currentVal = el ? el.value.trim() : '';
+                    const defaultVals = ['', 'Proyecto de Ley', 'Pendiente', 'Sin asignar', 'propio', '(Borrador)'];
+                    if (currentVal && !defaultVals.includes(currentVal) && currentVal !== val) {
+                        badge = '<span class="ac-field-badge ac-badge-conflict">reemplaza</span>';
+                    }
+                }
+
+                html += `<div class="ac-field-row" id="ac-row-${field.key}">
+                    <div class="ac-field-label">
+                        ${escapeHtml(field.label)} ${badge}
+                        <span class="ac-field-toggle">
+                            <input type="checkbox" id="ac-chk-${field.key}" checked data-ac-field="${field.key}"
+                                onchange="document.getElementById('ac-row-${field.key}').classList.toggle('disabled', !this.checked)">
+                        </span>
+                    </div>
+                    <div class="ac-field-value">${escapeHtml(displayVal)}
+                        <span class="ac-conf-bar">
+                            <span class="ac-conf-bar-track"><span class="ac-conf-bar-fill ${confidence}"></span></span>
+                            <span class="ac-conf-label" style="color:${confColor}">${confLabel}</span>
+                        </span>
+                    </div>
+                </div>`;
+            }
+
+            // Show coautores list if present
+            if (data.coautores && data.coautores.length > 0) {
+                html += `<div class="ac-field-row">
+                    <div class="ac-field-label">Legisladores detectados</div>
+                    <div class="ac-field-value">${data.coautores.map(n => escapeHtml(n)).join('<br>')}</div>
+                </div>`;
+            }
+
+            if (!hasAny) {
+                html = '<div class="ac-no-detect">No se detectaron datos en el documento.</div>';
+            }
+
+            body.innerHTML = html;
+            document.getElementById('ac-preview-overlay').classList.add('active');
+        }
+
+        function closeAutoCompletePreview() {
+            document.getElementById('ac-preview-overlay').classList.remove('active');
+        }
+
+        function applyAutoCompleteData() {
+            if (!_lastAutoCompleteData) return;
+            const data = _lastAutoCompleteData;
+            const defaultVals = ['', 'Proyecto de Ley', 'Pendiente', 'Sin asignar', 'propio', '(Borrador)'];
+
+            // Check which fields are enabled via per-field toggles
+            function isFieldEnabled(key) {
+                const chk = document.getElementById('ac-chk-' + key);
+                return !chk || chk.checked; // if checkbox doesn't exist, default to enabled
+            }
+
+            function setField(formId, value) {
+                if (!formId || !value) return;
+                const el = document.getElementById(formId);
+                if (!el) return;
+                el.value = value;
+            }
+
+            let appliedCount = 0;
+
+            if (data.tipo && isFieldEnabled('tipo')) { setField('f-tipo', data.tipo); appliedCount++; }
+            if (data.titulo && isFieldEnabled('titulo')) { setField('f-titulo', data.titulo); appliedCount++; }
+            if (data.tipo_autoria && isFieldEnabled('tipo_autoria')) {
+                setField('f-tipo-autoria', data.tipo_autoria);
+                handleAutoriaChange();
+                appliedCount++;
+            }
+            if (data.autor_principal && isFieldEnabled('autor_principal')) { setField('f-autor-principal', data.autor_principal); appliedCount++; }
+            if (data.resumen && isFieldEnabled('resumen')) { setField('f-resumen', data.resumen); appliedCount++; }
+            if (data.estado && isFieldEnabled('estado')) {
+                setField('f-estado-prep', data.estado);
+                handlePrepChange();
+                appliedCount++;
+            }
+            if (data.fecha_presentacion && isFieldEnabled('fecha_presentacion')) { setField('f-fecha-presentacion', data.fecha_presentacion); appliedCount++; }
+            if (data.area_tema && isFieldEnabled('area_tema')) { setField('f-area', data.area_tema); appliedCount++; }
+
+            closeAutoCompletePreview();
+
+            // Show success feedback
+            const statusEl = document.getElementById('autocomplete-status');
+            statusEl.className = 'autocomplete-status active success';
+            statusEl.textContent = appliedCount > 0
+                ? `${appliedCount} campo(s) aplicado(s). Revisá y corregí lo que necesites antes de guardar.`
+                : 'No se aplicó ningún campo. Todos fueron desmarcados.';
+            setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 4000);
+        }
+
+        /* =========================================
+           AUTOCOMPLETAR: BANNER VISIBILITY
+           ========================================= */
+        function updateAutoCompleteBanner() {
+            const banner = document.getElementById('autocomplete-banner');
+            if (!banner) return;
+            const projectId = document.getElementById('f-id').value;
+            if (!projectId) { banner.style.display = 'none'; return; }
+
+            // Check if there are docs that can be analyzed
+            const p = projects.find(x => x.id === projectId);
+            if (p && (p.has_expediente || p.has_main_doc)) {
+                banner.style.display = 'flex';
+            } else {
+                banner.style.display = 'none';
+            }
+        }
+
+        /* =========================================
+           DOCUMENT DOWNLOAD ENDPOINT (for autocompletar)
+           ========================================= */
+        // The download endpoint is already available at:
+        // /api/projects/{id}/documents/{docId}/download
+        // (used by public preview). We reuse it here for analysis.
 
         /* =========================================
            TABS SWITCHING

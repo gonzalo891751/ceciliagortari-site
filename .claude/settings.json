@@ -37,7 +37,12 @@
       "Bash(grep -r \"plLoadProjects\\\\|plOpenModal\\\\|plGoToPage\" D:Gitceciliagortari-sitesrc --include=*.js --include=*.njk)",
       "Bash(node -c src/assets/js/site.js)",
       "Bash(for f:*)",
-      "Read(//d/Git/ceciliagortari-site/**)"
+      "Read(//d/Git/ceciliagortari-site/**)",
+      "Bash(find /d/Git/ceciliagortari-site/src -type f \\\\\\(-name *.tsx -o -name *.ts -o -name *.jsx -o -name *.js \\\\\\))",
+      "Bash(ls -la /d/Git/ceciliagortari-site/functions/api/projects/[id]/documents/[docId]/)",
+      "Bash(xargs grep:*)",
+      "Bash(xargs wc:*)",
+      "Bash(node -c \"D:\\\\Git\\\\ceciliagortari-site\\\\src\\\\gestionproyectos\\\\index.html\")"
     ]
   }
 }
