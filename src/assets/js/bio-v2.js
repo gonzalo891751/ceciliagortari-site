@@ -181,6 +181,123 @@
   }
 
   // ========================================================================
+  // LIGHTBOX
+  // ========================================================================
+  function initLightbox() {
+    var images = document.querySelectorAll('.bio-photo img');
+    if (!images.length) return;
+
+    // Build flat array of { src, caption } for navigation
+    var items = [];
+    images.forEach(function (img) {
+      var captionEl = img.closest('.bio-photo').querySelector('.bio-photo__caption');
+      items.push({
+        src: img.src,
+        caption: captionEl ? captionEl.textContent : ''
+      });
+    });
+
+    // Create lightbox DOM
+    var lightbox = document.createElement('div');
+    lightbox.className = 'bio-lightbox';
+    lightbox.setAttribute('role', 'dialog');
+    lightbox.setAttribute('aria-modal', 'true');
+    lightbox.setAttribute('aria-label', 'Imagen ampliada');
+    lightbox.innerHTML =
+      '<div class="bio-lightbox__overlay"></div>' +
+      '<div class="bio-lightbox__inner">' +
+        '<img class="bio-lightbox__img" src="" alt="">' +
+        '<div class="bio-lightbox__caption"></div>' +
+        '<button class="bio-lightbox__close" aria-label="Cerrar">&times;</button>' +
+        '<button class="bio-lightbox__prev" aria-label="Anterior">&#8249;</button>' +
+        '<button class="bio-lightbox__next" aria-label="Siguiente">&#8250;</button>' +
+        '<div class="bio-lightbox__counter"></div>' +
+      '</div>';
+    document.body.appendChild(lightbox);
+
+    var lbImg = lightbox.querySelector('.bio-lightbox__img');
+    var lbCaption = lightbox.querySelector('.bio-lightbox__caption');
+    var lbClose = lightbox.querySelector('.bio-lightbox__close');
+    var lbPrev = lightbox.querySelector('.bio-lightbox__prev');
+    var lbNext = lightbox.querySelector('.bio-lightbox__next');
+    var lbCounter = lightbox.querySelector('.bio-lightbox__counter');
+    var lbOverlay = lightbox.querySelector('.bio-lightbox__overlay');
+    var currentIndex = 0;
+
+    function showImage(index) {
+      if (index < 0) index = items.length - 1;
+      if (index >= items.length) index = 0;
+      currentIndex = index;
+
+      lbImg.src = items[index].src;
+      lbImg.alt = items[index].caption || '';
+      lbCaption.textContent = items[index].caption || '';
+      lbCaption.style.display = items[index].caption ? '' : 'none';
+      lbCounter.textContent = (index + 1) + ' / ' + items.length;
+
+      // Show/hide nav if only one image
+      var hasMultiple = items.length > 1;
+      lbPrev.style.display = hasMultiple ? '' : 'none';
+      lbNext.style.display = hasMultiple ? '' : 'none';
+      lbCounter.style.display = hasMultiple ? '' : 'none';
+    }
+
+    function openLightbox(index) {
+      showImage(index);
+      lightbox.classList.add('is-active');
+      document.body.classList.add('bio-lightbox-open');
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('is-active');
+      document.body.classList.remove('bio-lightbox-open');
+    }
+
+    // Click on images to open
+    images.forEach(function (img, i) {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function () {
+        openLightbox(i);
+      });
+    });
+
+    // Close handlers
+    lbClose.addEventListener('click', closeLightbox);
+    lbOverlay.addEventListener('click', closeLightbox);
+
+    // Navigation
+    lbPrev.addEventListener('click', function (e) {
+      e.stopPropagation();
+      showImage(currentIndex - 1);
+    });
+    lbNext.addEventListener('click', function (e) {
+      e.stopPropagation();
+      showImage(currentIndex + 1);
+    });
+
+    // Keyboard
+    document.addEventListener('keydown', function (e) {
+      if (!lightbox.classList.contains('is-active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+      if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+    });
+
+    // Swipe support for mobile
+    var touchStartX = 0;
+    lightbox.addEventListener('touchstart', function (e) {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    lightbox.addEventListener('touchend', function (e) {
+      var diff = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) showImage(currentIndex - 1);
+        else showImage(currentIndex + 1);
+      }
+    }, { passive: true });
+  }
+
+  // ========================================================================
   // SMOOTH SCROLL FOR TOC LINKS
   // ========================================================================
   function initSmoothTocScroll() {
@@ -212,6 +329,7 @@
     initTocScrollSpy();
     initRevealAnimations();
     initSmoothTocScroll();
+    initLightbox();
   }
 
   if (document.readyState === 'loading') {

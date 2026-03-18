@@ -5486,7 +5486,7 @@ details[open] summary~* {
   width: 100%;
   aspect-ratio: 3/4;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 20%;
   display: block;
 }
 
@@ -5701,15 +5701,15 @@ details[open] summary~* {
   line-height: 1.75;
   color: var(--color-blue);
   font-weight: var(--font-regular);
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--color-gray-200);
 }
 
 /* Sections */
 .bio-section {
-  margin-bottom: 3rem;
-  padding-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
   border-bottom: 1px solid var(--color-gray-100);
 }
 
@@ -5721,7 +5721,7 @@ details[open] summary~* {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .bio-section__heading h2 {
@@ -5788,7 +5788,7 @@ details[open] summary~* {
 
 /* Photo wide */
 .bio-photo--wide {
-  margin: 2rem 0;
+  margin: 1.25rem 0;
 }
 
 .bio-photo--wide img {
@@ -5816,17 +5816,61 @@ details[open] summary~* {
   }
 }
 
+/* Photo side — larger variant */
+.bio-photo--side.bio-photo--lg {
+  max-width: 340px;
+}
+
+@media (max-width: 639px) {
+  .bio-photo--side.bio-photo--lg {
+    max-width: 100%;
+  }
+}
+
+/* Photo wide — object-position top (face visible) */
+.bio-photo--wide.bio-photo--top img {
+  object-position: center 15%;
+}
+
+/* Photo wide — object-position center (face centered) */
+.bio-photo--wide.bio-photo--center img {
+  object-position: center 30%;
+}
+
 /* Photo grid (2 columns) */
 .bio-photo-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  margin: 2rem 0;
+  margin: 1.5rem 0;
 }
 
 @media (min-width: 640px) {
   .bio-photo-grid {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Photo grid — familia variant (tighter, with sensitive treatment) */
+.bio-photo-grid--familia {
+  margin: 1.25rem 0;
+}
+
+.bio-photo-grid--familia .bio-photo img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+/* Memorial photo — sensitive treatment */
+.bio-photo--memoria img {
+  filter: grayscale(30%);
+  transition: filter 0.5s ease;
+}
+
+@media (min-width: 768px) {
+  .bio-photo--memoria:hover img {
+    filter: grayscale(60%);
   }
 }
 
@@ -5847,7 +5891,7 @@ details[open] summary~* {
   color: white;
   padding: 2.5rem 2rem;
   border-radius: var(--radius-2xl);
-  margin: 2.5rem 0;
+  margin: 1.5rem 0;
   position: relative;
   overflow: hidden;
 }
@@ -5897,7 +5941,7 @@ details[open] summary~* {
   border-left: 4px solid var(--color-blue);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
   padding: 1rem 1.25rem;
-  margin: 1.5rem 0;
+  margin: 1.25rem 0 0.5rem;
 }
 
 .bio-milestone__year {
@@ -6417,7 +6461,165 @@ details[open] summary~* {
 }
 
 /* --------------------------------------------------------------------------
-   14. REVEAL ANIMATIONS
+   14. LIGHTBOX
+   -------------------------------------------------------------------------- */
+.bio-photo img {
+  cursor: zoom-in;
+}
+
+.bio-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.bio-lightbox.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.bio-lightbox__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  cursor: zoom-out;
+}
+
+.bio-lightbox__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 90vw;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.92);
+  transition: transform 0.35s ease;
+}
+
+.bio-lightbox.is-active .bio-lightbox__inner {
+  transform: scale(1);
+}
+
+.bio-lightbox__img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  display: block;
+}
+
+.bio-lightbox__caption {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+  text-align: center;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.bio-lightbox__close {
+  position: absolute;
+  top: -2.5rem;
+  right: -0.5rem;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+  line-height: 1;
+}
+
+.bio-lightbox__close:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+}
+
+.bio-lightbox__close:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+/* Navigation arrows */
+.bio-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+}
+
+.bio-lightbox__nav:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.bio-lightbox__nav--prev {
+  left: -3.5rem;
+}
+
+.bio-lightbox__nav--next {
+  right: -3.5rem;
+}
+
+@media (max-width: 767px) {
+  .bio-lightbox__nav--prev { left: -0.25rem; }
+  .bio-lightbox__nav--next { right: -0.25rem; }
+  .bio-lightbox__nav {
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .bio-lightbox__close {
+    top: -2rem;
+    right: 0;
+  }
+}
+
+.bio-lightbox__counter {
+  position: absolute;
+  bottom: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+}
+
+/* Body scroll lock when lightbox is open */
+body.bio-lightbox-open {
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   15. REVEAL ANIMATIONS
    -------------------------------------------------------------------------- */
 .bio-reveal {
   opacity: 0;
@@ -7787,16 +7989,10 @@ details[open] summary~* {
 }
 
 /* ==========================================================================
-   G. BIOGRAFÍA SECTION (REDESIGN 2026)
+   G. BIOGRAFÍA SECTION (REDESIGN 2026) — LEGACY, overridden by v2 above
    ========================================================================== */
 
-.bio-section {
-  position: relative;
-  padding: var(--spacing-3xl) 0;
-  overflow: hidden;
-  background-color: #FAFAFC;
-  /* Off-white base */
-}
+/* .bio-section legacy override removed — v2 styles control this now */
 
 /* Proyectos section - same style as bio-section */
 .proyectos-section {
