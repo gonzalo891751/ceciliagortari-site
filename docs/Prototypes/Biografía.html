@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biografía | María Cecilia Gortari</title>
+    
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration & Custom CSS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        magenta: '#9F57A7',
+                        azul: '#1C5CFF',
+                        turquesa: '#24BCDE',
+                        naranja: '#FBA85F',
+                        rosa: '#E4BFE8',
+                        gris: '#4E4E54',
+                        fondo: '#FAFAFA'
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'brand-gradient': 'linear-gradient(135deg, #9F57A7 0%, #1C5CFF 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: #4E4E54;
+            background-color: #FAFAFA;
+        }
+        
+        /* Efecto Collage Fotográfico de la Marca */
+        .collage-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        .collage-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: -15px;
+            bottom: -15px;
+            background-color: var(--bg-color, #24BCDE); /* Color por defecto turquesa */
+            z-index: 0;
+            border-radius: 4px;
+        }
+        .brand-photo {
+            position: relative;
+            z-index: 1;
+            filter: grayscale(100%) contrast(120%);
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+        .collage-wrapper:hover .brand-photo {
+            transform: translate(5px, 5px);
+        }
+
+        /* Estilos de la Línea de Tiempo */
+        .timeline-container {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #E4BFE8; /* Rosa suave */
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -2rem;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #1C5CFF;
+            border: 3px solid #FAFAFA;
+        }
+
+        /* Enlaces del Índice */
+        .toc-link.active {
+            color: #1C5CFF;
+            font-weight: 600;
+            border-left: 3px solid #1C5CFF;
+            padding-left: 0.75rem;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAFAFA; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #9F57A7; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1C5CFF; 
+        }
+
+        /* Decoración SVG (Olas del río simplificadas) */
+        .wave-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='20' viewBox='0 0 60 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q 15 20, 30 10 T 60 10' fill='none' stroke='%23ffffff' stroke-width='2' stroke-opacity='0.2'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-magenta selection:text-white">
+
+    <!-- HERO SECTION -->
+    <header class="relative bg-brand-gradient text-white overflow-hidden">
+        <div class="absolute inset-0 wave-pattern opacity-50"></div>
+        <div class="max-w-7xl mx-auto px-6 py-20 md:py-32 relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
+            <div class="md:w-3/5 space-y-6">
+                <span class="uppercase tracking-widest text-sm font-bold text-rosa">Biografía Oficial</span>
+                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
+                    María Cecilia <br/>Gortari
+                </h1>
+                <p class="text-xl md:text-2xl font-light opacity-90 max-w-2xl leading-relaxed">
+                    Compromiso público, cercanía y gestión transformadora en la provincia de Corrientes.
+                </p>
+            </div>
+            <div class="md:w-2/5 w-full max-w-sm">
+                <!-- Imagen Hero estilo Collage -->
+                <div class="collage-wrapper" style="--bg-color: #FBA85F;">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Retrato de Cecilia Gortari" class="brand-photo aspect-[4/5] shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL: Grid Editorial -->
+    <main class="max-w-7xl mx-auto px-6 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16">
+        
+        <!-- SIDEBAR (Infobox + Índice) -->
+        <aside class="lg:col-span-4 space-y-12">
+            <div class="sticky top-8 space-y-8">
+                
+                <!-- INFOBOX (Estilo Wiki Premium) -->
+                <div class="bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden">
+                    <div class="bg-azul p-6 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-magenta rounded-full opacity-50 mix-blend-multiply"></div>
+                        <h2 class="text-2xl font-bold text-white relative z-10">Datos Biográficos</h2>
+                    </div>
+                    <div class="p-6 space-y-4 text-sm">
+                        <div class="flex flex-col border-b border-gray-100 pb-3">
+                            <span class="text-xs font-bold text-magenta uppercase tracking-wider">Nombre Completo</span>
+                            <span class="font-medium text-gris text-base">María Cecilia Gortari</span>
+                        </div>
+                        <div class="flex flex-col border-b border-gray-100 pb-3">
+                            <span class="text-xs font-bold text-magenta uppercase tracking-wider">Nacimiento</span>
+                            <span class="font-medium text-gris text-base">[Ciudad], Corrientes</span>
+                        </div>
+                        <div class="flex flex-col border-b border-gray-100 pb-3">
+                            <span class="text-xs font-bold text-magenta uppercase tracking-wider">Profesión</span>
+                            <span class="font-medium text-gris text-base">[Título profesional / Formación]</span>
+                        </div>
+                        <div class="flex flex-col border-b border-gray-100 pb-3">
+                            <span class="text-xs font-bold text-magenta uppercase tracking-wider">Roles Destacados</span>
+                            <span class="font-medium text-gris text-base">Diputada Provincial (MC)<br>Concejala de Goya<br>Subsecretaria de Seguridad</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-bold text-magenta uppercase tracking-wider">Residencia Actual</span>
+                            <span class="font-medium text-gris text-base">Goya, Corrientes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NAVEGACIÓN INTERNA (Índice) -->
+                <nav class="hidden lg:block bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                    <h3 class="text-lg font-bold text-gris mb-4 border-b border-gray-200 pb-2">Contenido</h3>
+                    <ul class="space-y-3 text-sm" id="toc">
+                        <li><a href="#formacion" class="toc-link block text-gray-500 hover:text-azul transition-colors py-1 pl-3 border-l-2 border-transparent">Formación y Primeros Pasos</a></li>
+                        <li><a href="#gestion-publica" class="toc-link block text-gray-500 hover:text-azul transition-colors py-1 pl-3 border-l-2 border-transparent">Gestión en Seguridad</a></li>
+                        <li><a href="#legislatura" class="toc-link block text-gray-500 hover:text-azul transition-colors py-1 pl-3 border-l-2 border-transparent">Labor como Diputada Provincial</a></li>
+                        <li><a href="#desarrollo-social" class="toc-link block text-gray-500 hover:text-azul transition-colors py-1 pl-3 border-l-2 border-transparent">Desarrollo Social y Goya</a></li>
+                        <li><a href="#actualidad" class="toc-link block text-gray-500 hover:text-azul transition-colors py-1 pl-3 border-l-2 border-transparent">Proyección y Actualidad</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+        </aside>
+
+        <!-- CUERPO EDITORIAL PRINCIPAL -->
+        <div class="lg:col-span-8 space-y-16 lg:space-y-24 text-lg leading-relaxed">
+            
+            <!-- Introducción -->
+            <section class="prose prose-lg prose-headings:font-outfit text-gris">
+                <p class="text-2xl font-light text-azul leading-normal">
+                    Con una profunda vocación de servicio social y un arraigo inquebrantable a su comunidad, Cecilia Gortari ha construido una trayectoria marcada por la gestión territorial, la seguridad ciudadana y el desarrollo humano en la provincia de Corrientes.
+                </p>
+            </section>
+
+            <!-- Sección: Formación -->
+            <section id="formacion" class="scroll-mt-24">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-10 h-10 rounded-full bg-rosa flex items-center justify-center text-magenta">
+                        <!-- Icono SVG Outline Libro -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gris">Formación y Primeros Pasos</h2>
+                </div>
+                
+                <p class="mb-6">
+                    Nacida y criada con fuertes valores familiares orientados al compromiso público, Cecilia inició su camino académico interesada en comprender las dinámicas sociales y estructurales de su entorno. [Aquí iría un párrafo sobre sus estudios, universidad y primeras participaciones en el ámbito institucional o juvenil].
+                </p>
+                <p class="mb-10">
+                    Sus primeros pasos en la vida pública estuvieron marcados por la búsqueda de consensos y la participación activa en el radicalismo, espacio desde el cual comenzó a forjar su identidad política.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-8">
+                    <div class="collage-wrapper" style="--bg-color: #24BCDE;">
+                        <img src="https://images.unsplash.com/photo-1555436169-20e838ffce7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cecilia en sus años de formación" class="brand-photo aspect-video">
+                    </div>
+                    <div class="text-sm text-gray-500 italic border-l-4 border-turquesa pl-4">
+                        <p>Participación en foros juveniles y primeros debates sobre la realidad correntina. Archivo histórico familiar.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bloque Destacado: Cita -->
+            <blockquote class="bg-brand-gradient text-white p-10 md:p-16 rounded-2xl shadow-xl relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 text-[150px] font-serif opacity-10 leading-none">"</div>
+                <p class="text-2xl md:text-3xl font-medium leading-tight relative z-10">
+                    "La política solo tiene sentido si funciona como una herramienta real para transformar el metro cuadrado de cada vecino. El escritorio sirve para planificar, pero la verdad siempre está en el territorio."
+                </p>
+            </blockquote>
+
+            <!-- Sección: Trayectoria Política (Línea de tiempo) -->
+            <section id="gestion-publica" class="scroll-mt-24">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-10 h-10 rounded-full bg-turquesa/20 flex items-center justify-center text-turquesa">
+                        <!-- Icono Calendario -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gris">Hitos de Gestión</h2>
+                </div>
+
+                <div class="timeline-container">
+                    
+                    <!-- Timeline Item 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h4 class="text-xl font-bold text-azul mb-1">Subsecretaría de Seguridad Ciudadana</h4>
+                        <span class="inline-block px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold mb-3 uppercase tracking-wider">Gestión Ejecutiva</span>
+                        <p class="text-gris">
+                            Como Subsecretaria de Seguridad de la provincia, impulsó un enfoque integral. No solo desde la operatividad policial, sino entendiendo la seguridad comunitaria, fomentando foros vecinales y acercando las instituciones a los barrios.
+                        </p>
+                    </div>
+
+                    <!-- Timeline Item 2 -->
+                    <div id="legislatura" class="timeline-item scroll-mt-24">
+                        <div class="timeline-dot" style="background-color: #9F57A7;"></div>
+                        <h4 class="text-xl font-bold text-magenta mb-1">Diputada Provincial</h4>
+                        <span class="inline-block px-3 py-1 bg-magenta/10 text-magenta rounded-full text-xs font-bold mb-3 uppercase tracking-wider">Labor Legislativa</span>
+                        <p class="text-gris mb-4">
+                            Durante su mandato en la Honorable Cámara de Diputados de Corrientes, su trabajo se centró en la creación de leyes con perspectiva social y productiva. Fue una voz clave en debates sobre presupuesto, derechos civiles y desarrollo regional.
+                        </p>
+                        <!-- Foto insertada en texto -->
+                        <div class="collage-wrapper my-6 w-full" style="--bg-color: #E4BFE8;">
+                            <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Cecilia en el recinto" class="brand-photo h-64">
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 3 -->
+                    <div id="desarrollo-social" class="timeline-item scroll-mt-24">
+                        <div class="timeline-dot" style="background-color: #FBA85F;"></div>
+                        <h4 class="text-xl font-bold text-naranja mb-1">Desarrollo Social y Concejala en Goya</h4>
+                        <span class="inline-block px-3 py-1 bg-naranja/10 text-naranja-800 rounded-full text-xs font-bold mb-3 uppercase tracking-wider">Territorio Local</span>
+                        <p class="text-gris">
+                            Tras su paso por la legislatura y marcando un perfil propio (distanciándose de viejas estructuras), asumió la delegación del Ministerio de Desarrollo Social y luego una banca como Concejala en su ciudad natal, Goya. Allí focalizó su energía en la primera infancia, emprendedurismo y asistencia directa.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Vida Personal (Galería) -->
+            <section class="scroll-mt-24 border-t border-gray-200 pt-16">
+                <h2 class="text-3xl font-bold text-gris mb-6">Perfil Humano y Vínculo con su Ciudad</h2>
+                <p class="mb-8">
+                    Más allá de su currículum político, el perfil de Cecilia se define por su cotidianeidad en Goya. Fiel a sus raíces, mantiene una fuerte conexión con las tradiciones locales, el río y la comunidad, elementos que son pilares tanto en su vida personal como en su visión política.
+                </p>
+                
+                <!-- Galería de 3 imágenes -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div class="collage-wrapper" style="--bg-color: #1C5CFF;">
+                        <img src="https://images.unsplash.com/photo-1523531294919-4cb7fe047177?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Recorriendo el río" class="brand-photo aspect-square">
+                    </div>
+                    <div class="collage-wrapper" style="--bg-color: #9F57A7;">
+                        <img src="https://images.unsplash.com/photo-1593414220166-085ba4de71ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Reunión con vecinos" class="brand-photo aspect-square">
+                    </div>
+                    <div class="collage-wrapper" style="--bg-color: #FBA85F;">
+                        <img src="https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Participación en la Fiesta del Surubí" class="brand-photo aspect-square">
+                    </div>
+                </div>
+                <p class="text-sm text-center text-gray-500 mt-6 italic">Encuentros en barrios, actividades en la ribera de Goya y diálogo constante con emprendedores.</p>
+            </section>
+
+            <!-- Sección: Actualidad y Cierre -->
+            <section id="actualidad" class="scroll-mt-24 bg-gray-50 p-8 md:p-12 rounded-2xl border border-gray-200">
+                <div class="flex items-center gap-3 mb-6">
+                    <h2 class="text-3xl font-bold text-azul">Presente y Futuro</h2>
+                    <!-- Icono Golondrina/Pájaro (simplificado) -->
+                    <svg class="text-naranja" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C7.58 2 4 5.58 4 10c0 4.42 8 12 8 12s8-7.58 8-12c0-4.42-3.58-8-8-8z"/><path d="M12 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+                </div>
+                <p class="mb-6">
+                    Hoy, Cecilia continúa trabajando en proyectos que promueven la autonomía económica de las mujeres, la contención social integral y la renovación de la política correntina. Su visión de una provincia más justa e inclusiva sigue siendo el motor de su actividad diaria.
+                </p>
+                <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                    <a href="#" class="inline-flex items-center justify-center px-6 py-3 bg-azul text-white font-bold rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl">
+                        Ver Noticias Recientes
+                    </a>
+                    <a href="#" class="inline-flex items-center justify-center px-6 py-3 border-2 border-magenta text-magenta font-bold rounded-lg hover:bg-magenta hover:text-white transition-colors">
+                        Contacto de Prensa
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- FOOTER INSTITUCIONAL -->
+    <footer class="bg-gris text-white pt-16 pb-8 border-t-4 border-magenta">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            <div>
+                <h3 class="font-outfit text-2xl font-bold mb-4">Cecilia Gortari</h3>
+                <p class="text-gray-400 text-sm max-w-xs">Trabajando todos los días para construir una Corrientes con más oportunidades, desde Goya hacia toda la provincia.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-turquesa uppercase text-sm tracking-wider mb-4">Ejes de Acción</h4>
+                <ul class="space-y-2 text-gray-300 text-sm">
+                    <li>Desarrollo Social</li>
+                    <li>Seguridad Ciudadana</li>
+                    <li>Políticas de Género</li>
+                    <li>Emprendedurismo Local</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-turquesa uppercase text-sm tracking-wider mb-4">Contacto Público</h4>
+                <ul class="space-y-2 text-gray-300 text-sm">
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        prensa@ceciliagortari.com
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Goya, Corrientes, Argentina
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-gray-600 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
+            <p>&copy; 2024 Equipo de Comunicación Cecilia Gortari. Manual de Marca Oficial.</p>
+            <div class="flex gap-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                <a href="#" class="hover:text-white transition-colors">Facebook</a>
+                <a href="#" class="hover:text-white transition-colors">Twitter (X)</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script simple para resaltar enlace del índice al hacer scroll (opcional pero suma al feel de "wiki") -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.toc-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active', 'border-azul');
+                    link.classList.add('border-transparent');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active', 'border-azul');
+                        link.classList.remove('border-transparent');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

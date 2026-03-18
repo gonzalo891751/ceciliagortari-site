@@ -1,273 +1,516 @@
 ---
 layout: layouts/base.njk
-title: "Biografía | Cecilia Gortari - Diputada Provincial"
-description: "Conocé la historia de María Cecilia Gortari. Trayectoria, formación, gestión y compromiso con Corrientes."
-ogImage: "https://ceciliagortari.com.ar/assets/img/cecilia-bio.jpg"
+title: "Biografía | María Cecilia Gortari — Diputada Provincial de Corrientes"
+description: "Biografía oficial de María Cecilia Gortari. Trayectoria política, formación académica, gestión pública y compromiso con Corrientes. Politóloga, diputada provincial, dirigente territorial."
+ogImage: "https://ceciliagortari.com.ar/assets/img/Biografia/hero.jpg"
 ---
 
-    <!-- ======================================================================
-         1. HERO BIOGRAFÍA
-         ====================================================================== -->
-    <header class="bio-hero">
-        <div class="container">
-            <!-- Title -->
-            <div class="bio-hero__header">
-                <h1 class="bio-hero__title">
-                    Biografía
-                    <span class="bio-hero__accent-bar"></span>
-                </h1>
-                <p class="bio-hero__subtitle">Un poco de mí</p>
-            </div>
+{# ======================================================================
+   BIOGRAFÍA — PÁGINA COMPLETA REDISEÑADA
+   Versión editorial premium · Sitio Oficial Cecilia Gortari
+   ====================================================================== #}
 
-            <!-- Two Column Layout -->
-            <div class="bio-hero__grid">
-                <!-- Photo Card -->
-                <div class="bio-hero__photo-wrapper">
-                    <div class="bio-hero__photo-card">
-                        <img src="/assets/img/cecilia-bio.jpg" alt="Cecilia Gortari con saco violeta"
-                            class="bio-hero__photo" loading="eager"
-                            onerror="this.onerror=null;this.src='/assets/img/cecilia-hero.png';">
+<!-- ====================================================================
+     1. HERO BIOGRÁFICO
+     ==================================================================== -->
+<header class="bio-hero-v2">
+    <div class="bio-hero-v2__bg"></div>
+    <div class="container bio-hero-v2__grid">
+        <div class="bio-hero-v2__text">
+            <span class="bio-hero-v2__tag">Biografía Oficial</span>
+            <h1 class="bio-hero-v2__name">María Cecilia<br>Gortari</h1>
+            <p class="bio-hero-v2__subtitle">Politóloga · Diputada Provincial de Corrientes</p>
+            <blockquote class="bio-hero-v2__quote">
+                "La política solo tiene sentido si funciona como una herramienta real para transformar el metro cuadrado de cada vecino."
+            </blockquote>
+        </div>
+        <div class="bio-hero-v2__photo-wrap">
+            <div class="bio-hero-v2__photo-frame">
+                <img src="/assets/img/Biografia/hero.jpg"
+                     alt="Retrato de María Cecilia Gortari, diputada provincial de Corrientes"
+                     class="bio-hero-v2__photo"
+                     loading="eager"
+                     fetchpriority="high">
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ====================================================================
+     2. CUERPO PRINCIPAL — SIDEBAR + EDITORIAL
+     ==================================================================== -->
+<main class="bio-main">
+    <div class="container bio-main__grid">
+
+        <!-- ============================================================
+             SIDEBAR: INFOBOX + NAVEGACIÓN
+             ============================================================ -->
+        <aside class="bio-sidebar">
+            <div class="bio-sidebar__inner">
+
+                <!-- INFOBOX -->
+                <div class="bio-infobox">
+                    <div class="bio-infobox__header">
+                        <img src="/assets/img/Biografia/ceciliaretrato.jpg"
+                             alt="Retrato oficial de Cecilia Gortari"
+                             class="bio-infobox__portrait"
+                             loading="eager">
+                    </div>
+                    <div class="bio-infobox__body">
+                        <h2 class="bio-infobox__name">María Cecilia Gortari</h2>
+
+                        <div class="bio-infobox__section-title">Cargo actual</div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">Función</span>
+                            <span class="bio-infobox__value bio-infobox__value--highlight">Diputada Provincial de Corrientes</span>
+                        </div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">Desde</span>
+                            <span class="bio-infobox__value">Diciembre de 2025</span>
+                        </div>
+
+                        <div class="bio-infobox__section-title">Cargos anteriores</div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">2023 – 2025</span>
+                            <span class="bio-infobox__value">Concejala de Goya</span>
+                        </div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">2020 – 2023</span>
+                            <span class="bio-infobox__value">Delegada Min. Desarrollo Social de la Nación (Goya)</span>
+                        </div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">2008 – 2011</span>
+                            <span class="bio-infobox__value">Diputada Provincial de Corrientes</span>
+                        </div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">2006 – 2008</span>
+                            <span class="bio-infobox__value">Subsecretaria de Seguridad de Corrientes</span>
+                        </div>
+
+                        <div class="bio-infobox__section-title">Información personal</div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">Nombre completo</span>
+                            <span class="bio-infobox__value">María Cecilia Gortari</span>
+                        </div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">Nacimiento</span>
+                            <span class="bio-infobox__value">19 de octubre de 1977<br>Goya, Corrientes</span>
+                        </div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">Profesión</span>
+                            <span class="bio-infobox__value">Lic. en Ciencias Políticas (UBA)</span>
+                        </div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">Posgrado</span>
+                            <span class="bio-infobox__value">Maestría en Dir. y Adm. Pública (Univ. Comunera, Asunción)</span>
+                        </div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">Religión</span>
+                            <span class="bio-infobox__value">Católica</span>
+                        </div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">Hijos</span>
+                            <span class="bio-infobox__value">1 (Marcos)</span>
+                        </div>
+                        <div class="bio-infobox__row">
+                            <span class="bio-infobox__label">Residencia</span>
+                            <span class="bio-infobox__value">Goya, Corrientes</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Content + Chips -->
-                <div class="bio-hero__content">
-                    <h2 class="bio-hero__intro-title">Datos rápidos</h2>
+                <!-- NAVEGACIÓN INTERNA -->
+                <nav class="bio-toc" aria-label="Índice de la biografía">
+                    <h3 class="bio-toc__title">Contenido</h3>
+                    <ul class="bio-toc__list" id="bio-toc-list">
+                        <li><a href="#origen" class="bio-toc__link" data-section="origen">Origen, familia y formación</a></li>
+                        <li><a href="#primeros-pasos" class="bio-toc__link" data-section="primeros-pasos">Primeros pasos en la función pública</a></li>
+                        <li><a href="#seguridad" class="bio-toc__link" data-section="seguridad">Subsecretaría de Seguridad</a></li>
+                        <li><a href="#diputada-1" class="bio-toc__link" data-section="diputada-1">Diputada Provincial (2008–2011)</a></li>
+                        <li><a href="#reconfiguracion" class="bio-toc__link" data-section="reconfiguracion">Reconfiguración política</a></li>
+                        <li><a href="#desarrollo-social" class="bio-toc__link" data-section="desarrollo-social">Desarrollo social y territorio</a></li>
+                        <li><a href="#concejo" class="bio-toc__link" data-section="concejo">Concejo Deliberante de Goya</a></li>
+                        <li><a href="#diputada-2" class="bio-toc__link" data-section="diputada-2">Elección como diputada provincial</a></li>
+                        <li><a href="#trayectoria" class="bio-toc__link" data-section="trayectoria">Línea de tiempo</a></li>
+                        <li><a href="#perfil-humano" class="bio-toc__link" data-section="perfil-humano">Perfil humano</a></li>
+                        <li><a href="#presente" class="bio-toc__link" data-section="presente">Actualidad</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
 
-                    <!-- Chips Grid (Horizontal) -->
-                    <div class="bio-chips">
-                        <div class="bio-chip">
-                            <span class="bio-chip__icon">📍</span>
-                            <span class="bio-chip__label">Nacimiento</span>
-                            <span class="bio-chip__value">Goya, Corrientes (19/10/1977)</span>
-                        </div>
-                        <div class="bio-chip">
-                            <span class="bio-chip__icon">🎓</span>
-                            <span class="bio-chip__label">Formación</span>
-                            <span class="bio-chip__value">Lic. Ciencias Políticas (UBA, 2000)</span>
-                        </div>
-                        <div class="bio-chip">
-                            <span class="bio-chip__icon">📚</span>
-                            <span class="bio-chip__label">Posgrado</span>
-                            <span class="bio-chip__value">Maestría en Dirección y Adm. Pública (Asunción)</span>
-                        </div>
-                        <div class="bio-chip">
-                            <span class="bio-chip__icon">✝️</span>
-                            <span class="bio-chip__label">Religión</span>
-                            <span class="bio-chip__value">Católica</span>
-                        </div>
-                        <div class="bio-chip">
-                            <span class="bio-chip__icon">🗳️</span>
-                            <span class="bio-chip__label">Electa</span>
-                            <span class="bio-chip__value">31/08/2025</span>
-                        </div>
-                        <div class="bio-chip bio-chip--highlight">
-                            <span class="bio-chip__icon">🏛️</span>
-                            <span class="bio-chip__label">Rol actual</span>
-                            <span class="bio-chip__value">Diputada Provincial de Corrientes</span>
-                        </div>
+        <!-- ============================================================
+             CONTENIDO EDITORIAL
+             ============================================================ -->
+        <div class="bio-editorial">
+
+            <!-- INTRODUCCIÓN -->
+            <p class="bio-editorial__intro bio-reveal">
+                Con una profunda vocación de servicio público y un arraigo inquebrantable a su comunidad, Cecilia Gortari ha construido a lo largo de más de dos décadas una trayectoria marcada por la gestión territorial, la seguridad ciudadana y el desarrollo humano en la provincia de Corrientes. Desde su formación académica en Buenos Aires hasta su regreso definitivo a Goya, su recorrido político abarca la función pública nacional, la legislatura provincial, el trabajo social de campo y la representación municipal.
+            </p>
+
+            <!-- ========================================================
+                 SECCIÓN: ORIGEN, FAMILIA Y FORMACIÓN
+                 ======================================================== -->
+            <section id="origen" class="bio-section bio-reveal">
+                <div class="bio-section__heading">
+                    <svg class="bio-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    <h2>Origen, familia y formación</h2>
+                </div>
+
+                <p>María Cecilia Gortari nació el 19 de octubre de 1977 en <strong>Goya</strong>, provincia de Corrientes, en el seno de una familia profundamente vinculada a la vida pública local. Hija de un reconocido dirigente de la <strong>Unión Cívica Radical (UCR)</strong> de Goya, creció en un entorno donde el compromiso político y comunitario formaban parte de la vida cotidiana. Esa impronta familiar fue determinante en su vocación de servicio, que se manifestó desde temprana edad.</p>
+
+                <div class="bio-photo bio-photo--side bio-reveal">
+                    <img src="/assets/img/Biografia/ceciliagortari-infancia.jpg"
+                         alt="Cecilia Gortari en sus años de infancia en Goya, Corrientes"
+                         loading="lazy">
+                    <span class="bio-photo__caption">Cecilia durante su infancia en Goya, Corrientes. Archivo familiar.</span>
+                </div>
+
+                <p>Tras completar sus estudios secundarios en su ciudad natal, tomó la decisión de mudarse a Buenos Aires para formarse profesionalmente. En el año 2000, con 23 años, se recibió de <strong>Licenciada en Ciencias Políticas</strong> en la <strong>Universidad de Buenos Aires (UBA)</strong>. Posteriormente, realizó estudios de posgrado en Paraguay, cursando una <strong>Maestría en Dirección y Administración Pública</strong> en la Universidad Comunera de Asunción, consolidando así una formación académica orientada a la gestión del Estado y las políticas públicas.</p>
+            </section>
+
+            <!-- ========================================================
+                 SECCIÓN: PRIMEROS PASOS
+                 ======================================================== -->
+            <section id="primeros-pasos" class="bio-section bio-reveal">
+                <div class="bio-section__heading">
+                    <svg class="bio-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    <h2>Primeros pasos en la función pública</h2>
+                </div>
+
+                <p>Recién graduada, Gortari inició su carrera en el ámbito del Estado nacional. Entre 2000 y 2001 se desempeñó como <strong>asesora del Ministerio del Interior de la Nación</strong>, asistiendo al entonces ministro Federico Storani. Este cargo le brindó una formación temprana en temas vinculados a la <strong>seguridad y la prevención del delito</strong>, áreas que marcarían buena parte de su trayectoria profesional.</p>
+
+                <div class="bio-milestone bio-reveal">
+                    <span class="bio-milestone__year">2000</span>
+                    <span class="bio-milestone__text">Se gradúa como Lic. en Ciencias Políticas en la UBA e ingresa al Ministerio del Interior de la Nación.</span>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 SECCIÓN: SUBSECRETARÍA DE SEGURIDAD
+                 ======================================================== -->
+            <section id="seguridad" class="bio-section bio-reveal">
+                <div class="bio-section__heading">
+                    <svg class="bio-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <h2>Seguridad ciudadana y gestión provincial</h2>
+                </div>
+
+                <p>En 2001, Gortari regresó a Corrientes y se incorporó al <strong>Ministerio de Gobierno y Justicia</strong> de la provincia, donde inicialmente se desempeñó como coordinadora del Programa de Seguridad Ciudadana. En agosto de 2006 fue promovida al cargo de <strong>Subsecretaria de Seguridad de la Provincia de Corrientes</strong>, función dependiente del Ministerio de Gobierno y Justicia.</p>
+
+                <div class="bio-photo bio-photo--wide bio-reveal">
+                    <img src="/assets/img/Biografia/Cecilia-secretaria-seguridad.jpg"
+                         alt="Cecilia Gortari durante su gestión como Subsecretaria de Seguridad de Corrientes"
+                         loading="lazy">
+                    <span class="bio-photo__caption">Gortari durante su gestión al frente de la Subsecretaría de Seguridad de la provincia de Corrientes (2006–2008).</span>
+                </div>
+
+                <p>Durante su gestión se implementaron medidas orientadas a mejorar la seguridad en el transporte público urbano, en respuesta a una serie de hechos delictivos que generaron preocupación social. Entre estas acciones se destaca la coordinación del blindaje de unidades de colectivos y la presencia de agentes de la <strong>Policía de Alto Riesgo (PAR)</strong> para la prevención de asaltos en líneas de pasajeros.</p>
+
+                <p>En este período, además, se impulsaron prácticas policiales y protocolos de actuación que derivaron en la creación de un <strong>protocolo provincial para la desaparición de niñas, niños y adolescentes</strong> (2008), que establece la activación inmediata de operativos cerrojo y la coordinación interinstitucional con el Poder Judicial y organismos especializados. Este protocolo, en la actualidad, se articula con el sistema nacional <strong>Alerta Sofía</strong>, orientado a la búsqueda urgente de menores desaparecidos en situaciones de alto riesgo.</p>
+            </section>
+
+            <!-- CITA DESTACADA -->
+            <blockquote class="bio-blockquote bio-reveal">
+                <span class="bio-blockquote__mark">"</span>
+                <p class="bio-blockquote__text">El escritorio sirve para planificar, pero la verdad siempre está en el territorio. Cada vecino merece ser escuchado y cada problema tiene que encontrar una solución.</p>
+            </blockquote>
+
+            <!-- ========================================================
+                 SECCIÓN: DIPUTADA PROVINCIAL — 1er MANDATO
+                 ======================================================== -->
+            <section id="diputada-1" class="bio-section bio-reveal">
+                <div class="bio-section__heading">
+                    <svg class="bio-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M5 20V8l7-5 7 5v12"/><path d="M9 20v-6h6v6"/></svg>
+                    <h2>Diputada Provincial — primer mandato</h2>
+                </div>
+
+                <p>En marzo de 2008, Gortari tomó juramento como <strong>Diputada Provincial</strong> en la Cámara de Diputados de Corrientes, asumiendo la banca como reemplazo del diputado justicialista Agustín Raffo, fallecido en febrero de ese mismo año.</p>
+
+                <div class="bio-photo bio-photo--side bio-photo--right bio-reveal">
+                    <img src="/assets/img/Biografia/ceciliadiputada.jpg"
+                         alt="Cecilia Gortari como Diputada Provincial de Corrientes en su primer mandato (2008-2011)"
+                         loading="lazy">
+                    <span class="bio-photo__caption">Gortari durante su primer mandato como Diputada Provincial (2008–2011).</span>
+                </div>
+
+                <p>Durante su período legislativo (2008–2011), participó en la elaboración de declaraciones de interés y proyectos vinculados a la cultura local, la educación y los eventos comunitarios. Fue parte del grupo impulsor del <strong>Expediente 4044</strong>, un proyecto para reformar la Ley Orgánica del Tribunal de Cuentas de la Provincia, buscando modernizar el organismo de control, dotarlo de mayor autonomía financiera y técnica, y agilizar los plazos de fiscalización mediante la incorporación de herramientas tecnológicas.</p>
+
+                <p>En abril de 2011, desde su bloque se presentó un proyecto de ley para expropiar siete hectáreas en la Cuarta Sección del ejido municipal de Lavalle, con el objetivo de construir una <strong>zona portuaria estatal</strong>. La propuesta buscaba declarar de utilidad pública un predio con salida al río Paraná, en manos privadas desde 2005, para recuperar un espacio estratégico para el transporte fluvial y el desarrollo productivo de la región.</p>
+
+                <div class="bio-milestone bio-reveal">
+                    <span class="bio-milestone__year">2009</span>
+                    <span class="bio-milestone__text">Primera candidatura a Intendenta de Goya por el Frente Todos por Goya, una alianza de 14 fuerzas políticas. Habilitada por el STJ tras un desafío legal, la fórmula no logró imponerse.</span>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 SECCIÓN: RECONFIGURACIÓN POLÍTICA
+                 ======================================================== -->
+            <section id="reconfiguracion" class="bio-section bio-reveal">
+                <div class="bio-section__heading">
+                    <svg class="bio-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+                    <h2>Reconfiguración política</h2>
+                </div>
+
+                <p>A mediados de 2016, Gortari anunció públicamente su alejamiento de la Unión Cívica Radical, argumentando desacuerdos con el rumbo y la dinámica interna del partido. Tras esa decisión, se volcó a la construcción de un espacio político propio.</p>
+
+                <p>En 2017, formalizó su incorporación al <strong>Frente Renovador</strong> y participó en la alianza electoral UNA/1País a nivel provincial. Ese mismo año integró la fórmula municipal como candidata a viceintendenta de Goya, en una coalición opositora encabezada por el peronismo local. Este giro marcó una etapa de reposicionamiento estratégico en su carrera política, ampliando su capacidad de construcción de alianzas transversales.</p>
+            </section>
+
+            <!-- ========================================================
+                 SECCIÓN: DESARROLLO SOCIAL Y TERRITORIO
+                 ======================================================== -->
+            <section id="desarrollo-social" class="bio-section bio-reveal">
+                <div class="bio-section__heading">
+                    <svg class="bio-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <h2>Desarrollo social y trabajo territorial</h2>
+                </div>
+
+                <p>Con la llegada del Frente de Todos al gobierno nacional en 2019, Gortari ocupó un rol dentro de la estructura federal del Estado. Entre 2020 y 2023 se desempeñó como <strong>Delegada del Ministerio de Desarrollo Social de la Nación</strong> en Goya. En ese rol, fue el nexo directo entre la cartera nacional y las organizaciones sociales, municipios y vecinos de los barrios populares, encargándose de articular la llegada de las políticas sociales al territorio, coordinar equipos técnicos y supervisar la correcta ejecución de los programas nacionales en la región.</p>
+
+                <div class="bio-photo bio-photo--wide bio-reveal">
+                    <img src="/assets/img/Biografia/cecilia-con-niños.jpg"
+                         alt="Cecilia Gortari en actividades de desarrollo social con niños en la comunidad"
+                         loading="lazy">
+                    <span class="bio-photo__caption">Trabajo territorial con la comunidad durante su gestión como Delegada del Ministerio de Desarrollo Social de la Nación.</span>
+                </div>
+
+                <p>Uno de los programas centrales bajo su gestión fue <strong>"Mi Pieza"</strong>, destinado a mujeres mayores de 18 años que vivían en barrios populares inscriptos en el RENABAP. Gortari organizó y supervisó los operativos de inscripción con asistencia presencial en barrios como El Chacal, Esperanza, Santa Rita, Puerto Boca y Pando, orientando a las beneficiarias sobre los requisitos y los pasos para acceder al subsidio para la refacción y mejora de viviendas.</p>
+
+                <div class="bio-programs bio-reveal">
+                    <div class="bio-program">
+                        <h4 class="bio-program__name">Mi Pieza</h4>
+                        <p class="bio-program__desc">Refacción y mejora de viviendas en barrios populares para mujeres inscriptas en el RENABAP.</p>
+                    </div>
+                    <div class="bio-program">
+                        <h4 class="bio-program__name">Mi Baño</h4>
+                        <p class="bio-program__desc">Mejora de condiciones sanitarias: reemplazo de letrinas, redes de agua y cloaca en hogares vulnerables.</p>
+                    </div>
+                    <div class="bio-program">
+                        <h4 class="bio-program__name">Banco de Herramientas</h4>
+                        <p class="bio-program__desc">Entrega de kits con maquinaria y herramientas a emprendedoras y productores de la región.</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </header>
 
-    <!-- ======================================================================
-         2. PERFIL / PRESENTACIÓN
-         ====================================================================== -->
-    <section class="bio-profile">
-        <div class="container">
-            <div class="bio-profile__content">
-                <h2 class="bio-profile__title">La palabra vale cuando se cumple.</h2>
-                <p class="bio-profile__tagline">Gestión, territorio y proyectos para abrir oportunidades en Corrientes.
-                </p>
+                <p>Además de las iniciativas habitacionales y de herramientas, coordinó distintos <strong>programas de inclusión social</strong>, atención a la discapacidad y refuerzo alimentario en comedores y merenderos, articulando con entidades provinciales y organizaciones de la sociedad civil para garantizar cobertura integral a personas en situación de riesgo.</p>
 
-                <div class="bio-profile__text">
-                    <p>
-                        Nací y crecí en <strong>Goya</strong>, la ciudad que sigo eligiendo cada día. Me formé como
-                        Licenciada en Ciencias Políticas en la Universidad de Buenos Aires (2000) y completé una
-                        Maestría en Dirección y Administración Pública en Paraguay. Pero la verdadera escuela
-                        fue el territorio: escuchar, caminar y trabajar junto a la gente.
-                    </p>
-                    <p>
-                        Desde el año 2000, mi carrera se construyó en la gestión pública: desde asesora en el
-                        Ministerio del Interior de la Nación hasta Subsecretaria de Seguridad de Corrientes,
-                        pasando por la Legislatura provincial y la delegación del Ministerio de Desarrollo
-                        Social de la Nación en Goya. En cada puesto sostuve una convicción simple: con
-                        <strong>transparencia</strong>, cercanía y trabajo constante se construyen soluciones reales.
-                    </p>
-                    <p>
-                        El <strong>31 de agosto de 2025</strong> fui electa <strong>Diputada Provincial</strong>
-                        para llevar esa misma mirada a toda la provincia: defender lo que está bien, corregir
-                        lo que falta y empujar el desarrollo que Corrientes se merece.
-                    </p>
+                <div class="bio-photo-grid bio-reveal">
+                    <div class="bio-photo">
+                        <img src="/assets/img/Biografia/cecilia-escuela-emprendedores.jpg"
+                             alt="Cecilia Gortari en la Escuela de Emprendedores"
+                             loading="lazy">
+                        <span class="bio-photo__caption">Escuela de Emprendedores: capacitación con salida laboral.</span>
+                    </div>
+                    <div class="bio-photo">
+                        <img src="/assets/img/Biografia/cecilia-ayudando-puerto.jpg"
+                             alt="Cecilia Gortari en actividades de asistencia en la zona portuaria de Goya"
+                             loading="lazy">
+                        <span class="bio-photo__caption">Asistencia directa en la zona ribereña de Goya.</span>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- ======================================================================
-         3. MI CAMINO (Timeline)
-         ====================================================================== -->
-    <section class="bio-timeline-section">
-        <div class="container">
-            <div class="bio-timeline__header">
-                <h2 class="bio-timeline__title">Mi camino</h2>
-                <div class="bio-timeline__bar"></div>
-            </div>
-
-            <!-- Timeline rendered from JS for easy editing -->
-            <div class="bio-timeline" id="bio-timeline">
-                <!-- Items rendered by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- ======================================================================
-         4. ÚLTIMAS GESTIONES REALIZADAS (Carrusel)
-         ====================================================================== -->
-    <section class="bio-gestiones">
-        <div class="container">
-            <div class="bio-gestiones__header">
-                <h2 class="bio-gestiones__title">Últimas gestiones realizadas</h2>
-                <p class="bio-gestiones__subtitle">Programas y acciones concretas que acercamos al territorio.</p>
-            </div>
-
-            <div class="gestiones-carousel" id="gestiones-carousel">
-                <button class="gestiones-carousel__nav gestiones-carousel__nav--prev" aria-label="Ver gestión anterior"
-                    id="gestiones-prev">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-
-                <div class="gestiones-carousel__track" id="gestiones-track">
-                    <!-- Items rendered by JS -->
+            <!-- ========================================================
+                 SECCIÓN: CONCEJO DELIBERANTE DE GOYA
+                 ======================================================== -->
+            <section id="concejo" class="bio-section bio-reveal">
+                <div class="bio-section__heading">
+                    <svg class="bio-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                    <h2>Concejo Deliberante de Goya</h2>
                 </div>
 
-                <button class="gestiones-carousel__nav gestiones-carousel__nav--next" aria-label="Ver siguiente gestión"
-                    id="gestiones-next">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
-            </div>
+                <p>En las elecciones municipales del 11 de junio de 2023, Gortari resultó electa como concejala por el Frente de Todos. Sin embargo, la asignación de su banca estuvo precedida por una <strong>controversia en el escrutinio</strong>: el recuento definitivo inicialmente invirtió la ventaja del Frente de Todos por solo tres votos. Los apoderados y fiscales del espacio denunciaron irregularidades y presentaron un recurso ante el Superior Tribunal de Justicia (STJ) de Corrientes.</p>
 
-            <!-- Dots indicator -->
-            <div class="gestiones-carousel__dots" id="gestiones-dots"></div>
+                <div class="bio-photo bio-photo--side bio-reveal">
+                    <img src="/assets/img/Biografia/ceciliaconcejal4.jpeg"
+                         alt="Cecilia Gortari en el Concejo Deliberante de Goya"
+                         loading="lazy">
+                    <span class="bio-photo__caption">Gortari en el Concejo Deliberante de Goya.</span>
+                </div>
+
+                <p>El STJ intervino ordenando la apertura y recuento de 52 urnas. Tras la reapertura, el Frente de Todos <strong>recuperó 86 sufragios</strong> que habían sido mal imputados, restableciendo la diferencia y asegurando el acceso de Gortari a la banca. Asumió su cargo el 10 de diciembre de 2023.</p>
+
+                <p>Desde el Concejo, se posicionó como una de las voces opositoras a la gestión municipal, con un perfil centrado en la <strong>problemática rural y los servicios básicos</strong>. Impulsó pedidos de informes sobre la provisión de agua potable en el asentamiento Los Chacales, denunció el deficiente estado de escuelas rurales y caminos vecinales, y promovió proyectos de seguridad como "Ojos en Alerta". También reclamó mayor apertura del oficialismo para el debate de iniciativas opositoras en comisión.</p>
+
+                <div class="bio-milestone bio-reveal">
+                    <span class="bio-milestone__year">2024</span>
+                    <span class="bio-milestone__text">Junto con el diputado Germán Braillard, pone en marcha la Escuela de Oficios: capacitación técnica con rápida salida laboral para vecinos y vecinas de Goya y la región.</span>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 SECCIÓN: ELECCIÓN COMO DIPUTADA PROVINCIAL (2025)
+                 ======================================================== -->
+            <section id="diputada-2" class="bio-section bio-reveal">
+                <div class="bio-section__heading">
+                    <svg class="bio-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <h2>Candidatura y elección como diputada provincial</h2>
+                </div>
+
+                <p>En las elecciones provinciales del 31 de agosto de 2025, Cecilia Gortari fue candidata a diputada provincial por <strong>ECO</strong>, una agrupación política que reunió a distintos sectores del radicalismo y del peronismo en Corrientes. El espacio obtuvo el <strong>16,69% de los votos</strong>, ubicándose en tercer lugar y consiguiendo <strong>dos bancas</strong> en la Cámara de Diputados provincial.</p>
+
+                <div class="bio-photo bio-photo--wide bio-reveal">
+                    <img src="/assets/img/Biografia/cecilia2026-banca-diputada.jpg"
+                         alt="Cecilia Gortari asumiendo su banca como Diputada Provincial de Corrientes en 2025"
+                         loading="lazy">
+                    <span class="bio-photo__caption">Gortari ingresa a la Cámara de Diputados de Corrientes como segunda candidata de la lista de ECO.</span>
+                </div>
+
+                <p>Gortari ingresó como diputada al ubicarse segunda en la lista, iniciando así su <strong>segundo mandato legislativo provincial</strong>, más de una década después de su primera experiencia en la Cámara de Diputados. Este retorno a la Legislatura coronó un recorrido que incluyó la gestión ejecutiva, el trabajo territorial, la representación municipal y la construcción de nuevos espacios políticos transversales.</p>
+            </section>
+
+        </div>{# .bio-editorial #}
+    </div>{# .bio-main__grid #}
+</main>
+
+<!-- ====================================================================
+     3. LÍNEA DE TIEMPO
+     ==================================================================== -->
+<section id="trayectoria" class="bio-timeline-v2">
+    <div class="container">
+        <div class="bio-timeline-v2__header bio-reveal">
+            <h2 class="bio-timeline-v2__title">Trayectoria</h2>
+            <p class="bio-timeline-v2__subtitle">Más de dos décadas de servicio público en la provincia de Corrientes.</p>
+            <div class="bio-timeline-v2__bar"></div>
         </div>
-    </section>
+        <div class="bio-timeline-v2__track" id="bio-timeline-v2">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+</section>
 
-    <!-- ======================================================================
-         5. TRABAJO LEGISLATIVO / PROYECTOS
-         ====================================================================== -->
-    <section class="bio-legislativo">
-        <div class="container">
-            <div class="bio-legislativo__header">
-                <h2 class="bio-legislativo__title">Trabajo legislativo</h2>
-                <p class="bio-legislativo__subtitle">Ejes de agenda en la Cámara de Diputados</p>
+<!-- ====================================================================
+     4. PERFIL HUMANO
+     ==================================================================== -->
+<section id="perfil-humano" class="bio-human">
+    <div class="container">
+        <div class="bio-human__header bio-reveal">
+            <h2 class="bio-human__title">Perfil humano</h2>
+            <div class="bio-human__bar"></div>
+        </div>
+
+        <div class="bio-human__grid">
+            <div class="bio-human__text bio-reveal">
+                <p>María Cecilia Gortari es madre de un hijo, <strong>Marcos</strong>. Profundamente arraigada a Goya y a las tradiciones de la provincia, mantiene un vínculo activo con su comunidad que trasciende lo estrictamente político. Suele destacar públicamente la importancia de la familia y el compromiso comunitario, valores que atribuye a las enseñanzas de su madre y al legado familiar.</p>
+
+                <p>De fe católica, Gortari ha construido su perfil público desde la cercanía y la presencia territorial. Practica deportes regularmente —trekking, running y pádel— y ha participado en diversas maratones con fines sociales, expresión de una energía vital que también se manifiesta en su manera de hacer política: de pie, en la calle, junto a la gente.</p>
+
+                <p>Ha atravesado también momentos de profundo dolor personal, como la pérdida de su hermano en un accidente aéreo en 2013, un hecho que marcó su vida y reafirmó su convicción sobre la importancia de los vínculos familiares y la resiliencia frente a la adversidad.</p>
             </div>
 
-            <div class="bio-legislativo__grid">
-                <!-- Card 1: Modernización -->
-                <div class="bio-leg-card">
-                    <div class="bio-leg-card__icon">🏛️</div>
-                    <h3 class="bio-leg-card__title">Modernización y Control</h3>
-                    <p class="bio-leg-card__text">
-                        Impulso de iniciativas vinculadas a la transparencia institucional.
-                        Expediente 4044 – Reforma del Tribunal de Cuentas (2011).
-                    </p>
+            <div class="bio-human__photos bio-reveal">
+                <div class="bio-photo">
+                    <img src="/assets/img/Biografia/cecilia-riendo.jpg"
+                         alt="Cecilia Gortari sonriendo en un momento cotidiano"
+                         loading="lazy">
                 </div>
-
-                <!-- Card 2: Desarrollo -->
-                <div class="bio-leg-card">
-                    <div class="bio-leg-card__icon">🚜</div>
-                    <h3 class="bio-leg-card__title">Desarrollo Productivo</h3>
-                    <p class="bio-leg-card__text">
-                        Promoción de proyectos orientados al crecimiento económico regional.
-                        Proyecto de zona portuaria estatal en Lavalle (2011).
-                    </p>
-                </div>
-
-                <!-- Card 3: Educación -->
-                <div class="bio-leg-card">
-                    <div class="bio-leg-card__icon">🎓</div>
-                    <h3 class="bio-leg-card__title">Educación y Cultura</h3>
-                    <p class="bio-leg-card__text">
-                        Fomento de iniciativas educativas y culturales que fortalezcan
-                        las comunidades en toda la provincia.
-                    </p>
+                <div class="bio-photo">
+                    <img src="/assets/img/Biografia/cecilia-junto-a-nito.jpg"
+                         alt="Cecilia Gortari junto a su familia"
+                         loading="lazy">
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- ======================================================================
-         6. EN TERRITORIO
-         ====================================================================== -->
-    <section class="bio-territorio">
-        <div class="container">
-            <div class="bio-territorio__content">
-                <h2 class="bio-territorio__title">En territorio</h2>
-                <p class="bio-territorio__text">
-                    Recorrer, escuchar y volver con respuestas. Trabajamos en <strong>escuelas rurales</strong>,
-                    caminos vecinales, acceso a <strong>agua potable</strong>, transporte y servicios básicos.
-                    Cada vecino merece ser escuchado y cada problema tiene que encontrar una solución.
-                </p>
+        <div class="bio-human__values bio-reveal">
+            <div class="bio-value-card">
+                <svg class="bio-value-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <h4>Transparencia</h4>
+                <p>Cuentas claras y decisiones explicadas.</p>
+            </div>
+            <div class="bio-value-card">
+                <svg class="bio-value-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <h4>Cercanía</h4>
+                <p>Estar donde las cosas pasan y volver con respuestas.</p>
+            </div>
+            <div class="bio-value-card">
+                <svg class="bio-value-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <h4>Trabajo</h4>
+                <p>Constancia para convertir ideas en resultados.</p>
+            </div>
+            <div class="bio-value-card">
+                <svg class="bio-value-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                <h4>Compromiso</h4>
+                <p>Sostener la palabra con hechos.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- ======================================================================
-         7. VALORES QUE GUÍAN MI TRABAJO
-         ====================================================================== -->
-    <section class="bio-valores">
-        <div class="container">
-            <div class="bio-valores__header">
-                <h2 class="bio-valores__title">Valores que guían mi trabajo</h2>
-                <div class="bio-valores__bar"></div>
+<!-- ====================================================================
+     5. ACTUALIDAD / CIERRE
+     ==================================================================== -->
+<section id="presente" class="bio-present">
+    <div class="container">
+        <div class="bio-present__content bio-reveal">
+            <h2 class="bio-present__title">Actualidad</h2>
+            <div class="bio-present__bar"></div>
+
+            <div class="bio-present__text">
+                <p>En la actualidad, Cecilia Gortari se desempeña como <strong>Diputada Provincial de Corrientes</strong>, cargo al que accedió tras las elecciones de agosto de 2025 como segunda candidata de la lista de ECO, una coalición que integró a distintos sectores del radicalismo y del peronismo. Desde la Cámara de Diputados, impulsa una agenda legislativa centrada en el desarrollo productivo, la educación, la transparencia institucional y la cercanía con el territorio.</p>
+
+                <p>Con más de dos décadas de trayectoria en la función pública —desde la Nación hasta el municipio, desde la seguridad hasta el desarrollo social—, su recorrido refleja una construcción política sostenida en la gestión concreta, el trabajo de campo y la voluntad de representar a quienes menos voz tienen en el debate público. Goya, su ciudad natal, sigue siendo su centro de operaciones y su vínculo más fuerte con la realidad cotidiana de los correntinos.</p>
             </div>
 
-            <div class="bio-valores__grid">
-                <div class="bio-valor-card">
-                    <div class="bio-valor-card__icon">🔍</div>
-                    <h3 class="bio-valor-card__title">Transparencia</h3>
-                    <p class="bio-valor-card__text">Cuentas claras y decisiones explicadas.</p>
-                </div>
-
-                <div class="bio-valor-card">
-                    <div class="bio-valor-card__icon">🤝</div>
-                    <h3 class="bio-valor-card__title">Cercanía</h3>
-                    <p class="bio-valor-card__text">Estar donde las cosas pasan y volver con respuestas.</p>
-                </div>
-
-                <div class="bio-valor-card">
-                    <div class="bio-valor-card__icon">💪</div>
-                    <h3 class="bio-valor-card__title">Trabajo</h3>
-                    <p class="bio-valor-card__text">Constancia para convertir ideas en resultados.</p>
-                </div>
-
-                <div class="bio-valor-card">
-                    <div class="bio-valor-card__icon">✍️</div>
-                    <h3 class="bio-valor-card__title">Compromiso</h3>
-                    <p class="bio-valor-card__text">Sostener la palabra con hechos.</p>
-                </div>
+            <div class="bio-present__links">
+                <a href="/novedades/" class="btn btn--brand">Ver novedades</a>
+                <a href="/proyectos/" class="btn btn--outline">Proyectos legislativos</a>
+                <a href="/contacto/" class="btn btn--ghost-dark">Contacto de prensa</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- ======================================================================
-         8. CTA FINAL
-         ====================================================================== -->
-    <section class="bio-cta">
-        <div class="container">
-            <div class="bio-cta__content">
-                <h2 class="bio-cta__title">¿Querés saber más?</h2>
-                <p class="bio-cta__text">Conocé mis proyectos o escribime para acercar una propuesta.</p>
-                <div class="bio-cta__buttons">
-                    <a href="/proyectos/" class="btn btn--white">Ver Proyectos</a>
-                    <a href="/contacto/" class="btn btn--ghost">Contactar</a>
-                </div>
+<!-- ====================================================================
+     6. FUENTES Y REFERENCIAS
+     ==================================================================== -->
+<section class="bio-sources">
+    <div class="container">
+        <details class="bio-sources__details bio-reveal">
+            <summary class="bio-sources__summary">Fuentes y referencias</summary>
+            <div class="bio-sources__content">
+                <ol class="bio-sources__list">
+                    <li>«Juró María Cecilia Gortari como diputada provincial». <em>El Litoral</em>, 12 de marzo de 2008.</li>
+                    <li>«Gortari, María Cecilia». <em>HCD Goya</em> (sitio oficial del Concejo Deliberante de Goya).</li>
+                    <li>«Cecilia Gortari en LT6: "El programa Mi Pieza es de gran ayuda debido al déficit habitacional que hay en la provincia"». <em>LT6 Goya</em>.</li>
+                    <li>«Asumió Gortari en Seguridad: "Me ocuparé del transporte"». <em>El Litoral</em>, 1 de agosto de 2006.</li>
+                    <li>«Goya tendrá dos candidatos a intendente por el peronismo: Lisandro Peleari y Cecilia Gortari». <em>Perfil</em>.</li>
+                    <li>«"La policía debió dar aviso inmediato y aplicar un operativo cerrojo contundente"». <em>El Litoral</em>, 24 de junio de 2024.</li>
+                    <li>«Expediente 4044 — Reforma del Tribunal de Cuentas». <em>Honorable Cámara de Diputados de Corrientes</em>.</li>
+                    <li>«Diputados impulsan la expropiación del predio que disputa la comuna de Lavalle». <em>El Litoral</em>, 5 de abril de 2011.</li>
+                    <li>«Todos por Goya lanza su campaña». <em>El Litoral</em>, 8 de mayo de 2009.</li>
+                    <li>«Exclusión de Gortari: apoderados del Frente de Todos apelaron ante el STJ». <em>El Litoral</em>, 23 de mayo de 2009.</li>
+                    <li>«Cecilia Gortari se fue del radicalismo dando un portazo por la falta de consenso». <em>Corrientes Hoy</em>.</li>
+                    <li>«Gerardo Bassi anunció que la dirigente radical Cecilia Gortari será su compañera de fórmula». <em>TN Goya</em>.</li>
+                    <li>«Más de $130 millones para mejorar la calidad de vida de los goyanos». <em>TN Goya</em>.</li>
+                    <li>«Ingreso Cecilia Gortari como concejal tras la disputa por una banca en Goya». <em>NOVA Corrientes</em>.</li>
+                    <li>«Bronca en el FdT: pierde una banca en Goya por tres votos y hay controversia». <em>El Litoral</em>, 15 de junio de 2023.</li>
+                    <li>«El Frente reclama irregularidades en el escrutinio de Goya y la banca de Cecilia Gortari». <em>El Litoral</em>.</li>
+                    <li>«Cecilia Gortari será concejal tras el recuento de votos de Goya». <em>Norte Corrientes</em>.</li>
+                    <li>«Goya: el Frente de Todos recuperó la banca de un concejal y será ocupada por Cecilia Gortari». <em>Continental Corrientes</em>.</li>
+                    <li>«Cecilia Gortari anuncia el relanzamiento de la Escuela de Oficios en Goya». <em>PowerNoticias</em>.</li>
+                </ol>
+            </div>
+        </details>
+    </div>
+</section>
+
+<!-- ====================================================================
+     CTA FINAL
+     ==================================================================== -->
+<section class="bio-cta-v2">
+    <div class="container">
+        <div class="bio-cta-v2__content bio-reveal">
+            <h2 class="bio-cta-v2__title">¿Querés saber más?</h2>
+            <p class="bio-cta-v2__text">Conocé los proyectos legislativos de Cecilia o escribile para acercar una propuesta.</p>
+            <div class="bio-cta-v2__buttons">
+                <a href="/proyectos/" class="btn btn--white">Ver Proyectos</a>
+                <a href="/contacto/" class="btn btn--ghost">Contactar</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<!-- JS de Biografía v2 -->
+<script src="/assets/js/bio-v2.js" defer></script>

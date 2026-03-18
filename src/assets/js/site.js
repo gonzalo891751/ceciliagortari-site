@@ -1181,9 +1181,7 @@
     initImpactMetrics();  // Replaced initImpactCounters
     initFeaturedProjects();
     initInstagramFallback();
-    // Biography page functions
-    initBioTimeline();
-    initGestionesCarousel();
+    // Biography page functions (v2 uses separate bio-v2.js)
     // Prensa functions
     initPrensaGrid();
     initPrensaCarousel();
