@@ -3474,6 +3474,7 @@ html {
 
 /* --- Filters --- */
 .pl-filters {
+    position: static !important;
     background-color: #FFFFFF;
     padding: 1.5rem 0;
     box-shadow: 0 1px 3px rgba(17, 16, 59, 0.05);
@@ -3492,6 +3493,52 @@ html {
 .pl-filter-group.pl-search-group {
     flex: 2;
     min-width: 250px;
+}
+
+/* Mobile: compact filters so they scroll away quickly */
+@media (max-width: 767px) {
+    .pl-filters {
+        position: static !important;
+        padding: 1rem 0;
+    }
+    .pl-filters-grid {
+        gap: 0.625rem;
+    }
+    .pl-filter-group {
+        flex: 1 1 calc(50% - 0.375rem);
+        min-width: 0;
+    }
+    .pl-filter-group.pl-search-group {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+    .pl-filter-group label {
+        font-size: 0.6875rem;
+        margin-bottom: 0.125rem;
+    }
+    .pl-filter-input {
+        padding: 0.5rem 0.75rem;
+        padding-left: 2.25rem;
+        font-size: 0.8125rem;
+    }
+    .pl-results-count {
+        margin-top: 0.5rem;
+        font-size: 0.8125rem;
+    }
+    .pl-hero {
+        padding-top: calc(var(--header-h, 80px) + 2rem);
+        padding-bottom: 1.5rem;
+    }
+    .pl-hero h1 {
+        font-size: 1.75rem;
+    }
+    .pl-hero .pl-subtitle {
+        font-size: 0.9375rem;
+        margin-bottom: 0.75rem;
+    }
+    .pl-hero .pl-transparency {
+        font-size: 0.8125rem;
+    }
 }
 .pl-filter-group label {
     display: block;
