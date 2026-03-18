@@ -706,6 +706,37 @@ permalink: gestionproyectos/index.html
         .ac-ai-justification strong {
             color: #5b21b6; font-weight: 600;
         }
+        /* Debug panel */
+        .ac-debug-panel {
+            border: 1px solid var(--border-light); border-radius: var(--radius-md);
+            padding: 0; font-size: 0.75rem;
+        }
+        .ac-debug-panel > summary {
+            padding: 0.5rem 0.75rem; cursor: pointer;
+            font-weight: 600; color: var(--text-muted); font-size: 0.72rem;
+            background: var(--bg-base); border-radius: var(--radius-md);
+            user-select: none;
+        }
+        .ac-debug-panel[open] > summary {
+            border-bottom: 1px solid var(--border-light);
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+        }
+        .ac-debug-panel > div { padding: 0.5rem 0.75rem; }
+        .ac-debug-table {
+            width: 100%; border-collapse: collapse; font-size: 0.72rem;
+        }
+        .ac-debug-table td, .ac-debug-table th {
+            padding: 0.2rem 0.4rem; border-bottom: 1px solid rgba(0,0,0,0.05);
+            text-align: left; vertical-align: top;
+        }
+        .ac-debug-table td:first-child {
+            font-weight: 600; color: var(--text-muted); white-space: nowrap; width: 130px;
+        }
+        .ac-debug-comp th {
+            font-size: 0.68rem; color: var(--text-muted); font-weight: 600;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .ac-debug-comp td { max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
 
         /* =========================================
            7d. TABLE DOC BADGES
@@ -5354,6 +5385,7 @@ permalink: gestionproyectos/index.html
             const acStatus = document.getElementById('autocomplete-status');
             if (acStatus) acStatus.className = 'autocomplete-status';
             _lastAutoCompleteData = null;
+            _lastDebugData = null;
             _aiResultCache = {};
             _draftProjectId = null;
             _draftSavedByUser = false;
@@ -7751,8 +7783,9 @@ permalink: gestionproyectos/index.html
         /* =========================================
            AUTOCOMPLETAR: MAIN FLOW
            ========================================= */
-        let _lastAutoCompleteData = null; // Store for apply step
-        let _aiResultCache = {}; // Cache AI results by doc id
+        let _lastAutoCompleteData = null;
+        let _lastDebugData = null;
+        let _aiResultCache = {};
 
         async function handleAutoComplete() {
             const projectId = document.getElementById('f-id').value;
@@ -7760,18 +7793,34 @@ permalink: gestionproyectos/index.html
 
             const statusEl = document.getElementById('autocomplete-status');
             const btn = document.getElementById('btn-autocomplete');
+            const t0 = performance.now();
 
             statusEl.className = 'autocomplete-status active loading';
             statusEl.innerHTML = '<span class="ac-loading-pulse">Analizando documento...</span>';
             btn.disabled = true;
 
+            // Debug collector
+            const debug = {
+                archivo: null,
+                source_type: null,
+                extraction_method: null,
+                chars_extraidos: 0,
+                chars_enviados_ia: 0,
+                ai_used: false,
+                ai_failed: false,
+                ai_error: null,
+                ai_debug: null,
+                rule_result: null,
+                ai_result: null,
+                merged_result: null,
+                elapsed_ms: 0,
+            };
+
             try {
-                // Fetch document list to find what's available
                 const docsRes = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents`);
                 if (!docsRes.ok) throw new Error('No se pudieron cargar los documentos');
                 const docs = await docsRes.json();
 
-                // Pick the right document (expediente > main, skip materials)
                 let targetDoc = null;
                 let sourceType = '';
                 let sourceLabel = '';
@@ -7793,24 +7842,22 @@ permalink: gestionproyectos/index.html
                     return;
                 }
 
-                // Check if format is supported
+                debug.archivo = targetDoc.original_name || '(sin nombre)';
+                debug.source_type = sourceLabel;
+
                 const mime = targetDoc.mime_type || '';
                 const fname = (targetDoc.original_name || '').toLowerCase();
                 if (!mime.includes('pdf') && !fname.endsWith('.pdf') &&
                     !mime.includes('wordprocessingml') && !fname.endsWith('.docx')) {
-                    if (fname.endsWith('.doc')) {
-                        statusEl.className = 'autocomplete-status active warning';
-                        statusEl.textContent = 'El formato .DOC no es compatible con la lectura automática. Convertilo a PDF o DOCX e intentá nuevamente.';
-                    } else {
-                        statusEl.className = 'autocomplete-status active warning';
-                        statusEl.textContent = 'Formato no compatible. Solo se pueden analizar archivos PDF o DOCX.';
-                    }
+                    statusEl.className = 'autocomplete-status active warning';
+                    statusEl.textContent = fname.endsWith('.doc')
+                        ? 'El formato .DOC no es compatible. Convertilo a PDF o DOCX.'
+                        : 'Formato no compatible. Solo se pueden analizar archivos PDF o DOCX.';
                     btn.disabled = false;
                     setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 5000);
                     return;
                 }
 
-                // Download the file for analysis
                 statusEl.innerHTML = '<span class="ac-loading-pulse">Descargando archivo para análisis...</span>';
                 const downloadUrl = `/api/projects/${encodeURIComponent(projectId)}/documents/${encodeURIComponent(targetDoc.id)}/download`;
                 const fileRes = await fetch(downloadUrl);
@@ -7819,12 +7866,10 @@ permalink: gestionproyectos/index.html
                 const blob = await fileRes.blob();
                 const file = new File([blob], targetDoc.original_name || 'document', { type: mime });
 
-                // Extract text
                 statusEl.innerHTML = '<span class="ac-loading-pulse">Extrayendo texto del documento...</span>';
                 let extractedText = '';
                 let extractionMethod = 'digital';
 
-                // OCR progress callback
                 function onProgress(type, current, total) {
                     if (type === 'ocr_needed') {
                         statusEl.innerHTML = `<span class="ac-loading-pulse">PDF escaneado detectado. Iniciando OCR...</span>
@@ -7849,23 +7894,20 @@ permalink: gestionproyectos/index.html
                     extractedText = extraction.text;
                     extractionMethod = extraction.method;
                 } catch (extractErr) {
-                    if (extractErr.message === 'DOC_NOT_SUPPORTED') {
-                        statusEl.className = 'autocomplete-status active warning';
-                        statusEl.textContent = 'El formato .DOC no es compatible. Convertilo a PDF o DOCX.';
-                    } else if (extractErr.message === 'OCR_UNAVAILABLE') {
-                        statusEl.className = 'autocomplete-status active warning';
-                        statusEl.textContent = 'PDF escaneado detectado pero no se pudo cargar el motor OCR. Verificá tu conexión a internet.';
-                    } else if (extractErr.message === 'NO_TEXT_EXTRACTED') {
-                        statusEl.className = 'autocomplete-status active warning';
-                        statusEl.textContent = 'No se pudo extraer texto del documento, ni digital ni por OCR. Completá los datos manualmente.';
-                    } else {
-                        statusEl.className = 'autocomplete-status active error';
-                        statusEl.textContent = 'No se pudo leer automáticamente el documento. Completá los datos manualmente.';
-                    }
+                    const msgs = {
+                        DOC_NOT_SUPPORTED: 'El formato .DOC no es compatible. Convertilo a PDF o DOCX.',
+                        OCR_UNAVAILABLE: 'PDF escaneado detectado pero no se pudo cargar el motor OCR.',
+                        NO_TEXT_EXTRACTED: 'No se pudo extraer texto del documento. Completá los datos manualmente.',
+                    };
+                    statusEl.className = 'autocomplete-status active warning';
+                    statusEl.textContent = msgs[extractErr.message] || 'No se pudo leer el documento. Completá los datos manualmente.';
                     btn.disabled = false;
                     setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 6000);
                     return;
                 }
+
+                debug.extraction_method = extractionMethod;
+                debug.chars_extraidos = extractedText.length;
 
                 if (!extractedText || extractedText.length < 30) {
                     statusEl.className = 'autocomplete-status active warning';
@@ -7880,22 +7922,34 @@ permalink: gestionproyectos/index.html
                 const ruleData = parseDocumentText(extractedText, extractionMethod);
                 ruleData._source = extractionMethod;
 
-                // If expediente was the source, always suggest "Presentado"
                 if (sourceType === 'expediente' && !ruleData.estado) {
                     ruleData.estado = 'Presentado';
                     ruleData._confidence.estado = 'high';
                 }
 
-                // STEP 2: AI-powered analysis (if text is sufficient)
+                debug.rule_result = {
+                    tipo: ruleData.tipo,
+                    titulo: ruleData.titulo ? (ruleData.titulo.substring(0, 80) + (ruleData.titulo.length > 80 ? '...' : '')) : null,
+                    resumen: ruleData.resumen ? (ruleData.resumen.substring(0, 80) + (ruleData.resumen.length > 80 ? '...' : '')) : null,
+                    area_tema: ruleData.area_tema,
+                    tipo_autoria: ruleData.tipo_autoria,
+                    numero_expediente: ruleData.numero_expediente,
+                    fecha_presentacion: ruleData.fecha_presentacion,
+                    estado: ruleData.estado,
+                };
+
+                // STEP 2: AI-powered analysis
                 let aiData = null;
                 let aiUsed = false;
                 let aiFailed = false;
+                let aiError = null;
 
-                // Check cache first (by doc id)
                 const cacheKey = targetDoc.id;
                 if (_aiResultCache[cacheKey]) {
-                    aiData = _aiResultCache[cacheKey];
+                    aiData = _aiResultCache[cacheKey].data;
+                    debug.ai_debug = _aiResultCache[cacheKey].debug;
                     aiUsed = true;
+                    debug.ai_used = true;
                 } else if (extractedText.length >= 100) {
                     statusEl.innerHTML = '<span class="ac-loading-pulse">Analizando con inteligencia artificial...</span>';
                     try {
@@ -7906,25 +7960,56 @@ permalink: gestionproyectos/index.html
                                 text: extractedText,
                                 source_type: sourceType,
                                 extraction_method: extractionMethod,
+                                rule_data: {
+                                    tipo: ruleData.tipo,
+                                    numero_expediente: ruleData.numero_expediente,
+                                    fecha_presentacion: ruleData.fecha_presentacion,
+                                },
                             }),
                         });
                         const aiJson = await aiRes.json();
                         if (aiJson.ok && aiJson.data) {
                             aiData = aiJson.data;
                             aiUsed = true;
-                            _aiResultCache[cacheKey] = aiData; // Cache result
+                            debug.ai_used = true;
+                            debug.ai_debug = aiJson.debug || null;
+                            debug.chars_enviados_ia = aiJson.debug?.prepared_length || 0;
+                            _aiResultCache[cacheKey] = { data: aiData, debug: aiJson.debug };
                         } else {
                             aiFailed = true;
-                            console.warn('[autocomplete] AI analysis unavailable:', aiJson.error);
+                            aiError = aiJson.error || 'Error desconocido';
                         }
                     } catch (aiErr) {
                         aiFailed = true;
-                        console.warn('[autocomplete] AI request failed:', aiErr.message);
+                        aiError = aiErr.message;
                     }
                 }
 
-                // STEP 3: Merge rule-based + AI results
+                debug.ai_failed = aiFailed;
+                debug.ai_error = aiError;
+                if (aiData) {
+                    debug.ai_result = {
+                        tipo: aiData.tipo_proyecto?.valor,
+                        titulo: aiData.titulo_sugerido?.valor ? (aiData.titulo_sugerido.valor.substring(0, 80) + (aiData.titulo_sugerido.valor.length > 80 ? '...' : '')) : null,
+                        resumen: aiData.resumen_sugerido?.valor ? (aiData.resumen_sugerido.valor.substring(0, 80) + (aiData.resumen_sugerido.valor.length > 80 ? '...' : '')) : null,
+                        area_tema: aiData.area_tema?.valor,
+                        autoria: aiData.autoria?.valor,
+                        justificacion: aiData.justificacion_breve,
+                    };
+                }
+
+                // STEP 3: Merge
                 const merged = mergeAutoCompleteResults(ruleData, aiData, sourceType);
+
+                debug.merged_result = {};
+                for (const k of ['tipo', 'titulo', 'resumen', 'area_tema', 'tipo_autoria', 'numero_expediente', 'fecha_presentacion', 'estado']) {
+                    if (merged[k]) {
+                        const src = merged._fieldSource[k] || '?';
+                        const val = typeof merged[k] === 'string' && merged[k].length > 60 ? merged[k].substring(0, 60) + '...' : merged[k];
+                        debug.merged_result[k] = `[${src}] ${val}`;
+                    }
+                }
+                debug.elapsed_ms = Math.round(performance.now() - t0);
 
                 // Count detected fields
                 const detectedFields = ['tipo', 'titulo', 'tipo_autoria', 'resumen', 'estado', 'fecha_presentacion', 'area_tema', 'numero_expediente']
@@ -7934,33 +8019,36 @@ permalink: gestionproyectos/index.html
                     statusEl.className = 'autocomplete-status active warning';
                     statusEl.textContent = 'No se pudieron detectar datos estructurados en el documento. Completá los campos manualmente.';
                     btn.disabled = false;
+                    _lastDebugData = debug;
                     setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 5000);
                     return;
                 }
 
-                const methodLabel = { digital: 'lectura digital', ocr: 'OCR', docx: 'lectura DOCX' }[extractionMethod] || 'análisis';
-                let statusMsg = `Se detectaron ${detectedFields.length} campo(s) desde el ${sourceLabel}`;
+                let statusMsg = `${detectedFields.length} campo(s) detectado(s) desde ${sourceLabel}`;
                 if (aiUsed) {
-                    statusMsg += ' (análisis con IA).';
+                    statusMsg += ' con IA';
+                    if (debug.ai_debug?.elapsed_ms) statusMsg += ` (${(debug.ai_debug.elapsed_ms / 1000).toFixed(1)}s)`;
+                    statusMsg += '.';
                 } else if (aiFailed) {
-                    statusMsg += ` (${methodLabel}). No se pudo completar el análisis con IA; se aplicó el análisis estándar.`;
+                    statusMsg += '. IA no disponible — se usó análisis estándar.';
                 } else {
-                    statusMsg += ` (${methodLabel}).`;
+                    statusMsg += '.';
                 }
-                statusMsg += ' Revisá los datos antes de aplicar.';
-                statusEl.className = 'autocomplete-status active success';
+                statusEl.className = aiFailed ? 'autocomplete-status active warning' : 'autocomplete-status active success';
                 statusEl.textContent = statusMsg;
 
-                // Store and show preview
                 _lastAutoCompleteData = merged;
+                _lastDebugData = debug;
                 showAutoCompletePreview(merged);
                 btn.disabled = false;
-                setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 5000);
+                setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 6000);
 
             } catch (err) {
                 statusEl.className = 'autocomplete-status active error';
                 statusEl.textContent = 'Error al analizar: ' + err.message;
                 btn.disabled = false;
+                debug.elapsed_ms = Math.round(performance.now() - t0);
+                _lastDebugData = debug;
                 setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 6000);
             }
         }
@@ -7968,16 +8056,7 @@ permalink: gestionproyectos/index.html
         /* =========================================
            AUTOCOMPLETAR: HYBRID FUSION
            ========================================= */
-
-        /**
-         * Merge rule-based parsing results with AI analysis.
-         * Rules:
-         * - numero_expediente, fecha_presentacion, estado: prefer rule-based (hard data)
-         * - tipo, titulo, resumen, area_tema, autoria: prefer AI if confidence >= 0.5
-         * - coautores, autor_principal: prefer AI if available
-         */
         function mergeAutoCompleteResults(ruleData, aiData, sourceType) {
-            // Start with rule-based data as the foundation
             const merged = {
                 tipo: ruleData.tipo,
                 titulo: ruleData.titulo,
@@ -7991,74 +8070,56 @@ permalink: gestionproyectos/index.html
                 numero_expediente: ruleData.numero_expediente,
                 _confidence: { ...ruleData._confidence },
                 _source: ruleData._source,
-                _fieldSource: {}, // Track which source provided each field
+                _fieldSource: {},
             };
 
-            // Initialize field sources from rules
+            // All initially from rules
             for (const k of Object.keys(merged._confidence)) {
                 merged._fieldSource[k] = 'reglas';
             }
 
             if (!aiData) return merged;
 
-            // AI type mapping
-            const tipoMap = {
-                ley: 'Proyecto de Ley',
-                resolucion: 'Proyecto de Resolución',
-                declaracion: 'Proyecto de Declaración',
-            };
+            const tipoMap = { ley: 'Proyecto de Ley', resolucion: 'Proyecto de Resolución', declaracion: 'Proyecto de Declaración' };
+            const autoriaMap = { propio_cecilia: 'propio', coautoria: 'coautoria', externo_con_acompanamiento: 'acompanado' };
 
-            // AI authorship mapping
-            const autoriaMap = {
-                propio_cecilia: 'propio',
-                coautoria: 'coautoria',
-                externo_con_acompanamiento: 'acompanado',
-            };
+            // === HARD DATA: rules ALWAYS win if detected ===
 
-            // HARD DATA: always prefer rules for these
-            // numero_expediente — rule wins if detected
-            if (ruleData.numero_expediente) {
-                merged._fieldSource.numero_expediente = 'reglas';
-            } else if (aiData.numero_expediente && aiData.numero_expediente.valor) {
+            // numero_expediente
+            if (!ruleData.numero_expediente && aiData.numero_expediente?.valor) {
                 merged.numero_expediente = aiData.numero_expediente.valor;
                 merged._confidence.numero_expediente = aiConfToLabel(aiData.numero_expediente.confianza);
                 merged._fieldSource.numero_expediente = 'ia';
+            } else if (ruleData.numero_expediente) {
+                merged._fieldSource.numero_expediente = 'reglas';
             }
 
-            // fecha_presentacion — rule wins if detected
-            if (ruleData.fecha_presentacion) {
-                merged._fieldSource.fecha_presentacion = 'reglas';
-            } else if (aiData.fecha_presentacion && aiData.fecha_presentacion.valor) {
-                // Normalize AI date (dd/mm/aaaa → yyyy-mm-dd)
+            // fecha_presentacion
+            if (!ruleData.fecha_presentacion && aiData.fecha_presentacion?.valor) {
                 const aiDate = normalizeAIDate(aiData.fecha_presentacion.valor);
                 if (aiDate) {
                     merged.fecha_presentacion = aiDate;
                     merged._confidence.fecha_presentacion = aiConfToLabel(aiData.fecha_presentacion.confianza);
                     merged._fieldSource.fecha_presentacion = 'ia';
                 }
+            } else if (ruleData.fecha_presentacion) {
+                merged._fieldSource.fecha_presentacion = 'reglas';
             }
 
-            // estado — rule wins when we have expediente or clear ingreso data
+            // estado
             if (ruleData.estado) {
                 merged._fieldSource.estado = 'reglas';
             } else if (sourceType === 'expediente') {
                 merged.estado = 'Presentado';
                 merged._confidence.estado = 'high';
                 merged._fieldSource.estado = 'reglas';
-            } else if (aiData.estado_sugerido && aiData.estado_sugerido.valor) {
-                const estadoMap = { presentado: 'Presentado', en_trabajo: 'En elaboración', pendiente: 'Pendiente' };
-                const val = estadoMap[aiData.estado_sugerido.valor];
-                if (val) {
-                    merged.estado = val;
-                    merged._confidence.estado = aiConfToLabel(aiData.estado_sugerido.confianza);
-                    merged._fieldSource.estado = 'ia';
-                }
             }
 
-            // SEMANTIC DATA: prefer AI if confidence is reasonable (>= 0.5)
-
-            // tipo — AI wins if confident
-            if (aiData.tipo_proyecto && aiData.tipo_proyecto.valor && aiData.tipo_proyecto.confianza >= 0.5) {
+            // tipo — RULES WIN if high confidence (clear header match)
+            if (ruleData.tipo && ruleData._confidence.tipo === 'high') {
+                merged._fieldSource.tipo = 'reglas';
+                // Don't let AI override a clear "PROYECTO DE LEY" header match
+            } else if (aiData.tipo_proyecto?.valor && aiData.tipo_proyecto.confianza >= 0.5) {
                 const mapped = tipoMap[aiData.tipo_proyecto.valor];
                 if (mapped) {
                     merged.tipo = mapped;
@@ -8067,29 +8128,33 @@ permalink: gestionproyectos/index.html
                 }
             }
 
-            // titulo — AI almost always wins (that's the main value-add)
-            if (aiData.titulo_sugerido && aiData.titulo_sugerido.valor && aiData.titulo_sugerido.confianza >= 0.4) {
+            // === SEMANTIC DATA: AI wins (this is where LLM adds value) ===
+
+            // titulo — AI wins (main value-add)
+            if (aiData.titulo_sugerido?.valor && aiData.titulo_sugerido.confianza >= 0.4) {
                 merged.titulo = aiData.titulo_sugerido.valor;
                 merged._confidence.titulo = aiConfToLabel(aiData.titulo_sugerido.confianza);
                 merged._fieldSource.titulo = 'ia';
             }
 
-            // resumen — AI almost always wins
-            if (aiData.resumen_sugerido && aiData.resumen_sugerido.valor && aiData.resumen_sugerido.confianza >= 0.4) {
+            // resumen — AI wins
+            if (aiData.resumen_sugerido?.valor && aiData.resumen_sugerido.confianza >= 0.4) {
                 merged.resumen = aiData.resumen_sugerido.valor;
                 merged._confidence.resumen = aiConfToLabel(aiData.resumen_sugerido.confianza);
                 merged._fieldSource.resumen = 'ia';
             }
 
-            // area_tema — AI wins if confident
-            if (aiData.area_tema && aiData.area_tema.valor && aiData.area_tema.confianza >= 0.5) {
+            // area_tema — AI wins
+            if (aiData.area_tema?.valor && aiData.area_tema.confianza >= 0.4) {
                 merged.area_tema = aiData.area_tema.valor;
                 merged._confidence.area_tema = aiConfToLabel(aiData.area_tema.confianza);
                 merged._fieldSource.area_tema = 'ia';
             }
 
-            // autoria — AI wins if confident
-            if (aiData.autoria && aiData.autoria.valor && aiData.autoria.confianza >= 0.5) {
+            // autoria — AI wins if confident, but rules win if high confidence
+            if (ruleData.tipo_autoria && ruleData._confidence.tipo_autoria === 'high') {
+                merged._fieldSource.tipo_autoria = 'reglas';
+            } else if (aiData.autoria?.valor && aiData.autoria.confianza >= 0.5) {
                 const mappedAutoria = autoriaMap[aiData.autoria.valor];
                 if (mappedAutoria) {
                     merged.tipo_autoria = mappedAutoria;
@@ -8098,31 +8163,24 @@ permalink: gestionproyectos/index.html
                 }
             }
 
-            // autor_principal — AI wins if available
-            if (aiData.autor_principal && aiData.autor_principal.valor && aiData.autor_principal.confianza >= 0.4) {
+            // autor_principal
+            if (aiData.autor_principal?.valor && aiData.autor_principal.confianza >= 0.4) {
                 merged.autor_principal = aiData.autor_principal.valor;
                 merged._confidence.autor_principal = aiConfToLabel(aiData.autor_principal.confianza);
                 merged._fieldSource.autor_principal = 'ia';
             }
 
-            // coautores — AI wins if available
-            if (aiData.coautores && aiData.coautores.valor && aiData.coautores.valor.length > 0) {
+            // coautores
+            if (aiData.coautores?.valor && aiData.coautores.valor.length > 0) {
                 merged.coautores = aiData.coautores.valor;
                 merged._fieldSource.coautores = 'ia';
             }
 
-            // Store AI justification and fragments for preview
             if (aiData.justificacion_breve) merged._justificacion = aiData.justificacion_breve;
-            if (aiData.fragmentos_respaldo && aiData.fragmentos_respaldo.length > 0) {
-                merged._fragmentos = aiData.fragmentos_respaldo;
-            }
 
             return merged;
         }
 
-        /**
-         * Convert AI confidence (0.0-1.0) to label ('high'/'medium'/'low').
-         */
         function aiConfToLabel(conf) {
             if (typeof conf !== 'number') return 'medium';
             if (conf >= 0.75) return 'high';
@@ -8130,12 +8188,8 @@ permalink: gestionproyectos/index.html
             return 'low';
         }
 
-        /**
-         * Normalize AI date from dd/mm/aaaa or similar to yyyy-mm-dd.
-         */
         function normalizeAIDate(dateStr) {
             if (!dateStr) return null;
-            // Try dd/mm/yyyy
             const m1 = dateStr.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
             if (m1) {
                 const d = new Date(`${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`);
@@ -8143,7 +8197,6 @@ permalink: gestionproyectos/index.html
                     return `${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`;
                 }
             }
-            // Try yyyy-mm-dd
             const m2 = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
             if (m2) {
                 const d = new Date(dateStr);
@@ -8160,7 +8213,7 @@ permalink: gestionproyectos/index.html
 
             const fields = [
                 { key: 'tipo', label: 'Tipo de proyecto', formId: 'f-tipo' },
-                { key: 'titulo', label: 'Título / Objeto', formId: 'f-titulo' },
+                { key: 'titulo', label: 'Título', formId: 'f-titulo' },
                 { key: 'tipo_autoria', label: 'Autoría', formId: 'f-tipo-autoria', format: v => {
                     const map = { propio: 'Propio de Cecilia', coautoria: 'Coautoría', acompanado: 'Autor externo' };
                     return map[v] || v;
@@ -8177,12 +8230,23 @@ permalink: gestionproyectos/index.html
                 { key: 'numero_expediente', label: 'N° Expediente', formId: null }
             ];
 
-            // Source tags
+            // Count sources
+            const srcCounts = { reglas: 0, ia: 0 };
+            if (data._fieldSource) {
+                for (const v of Object.values(data._fieldSource)) {
+                    if (srcCounts[v] !== undefined) srcCounts[v]++;
+                }
+            }
+
             const sourceLabel = { digital: 'PDF digital', ocr: 'OCR (escaneado)', docx: 'DOCX' }[data._source] || 'Documento';
-            const hasAI = data._fieldSource && Object.values(data._fieldSource).includes('ia');
-            let html = `<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem;">
+            let modeBadge;
+            if (srcCounts.ia > 0 && srcCounts.reglas > 0) modeBadge = 'IA + reglas';
+            else if (srcCounts.ia > 0) modeBadge = 'Usando IA';
+            else modeBadge = 'Análisis estándar';
+
+            let html = `<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem;align-items:center;">
                 <span class="ac-source-tag">${escapeHtml(sourceLabel)}</span>
-                ${hasAI ? '<span class="ac-source-tag ac-source-ai">Sugerido por IA</span>' : ''}
+                <span class="ac-source-tag ${srcCounts.ia > 0 ? 'ac-source-ai' : ''}">${modeBadge}</span>
             </div>`;
             let hasAny = false;
 
@@ -8196,13 +8260,11 @@ permalink: gestionproyectos/index.html
                 const confLabel = { high: 'Alta', medium: 'Media', low: 'Baja' }[confidence];
                 const confColor = { high: 'var(--badge-green-text)', medium: 'var(--badge-yellow-text)', low: 'var(--badge-red-text)' }[confidence];
 
-                // Determine source badge
                 const fieldSrc = (data._fieldSource && data._fieldSource[field.key]) || 'reglas';
-                let srcBadge = fieldSrc === 'ia'
+                const srcBadge = fieldSrc === 'ia'
                     ? '<span class="ac-field-badge ac-badge-ai">IA</span>'
                     : '<span class="ac-field-badge ac-badge-rule">doc</span>';
 
-                // Check if form field already has a value
                 let statusBadge = '<span class="ac-field-badge ac-badge-new">nuevo</span>';
                 if (field.formId) {
                     const el = document.getElementById(field.formId);
@@ -8213,7 +8275,6 @@ permalink: gestionproyectos/index.html
                     }
                 }
 
-                // Default unchecked for low-confidence AI fields
                 const defaultChecked = !(fieldSrc === 'ia' && confidence === 'low');
 
                 html += `<div class="ac-field-row${!defaultChecked ? ' disabled' : ''}" id="ac-row-${field.key}">
@@ -8233,7 +8294,6 @@ permalink: gestionproyectos/index.html
                 </div>`;
             }
 
-            // Show coautores list if present
             if (data.coautores && data.coautores.length > 0) {
                 html += `<div class="ac-field-row">
                     <div class="ac-field-label">Legisladores detectados</div>
@@ -8241,11 +8301,15 @@ permalink: gestionproyectos/index.html
                 </div>`;
             }
 
-            // Show AI justification if available
             if (data._justificacion) {
                 html += `<div class="ac-ai-justification">
                     <strong>Justificación IA:</strong> ${escapeHtml(data._justificacion)}
                 </div>`;
+            }
+
+            // DEBUG PANEL (collapsible)
+            if (_lastDebugData) {
+                html += buildDebugPanel(_lastDebugData);
             }
 
             if (!hasAny) {
@@ -8256,6 +8320,68 @@ permalink: gestionproyectos/index.html
             document.getElementById('ac-preview-overlay').classList.add('active');
         }
 
+        function buildDebugPanel(dbg) {
+            let rows = '';
+            rows += `<tr><td>Archivo</td><td>${escapeHtml(dbg.archivo || '-')}</td></tr>`;
+            rows += `<tr><td>Fuente</td><td>${escapeHtml(dbg.source_type || '-')}</td></tr>`;
+            rows += `<tr><td>Extracción</td><td>${escapeHtml(dbg.extraction_method || '-')}</td></tr>`;
+            rows += `<tr><td>Chars extraídos</td><td>${dbg.chars_extraidos.toLocaleString()}</td></tr>`;
+            rows += `<tr><td>Chars enviados IA</td><td>${dbg.chars_enviados_ia ? dbg.chars_enviados_ia.toLocaleString() : 'N/A'}</td></tr>`;
+            rows += `<tr><td>IA usada</td><td>${dbg.ai_used ? 'Sí' : 'No'}</td></tr>`;
+            if (dbg.ai_failed) rows += `<tr><td>Error IA</td><td style="color:var(--badge-red-text)">${escapeHtml(dbg.ai_error || 'desconocido')}</td></tr>`;
+            if (dbg.ai_debug?.model_used) rows += `<tr><td>Modelo</td><td>${escapeHtml(dbg.ai_debug.model_used)}</td></tr>`;
+            if (dbg.ai_debug?.elapsed_ms) rows += `<tr><td>Tiempo IA</td><td>${(dbg.ai_debug.elapsed_ms / 1000).toFixed(1)}s</td></tr>`;
+            rows += `<tr><td>Tiempo total</td><td>${(dbg.elapsed_ms / 1000).toFixed(1)}s</td></tr>`;
+
+            if (dbg.ai_debug) {
+                const d = dbg.ai_debug;
+                rows += `<tr><td>Secciones encontradas</td><td>${d.sections_found || '-'} (OBJETO: ${d.has_objeto ? 'sí' : 'no'}, INIC: ${d.has_iniciador ? 'sí' : 'no'}, FUND: ${d.has_fundamentos ? 'sí' : 'no'})</td></tr>`;
+            }
+
+            // Rule vs AI comparison for key fields
+            let compRows = '';
+            if (dbg.rule_result && dbg.ai_result) {
+                for (const k of ['tipo', 'titulo', 'resumen', 'area_tema']) {
+                    const rv = dbg.rule_result[k] || '-';
+                    const av = dbg.ai_result[k] || '-';
+                    const mv = dbg.merged_result?.[k] || '-';
+                    compRows += `<tr><td style="font-weight:600">${k}</td><td title="${escapeHtml(String(rv))}">${escapeHtml(String(rv).substring(0, 50))}</td><td title="${escapeHtml(String(av))}">${escapeHtml(String(av).substring(0, 50))}</td><td title="${escapeHtml(String(mv))}">${escapeHtml(String(mv).substring(0, 50))}</td></tr>`;
+                }
+            }
+
+            // AI raw response preview
+            let rawPreview = '';
+            if (dbg.ai_debug?.ai_raw_response) {
+                rawPreview = `<details style="margin-top:0.5rem;">
+                    <summary style="cursor:pointer;font-size:0.72rem;color:var(--text-muted);">Respuesta IA cruda</summary>
+                    <pre style="font-size:0.68rem;white-space:pre-wrap;word-break:break-all;max-height:200px;overflow:auto;background:var(--bg-base);padding:0.5rem;border-radius:4px;margin-top:0.25rem;">${escapeHtml(dbg.ai_debug.ai_raw_response)}</pre>
+                </details>`;
+            }
+
+            // Prompt preview
+            let promptPreview = '';
+            if (dbg.ai_debug?.prompt_preview) {
+                promptPreview = `<details style="margin-top:0.5rem;">
+                    <summary style="cursor:pointer;font-size:0.72rem;color:var(--text-muted);">Prompt enviado (preview)</summary>
+                    <pre style="font-size:0.68rem;white-space:pre-wrap;word-break:break-all;max-height:200px;overflow:auto;background:var(--bg-base);padding:0.5rem;border-radius:4px;margin-top:0.25rem;">${escapeHtml(dbg.ai_debug.prompt_preview)}</pre>
+                </details>`;
+            }
+
+            return `<details class="ac-debug-panel" style="margin-top:1rem;">
+                <summary>Depuración del análisis</summary>
+                <div style="padding:0.5rem 0;">
+                    <table class="ac-debug-table"><tbody>${rows}</tbody></table>
+                    ${compRows ? `<div style="margin-top:0.75rem;font-size:0.72rem;font-weight:600;color:var(--text-muted);">Comparación reglas vs IA vs resultado final:</div>
+                    <table class="ac-debug-table ac-debug-comp">
+                        <thead><tr><th>Campo</th><th>Reglas</th><th>IA</th><th>Final</th></tr></thead>
+                        <tbody>${compRows}</tbody>
+                    </table>` : ''}
+                    ${promptPreview}
+                    ${rawPreview}
+                </div>
+            </details>`;
+        }
+
         function closeAutoCompletePreview() {
             document.getElementById('ac-preview-overlay').classList.remove('active');
         }
@@ -8264,7 +8390,6 @@ permalink: gestionproyectos/index.html
             if (!_lastAutoCompleteData) return;
             const data = _lastAutoCompleteData;
 
-            // Check which fields are enabled via per-field toggles
             function isFieldEnabled(key) {
                 const chk = document.getElementById('ac-chk-' + key);
                 return !chk || chk.checked;
@@ -8298,7 +8423,6 @@ permalink: gestionproyectos/index.html
 
             closeAutoCompletePreview();
 
-            // Show success feedback
             const statusEl = document.getElementById('autocomplete-status');
             statusEl.className = 'autocomplete-status active success';
             statusEl.textContent = appliedCount > 0
