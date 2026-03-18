@@ -3401,19 +3401,31 @@
         display: block !important;
         opacity: 0;
         transform: translateY(-10px);
+        -webkit-clip-path: circle(0% at calc(100% - 40px) 32px);
         clip-path: circle(0% at calc(100% - 40px) 32px);
         pointer-events: none;
+        visibility: hidden;
         transition:
             opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
             transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            visibility 0s linear 0.45s,
+            -webkit-clip-path 0.45s cubic-bezier(0.4, 0, 0.2, 1),
             clip-path 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .navbar__mobile.active {
         opacity: 1;
         transform: translateY(0);
+        -webkit-clip-path: circle(150% at calc(100% - 40px) 32px);
         clip-path: circle(150% at calc(100% - 40px) 32px);
         pointer-events: auto;
+        visibility: visible;
+        transition:
+            opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+            visibility 0s linear 0s,
+            -webkit-clip-path 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+            clip-path 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     }
 }
 
@@ -3465,9 +3477,6 @@ html {
     background-color: #FFFFFF;
     padding: 1.5rem 0;
     box-shadow: 0 1px 3px rgba(17, 16, 59, 0.05);
-    position: sticky;
-    top: var(--header-h, 80px);
-    z-index: 30;
 }
 .pl-filters-grid {
     display: flex;
@@ -3928,6 +3937,33 @@ body.pl-modal-open {
     background: #F4F4F8;
     border-color: #9F57A7;
     color: #9F57A7;
+}
+
+/* "Ver expediente" — prominent card button */
+.pl-btn-expediente {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.625rem 1.25rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border: 2px solid #9F57A7;
+    background: transparent;
+    color: #9F57A7;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.pl-btn-expediente:hover {
+    background: #9F57A7;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(159, 87, 167, 0.25);
+}
+.pl-btn-expediente svg {
+    flex-shrink: 0;
 }
 
 /* --- Pagination --- */

@@ -27,7 +27,14 @@
       "Bash(rm -rf _tools)",
       "Bash(npm uninstall:*)",
       "Bash(python3:*)",
-      "Bash(xargs cat:*)"
+      "Bash(xargs cat:*)",
+      "Bash(node -c d:/Git/ceciliagortari-site/src/assets/js/site.js)",
+      "Bash(pkill -f \"eleventy.*8081\")",
+      "Bash(for page:*)",
+      "Bash(do echo:*)",
+      "Read(//d/Git/ceciliagortari-site/dist/**)",
+      "Bash(done)",
+      "Bash(grep -r \"plLoadProjects\\\\|plOpenModal\\\\|plGoToPage\" D:Gitceciliagortari-sitesrc --include=*.js --include=*.njk)"
     ]
   }
 }

@@ -322,6 +322,46 @@
   }
 
   // ========================================================================
+  // FLOATING TOC PANEL
+  // ========================================================================
+  function initTocPanel() {
+    var fab = document.getElementById('bio-toc-toggle');
+    var panel = document.getElementById('bio-toc-panel');
+    var overlay = document.getElementById('bio-toc-overlay');
+    var closeBtn = document.getElementById('bio-toc-close');
+
+    if (!fab || !panel) return;
+
+    function openPanel() {
+      panel.classList.add('is-open');
+      if (overlay) overlay.classList.add('is-open');
+    }
+
+    function closePanel() {
+      panel.classList.remove('is-open');
+      if (overlay) overlay.classList.remove('is-open');
+    }
+
+    fab.addEventListener('click', openPanel);
+    if (closeBtn) closeBtn.addEventListener('click', closePanel);
+    if (overlay) overlay.addEventListener('click', closePanel);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && panel.classList.contains('is-open')) {
+        closePanel();
+      }
+    });
+
+    // Close panel after clicking a TOC link (smooth scroll happens first)
+    var links = panel.querySelectorAll('.bio-toc__link');
+    links.forEach(function (link) {
+      link.addEventListener('click', function () {
+        setTimeout(closePanel, 150);
+      });
+    });
+  }
+
+  // ========================================================================
   // INIT
   // ========================================================================
   function init() {
@@ -330,6 +370,7 @@
     initRevealAnimations();
     initSmoothTocScroll();
     initLightbox();
+    initTocPanel();
   }
 
   if (document.readyState === 'loading') {
