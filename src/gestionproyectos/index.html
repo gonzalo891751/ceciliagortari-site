@@ -683,6 +683,29 @@ permalink: gestionproyectos/index.html
             background: var(--badge-blue-bg); color: var(--badge-blue-text);
             margin-bottom: 0.5rem;
         }
+        .ac-source-tag.ac-source-ai {
+            background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+            color: #5b21b6;
+        }
+        .ac-badge-ai {
+            background: linear-gradient(135deg, #ede9fe, #e0e7ff) !important;
+            color: #5b21b6 !important;
+            font-size: 0.65rem !important;
+        }
+        .ac-badge-rule {
+            background: var(--badge-blue-bg) !important;
+            color: var(--badge-blue-text) !important;
+            font-size: 0.65rem !important;
+        }
+        .ac-ai-justification {
+            margin-top: 0.75rem; padding: 0.65rem 0.85rem;
+            background: linear-gradient(135deg, rgba(139,92,246,0.05), rgba(99,102,241,0.05));
+            border: 1px solid rgba(139,92,246,0.15); border-radius: var(--radius-md);
+            font-size: 0.78rem; color: var(--text-muted); line-height: 1.45;
+        }
+        .ac-ai-justification strong {
+            color: #5b21b6; font-weight: 600;
+        }
 
         /* =========================================
            7d. TABLE DOC BADGES
@@ -4385,7 +4408,7 @@ permalink: gestionproyectos/index.html
         <div class="ac-preview-card">
             <div class="ac-preview-header">
                 <svg width="22" height="22" fill="none" stroke="var(--blue)" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
-                <h4>Datos detectados en el documento</h4>
+                <h4>Datos sugeridos para el proyecto</h4>
                 <button class="close-btn" onclick="closeAutoCompletePreview()" style="position:static;">&times;</button>
             </div>
             <div class="ac-preview-body" id="ac-preview-body">
@@ -5331,6 +5354,7 @@ permalink: gestionproyectos/index.html
             const acStatus = document.getElementById('autocomplete-status');
             if (acStatus) acStatus.className = 'autocomplete-status';
             _lastAutoCompleteData = null;
+            _aiResultCache = {};
             _draftProjectId = null;
             _draftSavedByUser = false;
 
@@ -7728,6 +7752,7 @@ permalink: gestionproyectos/index.html
            AUTOCOMPLETAR: MAIN FLOW
            ========================================= */
         let _lastAutoCompleteData = null; // Store for apply step
+        let _aiResultCache = {}; // Cache AI results by doc id
 
         async function handleAutoComplete() {
             const projectId = document.getElementById('f-id').value;
@@ -7736,7 +7761,6 @@ permalink: gestionproyectos/index.html
             const statusEl = document.getElementById('autocomplete-status');
             const btn = document.getElementById('btn-autocomplete');
 
-            // Determine which file to analyze (priority: expediente > main doc)
             statusEl.className = 'autocomplete-status active loading';
             statusEl.innerHTML = '<span class="ac-loading-pulse">Analizando documento...</span>';
             btn.disabled = true;
@@ -7749,12 +7773,15 @@ permalink: gestionproyectos/index.html
 
                 // Pick the right document (expediente > main, skip materials)
                 let targetDoc = null;
+                let sourceType = '';
                 let sourceLabel = '';
                 if (docs.expediente) {
                     targetDoc = docs.expediente;
+                    sourceType = 'expediente';
                     sourceLabel = 'expediente definitivo';
                 } else if (docs.main) {
                     targetDoc = docs.main;
+                    sourceType = 'documento';
                     sourceLabel = 'documento del proyecto';
                 }
 
@@ -7848,20 +7875,60 @@ permalink: gestionproyectos/index.html
                     return;
                 }
 
-                // Parse text
+                // STEP 1: Rule-based parsing (always runs)
                 statusEl.innerHTML = '<span class="ac-loading-pulse">Detectando datos del proyecto...</span>';
-                const parsed = parseDocumentText(extractedText, extractionMethod);
-                parsed._source = extractionMethod;
+                const ruleData = parseDocumentText(extractedText, extractionMethod);
+                ruleData._source = extractionMethod;
 
                 // If expediente was the source, always suggest "Presentado"
-                if (sourceLabel === 'expediente definitivo' && !parsed.estado) {
-                    parsed.estado = 'Presentado';
-                    parsed._confidence.estado = 'high';
+                if (sourceType === 'expediente' && !ruleData.estado) {
+                    ruleData.estado = 'Presentado';
+                    ruleData._confidence.estado = 'high';
                 }
+
+                // STEP 2: AI-powered analysis (if text is sufficient)
+                let aiData = null;
+                let aiUsed = false;
+                let aiFailed = false;
+
+                // Check cache first (by doc id)
+                const cacheKey = targetDoc.id;
+                if (_aiResultCache[cacheKey]) {
+                    aiData = _aiResultCache[cacheKey];
+                    aiUsed = true;
+                } else if (extractedText.length >= 100) {
+                    statusEl.innerHTML = '<span class="ac-loading-pulse">Analizando con inteligencia artificial...</span>';
+                    try {
+                        const aiRes = await fetch('/api/projects/autocomplete-ai', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                text: extractedText,
+                                source_type: sourceType,
+                                extraction_method: extractionMethod,
+                            }),
+                        });
+                        const aiJson = await aiRes.json();
+                        if (aiJson.ok && aiJson.data) {
+                            aiData = aiJson.data;
+                            aiUsed = true;
+                            _aiResultCache[cacheKey] = aiData; // Cache result
+                        } else {
+                            aiFailed = true;
+                            console.warn('[autocomplete] AI analysis unavailable:', aiJson.error);
+                        }
+                    } catch (aiErr) {
+                        aiFailed = true;
+                        console.warn('[autocomplete] AI request failed:', aiErr.message);
+                    }
+                }
+
+                // STEP 3: Merge rule-based + AI results
+                const merged = mergeAutoCompleteResults(ruleData, aiData, sourceType);
 
                 // Count detected fields
                 const detectedFields = ['tipo', 'titulo', 'tipo_autoria', 'resumen', 'estado', 'fecha_presentacion', 'area_tema', 'numero_expediente']
-                    .filter(k => parsed[k]);
+                    .filter(k => merged[k]);
 
                 if (detectedFields.length === 0) {
                     statusEl.className = 'autocomplete-status active warning';
@@ -7872,14 +7939,23 @@ permalink: gestionproyectos/index.html
                 }
 
                 const methodLabel = { digital: 'lectura digital', ocr: 'OCR', docx: 'lectura DOCX' }[extractionMethod] || 'análisis';
+                let statusMsg = `Se detectaron ${detectedFields.length} campo(s) desde el ${sourceLabel}`;
+                if (aiUsed) {
+                    statusMsg += ' (análisis con IA).';
+                } else if (aiFailed) {
+                    statusMsg += ` (${methodLabel}). No se pudo completar el análisis con IA; se aplicó el análisis estándar.`;
+                } else {
+                    statusMsg += ` (${methodLabel}).`;
+                }
+                statusMsg += ' Revisá los datos antes de aplicar.';
                 statusEl.className = 'autocomplete-status active success';
-                statusEl.textContent = `Se detectaron ${detectedFields.length} campo(s) desde el ${sourceLabel} (${methodLabel}). Revisá los datos antes de aplicar.`;
+                statusEl.textContent = statusMsg;
 
                 // Store and show preview
-                _lastAutoCompleteData = parsed;
-                showAutoCompletePreview(parsed);
+                _lastAutoCompleteData = merged;
+                showAutoCompletePreview(merged);
                 btn.disabled = false;
-                setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 3000);
+                setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 5000);
 
             } catch (err) {
                 statusEl.className = 'autocomplete-status active error';
@@ -7887,6 +7963,193 @@ permalink: gestionproyectos/index.html
                 btn.disabled = false;
                 setTimeout(() => { statusEl.className = 'autocomplete-status'; }, 6000);
             }
+        }
+
+        /* =========================================
+           AUTOCOMPLETAR: HYBRID FUSION
+           ========================================= */
+
+        /**
+         * Merge rule-based parsing results with AI analysis.
+         * Rules:
+         * - numero_expediente, fecha_presentacion, estado: prefer rule-based (hard data)
+         * - tipo, titulo, resumen, area_tema, autoria: prefer AI if confidence >= 0.5
+         * - coautores, autor_principal: prefer AI if available
+         */
+        function mergeAutoCompleteResults(ruleData, aiData, sourceType) {
+            // Start with rule-based data as the foundation
+            const merged = {
+                tipo: ruleData.tipo,
+                titulo: ruleData.titulo,
+                tipo_autoria: ruleData.tipo_autoria,
+                autor_principal: ruleData.autor_principal,
+                coautores: ruleData.coautores || [],
+                resumen: ruleData.resumen,
+                estado: ruleData.estado,
+                fecha_presentacion: ruleData.fecha_presentacion,
+                area_tema: ruleData.area_tema,
+                numero_expediente: ruleData.numero_expediente,
+                _confidence: { ...ruleData._confidence },
+                _source: ruleData._source,
+                _fieldSource: {}, // Track which source provided each field
+            };
+
+            // Initialize field sources from rules
+            for (const k of Object.keys(merged._confidence)) {
+                merged._fieldSource[k] = 'reglas';
+            }
+
+            if (!aiData) return merged;
+
+            // AI type mapping
+            const tipoMap = {
+                ley: 'Proyecto de Ley',
+                resolucion: 'Proyecto de Resolución',
+                declaracion: 'Proyecto de Declaración',
+            };
+
+            // AI authorship mapping
+            const autoriaMap = {
+                propio_cecilia: 'propio',
+                coautoria: 'coautoria',
+                externo_con_acompanamiento: 'acompanado',
+            };
+
+            // HARD DATA: always prefer rules for these
+            // numero_expediente — rule wins if detected
+            if (ruleData.numero_expediente) {
+                merged._fieldSource.numero_expediente = 'reglas';
+            } else if (aiData.numero_expediente && aiData.numero_expediente.valor) {
+                merged.numero_expediente = aiData.numero_expediente.valor;
+                merged._confidence.numero_expediente = aiConfToLabel(aiData.numero_expediente.confianza);
+                merged._fieldSource.numero_expediente = 'ia';
+            }
+
+            // fecha_presentacion — rule wins if detected
+            if (ruleData.fecha_presentacion) {
+                merged._fieldSource.fecha_presentacion = 'reglas';
+            } else if (aiData.fecha_presentacion && aiData.fecha_presentacion.valor) {
+                // Normalize AI date (dd/mm/aaaa → yyyy-mm-dd)
+                const aiDate = normalizeAIDate(aiData.fecha_presentacion.valor);
+                if (aiDate) {
+                    merged.fecha_presentacion = aiDate;
+                    merged._confidence.fecha_presentacion = aiConfToLabel(aiData.fecha_presentacion.confianza);
+                    merged._fieldSource.fecha_presentacion = 'ia';
+                }
+            }
+
+            // estado — rule wins when we have expediente or clear ingreso data
+            if (ruleData.estado) {
+                merged._fieldSource.estado = 'reglas';
+            } else if (sourceType === 'expediente') {
+                merged.estado = 'Presentado';
+                merged._confidence.estado = 'high';
+                merged._fieldSource.estado = 'reglas';
+            } else if (aiData.estado_sugerido && aiData.estado_sugerido.valor) {
+                const estadoMap = { presentado: 'Presentado', en_trabajo: 'En elaboración', pendiente: 'Pendiente' };
+                const val = estadoMap[aiData.estado_sugerido.valor];
+                if (val) {
+                    merged.estado = val;
+                    merged._confidence.estado = aiConfToLabel(aiData.estado_sugerido.confianza);
+                    merged._fieldSource.estado = 'ia';
+                }
+            }
+
+            // SEMANTIC DATA: prefer AI if confidence is reasonable (>= 0.5)
+
+            // tipo — AI wins if confident
+            if (aiData.tipo_proyecto && aiData.tipo_proyecto.valor && aiData.tipo_proyecto.confianza >= 0.5) {
+                const mapped = tipoMap[aiData.tipo_proyecto.valor];
+                if (mapped) {
+                    merged.tipo = mapped;
+                    merged._confidence.tipo = aiConfToLabel(aiData.tipo_proyecto.confianza);
+                    merged._fieldSource.tipo = 'ia';
+                }
+            }
+
+            // titulo — AI almost always wins (that's the main value-add)
+            if (aiData.titulo_sugerido && aiData.titulo_sugerido.valor && aiData.titulo_sugerido.confianza >= 0.4) {
+                merged.titulo = aiData.titulo_sugerido.valor;
+                merged._confidence.titulo = aiConfToLabel(aiData.titulo_sugerido.confianza);
+                merged._fieldSource.titulo = 'ia';
+            }
+
+            // resumen — AI almost always wins
+            if (aiData.resumen_sugerido && aiData.resumen_sugerido.valor && aiData.resumen_sugerido.confianza >= 0.4) {
+                merged.resumen = aiData.resumen_sugerido.valor;
+                merged._confidence.resumen = aiConfToLabel(aiData.resumen_sugerido.confianza);
+                merged._fieldSource.resumen = 'ia';
+            }
+
+            // area_tema — AI wins if confident
+            if (aiData.area_tema && aiData.area_tema.valor && aiData.area_tema.confianza >= 0.5) {
+                merged.area_tema = aiData.area_tema.valor;
+                merged._confidence.area_tema = aiConfToLabel(aiData.area_tema.confianza);
+                merged._fieldSource.area_tema = 'ia';
+            }
+
+            // autoria — AI wins if confident
+            if (aiData.autoria && aiData.autoria.valor && aiData.autoria.confianza >= 0.5) {
+                const mappedAutoria = autoriaMap[aiData.autoria.valor];
+                if (mappedAutoria) {
+                    merged.tipo_autoria = mappedAutoria;
+                    merged._confidence.tipo_autoria = aiConfToLabel(aiData.autoria.confianza);
+                    merged._fieldSource.tipo_autoria = 'ia';
+                }
+            }
+
+            // autor_principal — AI wins if available
+            if (aiData.autor_principal && aiData.autor_principal.valor && aiData.autor_principal.confianza >= 0.4) {
+                merged.autor_principal = aiData.autor_principal.valor;
+                merged._confidence.autor_principal = aiConfToLabel(aiData.autor_principal.confianza);
+                merged._fieldSource.autor_principal = 'ia';
+            }
+
+            // coautores — AI wins if available
+            if (aiData.coautores && aiData.coautores.valor && aiData.coautores.valor.length > 0) {
+                merged.coautores = aiData.coautores.valor;
+                merged._fieldSource.coautores = 'ia';
+            }
+
+            // Store AI justification and fragments for preview
+            if (aiData.justificacion_breve) merged._justificacion = aiData.justificacion_breve;
+            if (aiData.fragmentos_respaldo && aiData.fragmentos_respaldo.length > 0) {
+                merged._fragmentos = aiData.fragmentos_respaldo;
+            }
+
+            return merged;
+        }
+
+        /**
+         * Convert AI confidence (0.0-1.0) to label ('high'/'medium'/'low').
+         */
+        function aiConfToLabel(conf) {
+            if (typeof conf !== 'number') return 'medium';
+            if (conf >= 0.75) return 'high';
+            if (conf >= 0.45) return 'medium';
+            return 'low';
+        }
+
+        /**
+         * Normalize AI date from dd/mm/aaaa or similar to yyyy-mm-dd.
+         */
+        function normalizeAIDate(dateStr) {
+            if (!dateStr) return null;
+            // Try dd/mm/yyyy
+            const m1 = dateStr.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
+            if (m1) {
+                const d = new Date(`${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`);
+                if (!isNaN(d.getTime()) && d.getFullYear() >= 2020 && d.getFullYear() <= 2030) {
+                    return `${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`;
+                }
+            }
+            // Try yyyy-mm-dd
+            const m2 = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+            if (m2) {
+                const d = new Date(dateStr);
+                if (!isNaN(d.getTime()) && d.getFullYear() >= 2020 && d.getFullYear() <= 2030) return dateStr;
+            }
+            return null;
         }
 
         /* =========================================
@@ -7914,39 +8177,50 @@ permalink: gestionproyectos/index.html
                 { key: 'numero_expediente', label: 'N° Expediente', formId: null }
             ];
 
-            // Source tag
+            // Source tags
             const sourceLabel = { digital: 'PDF digital', ocr: 'OCR (escaneado)', docx: 'DOCX' }[data._source] || 'Documento';
-            let html = `<div class="ac-source-tag">${escapeHtml(sourceLabel)}</div>`;
+            const hasAI = data._fieldSource && Object.values(data._fieldSource).includes('ia');
+            let html = `<div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem;">
+                <span class="ac-source-tag">${escapeHtml(sourceLabel)}</span>
+                ${hasAI ? '<span class="ac-source-tag ac-source-ai">Sugerido por IA</span>' : ''}
+            </div>`;
             let hasAny = false;
-            let fieldIdx = 0;
 
             for (const field of fields) {
                 const val = data[field.key];
                 if (!val) continue;
                 hasAny = true;
-                fieldIdx++;
 
                 const displayVal = field.format ? field.format(val) : val;
                 const confidence = data._confidence[field.key] || 'medium';
                 const confLabel = { high: 'Alta', medium: 'Media', low: 'Baja' }[confidence];
                 const confColor = { high: 'var(--badge-green-text)', medium: 'var(--badge-yellow-text)', low: 'var(--badge-red-text)' }[confidence];
 
+                // Determine source badge
+                const fieldSrc = (data._fieldSource && data._fieldSource[field.key]) || 'reglas';
+                let srcBadge = fieldSrc === 'ia'
+                    ? '<span class="ac-field-badge ac-badge-ai">IA</span>'
+                    : '<span class="ac-field-badge ac-badge-rule">doc</span>';
+
                 // Check if form field already has a value
-                let badge = '<span class="ac-field-badge ac-badge-new">nuevo</span>';
+                let statusBadge = '<span class="ac-field-badge ac-badge-new">nuevo</span>';
                 if (field.formId) {
                     const el = document.getElementById(field.formId);
                     const currentVal = el ? el.value.trim() : '';
                     const defaultVals = ['', 'Proyecto de Ley', 'Pendiente', 'Sin asignar', 'propio', '(Borrador)'];
                     if (currentVal && !defaultVals.includes(currentVal) && currentVal !== val) {
-                        badge = '<span class="ac-field-badge ac-badge-conflict">reemplaza</span>';
+                        statusBadge = '<span class="ac-field-badge ac-badge-conflict">reemplaza</span>';
                     }
                 }
 
-                html += `<div class="ac-field-row" id="ac-row-${field.key}">
+                // Default unchecked for low-confidence AI fields
+                const defaultChecked = !(fieldSrc === 'ia' && confidence === 'low');
+
+                html += `<div class="ac-field-row${!defaultChecked ? ' disabled' : ''}" id="ac-row-${field.key}">
                     <div class="ac-field-label">
-                        ${escapeHtml(field.label)} ${badge}
+                        ${escapeHtml(field.label)} ${srcBadge} ${statusBadge}
                         <span class="ac-field-toggle">
-                            <input type="checkbox" id="ac-chk-${field.key}" checked data-ac-field="${field.key}"
+                            <input type="checkbox" id="ac-chk-${field.key}" ${defaultChecked ? 'checked' : ''} data-ac-field="${field.key}"
                                 onchange="document.getElementById('ac-row-${field.key}').classList.toggle('disabled', !this.checked)">
                         </span>
                     </div>
@@ -7967,6 +8241,13 @@ permalink: gestionproyectos/index.html
                 </div>`;
             }
 
+            // Show AI justification if available
+            if (data._justificacion) {
+                html += `<div class="ac-ai-justification">
+                    <strong>Justificación IA:</strong> ${escapeHtml(data._justificacion)}
+                </div>`;
+            }
+
             if (!hasAny) {
                 html = '<div class="ac-no-detect">No se detectaron datos en el documento.</div>';
             }
@@ -7982,12 +8263,11 @@ permalink: gestionproyectos/index.html
         function applyAutoCompleteData() {
             if (!_lastAutoCompleteData) return;
             const data = _lastAutoCompleteData;
-            const defaultVals = ['', 'Proyecto de Ley', 'Pendiente', 'Sin asignar', 'propio', '(Borrador)'];
 
             // Check which fields are enabled via per-field toggles
             function isFieldEnabled(key) {
                 const chk = document.getElementById('ac-chk-' + key);
-                return !chk || chk.checked; // if checkbox doesn't exist, default to enabled
+                return !chk || chk.checked;
             }
 
             function setField(formId, value) {
