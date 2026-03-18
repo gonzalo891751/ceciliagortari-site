@@ -5528,17 +5528,9 @@ permalink: gestionproyectos/index.html
                     saveBtn.style.background = 'var(--badge-green-bg)';
                     saveBtn.style.color = 'var(--badge-green-text)';
                     setTimeout(() => { saveBtn.innerHTML = originalHTML; saveBtn.style.background = ''; saveBtn.style.color = ''; }, 2000);
-                } else if (isDraft) {
-                    // Draft saved for first time: stay in modal, show success
-                    document.getElementById('modal-title').innerText = 'Editar Proyecto';
-                    document.getElementById('btn-delete').style.display = 'block';
-                    saveBtn.disabled = false;
-                    saveBtn.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
-                    saveBtn.style.background = 'var(--badge-green-bg)';
-                    saveBtn.style.color = 'var(--badge-green-text)';
-                    setTimeout(() => { saveBtn.innerHTML = originalHTML; saveBtn.style.background = ''; saveBtn.style.color = ''; }, 2000);
                 } else {
-                    // Edición: feedback rápido y cerrar
+                    // Draft o edición: feedback rápido y cerrar
+                    // (drafts already have docs uploaded, no need to stay open)
                     saveBtn.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
                     saveBtn.style.background = 'var(--badge-green-bg)';
                     saveBtn.style.color = 'var(--badge-green-text)';
@@ -7324,34 +7316,36 @@ permalink: gestionproyectos/index.html
             }
 
             // 6. OBJETO / TÍTULO (expanded patterns)
+            let rawObjeto = null;
             const objetoPatterns = [
                 /OBJETO[:\s]+(.+?)(?:\n\s*\n|FUNDAMENTOS|Honorable\s+C[aá]mara)/is,
                 /OBJETO[:\s]+(.+?)(?:\n\s*FUNDAMENTOS)/is,
                 /OBJETO[:\s]*[:.]?\s*(.+?)(?:\n\n)/is
             ];
             for (const pat of objetoPatterns) {
-                if (result.titulo) break;
+                if (rawObjeto) break;
                 const m = cleanText.match(pat);
                 if (m) {
                     let obj = m[1].trim()
                         .replace(/\.\-$/, '').trim()
                         .replace(/\s+/g, ' ');
-                    if (obj.length > 300) obj = obj.substring(0, 300) + '...';
                     if (obj.length >= 10) {
-                        result.titulo = obj;
-                        result._confidence.titulo = isOCR ? 'medium' : 'high';
+                        rawObjeto = obj;
                     }
                 }
             }
 
-            // 7. RESUMEN
-            if (result.titulo) {
-                let resumen = result.titulo.replace(/\.{3}$/, '');
-                if (resumen.length > 200) resumen = resumen.substring(0, 200) + '...';
-                result.resumen = resumen;
-                result._confidence.resumen = 'medium';
+            // Build smart title from raw OBJETO
+            if (rawObjeto) {
+                const smartTitle = buildSmartProjectTitle(rawObjeto, result.tipo);
+                if (smartTitle) {
+                    result.titulo = smartTitle;
+                    result._confidence.titulo = isOCR ? 'medium' : 'high';
+                }
             }
-            // Try FUNDAMENTOS first substantive paragraph (skip "Honorable Cámara")
+
+            // 7. RESUMEN — extract FUNDAMENTOS first paragraph, then build smart summary
+            let rawFundamentos = null;
             const fundPatterns = [
                 /FUNDAMENTOS[:\s]*(?:\n\s*Honorable\s+C[aá]mara[:\s]*)?\n(.+?)(?:\n\s*\n)/is,
                 /FUNDAMENTOS[:\s]*\n(.+?)(?:\n\s*\n)/is
@@ -7360,15 +7354,18 @@ permalink: gestionproyectos/index.html
                 const m = cleanText.match(pat);
                 if (m) {
                     let fundFirst = m[1].trim().replace(/\s+/g, ' ');
-                    // Skip if it's just "Honorable Cámara:" or similar greeting
                     if (/^Honorable\s+C[aá]mara/i.test(fundFirst)) continue;
-                    // Skip very short matches
                     if (fundFirst.length < 30) continue;
-                    if (fundFirst.length > 400) continue;
-                    result.resumen = fundFirst.length > 200 ? fundFirst.substring(0, 200) + '...' : fundFirst;
-                    result._confidence.resumen = isOCR ? 'low' : 'medium';
+                    if (fundFirst.length > 500) fundFirst = fundFirst.substring(0, 500);
+                    rawFundamentos = fundFirst;
                     break;
                 }
+            }
+
+            const smartSummary = buildSmartSummary(rawObjeto, rawFundamentos, result.tipo, result.titulo);
+            if (smartSummary) {
+                result.resumen = smartSummary;
+                result._confidence.resumen = rawFundamentos ? (isOCR ? 'low' : 'medium') : 'medium';
             }
 
             // 8. ÁREA / TEMA (expanded keyword map with weighted scoring)
@@ -7463,6 +7460,268 @@ permalink: gestionproyectos/index.html
                 }
             }
             return names;
+        }
+
+        /* =========================================
+           AUTOCOMPLETAR: SMART TITLE & SUMMARY
+           ========================================= */
+        function buildSmartProjectTitle(rawObjeto, tipo) {
+            if (!rawObjeto) return null;
+
+            // 1. Basic cleanup
+            let t = rawObjeto
+                .replace(/\r?\n/g, ' ')
+                .replace(/\s+/g, ' ')
+                .replace(/\.\-$/g, '')
+                .replace(/\.{2,}/g, '.')
+                .replace(/[""]/g, '"')
+                .replace(/['']/g, "'")
+                .trim();
+
+            // Remove leading "Art. 1°.- " or "Artículo 1.-" preamble
+            t = t.replace(/^Art(?:[ií]culo)?\.?\s*\d+[°º]?\s*[\.\-:]+\s*/i, '');
+
+            // 2. Type-specific transformations
+            if (tipo === 'Proyecto de Declaración') {
+                t = normalizeDeclaracion(t);
+            } else if (tipo === 'Proyecto de Resolución') {
+                t = normalizeResolucion(t);
+            } else if (tipo === 'Proyecto de Ley') {
+                t = normalizeLey(t);
+            }
+
+            // 3. General cleanup pass
+            t = generalTitleCleanup(t);
+
+            // 4. Smart length control (target 50-140 chars)
+            if (t.length > 140) {
+                t = smartTruncate(t, 140);
+            }
+
+            // 5. Capitalize first letter
+            if (t.length > 0) {
+                t = t.charAt(0).toUpperCase() + t.slice(1);
+            }
+
+            return t.length >= 10 ? t : null;
+        }
+
+        function normalizeDeclaracion(text) {
+            // "Declarar de interés legislativo el/la/los..." → "Interés legislativo del/de la..."
+            let t = text;
+
+            // Pattern: "Declarar de interés [qualifier] el/la/los/las [rest]"
+            const declMatch = t.match(/^Declar(?:ar|ese|a)\s+de\s+inter[eé]s\s+(legislativo\s+|social\s+|provincial\s+|p[uú]blico\s+|cultural\s+|educativo\s+)?(?:y\s+benepl[aá]cito\s+)?(?:de\s+(?:la|esta)\s+Honorable\s+C[aá]mara\s+de\s+Diputados?\s+)?(?:de\s+la\s+Provincia\s+de\s+Corrientes\s+)?(el|la|los|las|al|a\s+la|del)\s+(.+)/is);
+            if (declMatch) {
+                const qualifier = (declMatch[1] || 'legislativo').trim();
+                const article = declMatch[2].toLowerCase();
+                const rest = declMatch[3].trim();
+
+                // Convert article for noun phrase: "el" → "del", "la" → "de la", etc.
+                let prep = article;
+                if (article === 'el') prep = 'del';
+                else if (article === 'la') prep = 'de la';
+                else if (article === 'los') prep = 'de los';
+                else if (article === 'las') prep = 'de las';
+                else if (article === 'al') prep = 'del';
+
+                t = `Interés ${qualifier} ${prep} ${rest}`;
+                return t;
+            }
+
+            // Simpler: "Declarar de interés [rest]"
+            const declSimple = t.match(/^Declar(?:ar|ese|a)\s+de\s+inter[eé]s\s+(.+)/is);
+            if (declSimple) {
+                t = `Interés ${declSimple[1]}`;
+                // Capitalize: "Interés legislativo..."
+                return t;
+            }
+
+            // "Declarar su/el beneplacito..." → "Beneplácito por..."
+            const benMatch = t.match(/^Declar(?:ar|ese|a)\s+(?:su|el)\s+benepl[aá]cito\s+(.+)/is);
+            if (benMatch) {
+                return `Beneplácito ${benMatch[1]}`;
+            }
+
+            // "Adherir a/al..." → "Adhesión a..."
+            const adhMatch = t.match(/^Adher(?:ir|irse)\s+(al?\s+.+)/is);
+            if (adhMatch) {
+                return `Adhesión ${adhMatch[1]}`;
+            }
+
+            return t;
+        }
+
+        function normalizeResolucion(text) {
+            let t = text;
+
+            const transforms = [
+                // "Disponer la colocación de..." → "Colocación de..."
+                { re: /^Disponer\s+(?:la|el|los|las)\s+(.+)/is, replacement: (m) => m[1].charAt(0).toUpperCase() + m[1].slice(1) },
+                // "Solicitar al PE/PEN..." → "Pedido de informes sobre..." or "Solicitud de..."
+                { re: /^Solicitar\s+(?:al?\s+(?:Poder\s+Ejecutivo|P\.?E\.?(?:N\.?)?)\s+)?(?:informe[s]?\s+(?:sobre|acerca|respecto)\s+)(.+)/is, replacement: (m) => `Pedido de informes sobre ${m[1]}` },
+                { re: /^Solicitar\s+(.+)/is, replacement: (m) => `Solicitud de ${m[1].charAt(0).toLowerCase() + m[1].slice(1)}` },
+                // "Requerir al PE..." → "Requerimiento al PE..."
+                { re: /^Requerir\s+(.+)/is, replacement: (m) => `Requerimiento de ${m[1].charAt(0).toLowerCase() + m[1].slice(1)}` },
+                // "Instar al PE..." → "Pedido al PE..."
+                { re: /^Instar\s+(.+)/is, replacement: (m) => `Pedido al ${m[1].replace(/^al?\s+/i, '')}` },
+                // "Dirigirse al PE..." → "Comunicación al PE..."
+                { re: /^Dirigirse\s+(.+)/is, replacement: (m) => `Comunicación ${m[1]}` },
+                // "Crear una comisión..." → "Creación de comisión..."
+                { re: /^Crear\s+(?:una?\s+)?(.+)/is, replacement: (m) => `Creación de ${m[1]}` },
+                // "Modificar la/el..." → "Modificación de..."
+                { re: /^Modificar\s+(?:la|el|los|las)\s+(.+)/is, replacement: (m) => `Modificación de ${m[1]}` },
+                // "Autorizar al/a la..." → "Autorización..."
+                { re: /^Autorizar\s+(.+)/is, replacement: (m) => `Autorización ${m[1].replace(/^al?\s+/i, 'de ')}` },
+                // "Expresar su preocupación..." → "Preocupación por..."
+                { re: /^Expresar\s+(?:su\s+)?(?:preocupaci[oó]n|malestar|rechazo)\s+(.+)/is, replacement: (m) => {
+                    const word = text.match(/preocupaci[oó]n/i) ? 'Preocupación' : (text.match(/rechazo/i) ? 'Rechazo' : 'Malestar');
+                    return `${word} ${m[1]}`;
+                }},
+            ];
+
+            for (const { re, replacement } of transforms) {
+                const match = t.match(re);
+                if (match) {
+                    t = replacement(match);
+                    break;
+                }
+            }
+
+            return t;
+        }
+
+        function normalizeLey(text) {
+            let t = text;
+
+            // Remove "Modifícase/Sustitúyese el artículo..." → "Modificación del artículo..."
+            const modMatch = t.match(/^(?:Modif[ií](?:case|car|quese)|Sustit[uú](?:yase|ir|yese))\s+(?:el|la|los|las)\s+(.+)/is);
+            if (modMatch) {
+                return `Modificación de ${modMatch[1]}`;
+            }
+
+            // "Créase/Establécese..." → "Creación de..."
+            const creaMatch = t.match(/^(?:Cr[eé](?:ase|ar)|Establ[eé](?:cese|cer))\s+(.+)/is);
+            if (creaMatch) {
+                return `Creación de ${creaMatch[1]}`;
+            }
+
+            // "Prohíbase/Prohíbese..." → "Prohibición de..."
+            const prohMatch = t.match(/^Proh[ií]b(?:ase|ese|ir)\s+(.+)/is);
+            if (prohMatch) {
+                return `Prohibición de ${prohMatch[1]}`;
+            }
+
+            // "Institúyase/Institúyese..." → "Institución de..."
+            const instMatch = t.match(/^Instit[uú](?:yase|yese|ir)\s+(.+)/is);
+            if (instMatch) {
+                return `Institución de ${instMatch[1]}`;
+            }
+
+            return t;
+        }
+
+        function generalTitleCleanup(text) {
+            let t = text;
+
+            // Remove trailing period
+            t = t.replace(/\.\s*$/, '');
+
+            // Remove "de la Provincia de Corrientes" when it's filler, unless it's essential context
+            if (t.length > 80) {
+                t = t.replace(/\s+de\s+la\s+Provincia\s+de\s+Corrientes/gi, '');
+            }
+
+            // Remove "de esta Honorable Cámara de Diputados" / "de la HCD"
+            t = t.replace(/\s+de\s+(?:esta\s+)?(?:la\s+)?Honorable\s+C[aá]mara\s+de\s+Diputados?\s*(?:de\s+la\s+Provincia\s+de\s+Corrientes)?/gi, '');
+            t = t.replace(/\s+de\s+la\s+H\.?C\.?D\.?/gi, '');
+
+            // Trim "conforme a la Ley..." or "en los términos de..." at the end
+            t = t.replace(/,?\s+conforme\s+(?:a\s+)?(?:lo|la)\s+(?:establecido|dispuesto|previsto)\s+.{0,80}$/i, '');
+            t = t.replace(/,?\s+en\s+(?:los\s+)?t[eé]rminos\s+de?\s+.{0,60}$/i, '');
+
+            // Clean double spaces
+            t = t.replace(/\s{2,}/g, ' ').trim();
+
+            return t;
+        }
+
+        function smartTruncate(text, maxLen) {
+            if (text.length <= maxLen) return text;
+
+            // Try to break at sentence boundaries first
+            const sentences = text.split(/(?<=[.;])\s+/);
+            let result = '';
+            for (const s of sentences) {
+                if ((result + (result ? ' ' : '') + s).length <= maxLen) {
+                    result += (result ? ' ' : '') + s;
+                } else {
+                    break;
+                }
+            }
+            if (result.length >= 50) return result;
+
+            // Break at last natural word boundary before maxLen
+            const cut = text.substring(0, maxLen);
+            const lastSpace = cut.lastIndexOf(' ');
+            const lastComma = cut.lastIndexOf(',');
+            const breakPoint = Math.max(lastSpace, lastComma);
+            if (breakPoint > 50) {
+                result = text.substring(0, breakPoint).replace(/[,;\s]+$/, '');
+                return result;
+            }
+
+            return cut.replace(/[,;\s]+$/, '');
+        }
+
+        function buildSmartSummary(rawObjeto, rawFundamentos, tipo, smartTitle) {
+            if (!rawObjeto && !rawFundamentos) return null;
+
+            // Determine base text for summary
+            let base = '';
+
+            // Prefer fundamentos first paragraph if available and informative
+            if (rawFundamentos && rawFundamentos.length >= 40) {
+                base = rawFundamentos.replace(/\s+/g, ' ').trim();
+            } else if (rawObjeto) {
+                base = rawObjeto.replace(/\s+/g, ' ').trim();
+            }
+
+            if (!base || base.length < 20) return null;
+
+            // Build a summary that's different from the title
+            let summary = base;
+
+            // If we're using the same text as the title, try to add context
+            if (smartTitle && summary.startsWith(smartTitle.substring(0, 30))) {
+                // Prepend project type for context
+                const prefix = tipo ? `${tipo} para ` : '';
+                summary = prefix + rawObjeto.replace(/\s+/g, ' ').trim();
+                summary = summary.charAt(0).toUpperCase() + summary.slice(1);
+            }
+
+            // Cleanup
+            summary = summary
+                .replace(/\.\-$/g, '')
+                .replace(/\.{2,}/g, '.')
+                .replace(/[""]/g, '"')
+                .replace(/['']/g, "'")
+                .replace(/\s{2,}/g, ' ')
+                .trim();
+
+            // Remove trailing period for consistency, we'll add it back
+            summary = summary.replace(/\.\s*$/, '');
+
+            // Length control: target 120-240 chars
+            if (summary.length > 240) {
+                summary = smartTruncate(summary, 237);
+                // Add period if doesn't end with punctuation
+                if (!/[.!?]$/.test(summary)) summary += '.';
+            } else {
+                if (!/[.!?]$/.test(summary)) summary += '.';
+            }
+
+            return summary.length >= 20 ? summary : null;
         }
 
         /* =========================================
