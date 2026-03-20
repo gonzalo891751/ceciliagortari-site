@@ -510,6 +510,50 @@ permalink: gestionproyectos/index.html
             border-radius: 2px; transition: width 0.3s; width: 0%;
         }
         .upload-progress-text { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .upload-progress-text.error { color: var(--badge-red-text); font-weight: 600; }
+        .upload-progress-text.success { color: #059669; font-weight: 600; }
+
+        /* Toggle: ¿Ya existe expediente definitivo? */
+        .expediente-toggle-row {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.65rem 0.85rem; margin-bottom: 1rem;
+            background: var(--bg-surface); border: 1px solid var(--border-light);
+            border-radius: var(--radius-md); font-size: 0.85rem; color: var(--text-muted);
+        }
+        .expediente-toggle-row label { cursor: pointer; user-select: none; flex: 1; }
+        .toggle-switch {
+            position: relative; width: 40px; height: 22px; flex-shrink: 0;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute; inset: 0; background: var(--border-light);
+            border-radius: 22px; cursor: pointer; transition: background 0.25s;
+        }
+        .toggle-slider::before {
+            content: ''; position: absolute; left: 3px; top: 3px;
+            width: 16px; height: 16px; background: #fff;
+            border-radius: 50%; transition: transform 0.25s;
+        }
+        .toggle-switch input:checked + .toggle-slider { background: var(--blue); }
+        .toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
+        .expediente-collapsible {
+            max-height: 0; overflow: hidden; opacity: 0;
+            transition: max-height 0.35s ease, opacity 0.25s ease, margin 0.25s ease;
+            margin-bottom: 0;
+        }
+        .expediente-collapsible.open {
+            max-height: 500px; opacity: 1; margin-bottom: 1.5rem;
+        }
+
+        /* Upload status inline message */
+        .upload-status-msg {
+            font-size: 0.82rem; padding: 0.5rem 0.75rem; border-radius: var(--radius-md);
+            margin-top: 0.5rem; display: none;
+        }
+        .upload-status-msg.visible { display: block; }
+        .upload-status-msg.info { background: rgba(23,104,197,0.08); color: var(--blue); }
+        .upload-status-msg.success { background: rgba(16,185,129,0.1); color: #059669; }
+        .upload-status-msg.error { background: rgba(239,68,68,0.08); color: var(--badge-red-text); }
 
         /* =========================================
            7e. AUTOCOMPLETAR UI
@@ -6125,27 +6169,7 @@ permalink: gestionproyectos/index.html
             const isPresentado = proj && proj.estado_preparacion === 'Presentado';
 
             container.innerHTML = `
-                <!-- Expediente definitivo (always visible for upload-first flow) -->
-                <div class="upload-section" id="split-expediente-section">
-                    <div class="upload-section-title">
-                        <i class="ph ph-seal-check" style="font-size:0.9rem;"></i>
-                        Expediente definitivo
-                    </div>
-                    <div id="split-expediente-display"><div style="text-align:center;color:var(--text-muted);padding:0.5rem;font-size:0.85rem;">Cargando...</div></div>
-                    <div id="split-expediente-upload" style="display:none;">
-                        <div class="upload-zone" onclick="document.getElementById('split-expediente-file-input').click()" aria-label="Subir expediente PDF">
-                            <input type="file" id="split-expediente-file-input" accept=".pdf" style="display:none" onchange="handleExpedienteUploadFromEdit(this)">
-                            <svg width="24" height="24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                            <div class="upload-zone-text" style="margin-top:0.5rem">Click o arrastrá <strong>PDF</strong> (expediente firmado/sellado)<br><span style="font-size:0.75rem">Máx. 50MB</span></div>
-                        </div>
-                    </div>
-                    <div class="upload-progress" id="expediente-upload-progress">
-                        <div class="upload-progress-bar"><div class="upload-progress-fill" id="expediente-progress-fill"></div></div>
-                        <div class="upload-progress-text" id="expediente-progress-text">Subiendo...</div>
-                    </div>
-                </div>
-
-                <!-- Documento Principal -->
+                <!-- 1. Documento del Proyecto (principal) -->
                 <div class="upload-section">
                     <div class="upload-section-title">
                         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
@@ -6163,9 +6187,44 @@ permalink: gestionproyectos/index.html
                         <div class="upload-progress-bar"><div class="upload-progress-fill" id="main-progress-fill"></div></div>
                         <div class="upload-progress-text" id="main-progress-text">Subiendo...</div>
                     </div>
+                    <div class="upload-status-msg" id="main-upload-status"></div>
                 </div>
 
-                <!-- Materiales y Fuentes -->
+                <!-- 2. Toggle: ¿Ya existe expediente definitivo? -->
+                <div class="expediente-toggle-row" id="expediente-toggle-row">
+                    <i class="ph ph-seal-check" style="font-size:1rem; color:var(--blue);"></i>
+                    <label for="expediente-toggle-input" id="expediente-toggle-label">¿Ya existe expediente definitivo?</label>
+                    <span style="font-size:0.8rem;font-weight:600;" id="expediente-toggle-value">No</span>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="expediente-toggle-input" onchange="toggleExpedienteSection(this.checked)">
+                        <span class="toggle-slider"></span>
+                    </div>
+                </div>
+
+                <!-- Expediente definitivo (colapsable) -->
+                <div class="expediente-collapsible" id="split-expediente-section">
+                    <div class="upload-section" style="margin-bottom:0;">
+                        <div class="upload-section-title">
+                            <i class="ph ph-seal-check" style="font-size:0.9rem;"></i>
+                            Expediente definitivo
+                        </div>
+                        <div id="split-expediente-display"><div style="text-align:center;color:var(--text-muted);padding:0.5rem;font-size:0.85rem;">Cargando...</div></div>
+                        <div id="split-expediente-upload" style="display:none;">
+                            <div class="upload-zone" onclick="document.getElementById('split-expediente-file-input').click()" aria-label="Subir expediente PDF">
+                                <input type="file" id="split-expediente-file-input" accept=".pdf" style="display:none" onchange="handleExpedienteUploadFromEdit(this)">
+                                <svg width="24" height="24" fill="none" stroke="var(--text-muted)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <div class="upload-zone-text" style="margin-top:0.5rem">Click o arrastrá <strong>PDF</strong> (expediente firmado/sellado)<br><span style="font-size:0.75rem">Máx. 50MB</span></div>
+                            </div>
+                        </div>
+                        <div class="upload-progress" id="expediente-upload-progress">
+                            <div class="upload-progress-bar"><div class="upload-progress-fill" id="expediente-progress-fill"></div></div>
+                            <div class="upload-progress-text" id="expediente-progress-text">Subiendo...</div>
+                        </div>
+                        <div class="upload-status-msg" id="expediente-upload-status"></div>
+                    </div>
+                </div>
+
+                <!-- 3. Materiales y Fuentes -->
                 <div class="upload-section">
                     <div class="upload-section-title">
                         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
@@ -6191,7 +6250,7 @@ permalink: gestionproyectos/index.html
             setTimeout(() => {
                 setupDragDrop('main-upload-zone', 'main-file-input');
                 setupDragDrop('materials-upload-zone', 'materials-file-input');
-                // Also setup for expediente zone if visible
+                // Also setup for expediente zone (works even if collapsed)
                 const expZone = document.querySelector('#split-expediente-upload .upload-zone');
                 if (expZone) setupDragDrop('split-expediente-upload', 'split-expediente-file-input');
             }, 50);
@@ -6207,12 +6266,19 @@ permalink: gestionproyectos/index.html
                 const materialsList = document.getElementById('materials-list');
                 const expDisplay = document.getElementById('split-expediente-display');
                 const expUpload = document.getElementById('split-expediente-upload');
+                const expToggle = document.getElementById('expediente-toggle-input');
+                const expSection = document.getElementById('split-expediente-section');
 
-                // Render expediente (if section visible)
+                // Render expediente
                 if (expDisplay && expUpload) {
                     if (data.expediente) {
                         expDisplay.innerHTML = renderDocItem(data.expediente, projectId, false, 'expediente');
                         expUpload.style.display = 'none';
+                        // Auto-open toggle if expediente already exists
+                        if (expToggle) expToggle.checked = true;
+                        if (expSection) expSection.classList.add('open');
+                        const valLabel = document.getElementById('expediente-toggle-value');
+                        if (valLabel) valLabel.textContent = 'Si';
                     } else {
                         expDisplay.innerHTML = '';
                         expUpload.style.display = 'block';
@@ -6235,8 +6301,23 @@ permalink: gestionproyectos/index.html
                 // Update autocomplete banner after docs loaded
                 updateAutoCompleteBanner();
             } catch (e) {
-                document.getElementById('main-doc-display').innerHTML = '<div style="color:var(--badge-red-text);padding:0.5rem;font-size:0.85rem;">Error cargando documentos.</div>';
+                console.error('[loadSplitDocs] Error cargando documentos:', e);
+                const mainEl = document.getElementById('main-doc-display');
+                if (mainEl) mainEl.innerHTML = '<div style="color:var(--badge-red-text);padding:0.5rem;font-size:0.85rem;">Error cargando documentos. Reintentá o verificá la conexión.</div>';
             }
+        }
+
+        function toggleExpedienteSection(isChecked) {
+            const section = document.getElementById('split-expediente-section');
+            const valLabel = document.getElementById('expediente-toggle-value');
+            if (section) {
+                if (isChecked) {
+                    section.classList.add('open');
+                } else {
+                    section.classList.remove('open');
+                }
+            }
+            if (valLabel) valLabel.textContent = isChecked ? 'Si' : 'No';
         }
 
         // Alias for backward compatibility with upload handlers
@@ -6539,6 +6620,43 @@ permalink: gestionproyectos/index.html
         /* =========================================
            DOCUMENT UPLOAD HANDLERS
            ========================================= */
+        const ALLOWED_MAIN_EXTS = ['.pdf', '.docx'];
+        const MAX_UPLOAD_SIZE = 50 * 1024 * 1024; // 50MB
+
+        function showUploadStatus(elementId, message, type) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            el.className = 'upload-status-msg visible ' + type;
+            el.textContent = message;
+            if (type === 'success') {
+                setTimeout(() => { el.className = 'upload-status-msg'; }, 4000);
+            }
+        }
+
+        function clearUploadStatus(elementId) {
+            const el = document.getElementById(elementId);
+            if (el) el.className = 'upload-status-msg';
+        }
+
+        function getFileExtension(name) {
+            const dot = name.lastIndexOf('.');
+            return dot > -1 ? name.substring(dot).toLowerCase() : '';
+        }
+
+        function validateMainFile(file) {
+            const ext = getFileExtension(file.name);
+            if (!ALLOWED_MAIN_EXTS.includes(ext)) {
+                return 'Formato no permitido. Solo se aceptan archivos PDF o DOCX.';
+            }
+            if (file.size > MAX_UPLOAD_SIZE) {
+                return 'El archivo excede el límite de 50MB.';
+            }
+            if (file.size === 0) {
+                return 'El archivo está vacío.';
+            }
+            return null;
+        }
+
         async function handleMainUpload(input) {
             const file = input.files[0];
             if (!file) return;
@@ -6546,65 +6664,111 @@ permalink: gestionproyectos/index.html
             const projectId = document.getElementById('f-id').value;
             if (!projectId) { alert('Guardá el proyecto primero.'); return; }
 
+            // Client-side validation
+            const validationError = validateMainFile(file);
+            if (validationError) {
+                showUploadStatus('main-upload-status', validationError, 'error');
+                input.value = '';
+                return;
+            }
+
+            clearUploadStatus('main-upload-status');
+
             const progress = document.getElementById('main-upload-progress');
             const progressFill = document.getElementById('main-progress-fill');
             const progressText = document.getElementById('main-progress-text');
 
-            progress.classList.add('active');
-            progressFill.style.width = '30%';
-            progressText.textContent = 'Subiendo...';
+            if (progress) progress.classList.add('active');
+            if (progressFill) progressFill.style.width = '15%';
+            if (progressText) { progressText.textContent = 'Subiendo archivo...'; progressText.className = 'upload-progress-text'; }
 
-            try {
-                const formData = new FormData();
-                formData.append('file', file);
+            const MAX_RETRIES = 2;
+            let lastError = null;
 
-                progressFill.style.width = '60%';
+            for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+                try {
+                    const formData = new FormData();
+                    formData.append('file', file);
 
-                const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/main`, {
-                    method: 'POST',
-                    body: formData,
-                });
+                    if (progressFill) progressFill.style.width = attempt === 0 ? '40%' : '30%';
+                    if (progressText && attempt > 0) progressText.textContent = `Reintentando (${attempt}/${MAX_RETRIES})...`;
 
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.error || 'Error al subir');
+                    console.log(`[handleMainUpload] Attempt ${attempt + 1}: uploading ${file.name} (${file.size} bytes) to project ${projectId}`);
 
-                progressFill.style.width = '100%';
-                progressText.textContent = 'Subido correctamente';
+                    const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/main`, {
+                        method: 'POST',
+                        body: formData,
+                    });
 
-                // Auto-transition: Pendiente → En trabajo when main doc is uploaded
-                const proj = projects.find(pp => pp.id === projectId);
-                if (proj && proj.estado_preparacion === 'Pendiente') {
-                    proj.estado_preparacion = 'En trabajo';
-                    proj.updated_at = new Date().toISOString();
-                    // Persist to D1
+                    if (progressFill) progressFill.style.width = '80%';
+
+                    let data;
                     try {
-                        await fetch('/api/projects', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(proj),
-                        });
-                    } catch (_) { /* best effort */ }
-                    // Update edit form if open
-                    const prepSelect = document.getElementById('f-estado-prep');
-                    if (prepSelect && prepSelect.value === 'Pendiente') {
-                        prepSelect.value = 'En trabajo';
-                        if (typeof handlePrepChange === 'function') handlePrepChange();
+                        data = await res.json();
+                    } catch (parseErr) {
+                        console.error('[handleMainUpload] Response not JSON:', parseErr);
+                        throw new Error('El servidor respondió con un formato inesperado. Intentá nuevamente.');
+                    }
+
+                    if (!res.ok) {
+                        throw new Error(data.error || `Error del servidor (${res.status})`);
+                    }
+
+                    // Success
+                    if (progressFill) progressFill.style.width = '100%';
+                    if (progressText) { progressText.textContent = 'Archivo cargado correctamente'; progressText.className = 'upload-progress-text success'; }
+                    showUploadStatus('main-upload-status', 'Archivo cargado correctamente', 'success');
+                    console.log('[handleMainUpload] Upload successful:', data);
+
+                    // Auto-transition: Pendiente → En trabajo when main doc is uploaded
+                    const proj = projects.find(pp => pp.id === projectId);
+                    if (proj && proj.estado_preparacion === 'Pendiente') {
+                        proj.estado_preparacion = 'En trabajo';
+                        proj.updated_at = new Date().toISOString();
+                        try {
+                            await fetch('/api/projects', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(proj),
+                            });
+                        } catch (_) { /* best effort */ }
+                        const prepSelect = document.getElementById('f-estado-prep');
+                        if (prepSelect && prepSelect.value === 'Pendiente') {
+                            prepSelect.value = 'En trabajo';
+                            if (typeof handlePrepChange === 'function') handlePrepChange();
+                        }
+                    }
+
+                    await loadDocumentsTab();
+                    await refreshProjectDocCounts(projectId);
+                    renderUI();
+
+                    lastError = null;
+                    break; // Exit retry loop on success
+                } catch (e) {
+                    lastError = e;
+                    console.error(`[handleMainUpload] Attempt ${attempt + 1} failed:`, e.message);
+
+                    if (attempt < MAX_RETRIES) {
+                        // Wait before retry (exponential backoff: 1s, 2s)
+                        await new Promise(r => setTimeout(r, (attempt + 1) * 1000));
                     }
                 }
+            }
 
-                // Reload docs tab
-                await loadDocumentsTab();
-                // Update project list doc counts
-                await refreshProjectDocCounts(projectId);
-                // Re-render project list to reflect state change
-                renderUI();
-            } catch (e) {
-                progressText.textContent = 'Error: ' + e.message;
-                progressFill.style.width = '0%';
+            if (lastError) {
+                const isNetworkError = lastError.message === 'Failed to fetch' || lastError.message === 'NetworkError when attempting to fetch resource.' || lastError.message === 'Load failed';
+                const userMessage = isNetworkError
+                    ? 'No se pudo conectar con el servidor. Verificá tu conexión a internet e intentá nuevamente.'
+                    : lastError.message;
+
+                if (progressText) { progressText.textContent = userMessage; progressText.className = 'upload-progress-text error'; }
+                if (progressFill) progressFill.style.width = '0%';
+                showUploadStatus('main-upload-status', userMessage, 'error');
             }
 
             input.value = '';
-            setTimeout(() => { progress.classList.remove('active'); }, 2000);
+            setTimeout(() => { if (progress) progress.classList.remove('active'); }, lastError ? 5000 : 2000);
         }
 
         async function handleMaterialsUpload(input) {
@@ -6614,44 +6778,65 @@ permalink: gestionproyectos/index.html
             const projectId = document.getElementById('f-id').value;
             if (!projectId) { alert('Guardá el proyecto primero.'); return; }
 
+            // Client-side size validation
+            const oversized = files.filter(f => f.size > MAX_UPLOAD_SIZE);
+            if (oversized.length) {
+                alert(`Los siguientes archivos exceden 50MB y no se subirán:\n${oversized.map(f => f.name).join('\n')}`);
+                const validFiles = files.filter(f => f.size <= MAX_UPLOAD_SIZE);
+                if (!validFiles.length) { input.value = ''; return; }
+            }
+
             const progress = document.getElementById('materials-upload-progress');
             const progressFill = document.getElementById('materials-progress-fill');
             const progressText = document.getElementById('materials-progress-text');
 
-            progress.classList.add('active');
-            progressFill.style.width = '20%';
-            progressText.textContent = `Subiendo ${files.length} archivo(s)...`;
+            if (progress) progress.classList.add('active');
+            if (progressFill) progressFill.style.width = '20%';
+            if (progressText) { progressText.textContent = `Subiendo ${files.length} archivo(s)...`; progressText.className = 'upload-progress-text'; }
 
             try {
                 const formData = new FormData();
                 files.forEach(f => formData.append('files', f));
 
-                progressFill.style.width = '60%';
+                if (progressFill) progressFill.style.width = '60%';
 
                 const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/materials`, {
                     method: 'POST',
                     body: formData,
                 });
 
-                const data = await res.json();
+                let data;
+                try {
+                    data = await res.json();
+                } catch (parseErr) {
+                    throw new Error('El servidor respondió con un formato inesperado.');
+                }
                 if (!res.ok) throw new Error(data.error || 'Error al subir');
 
-                progressFill.style.width = '100%';
+                if (progressFill) progressFill.style.width = '100%';
 
                 const msg = [];
-                if (data.uploaded && data.uploaded.length) msg.push(`${data.uploaded.length} subido(s)`);
+                if (data.uploaded && data.uploaded.length) msg.push(`${data.uploaded.length} subido(s) correctamente`);
                 if (data.errors && data.errors.length) msg.push(`${data.errors.length} error(es): ${data.errors.join(', ')}`);
-                progressText.textContent = msg.join(' | ') || 'Listo';
+                if (progressText) {
+                    progressText.textContent = msg.join(' | ') || 'Listo';
+                    progressText.className = 'upload-progress-text' + (data.errors && data.errors.length ? '' : ' success');
+                }
 
                 await loadDocumentsTab();
                 await refreshProjectDocCounts(projectId);
             } catch (e) {
-                progressText.textContent = 'Error: ' + e.message;
-                progressFill.style.width = '0%';
+                console.error('[handleMaterialsUpload] Error:', e);
+                const isNetworkError = e.message === 'Failed to fetch' || e.message === 'Load failed';
+                const userMsg = isNetworkError
+                    ? 'No se pudo conectar con el servidor. Verificá tu conexión.'
+                    : e.message;
+                if (progressText) { progressText.textContent = userMsg; progressText.className = 'upload-progress-text error'; }
+                if (progressFill) progressFill.style.width = '0%';
             }
 
             input.value = '';
-            setTimeout(() => { progress.classList.remove('active'); }, 3000);
+            setTimeout(() => { if (progress) progress.classList.remove('active'); }, 3000);
         }
 
         async function deleteMainDoc(projectId) {
@@ -6689,8 +6874,14 @@ permalink: gestionproyectos/index.html
             if (!input.files || !input.files[0]) return;
             const file = input.files[0];
 
+            // Client-side validation
             if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-                alert('El expediente debe ser un archivo PDF.');
+                alert('Formato no permitido. El expediente debe ser un archivo PDF.');
+                input.value = '';
+                return;
+            }
+            if (file.size > MAX_UPLOAD_SIZE) {
+                alert('El archivo excede el límite de 50MB.');
                 input.value = '';
                 return;
             }
@@ -6699,15 +6890,22 @@ permalink: gestionproyectos/index.html
             formData.append('file', file);
 
             try {
+                console.log(`[handleExpedienteUpload] Uploading ${file.name} (${file.size} bytes) to project ${projectId}`);
                 const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/expediente`, {
                     method: 'POST',
                     body: formData,
                 });
-                const data = await res.json();
+
+                let data;
+                try {
+                    data = await res.json();
+                } catch (parseErr) {
+                    throw new Error('El servidor respondió con un formato inesperado.');
+                }
 
                 if (!data.ok && res.status >= 400) {
                     if (data.code === 'MIGRATION_MISSING') {
-                        alert('La base de datos de producción todavía no soporta expedientes.\n\nHay que aplicar la migración 0008_expediente_support.sql.\n\nContactá al administrador del sistema.');
+                        alert('La base de datos no soporta expedientes todavía. Contactá al administrador del sistema.');
                     } else {
                         alert('Error al subir expediente: ' + (data.error || 'Error desconocido'));
                     }
@@ -6717,14 +6915,19 @@ permalink: gestionproyectos/index.html
 
                 // Refresh whichever view is open
                 const splitSection = document.getElementById('split-expediente-section');
-                if (splitSection && splitSection.style.display !== 'none') {
+                if (splitSection) {
                     await loadSplitDocs(projectId);
                 } else {
                     await openDocumentsModal(projectId);
                 }
                 await refreshProjectDocCounts(projectId);
             } catch (e) {
-                alert('Error de conexión al subir expediente. Intentá nuevamente.');
+                console.error('[handleExpedienteUpload] Error:', e);
+                const isNetworkError = e.message === 'Failed to fetch' || e.message === 'Load failed';
+                const userMsg = isNetworkError
+                    ? 'No se pudo conectar con el servidor. Verificá tu conexión e intentá nuevamente.'
+                    : 'Error al subir expediente: ' + e.message;
+                alert(userMsg);
             }
             input.value = '';
         }
@@ -6736,50 +6939,80 @@ permalink: gestionproyectos/index.html
             const file = input.files && input.files[0];
             if (!file) return;
 
+            // Client-side validation
             if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-                alert('El expediente debe ser un archivo PDF.');
+                showUploadStatus('expediente-upload-status', 'Formato no permitido. El expediente debe ser un archivo PDF.', 'error');
                 input.value = '';
                 return;
             }
+            if (file.size > MAX_UPLOAD_SIZE) {
+                showUploadStatus('expediente-upload-status', 'El archivo excede el límite de 50MB.', 'error');
+                input.value = '';
+                return;
+            }
+            if (file.size === 0) {
+                showUploadStatus('expediente-upload-status', 'El archivo está vacío.', 'error');
+                input.value = '';
+                return;
+            }
+
+            clearUploadStatus('expediente-upload-status');
 
             const progress = document.getElementById('expediente-upload-progress');
             const progressFill = document.getElementById('expediente-progress-fill');
             const progressText = document.getElementById('expediente-progress-text');
 
-            if (progress) { progress.classList.add('active'); progressFill.style.width = '30%'; progressText.textContent = 'Subiendo...'; }
+            if (progress) { progress.classList.add('active'); }
+            if (progressFill) progressFill.style.width = '30%';
+            if (progressText) { progressText.textContent = 'Subiendo expediente...'; progressText.className = 'upload-progress-text'; }
 
             const formData = new FormData();
             formData.append('file', file);
 
             try {
                 if (progressFill) progressFill.style.width = '60%';
+                console.log(`[handleExpedienteUpload] Uploading ${file.name} (${file.size} bytes) to project ${projectId}`);
+
                 const res = await fetch(`/api/projects/${encodeURIComponent(projectId)}/documents/expediente`, {
                     method: 'POST',
                     body: formData,
                 });
-                const data = await res.json();
+
+                let data;
+                try {
+                    data = await res.json();
+                } catch (parseErr) {
+                    throw new Error('El servidor respondió con un formato inesperado.');
+                }
 
                 if (!data.ok && res.status >= 400) {
                     if (progress) progress.classList.remove('active');
                     if (data.code === 'MIGRATION_MISSING') {
-                        alert('La base de datos de producción todavía no soporta expedientes.\n\nHay que aplicar la migración 0008_expediente_support.sql.\n\nContactá al administrador del sistema.');
+                        showUploadStatus('expediente-upload-status', 'La base de datos no soporta expedientes todavía. Contactá al administrador.', 'error');
                     } else {
-                        alert('Error al subir expediente: ' + (data.error || 'Error desconocido'));
+                        showUploadStatus('expediente-upload-status', 'Error al subir expediente: ' + (data.error || 'Error desconocido'), 'error');
                     }
                     input.value = '';
                     return;
                 }
 
                 if (progressFill) progressFill.style.width = '100%';
-                if (progressText) progressText.textContent = 'Subido correctamente';
+                if (progressText) { progressText.textContent = 'Expediente cargado correctamente'; progressText.className = 'upload-progress-text success'; }
+                showUploadStatus('expediente-upload-status', 'Expediente cargado correctamente', 'success');
 
-                // Refresh split docs view and project list
                 await loadSplitDocs(projectId);
                 await refreshProjectDocCounts(projectId);
             } catch (e) {
-                alert('Error de conexión al subir expediente. Intentá nuevamente.');
+                console.error('[handleExpedienteUpload] Error:', e);
+                const isNetworkError = e.message === 'Failed to fetch' || e.message === 'Load failed';
+                const userMsg = isNetworkError
+                    ? 'No se pudo conectar con el servidor. Verificá tu conexión e intentá nuevamente.'
+                    : e.message;
+                showUploadStatus('expediente-upload-status', userMsg, 'error');
+                if (progressText) { progressText.textContent = userMsg; progressText.className = 'upload-progress-text error'; }
+                if (progressFill) progressFill.style.width = '0%';
             }
-            if (progress) setTimeout(() => progress.classList.remove('active'), 1500);
+            if (progress) setTimeout(() => progress.classList.remove('active'), 2000);
             input.value = '';
         }
 
@@ -6790,7 +7023,7 @@ permalink: gestionproyectos/index.html
                 if (!res.ok) { const d = await res.json(); throw new Error(d.error || 'Error'); }
                 // Refresh whichever view is open
                 const splitSection = document.getElementById('split-expediente-section');
-                if (splitSection && splitSection.style.display !== 'none') {
+                if (splitSection) {
                     await loadSplitDocs(projectId);
                 } else {
                     await openDocumentsModal(projectId);
@@ -6838,29 +7071,9 @@ permalink: gestionproyectos/index.html
                 if (!res.ok) throw new Error('Error');
                 const data = await res.json();
 
-                const proj = projects.find(x => x.id === projectId);
-                const isPresentado = proj && proj.estado_preparacion === 'Presentado';
                 let html = '';
 
-                // Expediente section (only for Presentado projects)
-                if (isPresentado) {
-                    html += '<div class="upload-section"><div class="upload-section-title"><i class="ph ph-seal-check" style="font-size:0.9rem;"></i> Expediente definitivo</div>';
-                    if (data.expediente) {
-                        html += renderDocItem(data.expediente, projectId, false, 'expediente');
-                    } else {
-                        html += `<div style="color:var(--text-muted);font-size:0.85rem;padding:0.5rem 0.5rem 0.25rem;">Sin expediente cargado</div>
-                        <div style="padding:0 0.5rem 0.5rem;">
-                            <label class="btn btn-primary btn-sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:0.3rem;">
-                                <i class="ph ph-file-arrow-up"></i> Subir expediente PDF
-                                <input type="file" accept=".pdf" style="display:none;" onchange="handleExpedienteUpload(this, '${projectId}')">
-                            </label>
-                            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.35rem;">Subí el expediente firmado / sellado / con recibido de mesa de entradas</div>
-                        </div>`;
-                    }
-                    html += '</div>';
-                }
-
-                // Main doc
+                // 1. Main doc (siempre primero)
                 html += '<div class="upload-section"><div class="upload-section-title">' + SVG_ICONS.fileText + ' Documento del Proyecto</div>';
                 if (data.main) {
                     html += renderDocItem(data.main, projectId, true);
@@ -6869,7 +7082,32 @@ permalink: gestionproyectos/index.html
                 }
                 html += '</div>';
 
-                // Materials
+                // 2. Expediente definitivo (con toggle si no existe, visible si existe)
+                if (data.expediente) {
+                    html += '<div class="upload-section"><div class="upload-section-title"><i class="ph ph-seal-check" style="font-size:0.9rem;"></i> Expediente definitivo</div>';
+                    html += renderDocItem(data.expediente, projectId, false, 'expediente');
+                    html += '</div>';
+                } else {
+                    html += `<div class="upload-section">
+                        <div class="expediente-toggle-row" style="margin-bottom:0.75rem;">
+                            <i class="ph ph-seal-check" style="font-size:1rem; color:var(--blue);"></i>
+                            <label style="flex:1;cursor:pointer;font-size:0.85rem;">¿Ya existe expediente definitivo?</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="docs-modal-exp-toggle" onchange="document.getElementById('docs-modal-exp-upload').style.display = this.checked ? 'block' : 'none'">
+                                <span class="toggle-slider"></span>
+                            </div>
+                        </div>
+                        <div id="docs-modal-exp-upload" style="display:none; padding:0 0.5rem 0.5rem;">
+                            <label class="btn btn-primary btn-sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:0.3rem;">
+                                <i class="ph ph-file-arrow-up"></i> Subir expediente PDF
+                                <input type="file" accept=".pdf" style="display:none;" onchange="handleExpedienteUpload(this, '${projectId}')">
+                            </label>
+                            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.35rem;">Subí el expediente firmado / sellado / con recibido de mesa de entradas</div>
+                        </div>
+                    </div>`;
+                }
+
+                // 3. Materials
                 html += '<div class="upload-section"><div class="upload-section-title">' + SVG_ICONS.paperclip + ' Materiales y Fuentes';
                 if (data.materials && data.materials.length > 0) {
                     html += ` <span class="badge badge-pendiente">${data.materials.length}</span>`;
