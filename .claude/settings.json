@@ -42,7 +42,8 @@
       "Bash(ls -la /d/Git/ceciliagortari-site/functions/api/projects/[id]/documents/[docId]/)",
       "Bash(xargs grep:*)",
       "Bash(xargs wc:*)",
-      "Bash(node -c \"D:\\\\Git\\\\ceciliagortari-site\\\\src\\\\gestionproyectos\\\\index.html\")"
+      "Bash(node -c \"D:\\\\Git\\\\ceciliagortari-site\\\\src\\\\gestionproyectos\\\\index.html\")",
+      "Bash(npx @11ty/eleventy --dryrun)"
     ]
   }
 }

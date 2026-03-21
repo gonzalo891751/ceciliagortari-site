@@ -5,59 +5,88 @@ description: "Consultá, leé los fundamentos y descargá los documentos origina
 ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
 ---
 
-    <!-- Hero Section -->
+    <!-- Hero Section (New Gradient Design) -->
     <section class="pl-hero">
+        <div class="pl-hero__decor" aria-hidden="true">
+            <svg width="400" height="400" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#FFFFFF" d="M45.7,-76.1C58.9,-69.3,69,-55.4,77.2,-41.1C85.4,-26.8,91.8,-12.1,89.5,1.7C87.2,15.5,76.3,28.4,66.1,40.1C55.9,51.8,46.3,62.3,34.2,69.5C22.1,76.7,7.4,80.6,-6.6,80.1C-20.6,79.5,-33.9,74.5,-46.5,67.3C-59.1,60.1,-71,50.7,-78.9,38.3C-86.8,25.9,-90.7,10.5,-88.2,-3.8C-85.7,-18.1,-76.8,-31.3,-66.2,-41.9C-55.6,-52.5,-43.3,-60.5,-30.5,-67.2C-17.7,-73.9,-4.4,-79.3,10.2,-82.1C24.8,-84.9,40.9,-85.1,45.7,-76.1Z" transform="translate(100 100) scale(1.1)" />
+            </svg>
+        </div>
         <div class="container">
             <h1>Proyectos Legislativos</h1>
-            <p class="pl-subtitle">Iniciativas presentadas en la Cámara de Diputados de Corrientes.</p>
-            <p class="pl-transparency">Acá podés consultar, leer los fundamentos y descargar los documentos originales de todos los proyectos presentados durante la gestión.</p>
+            <p class="pl-hero__subtitle">Explorá las iniciativas, leyes y resoluciones impulsadas para transformar nuestra provincia. Transparencia y trabajo constante.</p>
         </div>
     </section>
 
-    <!-- Filtros -->
-    <section class="pl-filters">
-        <div class="container">
-            <div class="pl-filters-grid">
-                <div class="pl-filter-group pl-search-group">
-                    <label for="plSearchInput">Buscar Proyecto</label>
-                    <svg class="pl-filter-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                    <input type="text" id="plSearchInput" class="pl-filter-input" placeholder="Título, tema, palabra clave...">
+    <main class="container">
+
+        <!-- Authorship Tabs -->
+        <section class="pl-tabs-section">
+            <div class="pl-tabs-wrap" id="plAuthorshipTabs">
+                <button class="pl-tab pl-tab--active" data-tab="todos">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    Todos
+                </button>
+                <button class="pl-tab" data-tab="autoria">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Proyectos de autoría
+                </button>
+                <button class="pl-tab" data-tab="acompanamos">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Proyectos que acompañamos
+                </button>
+            </div>
+        </section>
+
+        <!-- Filters -->
+        <section class="pl-filters" id="filtros-section">
+            <div class="pl-filters-panel">
+                <div class="pl-filters-grid">
+                    <div class="pl-filter-group pl-search-group">
+                        <label for="plSearchInput">Buscar proyecto</label>
+                        <svg class="pl-filter-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" id="plSearchInput" class="pl-filter-input" placeholder="Título, tema, palabra clave...">
+                    </div>
+
+                    <div class="pl-filter-group">
+                        <label for="plAreaFilter">Área Temática</label>
+                        <select id="plAreaFilter" class="pl-filter-input">
+                            <option value="Todas">Todas</option>
+                            <!-- Populated dynamically from API data -->
+                        </select>
+                    </div>
+
+                    <div class="pl-filter-group">
+                        <label for="plEstadoFilter">Estado</label>
+                        <select id="plEstadoFilter" class="pl-filter-input">
+                            <option value="Todos">Todos los estados</option>
+                            <option value="Presentado">Presentado</option>
+                            <option value="Aprobado">Aprobado</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="pl-filter-group">
-                    <label for="plTipoFilter">Tipo de Proyecto</label>
-                    <select id="plTipoFilter" class="pl-filter-input">
-                        <option value="Todos">Todos</option>
-                        <option value="Proyecto de Ley">Ley</option>
-                        <option value="Proyecto de Resolución">Resolución</option>
-                        <option value="Proyecto de Declaración">Declaración</option>
-                        <option value="Pedido de informe">Pedido de Informe</option>
-                    </select>
-                </div>
-
-                <div class="pl-filter-group">
-                    <label for="plAreaFilter">Área</label>
-                    <select id="plAreaFilter" class="pl-filter-input">
-                        <option value="Todas">Todas</option>
-                        <!-- Populated dynamically from API data -->
-                    </select>
-                </div>
-
-                <div class="pl-filter-group">
-                    <label for="plEstadoFilter">Estado</label>
-                    <select id="plEstadoFilter" class="pl-filter-input">
-                        <option value="Todos">Todos</option>
-                        <option value="Aprobado">Aprobado</option>
-                    </select>
+                <!-- Type Chips -->
+                <div class="pl-tipo-chips">
+                    <span class="pl-tipo-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                        Tipo:
+                    </span>
+                    <button class="pl-tipo-chip pl-tipo-chip--active" data-tipo="Todos">Todos</button>
+                    <button class="pl-tipo-chip" data-tipo="Proyecto de Ley">Ley</button>
+                    <button class="pl-tipo-chip" data-tipo="Proyecto de Resolución">Resolución</button>
+                    <button class="pl-tipo-chip" data-tipo="Proyecto de Declaración">Declaración</button>
                 </div>
             </div>
-            <div id="plResultsCount" class="pl-results-count">Cargando proyectos...</div>
-        </div>
-    </section>
 
-    <!-- Grilla de Proyectos -->
-    <section class="pl-section">
-        <div class="container">
+            <div id="plResultsCount" class="pl-results-count">
+                <span id="plResultsText">Cargando proyectos...</span>
+                <span id="plResultsBadge" class="pl-results-badge" style="display:none;"></span>
+            </div>
+        </section>
+
+        <!-- Projects Grid -->
+        <section class="pl-section">
             <div id="plProjectsGrid" class="pl-grid">
                 <!-- Loading state -->
                 <div class="pl-loading" id="plLoadingState">
@@ -66,12 +95,12 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                 </div>
             </div>
 
-            <!-- Estado Vacío -->
+            <!-- Empty State -->
             <div id="plEmptyState" class="pl-empty-state" style="display:none;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                 <h3>No se encontraron proyectos</h3>
-                <p>No hay proyectos presentados que coincidan con tu búsqueda.</p>
-                <button class="pl-btn pl-btn-outline" onclick="plResetFilters()">Limpiar filtros</button>
+                <p>No hay proyectos que coincidan con tu búsqueda. Probá ajustando los filtros.</p>
+                <button class="pl-btn pl-btn-outline" onclick="plResetFilters()">Limpiar todos los filtros</button>
             </div>
 
             <!-- Error State -->
@@ -82,10 +111,29 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                 <button class="pl-btn pl-btn-outline" onclick="plLoadProjects()">Reintentar</button>
             </div>
 
-            <!-- Paginación -->
+            <!-- Pagination -->
             <nav id="plPagination" class="pl-pagination" aria-label="Paginación de proyectos" style="display:none;"></nav>
-        </div>
-    </section>
+        </section>
+
+        <!-- Theme Explorer Section -->
+        <section class="pl-theme-explorer" id="plThemeExplorer" style="display:none;">
+            <div class="pl-theme-panel">
+                <div class="pl-theme-panel__decor" aria-hidden="true"></div>
+                <div class="pl-theme-header">
+                    <div class="pl-theme-header__label">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        Análisis de Gestión
+                    </div>
+                    <h2>Explorar por Ejes Temáticos</h2>
+                    <p>Descubrí las áreas en las que más estamos trabajando. Seleccioná un tema para filtrar los proyectos automáticamente.</p>
+                </div>
+                <div id="plThemeGrid" class="pl-theme-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
 
     <!-- CTA Banner -->
     <section class="pl-cta-banner">
@@ -173,31 +221,35 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         var currentPage = 1;
         var pageSize = 9;
         var lastFiltered = [];
+        var activeAuthorship = 'todos'; // 'todos' | 'autoria' | 'acompanamos'
+        var selectedTipo = 'Todos';
 
         // DOM references
         const grid = document.getElementById('plProjectsGrid');
         const emptyState = document.getElementById('plEmptyState');
         const errorState = document.getElementById('plErrorState');
         const loadingState = document.getElementById('plLoadingState');
-        const resultsCount = document.getElementById('plResultsCount');
+        const resultsText = document.getElementById('plResultsText');
+        const resultsBadge = document.getElementById('plResultsBadge');
         const searchInput = document.getElementById('plSearchInput');
-        const tipoFilter = document.getElementById('plTipoFilter');
         const areaFilter = document.getElementById('plAreaFilter');
         const estadoFilter = document.getElementById('plEstadoFilter');
         const modal = document.getElementById('plModal');
         const paginationEl = document.getElementById('plPagination');
+        const themeGrid = document.getElementById('plThemeGrid');
+        const themeExplorer = document.getElementById('plThemeExplorer');
 
         // ---- Helpers ----
         function escapeHtml(str) {
             if (!str) return '';
-            const d = document.createElement('div');
+            var d = document.createElement('div');
             d.textContent = str;
             return d.innerHTML;
         }
 
         function getTipoSlug(tipo) {
             if (!tipo) return 'ley';
-            const t = tipo.toLowerCase();
+            var t = tipo.toLowerCase();
             if (t.includes('ley')) return 'ley';
             if (t.includes('resolución') || t.includes('resolucion')) return 'resolucion';
             if (t.includes('declaración') || t.includes('declaracion')) return 'declaracion';
@@ -210,10 +262,21 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
             return 'pl-badge-' + getTipoSlug(tipo);
         }
 
+        function getTipoLabel(tipo) {
+            if (!tipo) return 'Ley';
+            var t = tipo.toLowerCase();
+            if (t.includes('ley')) return 'Ley';
+            if (t.includes('resolución') || t.includes('resolucion')) return 'Resolución';
+            if (t.includes('declaración') || t.includes('declaracion')) return 'Declaración';
+            if (t.includes('informe')) return 'Pedido de Informe';
+            if (t.includes('nota')) return 'Nota';
+            return tipo;
+        }
+
         function formatDate(dateString) {
             if (!dateString) return '';
             try {
-                const date = new Date(dateString + 'T00:00:00');
+                var date = new Date(dateString + 'T00:00:00');
                 return date.toLocaleDateString('es-AR', { year: 'numeric', month: 'short', day: 'numeric' });
             } catch (e) {
                 return dateString;
@@ -234,6 +297,28 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
             });
         }
 
+        // ---- Authorship Tabs ----
+        var tabButtons = document.querySelectorAll('#plAuthorshipTabs .pl-tab');
+        tabButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                tabButtons.forEach(function(b) { b.classList.remove('pl-tab--active'); });
+                btn.classList.add('pl-tab--active');
+                activeAuthorship = btn.getAttribute('data-tab');
+                filterAndRender();
+            });
+        });
+
+        // ---- Type Chips ----
+        var tipoChips = document.querySelectorAll('.pl-tipo-chip');
+        tipoChips.forEach(function(chip) {
+            chip.addEventListener('click', function() {
+                tipoChips.forEach(function(c) { c.classList.remove('pl-tipo-chip--active'); });
+                chip.classList.add('pl-tipo-chip--active');
+                selectedTipo = chip.getAttribute('data-tipo');
+                filterAndRender();
+            });
+        });
+
         // ---- Data Loading ----
         async function loadProjects() {
             loadingState.style.display = '';
@@ -242,12 +327,15 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
             grid.style.display = '';
 
             try {
-                const res = await fetch(API_URL);
+                var res = await fetch(API_URL);
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 allProjects = await res.json();
 
                 // Populate area filter dynamically
                 populateAreaFilter();
+
+                // Populate theme explorer
+                populateThemeExplorer();
 
                 // Initial render
                 filterAndRender();
@@ -255,18 +343,18 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                 loadingState.style.display = 'none';
                 grid.style.display = 'none';
                 errorState.style.display = '';
-                resultsCount.textContent = 'Error al cargar proyectos.';
+                resultsText.textContent = 'Error al cargar proyectos.';
             }
         }
         // Expose for retry button
         window.plLoadProjects = loadProjects;
 
         function populateAreaFilter() {
-            const areasSet = new Map();
+            var areasSet = new Map();
             allProjects.forEach(function(p) {
                 if (p.area_tema && p.area_tema.trim()) {
-                    const normalized = toTitleCase(p.area_tema.trim());
-                    const key = normalized.toLowerCase();
+                    var normalized = toTitleCase(p.area_tema.trim());
+                    var key = normalized.toLowerCase();
                     if (!areasSet.has(key)) {
                         areasSet.set(key, normalized);
                     }
@@ -274,7 +362,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
             });
 
             // Sort alphabetically
-            const sorted = Array.from(areasSet.values()).sort(function(a, b) {
+            var sorted = Array.from(areasSet.values()).sort(function(a, b) {
                 return a.localeCompare(b, 'es');
             });
 
@@ -288,27 +376,82 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
             });
         }
 
+        // ---- Theme Explorer ----
+        function populateThemeExplorer() {
+            var stats = {};
+            allProjects.forEach(function(p) {
+                if (p.area_tema && p.area_tema.trim()) {
+                    var key = toTitleCase(p.area_tema.trim());
+                    stats[key] = (stats[key] || 0) + 1;
+                }
+            });
+
+            var sorted = Object.entries(stats).sort(function(a, b) { return b[1] - a[1]; });
+
+            if (sorted.length === 0) {
+                themeExplorer.style.display = 'none';
+                return;
+            }
+
+            var colorVariants = ['blue', 'magenta', 'orange', 'turquoise', 'pink'];
+
+            themeGrid.innerHTML = sorted.map(function(entry, i) {
+                var theme = entry[0];
+                var count = entry[1];
+                var colorClass = 'pl-theme-card--' + colorVariants[i % colorVariants.length];
+                return '<button class="pl-theme-card ' + colorClass + '" onclick="plFilterByTheme(\'' + escapeHtml(theme).replace(/'/g, "\\'") + '\')">' +
+                    '<span class="pl-theme-card__count">' + count + '</span>' +
+                    '<span class="pl-theme-card__name">' + escapeHtml(theme) + '</span>' +
+                '</button>';
+            }).join('');
+
+            themeExplorer.style.display = '';
+        }
+
+        function filterByTheme(themeName) {
+            // Set area filter and scroll to filters
+            areaFilter.value = themeName;
+            activeAuthorship = 'todos';
+            tabButtons.forEach(function(b) { b.classList.remove('pl-tab--active'); });
+            tabButtons[0].classList.add('pl-tab--active');
+            filterAndRender();
+            document.getElementById('filtros-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        window.plFilterByTheme = filterByTheme;
+
         // ---- Filtering & Rendering ----
         function applyFilters() {
             var q = searchInput.value.toLowerCase().trim();
-            var tipo = tipoFilter.value;
             var area = areaFilter.value;
             var estado = estadoFilter.value;
 
             return allProjects.filter(function(p) {
+                // Authorship tab filter
+                if (activeAuthorship === 'autoria') {
+                    if (p.tipo_autoria === 'acompanado') return false;
+                }
+                if (activeAuthorship === 'acompanamos') {
+                    if (p.tipo_autoria !== 'acompanado') return false;
+                }
+
+                // Search
                 var matchSearch = !q ||
                     (p.titulo && p.titulo.toLowerCase().includes(q)) ||
                     (p.resumen && p.resumen.toLowerCase().includes(q)) ||
                     (p.id && p.id.toLowerCase().includes(q)) ||
                     (p.area_tema && p.area_tema.toLowerCase().includes(q));
 
-                var matchTipo = tipo === 'Todos' || p.tipo === tipo;
+                // Tipo (chips)
+                var matchTipo = selectedTipo === 'Todos' || p.tipo === selectedTipo;
 
+                // Area
                 var matchArea = area === 'Todas' ||
                     (p.area_tema && toTitleCase(p.area_tema.trim()).toLowerCase() === area.toLowerCase());
 
+                // Estado
                 var matchEstado = estado === 'Todos' ||
-                    (estado === 'Aprobado' && p.estado_tramite === 'Aprobado');
+                    (estado === 'Aprobado' && p.estado_tramite === 'Aprobado') ||
+                    (estado === 'Presentado' && p.estado_tramite !== 'Aprobado');
 
                 return matchSearch && matchTipo && matchArea && matchEstado;
             });
@@ -336,7 +479,8 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                 grid.style.display = 'none';
                 emptyState.style.display = '';
                 paginationEl.style.display = 'none';
-                resultsCount.textContent = '0 proyectos encontrados';
+                resultsText.textContent = '0 proyectos encontrados';
+                resultsBadge.style.display = 'none';
                 return;
             }
 
@@ -351,22 +495,36 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
 
             // Results count
             if (total <= pageSize) {
-                resultsCount.textContent = 'Mostrando ' + total + ' proyecto' + (total > 1 ? 's' : '');
+                resultsText.textContent = 'Mostrando ' + total + ' proyecto' + (total > 1 ? 's' : '');
             } else {
-                resultsCount.textContent = 'Mostrando ' + (start + 1) + '–' + end + ' de ' + total + ' proyectos';
+                resultsText.textContent = 'Mostrando ' + (start + 1) + '–' + end + ' de ' + total + ' proyectos';
             }
+            resultsBadge.textContent = total + ' resultado' + (total > 1 ? 's' : '');
+            resultsBadge.style.display = '';
 
             // Render cards
             pageProjects.forEach(function(p) {
                 var tipoSlug = getTipoSlug(p.tipo);
+                var tipoLabel = getTipoLabel(p.tipo);
+                var isAprobado = p.estado_tramite === 'Aprobado';
 
-                var badgesHtml =
-                    '<span class="pl-badge ' + getTipoBadgeClass(p.tipo) + '">' + escapeHtml(p.tipo) + '</span>' +
-                    '<span class="pl-badge pl-badge-presentado">Presentado</span>';
-                if (p.estado_tramite === 'Aprobado') {
-                    badgesHtml += '<span class="pl-badge pl-badge-aprobado">Aprobado</span>';
+                // Authorship badge
+                var autoriaBadgeHtml = '';
+                if (p.tipo_autoria === 'coautoria') {
+                    autoriaBadgeHtml = '<span class="pl-badge pl-badge-coautoria">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
+                        ' Coautoría</span>';
+                } else if (p.tipo_autoria === 'acompanado') {
+                    autoriaBadgeHtml = '<span class="pl-badge pl-badge-acompana">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
+                        ' Acompaña</span>';
+                } else {
+                    autoriaBadgeHtml = '<span class="pl-badge pl-badge-autoria">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+                        ' Autoría Propia</span>';
                 }
 
+                // Expediente button
                 var hasDoc = p.has_main_doc || p.has_expediente;
                 var btnExpediente = '';
                 if (hasDoc) {
@@ -376,43 +534,44 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                         'Ver expediente</button>';
                 }
 
-                // Authorship line
-                var autoriaLine = '';
-                if (p.tipo_autoria === 'acompanado' && p.autor_principal) {
-                    autoriaLine = '<div class="pl-meta-item pl-autoria-line">' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
-                        'Autor: ' + escapeHtml(p.autor_principal) + ' · <em>Acompañado por Cecilia Gortari</em></div>';
-                } else if (p.tipo_autoria === 'coautoria' && p.autor_principal) {
-                    autoriaLine = '<div class="pl-meta-item pl-autoria-line">' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
-                        'Coautoría: ' + escapeHtml(p.autor_principal) + ' y Cecilia Gortari</div>';
-                }
-
                 var card = document.createElement('article');
                 card.className = 'pl-card';
                 card.setAttribute('data-tipo', tipoSlug);
+
                 card.innerHTML =
-                    '<div class="pl-card-badges">' + badgesHtml + '</div>' +
+                    '<div class="pl-card-top">' +
+                        '<span class="pl-badge ' + getTipoBadgeClass(p.tipo) + '">' + escapeHtml(tipoLabel) + '</span>' +
+                        '<div class="pl-card-status pl-card-status--' + (isAprobado ? 'aprobado' : 'presentado') + '">' +
+                            '<span class="pl-status-dot pl-status-dot--' + (isAprobado ? 'aprobado' : 'presentado') + '"></span>' +
+                            (isAprobado ? 'Aprobado' : 'Presentado') +
+                        '</div>' +
+                    '</div>' +
                     '<h3 class="pl-card-title" title="' + escapeHtml(p.titulo) + '">' + escapeHtml(p.titulo) + '</h3>' +
                     '<p class="pl-card-summary">' + escapeHtml(p.resumen) + '</p>' +
-                    '<div class="pl-card-meta">' +
-                        '<div class="pl-meta-item">' +
-                            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>' +
-                            'Área: ' + escapeHtml(p.area_tema || 'Sin definir') +
-                        '</div>' +
-                        '<div class="pl-meta-item">' +
-                            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
-                            'Presentado: ' + formatDate(p.fecha_presentacion) +
-                        '</div>' +
-                        autoriaLine +
-                        '<div class="pl-meta-item" style="margin-top:4px;">' +
-                            '<strong style="color:#2C2C31">ID: ' + escapeHtml(p.id) + '</strong>' +
+                    '<div class="pl-card-bottom">' +
+                        '<div>' + autoriaBadgeHtml + '</div>' +
+                        '<div class="pl-card-meta-row">' +
+                            '<span class="pl-meta-tag">' +
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>' +
+                                escapeHtml(p.area_tema || 'Sin definir') +
+                            '</span>' +
+                            '<span class="pl-meta-date">' +
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
+                                formatDate(p.fecha_presentacion) +
+                            '</span>' +
                         '</div>' +
                     '</div>' +
                     '<div class="pl-card-actions">' +
-                        '<button class="pl-btn pl-btn-primary" onclick="plOpenModal(\'' + escapeHtml(p.id) + '\')">Ver detalle completo</button>' +
+                        '<button class="pl-btn pl-btn-primary" onclick="event.stopPropagation(); plOpenModal(\'' + escapeHtml(p.id) + '\')">Ver detalle completo</button>' +
                         btnExpediente +
                     '</div>';
+
+                // Make the entire card clickable to open modal
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('button, a')) {
+                        openModal(p.id);
+                    }
+                });
 
                 grid.appendChild(card);
             });
@@ -484,16 +643,22 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
 
         function resetFilters() {
             searchInput.value = '';
-            tipoFilter.value = 'Todos';
             areaFilter.value = 'Todas';
             estadoFilter.value = 'Todos';
+            selectedTipo = 'Todos';
+            activeAuthorship = 'todos';
+            // Reset chips UI
+            tipoChips.forEach(function(c) { c.classList.remove('pl-tipo-chip--active'); });
+            tipoChips[0].classList.add('pl-tipo-chip--active');
+            // Reset tabs UI
+            tabButtons.forEach(function(b) { b.classList.remove('pl-tab--active'); });
+            tabButtons[0].classList.add('pl-tab--active');
             filterAndRender();
         }
         window.plResetFilters = resetFilters;
 
         // Filter listeners — always reset to page 1
         searchInput.addEventListener('input', function() { filterAndRender(); });
-        tipoFilter.addEventListener('change', function() { filterAndRender(); });
         areaFilter.addEventListener('change', function() { filterAndRender(); });
         estadoFilter.addEventListener('change', function() { filterAndRender(); });
 
