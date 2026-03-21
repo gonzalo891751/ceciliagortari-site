@@ -1,180 +1,542 @@
 ---
 layout: layouts/base.njk
 title: "Contacto | Cecilia Gortari"
-description: "Contactá a Cecilia Gortari. Formularios para consultas, propuestas de proyectos e invitaciones."
-ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
+description: "Contacta a Cecilia Gortari. Formularios para consultas generales, prensa y propuestas de proyectos."
+ogImage: "https://ceciliagortari.com.ar/assets/img/cecilia-contacto.jpg"
 ---
 
-    <header class="pt-32 pb-16 bg-gradient text-white">
-        <div class="container text-center">
-            <h1 class="fade-in">Contacto</h1>
-            <p class="text-xl opacity-90 max-w-2xl mx-auto mt-4 fade-in">Tu opinión es fundamental. Escribime, te leo.
+<!-- Phosphor Icons (solo para esta pagina) -->
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+<style>
+    /* Contacto: gradientes y decorativos */
+    .bg-gradient-brand-contact {
+        background: linear-gradient(135deg, #1C5CFF 0%, #9F57A7 100%);
+    }
+    .bg-gradient-subtle-contact {
+        background: linear-gradient(180deg, #FFFFFF 0%, #F8F9FA 100%);
+    }
+    .blob-magenta {
+        position: absolute; width: 400px; height: 400px;
+        background: #9F57A7;
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        filter: blur(80px); opacity: 0.15; z-index: 0;
+        top: -100px; right: -100px;
+    }
+    .blob-blue {
+        position: absolute; width: 300px; height: 300px;
+        background: #24BCDE; border-radius: 50%;
+        filter: blur(70px); opacity: 0.15; z-index: 0;
+        bottom: -50px; left: -100px;
+    }
+
+    /* Formularios */
+    .contacto-form-input {
+        width: 100%; padding: 0.875rem 1rem;
+        border-radius: 0.75rem;
+        border: 1px solid #E5E7EB;
+        background-color: #FFFFFF;
+        transition: all 0.3s ease;
+        outline: none;
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.95rem;
+        color: #2C2C31;
+    }
+    .contacto-form-input:focus {
+        border-color: #1C5CFF;
+        box-shadow: 0 0 0 4px rgba(28, 92, 255, 0.1);
+    }
+    .contacto-form-label {
+        display: block; font-size: 0.875rem;
+        font-weight: 500; color: #11103B;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Tabs */
+    .contacto-tab-btn { transition: all 0.3s ease; }
+    .contacto-tab-btn.active {
+        background-color: #11103B;
+        color: #FFFFFF;
+        border-color: #11103B;
+    }
+
+    /* Form panels */
+    .contacto-form-panel {
+        display: none; opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    .contacto-form-panel.active {
+        display: block; opacity: 1;
+    }
+
+    /* Honeypot */
+    .contacto-hp-field {
+        position: absolute; left: -9999px; top: -9999px;
+        opacity: 0; height: 0; width: 0; overflow: hidden;
+        pointer-events: none;
+    }
+
+    /* Spinner */
+    .contacto-spinner {
+        display: inline-block; width: 20px; height: 20px;
+        border: 2.5px solid rgba(255,255,255,0.3);
+        border-top-color: #fff; border-radius: 50%;
+        animation: contacto-spin 0.6s linear infinite;
+    }
+    @keyframes contacto-spin { to { transform: rotate(360deg); } }
+
+    /* Toast */
+    .contacto-toast {
+        position: fixed; bottom: 2rem; right: 2rem; z-index: 100;
+        padding: 1rem 1.5rem; border-radius: 1rem;
+        box-shadow: 0 20px 60px -10px rgba(0,0,0,0.2);
+        transform: translateY(120%); opacity: 0;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        max-width: 400px;
+    }
+    .contacto-toast.show { transform: translateY(0); opacity: 1; }
+    .contacto-toast-success { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
+    .contacto-toast-error { background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; }
+
+    /* Disabled submit */
+    .contacto-section button[type="submit"]:disabled {
+        opacity: 0.7; cursor: not-allowed;
+    }
+</style>
+
+<!-- 1) HERO PRINCIPAL -->
+<header class="relative pt-20 pb-32 lg:pt-28 lg:pb-40 bg-gradient-subtle-contact overflow-hidden">
+    <div class="blob-magenta"></div>
+    <div class="blob-blue"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-pink/20 text-brand-magenta font-semibold text-sm mb-6">
+                <i class="ph ph-chat-circle-dots text-lg"></i>
+                Canales Abiertos
+            </div>
+            <h1 class="text-5xl lg:text-6xl font-extrabold text-brand-darkblue leading-tight mb-6">
+                Estamos para <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-turquoise">escucharte</span>.
+            </h1>
+            <p class="text-lg lg:text-xl text-brand-darkgray mb-10 max-w-2xl leading-relaxed">
+                Creemos en la cercania y en el dialogo constante. Elegi el canal que mejor se adapte a tu consulta, o veni a visitarnos a nuestros espacios en Corrientes y Goya.
             </p>
         </div>
-    </header>
 
-    <!-- INFO DE CONTACTO -->
-    <section class="py-12 bg-white">
-        <div class="container">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                <div class="card hover-lift fade-in">
-                    <div class="text-3xl mb-3">📧</div>
-                    <h4 class="font-bold">Email</h4>
-                    <p class="text-gray-500">contacto@ceciliagortari.com.ar</p>
+        <!-- Quick Info Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+            <!-- Sede Corrientes -->
+            <div class="bg-white p-6 rounded-2xl shadow-soft hover:shadow-hover transition-all duration-300 border border-gray-50 flex flex-col h-full">
+                <div class="w-12 h-12 rounded-xl bg-brand-blue/10 flex items-center justify-center text-brand-blue mb-4">
+                    <i class="ph ph-map-pin text-2xl"></i>
                 </div>
-                <div class="card hover-lift fade-in">
-                    <div class="text-3xl mb-3">📍</div>
-                    <h4 class="font-bold">Despacho</h4>
-                    <p class="text-gray-500">Cámara de Diputados, Corrientes</p>
+                <h3 class="font-bold text-brand-darkblue text-lg mb-2">Despacho Corrientes</h3>
+                <p class="text-sm text-brand-darkgray mb-4 flex-grow">Anexo Camara de Diputados<br>Salta 545, Corrientes Capital.</p>
+            </div>
+
+            <!-- Sede Goya -->
+            <div class="bg-white p-6 rounded-2xl shadow-soft hover:shadow-hover transition-all duration-300 border border-gray-50 flex flex-col h-full">
+                <div class="w-12 h-12 rounded-xl bg-brand-orange/10 flex items-center justify-center text-brand-orange mb-4">
+                    <i class="ph ph-buildings text-2xl"></i>
                 </div>
-                <div class="card hover-lift fade-in">
-                    <div class="text-3xl mb-3">🗨️</div>
-                    <h4 class="font-bold">WhatsApp</h4>
-                    <a href="https://wa.me/5493794000000" class="text-brand-magenta font-bold">+54 9 379 400-0000</a>
+                <h3 class="font-bold text-brand-darkblue text-lg mb-2">Espacio Goya</h3>
+                <p class="text-sm text-brand-darkgray mb-4 flex-grow">Escuela de Emprendedores<br>Angel Soto y Tucuman, Goya.</p>
+                <a href="tel:3777737188" class="text-sm font-semibold text-brand-orange hover:underline inline-flex items-center gap-1">
+                    <i class="ph ph-phone"></i> 3777-737188
+                </a>
+            </div>
+
+            <!-- Correo Oficial -->
+            <div class="bg-white p-6 rounded-2xl shadow-soft hover:shadow-hover transition-all duration-300 border border-gray-50 flex flex-col h-full">
+                <div class="w-12 h-12 rounded-xl bg-brand-magenta/10 flex items-center justify-center text-brand-magenta mb-4">
+                    <i class="ph ph-envelope-simple text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-brand-darkblue text-lg mb-2">Correo Oficial</h3>
+                <p class="text-sm text-brand-darkgray mb-4 flex-grow">Para consultas generales y documentacion institucional.</p>
+                <span class="text-sm font-semibold text-brand-magenta inline-flex items-center gap-1">
+                    contacto@ceciliagortari.com.ar
+                </span>
+            </div>
+
+            <!-- Prensa y Medios -->
+            <div class="bg-white p-6 rounded-2xl shadow-soft hover:shadow-hover transition-all duration-300 border border-gray-50 flex flex-col h-full">
+                <div class="w-12 h-12 rounded-xl bg-brand-turquoise/10 flex items-center justify-center text-brand-turquoise mb-4">
+                    <i class="ph ph-megaphone text-2xl"></i>
+                </div>
+                <h3 class="font-bold text-brand-darkblue text-lg mb-2">Prensa y Medios</h3>
+                <p class="text-sm text-brand-darkgray mb-4 flex-grow">Exclusivo para entrevistas, notas y cobertura de actividades.</p>
+                <div class="flex flex-col gap-1 mt-auto">
+                    <a href="tel:3777234104" class="text-sm font-semibold text-brand-turquoise hover:underline inline-flex items-center gap-1">
+                        <i class="ph ph-phone"></i> 3777-234104
+                    </a>
+                    <span class="text-sm font-semibold text-brand-turquoise inline-flex items-center gap-1">
+                        prensa@ceciliagortari.com.ar
+                    </span>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</header>
 
-    <!-- FORM 1: CONTACTO GENERAL -->
-    <section class="section bg-brand-light" id="contacto-general">
-        <div class="container">
-            <div class="max-w-2xl mx-auto">
-                <h2 class="text-center text-brand-dark mb-8 fade-in">Contacto General</h2>
-                <div class="card fade-in">
-                    <form name="contacto-general" method="POST" data-netlify="true" netlify-honeypot="bot-field"
-                        action="/gracias/">
-                        <input type="hidden" name="form-name" value="contacto-general">
-                        <p class="hp-field"><input name="bot-field"></p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="form-group">
-                                <label class="form-label">Nombre *</label>
-                                <input type="text" name="nombre" class="form-input" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Apellido *</label>
-                                <input type="text" name="apellido" class="form-input" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Email *</label>
-                            <input type="email" name="email" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Asunto</label>
-                            <select name="asunto" class="form-input">
-                                <option>Consulta general</option>
-                                <option>Quiero ser voluntario</option>
-                                <option>Escuela de Emprendedores</option>
-                                <option>Otro</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Mensaje *</label>
-                            <textarea name="mensaje" class="form-textarea" rows="4" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn--primary w-full">Enviar Mensaje</button>
-                    </form>
+
+<!-- 2) SECCION DE FORMULARIOS INTERACTIVOS -->
+<section class="contacto-section py-24 bg-white relative">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-brand-darkblue mb-4">Envia tu mensaje directamente</h2>
+            <p class="text-brand-darkgray">Selecciona el motivo de tu contacto para derivar tu mensaje al equipo correcto.</p>
+        </div>
+
+        <!-- Tabs de navegacion -->
+        <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-12 bg-gray-50 p-2 rounded-2xl w-fit mx-auto border border-gray-100">
+            <button onclick="contactoSwitchTab('general')" id="contacto-tab-general" class="contacto-tab-btn active px-6 py-3 rounded-xl font-semibold text-sm flex items-center gap-2 border border-transparent hover:bg-gray-200 text-brand-darkgray">
+                <i class="ph ph-user"></i> Contacto General
+            </button>
+            <button onclick="contactoSwitchTab('prensa')" id="contacto-tab-prensa" class="contacto-tab-btn px-6 py-3 rounded-xl font-semibold text-sm flex items-center gap-2 border border-transparent hover:bg-gray-200 text-brand-darkgray">
+                <i class="ph ph-microphone-stage"></i> Area de Prensa
+            </button>
+            <button onclick="contactoSwitchTab('proyecto')" id="contacto-tab-proyecto" class="contacto-tab-btn px-6 py-3 rounded-xl font-semibold text-sm flex items-center gap-2 border border-transparent hover:bg-gray-200 text-brand-darkgray">
+                <i class="ph ph-lightbulb"></i> Proponer Proyecto
+            </button>
+        </div>
+
+        <!-- Contenedor de Formularios -->
+        <div class="bg-white rounded-3xl shadow-soft border border-gray-100 p-8 md:p-12 relative overflow-hidden">
+            <!-- Detalle decorativo superior -->
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-brand-contact"></div>
+
+            <!-- FORMULARIO A: GENERAL -->
+            <form id="contacto-form-general" class="contacto-form-panel active" onsubmit="contactoHandleSubmit(event, 'general')">
+                <div class="contacto-hp-field" aria-hidden="true">
+                    <label>No completar este campo</label>
+                    <input type="text" name="_hp_website" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-brand-darkblue">Consultas e Inquietudes</h3>
+                    <p class="text-sm text-brand-darkgray mt-1">Tu mensaje sera recibido por el equipo de coordinacion.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="contacto-form-label" for="gen-nombre">Nombre y Apellido <span class="text-red-400">*</span></label>
+                        <input type="text" id="gen-nombre" name="nombre" required class="contacto-form-input" placeholder="Ej: Juana Perez" maxlength="200">
+                    </div>
+                    <div>
+                        <label class="contacto-form-label" for="gen-contacto">Telefono o Correo electronico <span class="text-red-400">*</span></label>
+                        <input type="text" id="gen-contacto" name="contacto" required class="contacto-form-input" placeholder="Para que podamos responderte" maxlength="200">
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="contacto-form-label" for="gen-asunto">Asunto <span class="text-red-400">*</span></label>
+                    <input type="text" id="gen-asunto" name="asunto" required class="contacto-form-input" placeholder="Breve resumen de tu consulta" maxlength="300">
+                </div>
+                <div class="mb-8">
+                    <label class="contacto-form-label" for="gen-mensaje">Tu Mensaje <span class="text-red-400">*</span></label>
+                    <textarea id="gen-mensaje" name="mensaje" required rows="5" class="contacto-form-input resize-none" placeholder="Escribi aca todos los detalles..." maxlength="5000"></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-brand-blue hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
+                        <span class="btn-text">Enviar Mensaje</span>
+                        <span class="btn-spinner hidden"><span class="contacto-spinner"></span></span>
+                        <i class="ph ph-paper-plane-tilt btn-icon"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- FORMULARIO B: PRENSA -->
+            <form id="contacto-form-prensa" class="contacto-form-panel" onsubmit="contactoHandleSubmit(event, 'prensa')">
+                <div class="contacto-hp-field" aria-hidden="true">
+                    <label>No completar este campo</label>
+                    <input type="text" name="_hp_website" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="mb-8 flex items-start justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold text-brand-turquoise">Contacto de Prensa</h3>
+                        <p class="text-sm text-brand-darkgray mt-1">Exclusivo para medios, periodistas y solicitudes de notas.</p>
+                    </div>
+                    <div class="hidden sm:flex w-12 h-12 bg-brand-turquoise/10 rounded-full items-center justify-center text-brand-turquoise">
+                        <i class="ph ph-microphone-stage text-2xl"></i>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="contacto-form-label" for="pren-nombre">Nombre del Periodista / Productor <span class="text-red-400">*</span></label>
+                        <input type="text" id="pren-nombre" name="nombre" required class="contacto-form-input" placeholder="Tu nombre" maxlength="200">
+                    </div>
+                    <div>
+                        <label class="contacto-form-label" for="pren-medio">Medio u Organizacion <span class="text-red-400">*</span></label>
+                        <input type="text" id="pren-medio" name="medio" required class="contacto-form-input" placeholder="Ej: Radio Sudamericana" maxlength="300">
+                    </div>
+                    <div>
+                        <label class="contacto-form-label" for="pren-tel">Telefono de contacto <span class="text-red-400">*</span></label>
+                        <input type="tel" id="pren-tel" name="telefono" required class="contacto-form-input" placeholder="Codigo de area + numero" maxlength="50">
+                    </div>
+                    <div>
+                        <label class="contacto-form-label" for="pren-fecha">Fecha Estimada / Urgencia</label>
+                        <select id="pren-fecha" name="fecha" class="contacto-form-input">
+                            <option>Para esta semana</option>
+                            <option>Urgente (Hoy/Manana)</option>
+                            <option>Para la proxima semana</option>
+                            <option>Sin fecha definida</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-8">
+                    <label class="contacto-form-label" for="pren-mensaje">Motivo o Tematica de la Nota <span class="text-red-400">*</span></label>
+                    <textarea id="pren-mensaje" name="mensaje" required rows="4" class="contacto-form-input resize-none" placeholder="Detalla sobre que tema te gustaria conversar con Cecilia..." maxlength="5000"></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-brand-turquoise hover:bg-teal-500 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
+                        <span class="btn-text">Solicitar Contacto</span>
+                        <span class="btn-spinner hidden"><span class="contacto-spinner"></span></span>
+                        <i class="ph ph-paper-plane-tilt btn-icon"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- FORMULARIO C: PROYECTOS -->
+            <form id="contacto-form-proyecto" class="contacto-form-panel" onsubmit="contactoHandleSubmit(event, 'proyecto')">
+                <div class="contacto-hp-field" aria-hidden="true">
+                    <label>No completar este campo</label>
+                    <input type="text" name="_hp_website" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="mb-8 p-6 bg-brand-magenta/5 border border-brand-magenta/20 rounded-2xl">
+                    <h3 class="text-2xl font-bold text-brand-magenta mb-2">Tenes una idea para mejorar nuestra provincia?</h3>
+                    <p class="text-brand-darkgray text-sm leading-relaxed">
+                        Contanos sobre esa problematica concreta en tu localidad o tu sector (docentes, emprendedores, jovenes, vecinos). <strong>Tu propuesta tambien puede transformarse en accion.</strong>
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="contacto-form-label" for="proy-nombre">Tu Nombre <span class="text-red-400">*</span></label>
+                        <input type="text" id="proy-nombre" name="nombre" required class="contacto-form-input" maxlength="200">
+                    </div>
+                    <div>
+                        <label class="contacto-form-label" for="proy-contacto">Telefono o Correo <span class="text-red-400">*</span></label>
+                        <input type="text" id="proy-contacto" name="contacto" required class="contacto-form-input" maxlength="200">
+                    </div>
+                    <div>
+                        <label class="contacto-form-label" for="proy-ciudad">Localidad / Ciudad <span class="text-red-400">*</span></label>
+                        <input type="text" id="proy-ciudad" name="localidad" required class="contacto-form-input" placeholder="Ej: Goya, Capital, Bella Vista..." maxlength="200">
+                    </div>
+                    <div>
+                        <label class="contacto-form-label" for="proy-sector">Area o Sector afectado</label>
+                        <select id="proy-sector" name="sector" class="contacto-form-input">
+                            <option>Educacion / Docentes</option>
+                            <option>Salud</option>
+                            <option>Emprendedores / Produccion</option>
+                            <option>Juventud</option>
+                            <option>Infraestructura / Vecinal</option>
+                            <option>Otro</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="contacto-form-label" for="proy-titulo">Titulo de tu idea o problema <span class="text-red-400">*</span></label>
+                    <input type="text" id="proy-titulo" name="titulo" required class="contacto-form-input" placeholder="Resumi la propuesta en una frase" maxlength="300">
+                </div>
+                <div class="mb-6">
+                    <label class="contacto-form-label" for="proy-mensaje">Descripcion amplia <span class="text-red-400">*</span></label>
+                    <textarea id="proy-mensaje" name="descripcion" required rows="5" class="contacto-form-input resize-none" placeholder="Contanos que pasa, a quienes afecta y como crees que podria solucionarse..." maxlength="5000"></textarea>
+                </div>
+                <div class="mb-8 flex items-center gap-3 p-4 border border-gray-200 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer" onclick="document.getElementById('proy-reunion').click()">
+                    <input type="checkbox" id="proy-reunion" name="reunion" class="w-5 h-5 text-brand-magenta border-gray-300 rounded focus:ring-brand-magenta cursor-pointer">
+                    <label for="proy-reunion" class="text-sm font-semibold text-brand-darkblue cursor-pointer">Me gustaria solicitar una reunion o cita presencial con Cecilia o su equipo para explicarlo mejor.</label>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-gradient-to-r from-brand-magenta to-[#7A3E82] hover:opacity-90 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
+                        <span class="btn-text">Enviar Propuesta</span>
+                        <span class="btn-spinner hidden"><span class="contacto-spinner"></span></span>
+                        <i class="ph ph-sparkle btn-icon"></i>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<!-- 3) BLOQUE FINAL (Estetica Collage / Institucional) -->
+<section class="bg-brand-darkblue overflow-hidden relative border-t-8 border-brand-orange py-20 lg:py-0">
+    <!-- Textura de fondo -->
+    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#FFFFFF 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
+
+            <!-- Area Visual: Foto de Cecilia -->
+            <div class="w-full lg:w-1/2 relative flex justify-center lg:justify-end mt-10 lg:mt-0 pt-10">
+                <!-- Figura vibrante de fondo -->
+                <div class="absolute bottom-0 w-[300px] h-[300px] bg-brand-magenta rounded-t-full transform -translate-x-10"></div>
+                <!-- Silueta Decorativa -->
+                <i class="ph ph-plant absolute top-10 right-10 text-white/20 text-8xl"></i>
+
+                <!-- Foto real de Cecilia Gortari -->
+                <div class="relative z-10 w-[280px] h-[350px] rounded-t-full overflow-hidden border-4 border-white/30 shadow-2xl">
+                    <img
+                        src="/assets/img/cecilia-contacto.jpg"
+                        alt="Cecilia Gortari"
+                        class="w-full h-full object-cover object-top"
+                        style="object-position: center 15%;"
+                        loading="lazy"
+                    >
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- FORM 2: PROPONER PROYECTO -->
-    <section class="section bg-white" id="proponer">
-        <div class="container">
-            <div class="max-w-2xl mx-auto">
-                <h2 class="text-center text-brand-blue mb-8 fade-in">Proponer un Proyecto</h2>
-                <p class="text-center text-gray-600 mb-8 fade-in">¿Tenés una idea que puede mejorar la provincia?
-                    Contanos.</p>
-                <div class="card fade-in">
-                    <form name="proponer-proyecto" method="POST" data-netlify="true" netlify-honeypot="bot-field"
-                        action="/gracias/">
-                        <input type="hidden" name="form-name" value="proponer-proyecto">
-                        <p class="hp-field"><input name="bot-field"></p>
-                        <div class="form-group">
-                            <label class="form-label">Nombre completo *</label>
-                            <input type="text" name="nombre" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Email *</label>
-                            <input type="email" name="email" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Localidad</label>
-                            <input type="text" name="localidad" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Área temática</label>
-                            <select name="area" class="form-input">
-                                <option>Producción / Economía</option>
-                                <option>Educación</option>
-                                <option>Infraestructura</option>
-                                <option>Salud</option>
-                                <option>Cultura</option>
-                                <option>Otro</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Descripción del proyecto *</label>
-                            <textarea name="descripcion" class="form-textarea" rows="5" required
-                                placeholder="Contanos tu idea..."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn--primary w-full">Enviar Propuesta</button>
-                    </form>
-                </div>
+            <!-- Mensaje Politico/Territorial -->
+            <div class="w-full lg:w-1/2 text-center lg:text-left relative z-10 lg:py-24">
+                <i class="ph ph-quotes text-5xl text-brand-orange mb-6 block opacity-50"></i>
+                <h2 class="text-3xl lg:text-4xl font-bold text-white leading-snug mb-6">
+                    Cada mensaje, propuesta o inquietud que recibimos es una oportunidad para <span class="text-brand-orange">construir respuestas concretas</span>.
+                </h2>
+                <p class="text-brand-pink text-lg">Legislatura de la Provincia de Corrientes.</p>
             </div>
-        </div>
-    </section>
 
-    <!-- FORM 3: INVITAR A LOCALIDAD -->
-    <section class="section bg-gray-50" id="invitar">
-        <div class="container">
-            <div class="max-w-2xl mx-auto">
-                <h2 class="text-center text-brand-magenta mb-8 fade-in">Invitame a tu Localidad</h2>
-                <p class="text-center text-gray-600 mb-8 fade-in">Recorro la provincia para escuchar a los vecinos.
-                    ¿Querés que visitemos tu ciudad?</p>
-                <div class="card fade-in">
-                    <form name="invitar-a-localidad" method="POST" data-netlify="true" netlify-honeypot="bot-field"
-                        action="/gracias/">
-                        <input type="hidden" name="form-name" value="invitar-a-localidad">
-                        <p class="hp-field"><input name="bot-field"></p>
-                        <div class="form-group">
-                            <label class="form-label">Nombre *</label>
-                            <input type="text" name="nombre" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Email *</label>
-                            <input type="email" name="email" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Teléfono</label>
-                            <input type="tel" name="telefono" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Localidad *</label>
-                            <input type="text" name="localidad" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Motivo de la invitación</label>
-                            <textarea name="motivo" class="form-textarea" rows="4"
-                                placeholder="¿Por qué te gustaría que visitemos tu localidad?"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn--primary w-full">Enviar Invitación</button>
-                    </form>
-                </div>
-            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- REDES -->
-    <section class="py-12 bg-white">
-        <div class="container text-center fade-in">
-            <h3 class="text-brand-dark mb-6">Seguime en Redes</h3>
-            <div class="flex justify-center gap-4">
-                <a href="https://instagram.com/ceciliagortari" target="_blank" class="btn btn--outline">Instagram</a>
-                <a href="https://facebook.com/ceciliagortari" target="_blank" class="btn btn--outline">Facebook</a>
-                <a href="https://twitter.com/ceciliagortari" target="_blank" class="btn btn--outline">Twitter/X</a>
-            </div>
+<!-- Toast container -->
+<div id="contacto-toast" class="contacto-toast" role="alert" aria-live="polite">
+    <div class="flex items-start gap-3">
+        <i id="contacto-toast-icon" class="text-2xl mt-0.5"></i>
+        <div>
+            <p id="contacto-toast-title" class="font-bold text-sm"></p>
+            <p id="contacto-toast-message" class="text-sm mt-0.5 opacity-80"></p>
         </div>
-    </section>
+        <button onclick="contactoHideToast()" class="ml-4 opacity-50 hover:opacity-100 transition-opacity text-lg">&times;</button>
+    </div>
+</div>
+
+<!-- LOGICA DE ENVIO REAL VIA /api/contacto -->
+<script>
+(function() {
+    var API_URL = '/api/contacto';
+    var toastTimer = null;
+
+    // --- Tab switching ---
+    window.contactoSwitchTab = function(tabId) {
+        document.querySelectorAll('.contacto-tab-btn').forEach(function(btn) {
+            btn.classList.remove('active');
+            btn.classList.add('hover:bg-gray-200', 'text-brand-darkgray');
+        });
+        var activeBtn = document.getElementById('contacto-tab-' + tabId);
+        activeBtn.classList.add('active');
+        activeBtn.classList.remove('hover:bg-gray-200', 'text-brand-darkgray');
+
+        document.querySelectorAll('.contacto-form-panel').forEach(function(form) {
+            form.classList.remove('active');
+            setTimeout(function() { form.style.display = 'none'; }, 300);
+        });
+
+        var activeForm = document.getElementById('contacto-form-' + tabId);
+        setTimeout(function() {
+            activeForm.style.display = 'block';
+            setTimeout(function() { activeForm.classList.add('active'); }, 10);
+        }, 300);
+    };
+
+    // --- Toast ---
+    window.contactoShowToast = function(type, title, message) {
+        var toast = document.getElementById('contacto-toast');
+        var icon = document.getElementById('contacto-toast-icon');
+        document.getElementById('contacto-toast-title').textContent = title;
+        document.getElementById('contacto-toast-message').textContent = message;
+
+        toast.className = 'contacto-toast contacto-toast-' + type;
+        icon.className = (type === 'success')
+            ? 'ph ph-check-circle text-2xl mt-0.5'
+            : 'ph ph-warning-circle text-2xl mt-0.5';
+
+        void toast.offsetWidth;
+        toast.classList.add('show');
+
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(contactoHideToast, 6000);
+    };
+
+    window.contactoHideToast = function() {
+        document.getElementById('contacto-toast').classList.remove('show');
+        if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+    };
+
+    // --- Button loading state ---
+    function setLoading(form, loading) {
+        var btn = form.querySelector('button[type="submit"]');
+        var textEl = btn.querySelector('.btn-text');
+        var spinnerEl = btn.querySelector('.btn-spinner');
+        var iconEl = btn.querySelector('.btn-icon');
+        btn.disabled = loading;
+
+        if (loading) {
+            textEl.textContent = 'Enviando...';
+            spinnerEl.classList.remove('hidden');
+            if (iconEl) iconEl.classList.add('hidden');
+        } else {
+            var formId = form.id;
+            if (formId === 'contacto-form-general') textEl.textContent = 'Enviar Mensaje';
+            else if (formId === 'contacto-form-prensa') textEl.textContent = 'Solicitar Contacto';
+            else if (formId === 'contacto-form-proyecto') textEl.textContent = 'Enviar Propuesta';
+            spinnerEl.classList.add('hidden');
+            if (iconEl) iconEl.classList.remove('hidden');
+        }
+    }
+
+    // --- Collect data ---
+    function collectData(form, tipo) {
+        var data = { tipo: tipo };
+        var hp = form.querySelector('input[name="_hp_website"]');
+        if (hp && hp.value) data._hp_website = hp.value;
+
+        if (tipo === 'general') {
+            data.nombre = document.getElementById('gen-nombre').value.trim();
+            data.contacto = document.getElementById('gen-contacto').value.trim();
+            data.asunto = document.getElementById('gen-asunto').value.trim();
+            data.mensaje = document.getElementById('gen-mensaje').value.trim();
+        } else if (tipo === 'prensa') {
+            data.nombre = document.getElementById('pren-nombre').value.trim();
+            data.medio = document.getElementById('pren-medio').value.trim();
+            data.telefono = document.getElementById('pren-tel').value.trim();
+            data.fecha = document.getElementById('pren-fecha').value;
+            data.mensaje = document.getElementById('pren-mensaje').value.trim();
+        } else if (tipo === 'proyecto') {
+            data.nombre = document.getElementById('proy-nombre').value.trim();
+            data.contacto = document.getElementById('proy-contacto').value.trim();
+            data.localidad = document.getElementById('proy-ciudad').value.trim();
+            data.sector = document.getElementById('proy-sector').value;
+            data.titulo = document.getElementById('proy-titulo').value.trim();
+            data.descripcion = document.getElementById('proy-mensaje').value.trim();
+            data.reunion = document.getElementById('proy-reunion').checked;
+        }
+        return data;
+    }
+
+    // --- Submit handler ---
+    window.contactoHandleSubmit = async function(event, tipo) {
+        event.preventDefault();
+        var form = event.target;
+        var data = collectData(form, tipo);
+        setLoading(form, true);
+
+        try {
+            var response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            var result = await response.json();
+
+            if (response.ok && result.ok) {
+                contactoShowToast('success', 'Mensaje enviado', 'Tu mensaje fue enviado correctamente. Te responderemos a la brevedad.');
+                form.reset();
+            } else {
+                contactoShowToast('error', 'Error al enviar', result.error || 'No se pudo enviar el mensaje. Por favor intenta nuevamente.');
+            }
+        } catch (err) {
+            contactoShowToast('error', 'Error de conexion', 'No se pudo conectar con el servidor. Verifica tu conexion e intenta nuevamente.');
+        } finally {
+            setLoading(form, false);
+        }
+    };
+})();
+</script>

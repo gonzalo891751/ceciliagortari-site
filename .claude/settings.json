@@ -43,7 +43,9 @@
       "Bash(xargs grep:*)",
       "Bash(xargs wc:*)",
       "Bash(node -c \"D:\\\\Git\\\\ceciliagortari-site\\\\src\\\\gestionproyectos\\\\index.html\")",
-      "Bash(npx @11ty/eleventy --dryrun)"
+      "Bash(npx @11ty/eleventy --dryrun)",
+      "Bash(npx wrangler:*)",
+      "WebFetch(domain:013d3078.ceciliagortari-site.pages.dev)"
     ]
   }
 }
