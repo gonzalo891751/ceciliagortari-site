@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-07-29T04:25:41.499Z",
+  "publication_status": "cargado_en_fuente",
+  "totals": {
+    "publications_before_update": 13,
+    "publications_after_update": 41,
+    "project_articles": 35,
+    "existing_articles_updated": 7,
+    "new_articles_created": 28,
+    "pending_cases": 1
+  },
+  "errors": [],
+  "warnings": [],
+  "pending": [
+    {
+      "identificador": "P-0067",
+      "fecha": "2026-04-22",
+      "titulo": "Declaración de interés: Actividad por el día de la tierra",
+      "reason": "Sin expediente ni fuente oficial verificable; no publicar hasta completar el dato."
+    }
+  ]
+}

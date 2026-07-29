@@ -1,0 +1,935 @@
+import fs from "node:fs/promises";
+import path from "node:path";
+
+const root = process.cwd();
+const pressPath = path.join(root, "src", "content", "prensa.json");
+
+const batch1 = [
+  {
+    expediente: "19669",
+    matchId: "2026-03-11-asistencia-trabajadores-al-goya",
+    item: {
+      fecha: "2026-03-11T12:00:00.000-03:00",
+      id: "2026-03-11-asistencia-trabajadores-al-goya",
+      titulo: "Impulsan una asistencia transitoria para trabajadores despedidos de Alal",
+      subtitulo:
+        "Cecilia Gortari y legisladores del bloque propusieron un apoyo económico temporal para las personas cesanteadas de la firma textil en Goya y sus familias.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-03-11-19669-asistencia-trabajadores-alal.webp",
+      cuerpo: `La diputada provincial Cecilia Gortari, junto a Emiliano Fernández y Gustavo Canteros, presentó un proyecto de ley para crear un régimen extraordinario de asistencia económica destinado a las personas que perdieron su trabajo tras el cierre de la planta de Emilio Alal en Goya. La iniciativa fue ingresada como expediente 19669 y busca ofrecer una respuesta transitoria a las familias afectadas mientras se resuelve su situación laboral e indemnizatoria.
+
+El proyecto parte del impacto que el cierre produjo en la ciudad y en su entramado productivo. De acuerdo con los fundamentos del expediente, la medida alcanza a quienes prestaban servicios efectivos en la planta goyana, acrediten residencia en Corrientes y formen parte del listado certificado por la autoridad laboral competente. La ayuda no sustituye las obligaciones de la empresa ni interviene en el proceso judicial en curso.
+
+La propuesta establece una prestación mensual equivalente a un Salario Mínimo, Vital y Móvil durante tres meses consecutivos. El Poder Ejecutivo podría prorrogarla mediante una decisión fundada si persiste la situación de vulnerabilidad que motivó el régimen. El pago se realizaría directamente en la cuenta bancaria de cada beneficiario, sin intermediación empresarial.
+
+También se faculta al Ejecutivo a instrumentar medidas financieras complementarias, como la gestión de períodos de gracia para obligaciones de las personas alcanzadas. La autoridad de aplicación sería el área provincial competente en trabajo e industria, en coordinación con Hacienda y Desarrollo Social.
+
+Con esta iniciativa, el bloque procura acompañar a quienes quedaron sin ingresos regulares y evitar que una crisis empresarial profundice sus consecuencias sociales en Goya. Se trata de un proyecto presentado y sujeto al tratamiento de la Legislatura.
+
+La iniciativa fue presentada bajo el expediente **19669**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19669/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19670",
+    matchId: "2026-03-11-alivio-corrientes",
+    item: {
+      fecha: "2026-03-11T12:00:00.000-03:00",
+      id: "2026-03-11-alivio-corrientes",
+      titulo: "Alivio Corrientes: proponen una salida ordenada para deudas familiares",
+      subtitulo:
+        "La iniciativa impulsada por Cecilia Gortari y el bloque plantea un programa provincial para reestructurar obligaciones y acompañar a hogares sobreendeudados.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-03-11-19670-alivio-corrientes.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron el programa “Alivio Corrientes”, una iniciativa que propone consolidar y reestructurar deudas de consumo de personas y familias residentes en la provincia. El proyecto de ley, registrado como expediente 19670, busca ofrecer condiciones financieras más accesibles a hogares cuyo nivel de endeudamiento compromete sus gastos esenciales.
+
+La propuesta define como situación de sobreendeudamiento aquella en la que los compromisos financieros mensuales superan el 40 por ciento de los ingresos netos. Podrían incorporarse saldos de tarjetas de crédito, préstamos personales, compras financiadas y obligaciones con proveedores no bancarios, incluidos servicios digitales de crédito. Quedarían excluidas, entre otras, las deudas hipotecarias, alimentarias y tributarias.
+
+El programa prevé que el Banco de Corrientes implemente una línea específica para cancelar las obligaciones verificadas. El dinero no sería de libre disponibilidad: se transferiría directamente a los acreedores. El expediente propone plazos de 36 a 60 cuotas y procura que el pago mensual resultante no supere el 30 por ciento del ingreso neto de la persona beneficiaria.
+
+La iniciativa contempla a trabajadores en relación de dependencia, autónomos, monotributistas, jubilados, pensionados, titulares de prestaciones sociales y personas de la economía informal, con procedimientos de acreditación adecuados a cada situación. También incorpora orientación y educación financiera para prevenir nuevos ciclos de endeudamiento.
+
+Desde el bloque sostienen que ordenar las deudas puede ayudar a recuperar previsibilidad en la economía familiar sin convertir el programa en una entrega directa de dinero. La propuesta deberá ser debatida por la Legislatura antes de cualquier implementación.
+
+El proyecto fue presentado bajo el expediente **19670**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19670/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19675",
+    matchId: "2026-03-11-cinco-proyectos-corrientes",
+    item: {
+      fecha: "2026-03-11T12:00:00.000-03:00",
+      id: "2026-03-11-cinco-proyectos-corrientes",
+      titulo: "Piden mejorar las condiciones edilicias de las escuelas rurales de Goya",
+      subtitulo:
+        "El proyecto solicita al Poder Ejecutivo un relevamiento y respuestas para establecimientos rurales del departamento de Goya, con foco en la seguridad y el aprendizaje.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-03-11-19675-escuelas-rurales-goya.webp",
+      cuerpo: `La diputada Cecilia Gortari, junto a Emiliano Fernández y Gustavo Canteros, presentó un proyecto de resolución que solicita al Poder Ejecutivo provincial medidas para mejorar el funcionamiento de escuelas rurales del departamento de Goya. La iniciativa, identificada como expediente 19675, recoge planteos de familias y comunidades educativas sobre mantenimiento, accesos y servicios indispensables.
+
+El pedido incluye tareas de limpieza, desinfección, control de malezas y reparaciones urgentes en aulas, sanitarios y espacios exteriores. Según los fundamentos, en algunos establecimientos las propias familias debieron organizarse para acondicionar los predios antes del inicio de clases. El proyecto plantea que esas respuestas forman parte de las obligaciones provinciales y no deben depender únicamente del esfuerzo comunitario.
+
+La resolución también solicita mejorar la transitabilidad de los caminos rurales. El deterioro de los accesos puede afectar la asistencia de estudiantes, docentes y personal auxiliar, además de interrumpir el transporte escolar en períodos de lluvia. Por eso, la conectividad vial aparece vinculada directamente con la continuidad educativa.
+
+Otro eje es la provisión regular de alimentos e insumos para los comedores escolares. La propuesta señala que el servicio alimentario es un componente relevante de la permanencia escolar en zonas rurales y pide asegurar su continuidad durante el ciclo lectivo.
+
+El expediente menciona establecimientos de los parajes Manantiales, San Ramón, Buena Vista, La Mercedes, El Sauce, El Cerrito, Bañado San Antonio y Mora, sin cerrar la posibilidad de incorporar otros casos luego de un relevamiento oficial.
+
+La Cámara deberá tratar la solicitud, que no constituye una obra ya ejecutada sino un pedido formal al Ejecutivo. El proyecto fue presentado bajo el expediente **19675**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19675/).
+
+*Imagen ilustrativa: “Escuela Rural Jujuy”, Cacedi1, [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Escuela_Rural_Jujuy.jpg), licencia CC BY-SA 4.0.*`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19680",
+    matchId: "2026-03-11-seguridad-ruta-27",
+    item: {
+      fecha: "2026-03-11T12:00:00.000-03:00",
+      id: "2026-03-11-seguridad-ruta-27",
+      titulo: "Solicitan señalización e iluminación para reforzar la seguridad en la Ruta 27",
+      subtitulo:
+        "La propuesta pide intervenir puntos críticos de la Ruta Provincial 27 para mejorar la visibilidad y reducir riesgos para quienes circulan por ese corredor.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-03-11-19680-seguridad-ruta-27.webp",
+      cuerpo: `Cecilia Gortari, Gustavo Canteros y Emiliano Fernández presentaron un proyecto de resolución para solicitar mejoras de seguridad vial en la Ruta Provincial 27. El pedido comprende el tramo que une la intersección con la Ruta Nacional 12, en Saladas, con la ciudad de Goya y fue registrado como expediente 19680.
+
+La iniciativa requiere trabajos de demarcación horizontal y repintado de carriles, además de nueva señalización vertical preventiva, reglamentaria e informativa. También solicita revisar el estado de las banquinas y atender sectores donde las deformaciones del pavimento pueden comprometer la circulación.
+
+Uno de los puntos destacados es la iluminación. El expediente señala como sectores críticos la intersección con la Ruta Nacional 12 y el cruce de las rutas provinciales 24 y 27, en el paraje Desmochado. En esos lugares, el movimiento de vehículos y la complejidad de las maniobras vuelven especialmente importante contar con visibilidad adecuada.
+
+La Ruta 27 es un corredor utilizado por personas que viajan entre localidades del interior y por el transporte de producción, bienes y servicios. Por esa razón, el proyecto vincula las condiciones de la calzada y la señalización con la actividad económica regional, además de la protección de conductores y pasajeros.
+
+Al tratarse de una resolución, la Cámara no ejecuta directamente las obras: solicita al Poder Ejecutivo que intervenga por medio de los organismos competentes. La propuesta todavía debe atravesar el tratamiento legislativo correspondiente.
+
+La iniciativa fue presentada bajo el expediente **19680**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19680/).
+
+*Imagen ilustrativa: “Ruta 60 Argentina”, Lucash, [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ruta_60_Argentina.jpg), licencia CC BY-SA 3.0.*`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19714",
+    matchId: "2026-03-18-cobertura-ioscor-identidad-genero",
+    item: {
+      fecha: "2026-03-18T12:00:00.000-03:00",
+      id: "2026-03-18-cobertura-ioscor-identidad-genero",
+      titulo: "Proponen ampliar la cobertura del IOSCOR para prestaciones de identidad de género",
+      subtitulo:
+        "El proyecto busca incorporar prestaciones vinculadas con la identidad de género a la obra social provincial y garantizar una atención integral a sus afiliados.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-03-18-19714-cobertura-identidad-genero.webp",
+      cuerpo: `La diputada Cecilia Gortari, junto a Gustavo Canteros y Emiliano Fernández, presentó un proyecto de ley para garantizar que el IOSCOR brinde de manera oportuna e integral las prestaciones de salud vinculadas con la identidad de género previstas por la normativa nacional. La iniciativa ingresó como expediente 19714 y pone el foco en el acceso efectivo de las personas afiliadas.
+
+El proyecto contempla intervenciones y tratamientos de adecuación corporal, controles médicos, análisis, medicamentos e insumos incluidos en el marco de la Ley Nacional de Identidad de Género. También incorpora asistencia psicológica o psiquiátrica cuando sea solicitada voluntariamente por la persona. La propuesta establece una cobertura del 100 por ciento, sin copagos ni cargos adicionales.
+
+Entre sus mecanismos, fija un plazo máximo de diez días hábiles para resolver una solicitud completa. Si el IOSCOR no emitiera una respuesta expresa dentro de ese término, el pedido se consideraría aprobado. El texto prohíbe exigir autorizaciones judiciales, diagnósticos no previstos por la ley o el agotamiento previo de instancias administrativas para acceder a las prestaciones.
+
+La iniciativa también protege la confidencialidad de los datos personales y de salud. A la vez, plantea capacitaciones periódicas para el personal administrativo, profesional y técnico de la obra social en trato digno, no discriminación y derechos vinculados con la identidad de género.
+
+El objetivo es evitar demoras o negativas que obliguen a las personas afiliadas a recurrir a la Justicia para obtener prestaciones reconocidas por el ordenamiento vigente. El proyecto todavía debe ser debatido y no implica que el régimen ya se encuentre implementado.
+
+La propuesta fue presentada bajo el expediente **19714**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19714/).`,
+      documento: "",
+    },
+  },
+];
+
+const batch2 = [
+  {
+    expediente: "19715",
+    matchId: "2026-03-14-proyectos-ley-deudores-ioscor",
+    item: {
+      fecha: "2026-03-18T12:00:00.000-03:00",
+      id: "2026-03-14-proyectos-ley-deudores-ioscor",
+      titulo: "Buscan restringir el acceso a casinos a deudores alimentarios morosos",
+      subtitulo:
+        "La iniciativa propone impedir el ingreso a salas de juego a quienes figuren en el registro de deudores alimentarios, reforzando el cumplimiento de sus obligaciones.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-03-18-19715-deudores-alimentarios-casinos.webp",
+      cuerpo: `Cecilia Gortari, Gustavo Canteros y Emiliano Fernández presentaron un proyecto de ley para incorporar una nueva consecuencia a la inscripción en el Registro de Deudores Alimentarios Morosos de Corrientes. La iniciativa, registrada como expediente 19715, propone impedir el acceso a establecimientos y plataformas de juego mientras se mantenga vigente esa condición registral.
+
+El alcance previsto comprende casinos, salas de bingo, agencias de apuestas y plataformas de juego en línea autorizadas en la provincia. Los operadores deberían verificar la identidad de las personas usuarias y consultar el registro antes de permitir el ingreso o la apertura de una cuenta. En el caso de los servicios digitales, también se plantean controles periódicos sobre las cuentas activas.
+
+Si una persona estuviera inscripta como deudora alimentaria morosa, la propuesta obligaría a impedir su acceso o suspender la posibilidad de realizar nuevas apuestas. La restricción se mantendría hasta que la baja del registro sea ordenada judicialmente, conforme al procedimiento ya previsto por la legislación provincial.
+
+El proyecto asigna al Instituto de Loterías y Casinos la función de autoridad de aplicación y prevé coordinación electrónica con el organismo que administra el registro. También exige resguardar los datos personales y limitar la consulta a la finalidad específica establecida por la norma.
+
+La medida busca fortalecer la eficacia del derecho alimentario, especialmente cuando están involucrados niñas, niños y adolescentes. No modifica el monto de las obligaciones ni reemplaza las decisiones judiciales: agrega un mecanismo provincial orientado a promover su cumplimiento.
+
+La propuesta todavía debe ser tratada por la Legislatura. Fue presentada bajo el expediente **19715**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19715/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19720",
+    matchId: "2026-03-18-informe-salud-sexual-reproductiva",
+    item: {
+      fecha: "2026-03-18T12:00:00.000-03:00",
+      id: "2026-03-18-informe-salud-sexual-reproductiva",
+      titulo: "Proponen declarar de interés un informe sobre salud sexual y reproductiva",
+      subtitulo:
+        "La declaración impulsada por Cecilia Gortari y el bloque busca visibilizar un monitoreo ciudadano sobre el acceso a prestaciones e insumos en Corrientes.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-03-18-19720-informe-salud-sexual.webp",
+      cuerpo: `La diputada Cecilia Gortari, junto a Emiliano Fernández y Gustavo Canteros, presentó un proyecto de declaración para reconocer el informe de monitoreo elaborado por la Fundación Derechos Humanos, Equidad y Género sobre la aplicación de las leyes nacionales de salud sexual y reproductiva en Corrientes. La propuesta ingresó como expediente 19720.
+
+El trabajo relevado analiza el acceso a métodos anticonceptivos, servicios de salud sexual y reproductiva y prestaciones vinculadas con la interrupción voluntaria y legal del embarazo. Para construir el diagnóstico, la organización combinó encuestas a usuarias, entrevistas con integrantes del sistema sanitario, datos oficiales y pedidos de información pública.
+
+Entre los puntos incorporados en los fundamentos del expediente se mencionan diferencias de acceso entre zonas urbanas y rurales, dificultades periódicas en la disponibilidad de insumos y necesidades de capacitación del personal. El informe también observa que la información sobre derechos y circuitos de atención no llega de manera uniforme a toda la población.
+
+Al tratarse de un proyecto de declaración, la iniciativa no crea un programa sanitario ni modifica por sí misma las prestaciones existentes. Su finalidad es declarar de interés legislativo un documento que aporta evidencia territorial y puede servir como insumo para el seguimiento de políticas públicas.
+
+Desde el bloque destacaron la importancia de contar con información verificable para identificar obstáculos, mejorar la respuesta institucional y sostener el acceso a la salud sin discriminación. La propuesta deberá ser considerada por la Cámara antes de obtener reconocimiento legislativo.
+
+El proyecto fue presentado bajo el expediente **19720**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19720/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19753",
+    matchId: "2026-03-22-reclamo-docente-haberes-dialogo",
+    item: {
+      fecha: "2026-04-08T12:00:00.000-03:00",
+      id: "2026-03-22-reclamo-docente-haberes-dialogo",
+      titulo: "Piden reabrir el diálogo con docentes y revisar los descuentos salariales",
+      subtitulo:
+        "La resolución solicita una instancia urgente de diálogo con las organizaciones docentes y la revisión de descuentos aplicados durante el conflicto educativo.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-08-19753-dialogo-docente.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de resolución para solicitar al Poder Ejecutivo provincial la reapertura de una instancia efectiva de diálogo y negociación con las organizaciones docentes. La iniciativa, registrada como expediente 19753, también plantea revisar los descuentos salariales vinculados con el conflicto educativo.
+
+El texto pide abordar la recomposición salarial, el tratamiento de conceptos no remunerativos y los mecanismos de liquidación de haberes dentro de una mesa de negociación. Al mismo tiempo, solicita que las decisiones administrativas respeten los derechos constitucionales de huelga y libertad sindical, con criterios de razonabilidad y proporcionalidad.
+
+La resolución propone que el Ejecutivo se abstenga de aplicar descuentos arbitrarios o desproporcionados sobre adicionales y complementos salariales. También requiere la restitución de sumas descontadas con motivo del ejercicio del derecho de huelga, según los fundamentos jurídicos desarrollados en el expediente.
+
+Otro componente es el pedido de información. La Cámara solicita conocer la base legal de las intimaciones cursadas durante el conflicto de marzo de 2026, el alcance de las exigencias de presencialidad y el detalle cuantitativo de descuentos aplicados, incluida la cantidad de agentes alcanzados y los criterios utilizados.
+
+Por su naturaleza, el proyecto no dispone directamente una recomposición ni ejecuta devoluciones: formula solicitudes institucionales al Poder Ejecutivo y requiere respuestas documentadas. El objetivo del bloque es abrir un canal de negociación que permita encauzar el conflicto sin afectar el carácter alimentario del salario ni la continuidad educativa. La Cámara deberá decidir ahora sobre su tratamiento institucional.
+
+La iniciativa fue presentada bajo el expediente **19753**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19753/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19786",
+    matchId: "2026-04-08-informe-aportes-tesoro-nacional",
+    item: {
+      fecha: "2026-04-08T12:00:00.000-03:00",
+      id: "2026-04-08-informe-aportes-tesoro-nacional",
+      titulo: "Solicitan informes sobre los Aportes del Tesoro Nacional recibidos por Corrientes",
+      subtitulo:
+        "El pedido busca conocer los montos, fechas, criterios y destinos de los fondos nacionales transferidos a la Provincia bajo el régimen de Aportes del Tesoro Nacional.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-08-19786-informe-atn.webp",
+      cuerpo: `La diputada Cecilia Gortari, junto a Emiliano Fernández y Gustavo Canteros, presentó un proyecto de resolución para que el Poder Ejecutivo informe sobre los Aportes del Tesoro Nacional recibidos por Corrientes durante 2026. El expediente 19786 apunta a precisar el recorrido presupuestario y el estado de ejecución de esos recursos.
+
+Los ATN son fondos nacionales de carácter excepcional previstos por el régimen de coparticipación federal para atender emergencias y desequilibrios financieros de las provincias. Una vez incorporados al Tesoro provincial, pasan a integrar recursos públicos sujetos a las reglas de administración financiera y a los mecanismos institucionales de control.
+
+La solicitud pide un detalle de cada transferencia, con fecha y monto, y requiere identificar los programas, áreas o partidas a los que fueron asignados los fondos. También consulta por los criterios de distribución, el avance de la ejecución y los decretos, resoluciones u otros actos administrativos que hayan dispuesto su utilización.
+
+El proyecto se apoya en las facultades de la Legislatura para requerir información al Ejecutivo sobre asuntos de interés público. No cuestiona por sí mismo la legalidad de las transferencias ni afirma un destino no comprobado: procura obtener documentación oficial y actualizada que permita evaluar su aplicación.
+
+Desde el bloque sostienen que la transparencia sobre recursos extraordinarios es necesaria para conocer qué problemas atendieron, qué parte ya fue utilizada y qué saldo permanece disponible. La propuesta es un pedido de informes y deberá seguir el trámite correspondiente en la Cámara.
+
+La iniciativa fue presentada bajo el expediente **19786**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19786/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19787",
+    matchId: "2026-04-08-informe-banco-corrientes",
+    item: {
+      fecha: "2026-04-08T12:00:00.000-03:00",
+      id: "2026-04-08-informe-banco-corrientes",
+      titulo: "Piden información sobre la situación financiera del Banco de Corrientes",
+      subtitulo:
+        "La iniciativa requiere datos institucionales y financieros para fortalecer el control legislativo sobre el banco público y resguardar su función provincial.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-08-19787-banco-corrientes.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros impulsaron un pedido de informes sobre la situación económica y financiera del Banco de Corrientes. El proyecto de resolución, identificado como expediente 19787, solicita información oficial y actualizada al Poder Ejecutivo y a los representantes estatales ante la entidad.
+
+La iniciativa requiere los estados contables correspondientes a 2024 y 2025, con detalle de los resultados operativo y neto. También pide conocer la evolución de la cartera de créditos durante los últimos tres años, los criterios de evaluación de riesgo y el comportamiento de los índices de mora.
+
+Otro capítulo se refiere a las tarjetas de crédito: cantidad de usuarios, volumen financiado, políticas de otorgamiento y límites aplicados. El pedido incluye además las auditorías internas y externas realizadas y las observaciones o requerimientos que pudieran haber formulado los organismos de control, incluido el Banco Central.
+
+El expediente consulta por las medidas adoptadas o previstas para sostener la solvencia y la liquidez, y por la existencia de planes de recomposición financiera. El objetivo es que la Legislatura disponga de un panorama integral para ejercer sus atribuciones de seguimiento sobre una institución en la que el Estado provincial tiene una participación central.
+
+El proyecto no concluye que el banco se encuentre en una situación determinada ni anticipa resultados contables: solicita que la información sea remitida y respaldada oficialmente. Desde el bloque señalan que el control institucional contribuye a proteger el ahorro, el crédito productivo y los servicios que la entidad presta a los correntinos.
+
+La propuesta fue presentada bajo el expediente **19787**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19787/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19788",
+    matchId: "2026-04-07-proteccion-salarial-y-apid",
+    item: {
+      fecha: "2026-04-08T12:00:00.000-03:00",
+      id: "2026-04-07-proteccion-salarial-y-apid",
+      titulo: "Impulsan proteger los salarios frente a débitos bancarios automáticos",
+      subtitulo:
+        "El proyecto propone límites y mecanismos de resguardo para evitar que débitos automáticos y descuentos comprometan la disponibilidad del ingreso salarial.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-08-19788-proteccion-salario.webp",
+      cuerpo: `La diputada Cecilia Gortari, junto a Emiliano Fernández y Gustavo Canteros, presentó un proyecto de ley para proteger los haberes depositados en cuentas bancarias frente a débitos automáticos de tarjetas de crédito. La iniciativa, registrada como expediente 19788, se aplica a entidades que actúan como agentes de pago del Estado provincial.
+
+El proyecto prohíbe ejecutar el débito antes de la fecha de vencimiento indicada en el resumen, salvo que exista una adhesión específica, separada, informada y libremente revocable. La regla alcanza a cuentas donde se acreditan remuneraciones, haberes previsionales, prestaciones por incapacidad y otros ingresos de naturaleza salarial o asistencial abonados por la Provincia.
+
+Las entidades deberían ofrecer de manera clara tres opciones: no adherir al débito automático, pagar el mínimo o cancelar el total del resumen. Si la persona no realiza una elección, la opción predeterminada sería no adherir. También se garantiza la posibilidad de revocar la autorización sin necesidad de expresar una causa.
+
+La propuesta regula el “stop debit” hasta el día hábil anterior a la fecha prevista y la reversión de débitos ya efectuados. Para esos trámites, exige canales accesibles y una constancia con fecha, hora y número de gestión. Además, considera inoponibles las cláusulas que dificulten o vuelvan irrevocable ese derecho.
+
+El objetivo es preservar la disponibilidad del salario y reforzar el consentimiento de las personas usuarias sin eliminar sus obligaciones crediticias. La norma propuesta todavía debe ser debatida y no se encuentra vigente. La Cámara deberá analizar ahora el alcance de estas garantías.
+
+El proyecto fue presentado bajo el expediente **19788**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19788/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19789",
+    matchId: "2026-04-08-incentivo-docente-provincial",
+    item: {
+      fecha: "2026-04-08T12:00:00.000-03:00",
+      id: "2026-04-08-incentivo-docente-provincial",
+      titulo: "Proponen crear una asignación provincial de incentivo docente",
+      subtitulo:
+        "La iniciativa plantea un complemento salarial provincial para sostener el ingreso de las y los docentes y reconocer su tarea en el sistema educativo correntino.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-08-19789-incentivo-docente.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de ley para crear la Asignación Provincial de Incentivo Docente. La iniciativa, registrada como expediente 19789, busca otorgar jerarquía legal y carácter permanente a un componente remunerativo del salario docente en Corrientes.
+
+La propuesta alcanza al personal de todos los niveles, modalidades y funciones de establecimientos estatales y de gestión privada con aporte provincial. El incentivo integraría el haber mensual a efectos previsionales, de obra social y del sueldo anual complementario, con una liquidación por cargo o su equivalente en horas cátedra.
+
+El monto sería fijado y actualizado periódicamente por el Poder Ejecutivo, previo diálogo con las organizaciones sindicales docentes. El proyecto establece que la actualización acompañe las recomposiciones del sector y preserve el valor real del incentivo. También aclara que no se trata de un premio por presentismo ni puede utilizarse como sanción por inasistencias justificadas o por el ejercicio de derechos colectivos.
+
+Además del componente salarial, el expediente incorpora reglas de transparencia y trazabilidad para la liquidación de haberes. El objetivo es que cada docente pueda identificar con claridad los conceptos abonados, su naturaleza y las variaciones aplicadas, reduciendo incertidumbres y diferencias de criterio.
+
+Desde el bloque plantean que la educación necesita previsibilidad tanto para las escuelas como para quienes sostienen diariamente el sistema. La creación de la asignación depende del tratamiento y eventual sanción de la Legislatura; no es un beneficio ya implementado. Su financiamiento y reglamentación también requerirían una definición estatal.
+
+La iniciativa fue presentada bajo el expediente **19789**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19789/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19793",
+    matchId: "2026-04-08-antecedentes-meritorios-docentes",
+    item: {
+      fecha: "2026-04-08T12:00:00.000-03:00",
+      id: "2026-04-08-antecedentes-meritorios-docentes",
+      titulo: "Buscan reconocer antecedentes meritorios en la valoración docente",
+      subtitulo:
+        "La propuesta incorpora tareas pedagógicas, científicas, culturales y comunitarias al régimen de valoración, incluido el acompañamiento de cooperativas escolares.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-08-19793-valoracion-docente.webp",
+      cuerpo: `La diputada Cecilia Gortari, junto a Emiliano Fernández y Gustavo Canteros, presentó un proyecto de resolución para incorporar los “Antecedentes Meritorios Institucionales” al régimen de valoración docente de Corrientes. La iniciativa fue registrada como expediente 19793.
+
+La propuesta parte de una realidad cotidiana: numerosas y numerosos docentes desarrollan actividades que exceden la tarea áulica y aportan a la vida institucional de las escuelas. Entre ellas se encuentran la coordinación de clubes estudiantiles, el acompañamiento de centros de estudiantes, la promoción de cooperativas y mutuales escolares, la participación en ferias educativas y la organización de proyectos comunitarios.
+
+El expediente sostiene que esas funciones pueden contribuir a la innovación pedagógica, la participación estudiantil y el vínculo de la escuela con su comunidad, pero no siempre reciben un reconocimiento sistemático en los mecanismos de valoración. Por eso solicita crear una categoría que permita registrarlas de manera objetiva, equitativa y progresiva.
+
+La iniciativa presta especial atención a la función de docente guía o asesor de cooperativas y mutuales escolares, por la responsabilidad pedagógica, organizativa y comunitaria que implica. El reconocimiento propuesto no reemplaza los títulos, la antigüedad ni los antecedentes ya contemplados, sino que procura sumar experiencias institucionales verificables.
+
+Al ser un proyecto de resolución, la Cámara solicita a las autoridades educativas la adecuación del régimen correspondiente; no modifica de forma automática los puntajes docentes. El objetivo es abrir una discusión sobre cómo valorar integralmente el trabajo que fortalece las trayectorias escolares. La Cámara deberá resolver ahora si acompaña formalmente la solicitud.
+
+La propuesta fue presentada bajo el expediente **19793**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19793/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19831",
+    matchId: "2026-04-15-lotes-servicios-goya",
+    item: {
+      fecha: "2026-04-15T12:00:00.000-03:00",
+      id: "2026-04-15-lotes-servicios-goya",
+      titulo: "Solicitan dar continuidad al programa de lotes con servicios en Goya",
+      subtitulo:
+        "El proyecto pide medidas para sostener una política de acceso al suelo urbano con infraestructura básica, destinada a familias de la ciudad de Goya.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-15-19831-lotes-servicios-goya.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de resolución sobre el predio de 180 lotes con servicios del ex programa Procrear en Goya. La iniciativa, identificada como expediente 19831, solicita preservar la inversión realizada y reactivar una alternativa habitacional que permanece paralizada.
+
+El predio tiene aproximadamente diez hectáreas y está ubicado en la zona de las calles Presidente Néstor Kirchner, Reconquista y San Luis, junto a la Ruta Nacional 12. Allí se ejecutaron trabajos de saneamiento, nivelación, infraestructura eléctrica, cordón cuneta y enripiado, pero el proceso de adjudicación y posesión no llegó a completarse.
+
+La resolución pide al INVICO y a los organismos competentes un relevamiento dominial, registral, técnico y administrativo. Ese diagnóstico debería identificar las obras terminadas y pendientes, los convenios que continúan vigentes y la nómina de personas seleccionadas en los sorteos originales, con resguardo de sus datos personales.
+
+El proyecto también solicita gestiones ante organismos nacionales y el Banco Hipotecario para obtener los instrumentos jurídicos y la documentación que permitan continuar el desarrollo. Si la operatoria se reactiva, propone considerar una prioridad objetiva para quienes fueron seleccionados originalmente, sujeta a la revalidación de requisitos y a reglas de transparencia e igualdad.
+
+Mientras se realizan esas gestiones, se requiere mantenimiento, resguardo y puesta en valor del terreno para evitar deterioro u ocupaciones irregulares. La Cámara no adjudica los lotes: insta al Ejecutivo a recuperar el proyecto habitacional y remitir un informe. El seguimiento posterior quedaría a cargo de los organismos competentes.
+
+La iniciativa fue presentada bajo el expediente **19831**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19831/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19832",
+    matchId: "2026-04-15-transparencia-carteles-obra-publica",
+    item: {
+      fecha: "2026-04-15T12:00:00.000-03:00",
+      id: "2026-04-15-transparencia-carteles-obra-publica",
+      titulo: "Proponen más transparencia en los carteles de obra pública",
+      subtitulo:
+        "La iniciativa establece información mínima y accesible en la cartelería de obras provinciales para que la ciudadanía conozca plazos, responsables y presupuesto.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-15-19832-carteles-obra-publica.webp",
+      cuerpo: `La diputada Cecilia Gortari, junto a Emiliano Fernández y Gustavo Canteros, presentó un proyecto de ley para establecer un estándar de información en los carteles de obra pública provincial. La iniciativa ingresó como expediente 19832 y propone incorporar estas obligaciones a la legislación vigente.
+
+Cada cartel debería identificar la obra, el organismo responsable, el expediente administrativo, el procedimiento de contratación y la empresa adjudicataria cuando corresponda. También tendría que mostrar el presupuesto original, el plazo de ejecución y la fuente de financiamiento.
+
+Una de las novedades es la incorporación de un medio digital de acceso inmediato, como el soporte que determine la reglamentación, para consultar información actualizada. Allí deberían publicarse las modificaciones contractuales, ampliaciones de plazo, avance físico y financiero, fechas de inicio y finalización estimada, área de inspección y un canal para consultas o denuncias ciudadanas.
+
+El expediente fija una actualización no inferior a mensual y distribuye responsabilidades según la modalidad de ejecución. Si la obra está contratada, la empresa debe instalar y mantener el cartel; si se realiza por administración, la obligación corresponde al organismo comitente. En ambos casos, el Estado debe asegurar la integridad y disponibilidad de la información digital.
+
+La propuesta contempla consecuencias contractuales y administrativas ante la falta de cartel, su deterioro grave o la omisión reiterada de actualización. El objetivo es que cualquier persona pueda conocer el estado de una obra sin presentar un pedido formal. La identificación permitiría además relacionar cada cartel con la documentación administrativa disponible.
+
+El proyecto aún debe ser debatido por la Legislatura. Fue presentado bajo el expediente **19832**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19832/).`,
+      documento: "",
+    },
+  },
+];
+
+const batch3 = [
+  {
+    expediente: "19833",
+    matchId: "2026-04-15-estudio-ruta-27-unne",
+    item: {
+      fecha: "2026-04-15T12:00:00.000-03:00",
+      id: "2026-04-15-estudio-ruta-27-unne",
+      titulo: "Impulsan un estudio integral para mejorar la seguridad de la Ruta 27",
+      subtitulo:
+        "La declaración reconoce un trabajo final de Ingeniería Civil de la UNNE que analiza alternativas de rehabilitación para el tramo Santa Lucía–Goya.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-15-19833-estudio-seguridad-ruta-27.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de declaración para reconocer un trabajo final de Ingeniería Civil de la Universidad Nacional del Nordeste sobre la Ruta Provincial 27. La iniciativa fue registrada como expediente 19833.
+
+El estudio, titulado “Rehabilitación y mejoras de seguridad de la Ruta Provincial N° 27, tramo Santa Lucía–Goya”, fue elaborado por Alan Billordo Ciocchi, Ángel José Cuzziol y Ariana Rey, con acompañamiento académico de profesionales de la UNNE. El proyecto legislativo propone destacar tanto a sus autores como al equipo que orientó la investigación.
+
+El tramo analizado tiene una función relevante para la conexión entre localidades, la circulación cotidiana y el movimiento de la producción. A partir de herramientas propias de la ingeniería civil, el trabajo evalúa el estado del corredor y desarrolla alternativas para su rehabilitación y para el fortalecimiento de la seguridad vial.
+
+La declaración no ordena ejecutar una obra ni adopta automáticamente las recomendaciones técnicas. Su finalidad es reconocer un aporte académico que puede enriquecer la planificación pública y mostrar cómo el conocimiento producido en la universidad se vincula con necesidades concretas del territorio.
+
+Desde el bloque señalaron que las decisiones de infraestructura se fortalecen cuando incorporan relevamientos, diagnóstico y evaluación profesional. También destacaron el valor formativo de que estudiantes próximos a graduarse orienten su trabajo a problemas que afectan directamente a comunidades correntinas. La información reunida puede servir como base técnica para futuras intervenciones.
+
+La propuesta deberá ser considerada por la Cámara antes de obtener reconocimiento legislativo. Fue presentada bajo el expediente **19833**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19833/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19834",
+    matchId: "2026-04-15-proyecto-cultural-mendoza",
+    item: {
+      fecha: "2026-04-15T12:00:00.000-03:00",
+      id: "2026-04-15-proyecto-cultural-mendoza",
+      titulo: "Proponen reconocer el aporte comunitario del Proyecto Cultural Mendoza",
+      subtitulo:
+        "La declaración busca destacar una revista mensual dedicada a difundir la historia, la literatura y el patrimonio cultural de la provincia de Corrientes.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-15-19834-proyecto-cultural-mendoza.webp",
+      cuerpo: `La diputada Cecilia Gortari, junto a Emiliano Fernández y Gustavo Canteros, impulsó un proyecto de declaración para reconocer el Proyecto Cultural “Mendoza”. La iniciativa, registrada como expediente 19834, destaca una revista mensual dedicada a la difusión del patrimonio histórico, literario y cultural de Corrientes.
+
+La publicación comenzó a editarse en enero de 2026 y busca recuperar historias, testimonios, producciones literarias y figuras relevantes para la identidad provincial. Sus primeras ediciones reúnen materiales de investigación, memoria y creación que procuran acercar esos contenidos a nuevas audiencias.
+
+El proyecto cultural es impulsado por Ramón Orlando Mendoza, escritor correntino y veterano de la Guerra de Malvinas. Los fundamentos legislativos repasan su trabajo en la promoción de autores locales, la creación de bibliotecas, la recopilación de documentos históricos y la preservación de la memoria colectiva vinculada con Malvinas.
+
+Al tratarse de una declaración, la propuesta no crea un programa editorial ni asigna recursos públicos. Busca otorgar un reconocimiento institucional a una experiencia de producción cultural sostenida desde la comunidad y acompañar su difusión.
+
+Desde el espacio legislativo remarcaron que las publicaciones locales contribuyen a conservar relatos, nombres y acontecimientos que pueden quedar fuera de los grandes circuitos editoriales. La iniciativa también pone en valor el encuentro entre investigación histórica, literatura y participación ciudadana. El reconocimiento procura ampliar la circulación del proyecto, preservar sus contenidos y alentar nuevas iniciativas culturales con arraigo territorial en toda la provincia.
+
+El reconocimiento dependerá del tratamiento y la decisión de la Cámara. El proyecto fue presentado bajo el expediente **19834**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19834/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19835",
+    matchId: "2026-04-15-homenaje-roque-zabala",
+    item: {
+      fecha: "2026-04-15T12:00:00.000-03:00",
+      id: "2026-04-15-homenaje-roque-zabala",
+      titulo: "Proponen homenajear al veterano de Malvinas Roque Zabala",
+      subtitulo:
+        "La iniciativa expresa el pesar por su fallecimiento y reconoce una trayectoria dedicada a la memoria de Malvinas y a los derechos de los excombatientes.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-15-19835-homenaje-roque-zabala.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de declaración para expresar el pesar de la Cámara por el fallecimiento de Roque Zabala, veterano de la Guerra de Malvinas y vecino de Goya. La propuesta ingresó como expediente 19835.
+
+Zabala participó del conflicto de 1982 como soldado de Infantería de Marina y llegó a las islas en los primeros días de abril. Después de su regreso, sostuvo un compromiso permanente con la memoria de Malvinas y con el acompañamiento a quienes compartieron esa experiencia.
+
+Fue una figura destacada del Centro de Excombatientes de Malvinas de Goya “Pirá Ñaro”, institución que presidió desde 2014. Desde ese espacio impulsó actividades conmemorativas, acciones de reconocimiento y encuentros destinados a transmitir a nuevas generaciones el significado histórico y humano de la causa Malvinas.
+
+Su tarea también alcanzó la atención de veteranos y sus familias. Los fundamentos del expediente señalan su trabajo desde 2008 en el área correspondiente del PAMI en Goya, donde acompañó el acceso a prestaciones y beneficios vinculados con ese colectivo.
+
+La declaración no crea un homenaje ya realizado ni reemplaza los reconocimientos de las organizaciones que integró. Propone dejar constancia institucional de una vida de servicio, preservar su memoria y acompañar a su familia y a la comunidad de veteranos. Los fundamentos recuperan su tarea de difusión y su compromiso sostenido con los derechos de quienes participaron del conflicto.
+
+La Cámara deberá tratar la iniciativa para formalizar el reconocimiento. El proyecto fue presentado bajo el expediente **19835**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19835/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19840",
+    matchId: "2026-04-15-informe-fondos-escuelas",
+    item: {
+      fecha: "2026-04-15T12:00:00.000-03:00",
+      id: "2026-04-15-informe-fondos-escuelas",
+      titulo: "Piden informes sobre fondos destinados a infraestructura escolar",
+      subtitulo:
+        "La resolución solicita precisiones sobre la asignación y ejecución de recursos previstos para reparaciones y mejoras en establecimientos educativos provinciales.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-15-19840-fondos-infraestructura-escolar.webp",
+      cuerpo: `La diputada Cecilia Gortari, junto a Emiliano Fernández y Gustavo Canteros, presentó un pedido de informes sobre los fondos provinciales destinados al mantenimiento de edificios escolares en municipios del interior. La iniciativa fue registrada como expediente 19840.
+
+El proyecto se refiere a los recursos dispuestos por el Decreto 369/2026 para trabajos preventivos y correctivos vinculados con el inicio del ciclo lectivo. La resolución solicita conocer la nómina completa de municipios beneficiados y el monto asignado a cada uno.
+
+También requiere el anexo íntegro del decreto y los criterios técnicos y administrativos utilizados para seleccionar localidades y distribuir las partidas. El pedido busca identificar la modalidad elegida para instrumentar los trabajos, las áreas responsables y los actos administrativos que hicieron efectivas las transferencias.
+
+Otro punto es la trazabilidad presupuestaria. La Cámara solicita que el Ejecutivo informe la partida, el programa, la jurisdicción y la imputación correspondientes, de modo que sea posible seguir la asignación, ejecución y rendición de los recursos.
+
+El proyecto no afirma que los fondos hayan sido utilizados de manera irregular ni reemplaza las auditorías competentes. Utiliza una herramienta de control legislativo para obtener documentación verificable sobre una inversión que incide en las condiciones de enseñanza y aprendizaje. La respuesta permitiría comparar criterios, montos y destinos entre establecimientos, además de identificar obras ejecutadas y necesidades pendientes en las distintas localidades de la provincia.
+
+La resolución propone un plazo de quince días hábiles para responder. Su tratamiento todavía está pendiente. La iniciativa fue presentada bajo el expediente **19840**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19840/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19841",
+    matchId: "2026-04-13-reforma-integral-ioscor-proyecto-diputados",
+    item: {
+      fecha: "2026-04-15T12:00:00.000-03:00",
+      id: "2026-04-13-reforma-integral-ioscor-proyecto-diputados",
+      titulo: "Cecilia Gortari impulsa una reforma integral del IOSCOR",
+      subtitulo:
+        "El proyecto propone modernizar la obra social provincial, fortalecer su transparencia y ampliar herramientas de protección para afiliados y prestadores.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-15-19841-reforma-ioscor.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de ley para reemplazar integralmente el régimen legal del IOSCOR. La iniciativa, registrada como expediente 19841, propone actualizar la organización de la obra social provincial y fortalecer los derechos de las personas afiliadas.
+
+El texto define al IOSCOR como un ente autárquico cuya finalidad exclusiva es garantizar acceso oportuno, continuo, equitativo y de calidad a prestaciones de salud. Incorpora principios de trato digno, información clara, no discriminación, equidad territorial, celeridad y rendición de cuentas.
+
+Entre sus ejes se encuentra la normalización de la conducción institucional, con participación de beneficiarios y mecanismos de control. También plantea reglas para transparentar decisiones, compras, contrataciones y estados de gestión, además de procedimientos más claros para autorizar o responder solicitudes de cobertura.
+
+El proyecto crea herramientas específicas de tutela para las personas afiliadas y procura reducir las diferencias de acceso entre la capital y el interior. La propuesta presta atención a la continuidad de tratamientos, los plazos de respuesta, la accesibilidad para personas con discapacidad y la relación con prestadores.
+
+La reforma no significa que esos cambios ya estén vigentes. Para reemplazar el marco actual se necesita el tratamiento de ambas cámaras, eventual sanción, promulgación y reglamentación. Desde el bloque sostienen que una institución con impacto directo en trabajadores públicos, jubilados y familias necesita reglas modernas y controles comprensibles. La Cámara deberá analizar cuidadosamente el alcance de cada cambio y su impacto institucional y presupuestario.
+
+La iniciativa fue presentada bajo el expediente **19841**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19841/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19881",
+    matchId: "2026-04-29-fondos-bomberos-voluntarios",
+    item: {
+      fecha: "2026-04-29T12:00:00.000-03:00",
+      id: "2026-04-29-fondos-bomberos-voluntarios",
+      titulo: "Reclaman las transferencias nacionales adeudadas a bomberos voluntarios",
+      subtitulo:
+        "La resolución solicita regularizar los fondos destinados a asociaciones de bomberos voluntarios, fundamentales para la respuesta ante emergencias en la provincia.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-29-19881-fondos-bomberos.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de resolución para solicitar al Estado nacional la regularización de las transferencias destinadas a las asociaciones de bomberos voluntarios de Corrientes. La iniciativa ingresó como expediente 19881.
+
+El pedido se enmarca en el régimen de financiamiento previsto por la Ley Nacional 25.054 y retoma la preocupación expresada por la Federación Correntina de Asociaciones de Bomberos Voluntarios sobre la falta de regularidad y previsibilidad en la remesa de esos recursos.
+
+Los cuarteles intervienen en incendios, siniestros viales, inundaciones, rescates y emergencias rurales y forestales. Para sostener esas tareas necesitan equipamiento, mantenimiento de unidades, elementos de protección, capacitación y disponibilidad operativa. La demora de fondos de afectación específica puede limitar esa capacidad de respuesta.
+
+La resolución solicita al Ministerio de Seguridad de la Nación y a los organismos competentes transferencias regulares, oportunas y suficientes. A la vez, pide al Poder Ejecutivo provincial profundizar las gestiones institucionales y evaluar medidas transitorias de acompañamiento o contingencia para proteger la continuidad del servicio.
+
+Por su naturaleza, el proyecto no transfiere directamente el dinero ni determina una deuda definitiva: expresa una solicitud formal y busca que las autoridades responsables normalicen el circuito previsto por la normativa nacional. Los recursos resultan especialmente importantes para equipamiento, combustible, mantenimiento, seguros y capacitación. La resolución también procura conocer con precisión los criterios de distribución, los montos asignados y el calendario de pagos vigente.
+
+La propuesta deberá ser tratada por la Cámara. Fue presentada bajo el expediente **19881**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19881/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19882",
+    matchId: "2026-04-29-homenaje-ernesto-walter-grosse",
+    item: {
+      fecha: "2026-04-29T12:00:00.000-03:00",
+      id: "2026-04-29-homenaje-ernesto-walter-grosse",
+      titulo: "Proponen un homenaje póstumo al doctor Ernesto Walter Grosse",
+      subtitulo:
+        "La declaración busca reconocer su trayectoria profesional y sus aportes a la historia, la educación y la cultura de la ciudad de Goya y de Corrientes.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-29-19882-homenaje-ernesto-grosse.webp",
+      cuerpo: `La diputada Cecilia Gortari, junto a Emiliano Fernández y Gustavo Canteros, presentó un proyecto de declaración para expresar el pesar por el fallecimiento del doctor Ernesto Walter Grosse y reconocer su aporte a la comunidad de Goya. La iniciativa fue registrada como expediente 19882.
+
+Grosse desarrolló una trayectoria que reunió el ejercicio del derecho, la docencia, la investigación, la escritura y la participación institucional. Su trabajo estuvo especialmente vinculado con el estudio de la historia local y con la difusión de la identidad cultural goyana.
+
+Entre sus obras se encuentran investigaciones y libros dedicados al poblamiento y al nombre de la ciudad, a historias de la zona tabacalera y a relatos construidos desde calles, personajes y memorias de Goya. Esa producción contribuyó a conservar fuentes y a acercar el pasado local a generaciones de lectores.
+
+Los fundamentos del proyecto destacan también su compromiso educativo y su presencia en instituciones de la comunidad. La iniciativa propone que la Cámara deje constancia de ese recorrido y acompañe a su familia, colegas, estudiantes y personas que compartieron su trabajo cultural.
+
+Al tratarse de una declaración, el reconocimiento todavía debe ser aprobado por el cuerpo legislativo. No busca reemplazar los homenajes de las instituciones que integró, sino sumar una expresión formal desde la representación provincial. Los fundamentos recuperan su compromiso con la formación, la investigación y la memoria local como parte de un legado ampliamente compartido por toda la comunidad goyana actual y futura.
+
+El proyecto fue presentado bajo el expediente **19882**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19882/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19883",
+    matchId: "2026-04-29-protocolos-seguridad-escolar",
+    item: {
+      fecha: "2026-04-29T12:00:00.000-03:00",
+      id: "2026-04-29-protocolos-seguridad-escolar",
+      titulo: "Solicitan protocolos escolares ante amenazas y hechos de violencia",
+      subtitulo:
+        "El proyecto pide pautas claras de prevención, actuación y coordinación institucional para proteger a las comunidades educativas frente a situaciones de riesgo.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-29-19883-protocolos-seguridad-escolar.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de resolución para conocer y fortalecer los protocolos provinciales frente a amenazas graves en establecimientos educativos. La iniciativa, identificada como expediente 19883, incluye situaciones vinculadas con armas y violencia digital.
+
+El pedido solicita informar si existen procedimientos específicos para prevenir y actuar ante amenazas de ataque, sospecha o hallazgo de armas y mensajes intimidatorios difundidos por redes sociales o aplicaciones de mensajería. También requiere identificar qué autoridades intervienen y cómo se articula el trabajo entre Educación, Seguridad, Salud Mental y las áreas de Niñez y Adolescencia.
+
+La resolución consulta por los incidentes y denuncias registrados durante los últimos tres meses, sin presumir que cada amenaza se haya convertido en un hecho efectivo. Busca distinguir los casos, conocer la respuesta institucional y evaluar si los mecanismos actuales resultan suficientes.
+
+Otro eje es la capacitación de directivos, docentes, gabinetes y equipos técnicos. El proyecto pide datos sobre alcance, frecuencia y destinatarios, además de los canales habilitados para consultas, denuncias y detección temprana.
+
+La propuesta pone énfasis en el acompañamiento de estudiantes, familias y trabajadores de la educación después de una situación de alarma. No crea por sí misma un nuevo protocolo: solicita información, evaluación y eventual actualización de las herramientas existentes. El relevamiento permitiría detectar diferencias entre establecimientos y orientar nuevas capacitaciones, simulacros y canales de comunicación.
+
+El Ejecutivo tendría treinta días hábiles para responder si la Cámara aprueba el pedido. La iniciativa fue presentada bajo el expediente **19883**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19883/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19884",
+    matchId: "2026-04-29-seguridad-puente-paso-lopez",
+    item: {
+      fecha: "2026-04-29T12:00:00.000-03:00",
+      id: "2026-04-29-seguridad-puente-paso-lopez",
+      titulo: "Piden medidas de seguridad vial para el puente Paso López",
+      subtitulo:
+        "La resolución solicita una inspección técnica y acciones preventivas ante signos de erosión en una cabecera del puente sobre el río Corriente.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-04-29-19884-puente-paso-lopez.webp",
+      cuerpo: `La diputada Cecilia Gortari, junto a Emiliano Fernández y Gustavo Canteros, presentó un proyecto de resolución sobre el puente Paso López, ubicado en la Ruta Provincial 24 sobre el río Corriente. La iniciativa ingresó como expediente 19884.
+
+El proyecto solicita una inspección técnica integral del puente, sus accesos, terraplenes, cabeceras y obras de protección de márgenes. El pedido surge ante signos visibles de erosión y socavación en uno de los extremos, cuya magnitud debe ser determinada por equipos especializados.
+
+Mientras se realiza la evaluación estructural, geotécnica e hidráulica, la resolución propone medidas preventivas para resguardar la circulación. Entre ellas menciona señalización adecuada, control de cargas, regulación de velocidad y cualquier otra acción que los organismos técnicos consideren necesaria.
+
+Con los resultados de la inspección, el Ejecutivo debería elaborar un plan de intervención que contemple estabilización, reparación y defensa de márgenes. El expediente plantea la participación de Vialidad Provincial y del Instituto Correntino del Agua y del Ambiente en los aspectos vinculados con la dinámica del río y la cuenca.
+
+La propuesta no afirma que el puente esté inhabilitado ni anticipa un diagnóstico de seguridad. Precisamente, solicita que la evaluación profesional se realice con urgencia y que las decisiones se basen en evidencia técnica. El cruce es relevante para la movilidad cotidiana y la conexión de comunidades de la zona. Una revisión integral permitiría distinguir tareas preventivas de eventuales obras estructurales.
+
+El pedido incluye un informe a la Cámara dentro de quince días hábiles sobre las medidas adoptadas. Fue presentado bajo el expediente **19884**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19884/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19931",
+    matchId: "2026-05-06-deporte-inclusivo-adaptado",
+    item: {
+      fecha: "2026-05-06T12:00:00.000-03:00",
+      id: "2026-05-06-deporte-inclusivo-adaptado",
+      titulo: "Proponen un programa provincial de deporte inclusivo y adaptado",
+      subtitulo:
+        "La iniciativa crea herramientas para ampliar la participación deportiva de personas con discapacidad y acompañar a instituciones, atletas y familias.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-05-06-19931-deporte-inclusivo.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de ley para crear un Programa Provincial de Promoción del Deporte Inclusivo y Adaptado. La iniciativa fue registrada como expediente 19931 y alcanza a personas con discapacidad de todo el territorio correntino.
+
+El texto distingue el deporte inclusivo, donde participan conjuntamente personas con y sin discapacidad con los ajustes necesarios, y el deporte adaptado, cuyas reglas, técnicas o implementos se modifican para posibilitar la práctica. También define la accesibilidad deportiva como una combinación de infraestructura, equipamiento, comunicación e información.
+
+El programa propone facilitar el acceso a actividades deportivas y recreativas, impulsar la adecuación progresiva de espacios públicos y comunitarios y acompañar la disponibilidad de equipamiento adaptado. Otro objetivo es capacitar a profesores de educación física, entrenadores, dirigentes y personal técnico.
+
+La iniciativa plantea articular con clubes, municipios, escuelas, organizaciones de personas con discapacidad y familias. Además, procura promover eventos, competencias y experiencias de participación que no se concentren únicamente en las ciudades más grandes.
+
+El proyecto se apoya en el derecho al deporte y la recreación reconocido por la normativa nacional, provincial e internacional. No supone que los espacios ya sean accesibles ni que el programa esté funcionando: establece un marco para ordenar políticas y avanzar de manera progresiva. También prevé campañas públicas abiertas de difusión y mecanismos de seguimiento para evaluar cobertura territorial, participación y continuidad de las actividades.
+
+La propuesta debe completar el trámite legislativo antes de cualquier implementación. Fue presentada bajo el expediente **19931**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19931/).`,
+      documento: "",
+    },
+  },
+];
+
+const batch4 = [
+  {
+    expediente: "19966",
+    matchId: "2026-05-13-alivio-electrico-productores",
+    item: {
+      fecha: "2026-05-13T12:00:00.000-03:00",
+      id: "2026-05-13-alivio-electrico-productores",
+      titulo: "Solicitan alivio eléctrico para productores hortícolas y tabacaleros",
+      subtitulo:
+        "La resolución propone un régimen excepcional y transitorio para pequeños productores de Goya, Lavalle y zonas de influencia que atraviesen una situación crítica.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-05-13-19966-alivio-electrico-productores.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de resolución para solicitar un alivio transitorio en el pago de la energía eléctrica de pequeños productores hortícolas y tabacaleros. La iniciativa fue registrada como expediente 19966.
+
+El pedido está dirigido al Poder Ejecutivo provincial y plantea que la Dirección Provincial de Energía de Corrientes, junto con los organismos competentes, establezca un régimen excepcional para productores de Goya, Lavalle y sus zonas de influencia. Para acceder, las unidades productivas deberían acreditar una situación económica, productiva o comercial crítica.
+
+La propuesta considera que la electricidad es un insumo indispensable para el riego, el bombeo de agua, las perforaciones, la ventilación y otras tareas de la horticultura bajo cubierta y del cultivo de tabaco. El costo del servicio se suma a dificultades de comercialización, eventos climáticos, problemas sanitarios y aumentos de otros insumos.
+
+Entre las medidas solicitadas se contemplan planes especiales de pago, prórrogas, quitas de intereses y mecanismos que eviten la interrupción del suministro mientras dure la situación crítica. El alcance concreto y los requisitos quedarían sujetos a la reglamentación de los organismos provinciales.
+
+El proyecto busca proteger la continuidad de unidades familiares, el empleo rural y el arraigo en comunidades que dependen de estas actividades. No establece por sí mismo un beneficio vigente ni una reducción automática en las facturas: requiere el tratamiento de la Cámara y, si corresponde, una decisión posterior del Ejecutivo. La resolución deberá ser considerada por el cuerpo legislativo.
+
+La iniciativa fue presentada bajo el expediente **19966**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19966/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19967",
+    matchId: "2026-05-13-accesibilidad-palacio-legislativo",
+    item: {
+      fecha: "2026-05-13T12:00:00.000-03:00",
+      id: "2026-05-13-accesibilidad-palacio-legislativo",
+      titulo: "Impulsan accesibilidad universal en el Palacio Legislativo",
+      subtitulo:
+        "El proyecto solicita soluciones seguras y permanentes para que personas con discapacidad o movilidad reducida puedan ingresar al edificio sin barreras.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-05-13-19967-accesibilidad-legislatura.webp",
+      cuerpo: `Los diputados Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de resolución para promover medidas urgentes de accesibilidad universal en el ingreso al Palacio Legislativo de Corrientes. La iniciativa ingresó como expediente 19967.
+
+El texto insta a las autoridades de la Cámara a implementar una solución segura, visible y permanente para personas con discapacidad o movilidad reducida. Entre las alternativas menciona rampas fijas o móviles homologadas, plataformas elevadoras, salvaescaleras, accesos alternativos accesibles u otros dispositivos técnicamente equivalentes.
+
+Mientras se diseña una intervención definitiva, el proyecto solicita medidas transitorias que permitan el ingreso en condiciones de autonomía y seguridad. También pide informar el estado de cumplimiento de antecedentes legislativos vinculados con rampas u otros dispositivos de acceso al edificio.
+
+La propuesta parte de una premisa institucional: la sede de la representación popular y de la deliberación pública debe garantizar que todas las personas puedan participar, realizar trámites y asistir a las sesiones sin encontrar barreras arquitectónicas. Sus fundamentos remiten a la Constitución provincial, a la Convención sobre los Derechos de las Personas con Discapacidad y a las normas nacionales y provinciales sobre accesibilidad.
+
+La resolución no afirma que una obra determinada ya haya sido contratada o ejecutada. Solicita a las autoridades competentes que evalúen las opciones, adopten una respuesta urgente e informen sobre las actuaciones realizadas. La accesibilidad debería contemplar además señalización, circulación interior y asistencia adecuada durante todo el horario de atención.
+
+El proyecto debe ser tratado por la Cámara antes de producir efectos institucionales. Fue presentado bajo el expediente **19967**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19967/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19972",
+    matchId: "2026-05-13-cobertura-sanitaria-rural",
+    item: {
+      fecha: "2026-05-13T12:00:00.000-03:00",
+      id: "2026-05-13-cobertura-sanitaria-rural",
+      titulo: "Proponen un sistema provincial de cobertura sanitaria rural",
+      subtitulo:
+        "La iniciativa organiza una red de atención, prevención, medicamentos, comunicación y traslados para habitantes de parajes y zonas rurales de Corrientes.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-05-13-19972-salud-rural.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de ley para crear el Sistema Provincial de Cobertura Sanitaria Rural. La propuesta, registrada como expediente 19972, busca asegurar atención oportuna y continua en parajes, islas y zonas rurales de Corrientes.
+
+El sistema se concibe como una red integrada entre puestos sanitarios, hospitales, agentes comunitarios, equipos itinerantes y servicios de emergencia. El proyecto define un núcleo mínimo que comprende personal de referencia, botiquines esenciales, controles preventivos, mecanismos de comunicación y protocolos para derivaciones y traslados.
+
+La iniciativa propone identificar territorialmente a la población y a los dispositivos disponibles, establecer recorridos sanitarios regulares y fortalecer la atención primaria. También contempla acciones de salud materno-infantil, vacunación, seguimiento de enfermedades crónicas, salud mental, odontología y promoción de hábitos saludables.
+
+Otro eje es la respuesta ante distancias extensas, caminos intransitables o falta de conectividad. Por eso se plantean sistemas de comunicación alternativos, coordinación con ambulancias y municipios, teleasistencia cuando resulte posible y planes de contingencia para emergencias climáticas o epidemiológicas.
+
+La autoridad sanitaria provincial tendría a su cargo la planificación, los estándares y la evaluación. La implementación debería ser progresiva, con prioridades definidas según aislamiento, población, riesgos y capacidad instalada, sin reemplazar las responsabilidades ordinarias del sistema de salud.
+
+El proyecto establece un marco legal, pero el sistema todavía no está creado ni funcionando. Para ello debe completar el trámite legislativo y, en caso de sanción, ser reglamentado y financiado. La evaluación periódica permitiría ajustar recorridos, recursos y prioridades de acuerdo con resultados verificables.
+
+La propuesta fue presentada bajo el expediente **19972**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19972/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "19981",
+    matchId: "2026-05-13-marcha-federal-universitaria",
+    item: {
+      fecha: "2026-05-13T12:00:00.000-03:00",
+      id: "2026-05-13-marcha-federal-universitaria",
+      titulo: "Impulsan la adhesión legislativa a la Marcha Federal Universitaria",
+      subtitulo:
+        "El proyecto de declaración expresa acompañamiento institucional a la movilización en defensa de la universidad pública y su financiamiento en el país.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-05-13-19981-marcha-universitaria.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de declaración para expresar la adhesión de la Cámara de Diputados de Corrientes a la Marcha Federal Universitaria. La iniciativa fue registrada como expediente 19981.
+
+La propuesta acompaña institucionalmente la movilización de la comunidad universitaria en defensa de la educación superior pública, gratuita y de calidad. Sus fundamentos señalan la necesidad de asegurar recursos que permitan sostener el funcionamiento, la enseñanza, la investigación, la extensión y las políticas de bienestar estudiantil.
+
+El texto reconoce el papel de las universidades nacionales en la formación profesional, la producción de conocimiento y el desarrollo de las provincias. Para Corrientes, destaca especialmente la presencia regional y el trabajo de las instituciones públicas que reciben estudiantes de distintas localidades y generan capacidades científicas, sanitarias, productivas y culturales.
+
+La declaración también pone el foco en las condiciones laborales de docentes y personal no docente, las becas, los gastos de funcionamiento y la infraestructura. Plantea que el acceso a la universidad debe poder sostenerse con independencia del lugar de residencia o de la situación económica de cada estudiante.
+
+Por su naturaleza, la iniciativa expresa una posición política e institucional de la Cámara. No asigna partidas, modifica el presupuesto nacional ni dispone medidas ejecutivas. Su efecto dependerá del tratamiento legislativo y de la eventual aprobación del cuerpo.
+
+El proyecto evita atribuir resultados a la movilización y se limita a formular un acompañamiento público dentro de las competencias provinciales.
+
+La propuesta fue presentada bajo el expediente **19981**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/19981/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "20017",
+    matchId: "2026-05-27-conectividad-digital-rural",
+    item: {
+      fecha: "2026-05-27T12:00:00.000-03:00",
+      id: "2026-05-27-conectividad-digital-rural",
+      titulo: "Piden ampliar la conectividad digital en zonas rurales y periurbanas",
+      subtitulo:
+        "La resolución solicita acciones nacionales para mejorar internet y telefonía móvil en localidades y parajes correntinos con cobertura insuficiente.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-05-27-20017-conectividad-rural.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de resolución para solicitar mejoras de conectividad digital en zonas rurales, semirrurales y periurbanas de Corrientes. La iniciativa ingresó como expediente 20017.
+
+El pedido está dirigido al Poder Ejecutivo nacional para que, a través del Ente Nacional de Comunicaciones y de los organismos competentes, impulse acciones que amplíen la cobertura y la calidad de internet y telefonía móvil. La propuesta prioriza localidades y parajes donde la señal es inexistente, inestable o insuficiente.
+
+El texto plantea realizar relevamientos territoriales, identificar puntos críticos y coordinar planes de inversión con prestadores, cooperativas, municipios y la Provincia. También solicita que las decisiones consideren las distancias, la dispersión poblacional y los mayores costos de infraestructura que enfrentan las comunidades del interior.
+
+La conectividad se presenta como una condición para estudiar, trabajar, producir, acceder a trámites, comunicarse ante emergencias y recibir servicios de salud a distancia. La brecha no se mide solamente por la existencia formal de una red: también importan su estabilidad, velocidad, alcance y costo para los hogares.
+
+El proyecto remite al marco de la Ley Argentina Digital y al principio de acceso equitativo a las tecnologías de la información y las comunicaciones. No anuncia obras contratadas ni fija plazos de ejecución, porque esas decisiones corresponden a las autoridades nacionales y a los operadores.
+
+La resolución debe ser tratada por la Cámara. Si se aprueba, formalizará el pedido y la comunicación institucional a los organismos responsables.
+
+La iniciativa fue presentada bajo el expediente **20017**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/20017/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "20045",
+    matchId: "2026-06-03-caminos-rurales",
+    item: {
+      fecha: "2026-06-03T12:00:00.000-03:00",
+      id: "2026-06-03-caminos-rurales",
+      titulo: "Presentaron un régimen integral para fortalecer los caminos rurales",
+      subtitulo:
+        "El proyecto de ley ordena la planificación, conservación y mejora de la red rural, con participación de Vialidad, municipios y consorcios camineros.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-06-03-20045-caminos-rurales.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de ley para crear un régimen provincial de gestión integral, conservación, mejoramiento y fortalecimiento de caminos rurales y consorcios camineros. La iniciativa fue registrada como expediente 20045.
+
+La propuesta busca que la transitabilidad se planifique como una política permanente y no solamente como respuesta a emergencias. El texto vincula el estado de los caminos con el acceso a escuelas, centros de salud, seguridad, producción, empleo y arraigo de las familias del interior.
+
+La Dirección Provincial de Vialidad sería la autoridad de aplicación y coordinaría con municipios, consorcios, organismos hídricos y áreas productivas. El régimen incluye un registro provincial, un inventario georreferenciado de la red, criterios de priorización y planes periódicos de mantenimiento, obras y respuesta ante contingencias.
+
+El proyecto fortalece la figura de los consorcios camineros como espacios de cooperación local. Plantea reglas de integración, asistencia técnica, capacitación, rendición de fondos y participación de productores y vecinos, respetando las competencias municipales y provinciales existentes.
+
+También incorpora criterios ambientales e hidráulicos para evitar que las intervenciones alteren desagües o cursos de agua. La planificación debería considerar escuelas, puestos sanitarios, zonas productivas, volumen de tránsito, aislamiento y riesgos climáticos.
+
+La iniciativa no implica que todas las obras estén financiadas o programadas. Crea herramientas para ordenar decisiones, asignar prioridades y controlar resultados; su aplicación requeriría sanción, reglamentación y previsión presupuestaria. Los informes públicos permitirían seguir el estado de cada tramo y evaluar el cumplimiento de los planes.
+
+El proyecto fue presentado bajo el expediente **20045**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/20045/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "20046",
+    matchId: "2026-06-03-empleo-emprendimiento-joven",
+    item: {
+      fecha: "2026-06-03T12:00:00.000-03:00",
+      id: "2026-06-03-empleo-emprendimiento-joven",
+      titulo: "Impulsan empleo, capacitación y emprendimientos para jóvenes correntinos",
+      subtitulo:
+        "La iniciativa crea un régimen provincial con formación certificada, prácticas protegidas, incentivos a la contratación y apoyo para proyectos productivos.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-06-03-20046-empleo-joven.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de ley para crear el Régimen Provincial de Acompañamiento al Empleo, la Formación y el Emprendedurismo Joven. La iniciativa ingresó como expediente 20046.
+
+La propuesta busca conectar educación, trabajo registrado y producción mediante distintas líneas de acción. Incluye formación y certificación laboral, entrenamiento protegido en ámbitos de trabajo, incentivos para la contratación formal, orientación ocupacional y apoyo técnico y financiero a emprendimientos.
+
+El régimen está dirigido principalmente a personas jóvenes y prevé una extensión del límite de edad hasta los 35 años para determinados grupos. Entre las prioridades se encuentran quienes enfrentan barreras sociales, territoriales, educativas o de discapacidad y quienes residen en localidades con menos oportunidades laborales.
+
+Las capacitaciones podrían desarrollarse con instituciones educativas, municipios, sindicatos, organizaciones productivas y entidades acreditadas. Las prácticas deberían contar con objetivos formativos, tutoría, cobertura de riesgos y reglas que eviten reemplazar puestos de trabajo permanentes.
+
+Para los emprendimientos, el texto plantea asistencia para formular proyectos, capacitación en gestión, vinculación con mercados y herramientas de financiamiento. También contempla información pública, seguimiento de trayectorias e indicadores para evaluar inserción, formalización y continuidad.
+
+La iniciativa propone actualizar el marco provincial y derogar la Ley 5.837. No crea empleos de manera automática ni garantiza un beneficio individual: establece instrumentos que dependerán de reglamentación, presupuesto y convocatorias posteriores si la ley es sancionada. El seguimiento debería mostrar cuántas personas completan la formación y logran una inserción sostenible.
+
+El proyecto debe completar su tratamiento legislativo. Fue presentado bajo el expediente **20046**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/20046/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "20051",
+    matchId: "2026-06-03-emergencia-alimentaria-escolar",
+    item: {
+      fecha: "2026-06-03T12:00:00.000-03:00",
+      id: "2026-06-03-emergencia-alimentaria-escolar",
+      titulo: "Impulsan una emergencia alimentaria para proteger los comedores escolares",
+      subtitulo:
+        "El proyecto establece medidas extraordinarias de continuidad, calidad, inocuidad y control para las prestaciones alimentarias de escuelas estatales.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-06-03-20051-emergencia-alimentaria-escolar.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de ley para declarar la Emergencia Alimentaria Escolar en todo el territorio de Corrientes. La iniciativa, registrada como expediente 20051, alcanza a establecimientos educativos de gestión estatal.
+
+El texto propone medidas extraordinarias para garantizar continuidad, regularidad, suficiencia, calidad, inocuidad y trazabilidad de desayunos, meriendas, almuerzos y otras prestaciones. El Ministerio de Educación sería la autoridad de aplicación y debería coordinar con Salud, Desarrollo Social, municipios y comunidades educativas.
+
+Entre las herramientas previstas se encuentra un Plan Provincial de Garantía Alimentaria Escolar, un relevamiento de matrícula y necesidades, planificación nutricional, controles sanitarios y protocolos para faltantes o productos en mal estado. También se plantean mecanismos de recepción, almacenamiento y seguimiento de lotes.
+
+El proyecto prioriza escuelas rurales, de islas, de frontera, de educación especial y aquellas ubicadas en contextos de vulnerabilidad. Busca que la distancia o las dificultades logísticas no interrumpan una prestación que incide en la salud, la asistencia y las condiciones de aprendizaje.
+
+La propuesta incorpora obligaciones de información pública, canales de reclamo y reportes periódicos para que familias, directivos y organismos de control puedan verificar entregas y condiciones. Sus fundamentos recogen preocupaciones planteadas por comunidades educativas, sin atribuir responsabilidades administrativas o empresariales que no hayan sido determinadas.
+
+La emergencia no está vigente por la sola presentación. La Cámara debe debatir el proyecto y, en caso de sanción, el Ejecutivo deberá reglamentar, financiar y ejecutar las medidas. La propuesta prevé controles durante todo el proceso, desde la compra hasta la entrega en cada escuela.
+
+La iniciativa fue presentada bajo el expediente **20051**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/20051/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "20074",
+    matchId: "2026-06-17-abogado-del-nino",
+    item: {
+      fecha: "2026-06-17T12:00:00.000-03:00",
+      id: "2026-06-17-abogado-del-nino",
+      titulo: "Proponen crear la figura del Abogado del Niño en Corrientes",
+      subtitulo:
+        "La iniciativa regula el patrocinio jurídico especializado de niñas, niños y adolescentes en procedimientos judiciales o administrativos que los afecten.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-06-17-20074-abogado-del-nino.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de ley para implementar en Corrientes la figura del Abogado del Niño, Niña y Adolescente. La propuesta fue registrada como expediente 20074.
+
+La iniciativa regula el patrocinio técnico especializado para representar los intereses personales de niñas, niños y adolescentes en procedimientos judiciales o administrativos que los afecten. Esa función es distinta de la representación de madres, padres, tutores, organismos de protección o del Ministerio Público.
+
+El texto busca hacer operativo el derecho a ser oído, recibir asesoramiento comprensible y contar con una defensa propia cuando la edad y el grado de madurez lo permitan. La intervención debería respetar la autonomía progresiva, el interés superior y la confidencialidad del vínculo profesional.
+
+El proyecto contempla un registro provincial de abogadas y abogados con formación específica, reglas de designación, capacitación continua y mecanismos de control ético. También prevé cobertura territorial y patrocinio gratuito cuando la persona menor de edad carezca de recursos, para que el acceso no dependa del lugar de residencia o de la situación económica familiar.
+
+La propuesta articula normas de la Convención sobre los Derechos del Niño, la Constitución provincial, la Ley 26.061, el Código Civil y Comercial y el Código Procesal de Familia, Niñez y Adolescencia de Corrientes. Su objetivo es ordenar en una ley específica garantías que ya aparecen reconocidas en ese marco.
+
+La figura no entra en funcionamiento por la presentación del expediente. El proyecto debe ser debatido, sancionado y reglamentado, con recursos y procedimientos institucionales definidos.
+
+La iniciativa fue presentada bajo el expediente **20074**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/20074/).`,
+      documento: "",
+    },
+  },
+  {
+    expediente: "20075",
+    matchId: "2026-06-17-transparencia-ofertas-educativas",
+    item: {
+      fecha: "2026-06-17T12:00:00.000-03:00",
+      id: "2026-06-17-transparencia-ofertas-educativas",
+      titulo: "Buscan garantizar mayor transparencia en las ofertas educativas",
+      subtitulo:
+        "El proyecto crea un registro público para verificar la validez oficial de carreras, tecnicaturas, certificaciones y otras propuestas formativas.",
+      etiqueta: "Noticia",
+      imagen: "/assets/uploads/project-news/2026-06-17-20075-transparencia-ofertas-educativas.webp",
+      cuerpo: `Cecilia Gortari, Emiliano Fernández y Gustavo Canteros presentaron un proyecto de ley para crear el Régimen de Transparencia de Ofertas Educativas de Corrientes. La iniciativa fue registrada como expediente 20075.
+
+El objetivo es que cualquier persona pueda verificar de manera clara y pública si una carrera, tecnicatura, trayecto de nivel superior o técnico-profesional, certificación u otra oferta que invoque reconocimiento estatal cuenta efectivamente con autorización o validez oficial.
+
+El proyecto propone un registro o portal provincial con información mínima sobre cada institución y propuesta: denominación, sede, modalidad, norma de aprobación, autoridad que la reconoció, títulos o certificados que otorga y estado de vigencia. Los datos deberían actualizarse y ofrecer canales para realizar consultas o advertir inconsistencias.
+
+Las instituciones alcanzadas tendrían que identificar en su publicidad el acto administrativo correspondiente. Si una propuesta no posee validez oficial, esa circunstancia debería informarse de manera visible, evitando expresiones que puedan inducir a error. La habilitación comercial de un establecimiento no podría presentarse como equivalente a una autorización educativa.
+
+La iniciativa también contempla acciones preventivas, fiscalización y coordinación con organismos de defensa del consumidor y municipios. Busca proteger decisiones que comprometen tiempo, dinero y expectativas laborales de estudiantes y familias, sin prohibir actividades formativas que se comuniquen con precisión.
+
+El régimen todavía no está vigente y no implica que las ofertas actualmente existentes hayan sido evaluadas. Para su aplicación se requiere tratamiento legislativo, sanción y reglamentación por la autoridad educativa competente. La actualización del portal sería una responsabilidad permanente y debería conservar antecedentes de cada autorización.
+
+La propuesta fue presentada bajo el expediente **20075**. [Conocé los proyectos legislativos](/proyectos/) y [consultá el expediente oficial](https://hcdcorrientes.gov.ar/expedientes/20075/).`,
+      documento: "",
+    },
+  },
+];
+
+const allBatches = [...batch1, ...batch2, ...batch3, ...batch4];
+const press = JSON.parse(await fs.readFile(pressPath, "utf8"));
+if (!Array.isArray(press.items)) throw new Error("src/content/prensa.json no contiene items[]");
+
+let created = 0;
+let updated = 0;
+for (const record of allBatches) {
+  const index = press.items.findIndex((item) => item.id === record.matchId || item.id === record.item.id);
+  if (index >= 0) {
+    press.items[index] = { ...press.items[index], ...record.item };
+    updated += 1;
+  } else {
+    press.items.push(record.item);
+    created += 1;
+  }
+}
+
+const ids = press.items.map((item) => item.id);
+if (new Set(ids).size !== ids.length) throw new Error("La operación generó IDs duplicados.");
+
+await fs.writeFile(pressPath, JSON.stringify(press, null, 2) + "\n", "utf8");
+console.log(JSON.stringify({ processed: allBatches.length, created, updated, total: press.items.length }, null, 2));

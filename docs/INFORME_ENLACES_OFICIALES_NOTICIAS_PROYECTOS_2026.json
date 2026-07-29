@@ -1,0 +1,568 @@
+{
+  "generated_at": "2026-07-29T04:28:01.959Z",
+  "total": 70,
+  "ok": 70,
+  "failed": [],
+  "items": [
+    {
+      "e": "19669",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19669/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19669/"
+    },
+    {
+      "e": "19669",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19669.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19669.pdf"
+    },
+    {
+      "e": "19670",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19670/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19670/"
+    },
+    {
+      "e": "19670",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19670.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19670.pdf"
+    },
+    {
+      "e": "19675",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19675/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19675/"
+    },
+    {
+      "e": "19675",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19675.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19675.pdf"
+    },
+    {
+      "e": "19680",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19680/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19680/"
+    },
+    {
+      "e": "19680",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19680-1.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19680-1.pdf"
+    },
+    {
+      "e": "19714",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19714/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19714/"
+    },
+    {
+      "e": "19714",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19714.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19714.pdf"
+    },
+    {
+      "e": "19715",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19715/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19715/"
+    },
+    {
+      "e": "19715",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19715.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19715.pdf"
+    },
+    {
+      "e": "19720",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19720/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19720/"
+    },
+    {
+      "e": "19720",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19720.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19720.pdf"
+    },
+    {
+      "e": "19753",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19753/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19753/"
+    },
+    {
+      "e": "19753",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19753.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/03/Expte-19753.pdf"
+    },
+    {
+      "e": "19786",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19786/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19786/"
+    },
+    {
+      "e": "19786",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19786.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19786.pdf"
+    },
+    {
+      "e": "19787",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19787/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19787/"
+    },
+    {
+      "e": "19787",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19787.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19787.pdf"
+    },
+    {
+      "e": "19788",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19788/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19788/"
+    },
+    {
+      "e": "19788",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19788.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19788.pdf"
+    },
+    {
+      "e": "19789",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19789/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19789/"
+    },
+    {
+      "e": "19789",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19789.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19789.pdf"
+    },
+    {
+      "e": "19793",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19793/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19793/"
+    },
+    {
+      "e": "19793",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19793-1.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19793-1.pdf"
+    },
+    {
+      "e": "19831",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19831/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19831/"
+    },
+    {
+      "e": "19831",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19831-1.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19831-1.pdf"
+    },
+    {
+      "e": "19832",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19832/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19832/"
+    },
+    {
+      "e": "19832",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19832-1.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19832-1.pdf"
+    },
+    {
+      "e": "19833",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19833/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19833/"
+    },
+    {
+      "e": "19833",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19833.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19833.pdf"
+    },
+    {
+      "e": "19834",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19834/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19834/"
+    },
+    {
+      "e": "19834",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19834.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19834.pdf"
+    },
+    {
+      "e": "19835",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19835/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19835/"
+    },
+    {
+      "e": "19835",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19835.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19835.pdf"
+    },
+    {
+      "e": "19840",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19840/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19840/"
+    },
+    {
+      "e": "19840",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19840-1.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19840-1.pdf"
+    },
+    {
+      "e": "19841",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19841/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19841/"
+    },
+    {
+      "e": "19841",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19841.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19841.pdf"
+    },
+    {
+      "e": "19881",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19881/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19881/"
+    },
+    {
+      "e": "19881",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19881.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19881.pdf"
+    },
+    {
+      "e": "19882",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19882/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19882/"
+    },
+    {
+      "e": "19882",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19882.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19882.pdf"
+    },
+    {
+      "e": "19883",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19883/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19883/"
+    },
+    {
+      "e": "19883",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19883.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19883.pdf"
+    },
+    {
+      "e": "19884",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19884/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19884/"
+    },
+    {
+      "e": "19884",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19884.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/04/Expte-19884.pdf"
+    },
+    {
+      "e": "19931",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19931/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19931/"
+    },
+    {
+      "e": "19931",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-19931.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-19931.pdf"
+    },
+    {
+      "e": "19966",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19966/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19966/"
+    },
+    {
+      "e": "19966",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-19966.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-19966.pdf"
+    },
+    {
+      "e": "19967",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19967/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19967/"
+    },
+    {
+      "e": "19967",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-19967.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-19967.pdf"
+    },
+    {
+      "e": "19972",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19972/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19972/"
+    },
+    {
+      "e": "19972",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-19972.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-19972.pdf"
+    },
+    {
+      "e": "19981",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/19981/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/19981-adj-19778/"
+    },
+    {
+      "e": "19981",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-19981.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-19981.pdf"
+    },
+    {
+      "e": "20017",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/20017/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/20017/"
+    },
+    {
+      "e": "20017",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-20017.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-20017.pdf"
+    },
+    {
+      "e": "20045",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/20045/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/20045/"
+    },
+    {
+      "e": "20045",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-20045.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-20045.pdf"
+    },
+    {
+      "e": "20046",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/20046/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/20046/"
+    },
+    {
+      "e": "20046",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-20046.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-20046.pdf"
+    },
+    {
+      "e": "20051",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/20051/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/20051/"
+    },
+    {
+      "e": "20051",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-20051.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-20051.pdf"
+    },
+    {
+      "e": "20074",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/20074/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/20074/"
+    },
+    {
+      "e": "20074",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/06/Expte-20074.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/06/Expte-20074.pdf"
+    },
+    {
+      "e": "20075",
+      "k": "landing",
+      "u": "https://hcdcorrientes.gov.ar/expedientes/20075/",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/expedientes/20075/"
+    },
+    {
+      "e": "20075",
+      "k": "pdf",
+      "u": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/06/Expte-20075.pdf",
+      "status": 200,
+      "ok": true,
+      "final": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/06/Expte-20075.pdf"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+﻿[
+    {
+        "id":  "2025-12-18-cuentas-inversion",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/NOTA informe cuentainversion.png",
+        "respaldo":  "media/NOTA informe cuentainversion.png",
+        "sha256":  "F164D9A87E29DB4F20865B73A316BDC1FA173881FFA4D67516CB63088EDEF363"
+    },
+    {
+        "id":  "2025-12-18-cuentas-inversion",
+        "campo":  "documento",
+        "ruta":  "/assets/uploads/nota-gobernador.pdf",
+        "respaldo":  "media/nota-gobernador.pdf",
+        "sha256":  "10CB8E1E8649F7A28FBB5287EB0EDDCE3C55506A4A998C905BC36D32CF133F26"
+    },
+    {
+        "id":  "2025-12-19-presupuesto2026",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/Captura de pantalla 2026-01-07 062938.png",
+        "respaldo":  "media/Captura de pantalla 2026-01-07 062938.png",
+        "sha256":  "DFD815F9ECC3909A19E5E7F6CB097F5587AC939637C558CD8E0104318E1FCA2F"
+    },
+    {
+        "id":  "2025-12-29-entrega-certificados-escuela-oficios",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/WhatsApp Image 2026-01-07 at 07.09.43.jpeg",
+        "respaldo":  "media/WhatsApp Image 2026-01-07 at 07.09.43.jpeg",
+        "sha256":  "E77BA02D26B0DA4385B1504B00729A3396AEC5D95297488BD3B9D5582B5D80E3"
+    },
+    {
+        "id":  "2026-01-17-embajadora-comparsa-arami",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/WhatsApp Image 2026-01-17 at 18.45.47.jpeg",
+        "respaldo":  "media/WhatsApp Image 2026-01-17 at 18.45.47.jpeg",
+        "sha256":  "D56F808C7C50F18F0A7D62775BAB3172270E03D45CBCF4B50182160B8993222A"
+    },
+    {
+        "id":  "2026-01-26-solidaridad-alal-goya-despidos",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/Captura de pantalla 2026-01-26 135459.png",
+        "respaldo":  "media/Captura de pantalla 2026-01-26 135459.png",
+        "sha256":  "FC2C77A61D845FEAD37AA1BBB106D75B9DD57FE44BAA01BA275F2A4DDA9C9FB7"
+    },
+    {
+        "id":  "2026-01-26-solidaridad-alal-goya-despidos",
+        "campo":  "documento",
+        "ruta":  "/assets/uploads/Comunicado Final.pdf",
+        "respaldo":  "media/Comunicado Final.pdf",
+        "sha256":  "3DD1C4D709038AEA8256E65562671D939602958DD7960A97D78CE4DEE95D882B"
+    },
+    {
+        "id":  "2026-03-11-cinco-proyectos-corrientes",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/IMG_0540.jpeg",
+        "respaldo":  "media/IMG_0540.jpeg",
+        "sha256":  "A6D9895F4A0FBBF29303DF472B440176BDCDBB9DA7DED7E26233FE1C8DDDFE04"
+    },
+    {
+        "id":  "2026-03-11-asistencia-trabajadores-al-goya",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/empresa-alal-2195479.jpeg",
+        "respaldo":  "media/empresa-alal-2195479.jpeg",
+        "sha256":  "F1F1AF2236A34FBF45C0EE9BF5267F19503356D22F8C90F8E3CD66071C5C67D6"
+    },
+    {
+        "id":  "2026-03-11-alivio-corrientes",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/IMG_0542.jpeg",
+        "respaldo":  "media/IMG_0542.jpeg",
+        "sha256":  "1AAD6C46AD39F36ECB091B53A34616F4BCE1B6CD2992C6EE40FEABA464DD87AF"
+    },
+    {
+        "id":  "2026-03-14-proyectos-ley-deudores-ioscor",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/prensa7.jpg",
+        "respaldo":  "media/prensa7.jpg",
+        "sha256":  "FF56DECDAE9BA8FDD09D3A6E037AA9350A365B5AF9975DF372399531B180E37C"
+    },
+    {
+        "id":  "2026-03-22-reclamo-docente-haberes-dialogo",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/Slide2.jpg",
+        "respaldo":  "media/Slide2.jpg",
+        "sha256":  "DC9AAAFAA3D7DBA4CC8DAA84FD9B2E1CF133C7C876FC39B2FC725DF61C25AD66"
+    },
+    {
+        "id":  "2026-04-07-crisis-discapacidad-reclamo-pagos-corrientes",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/07-8-960x1128.jpg",
+        "respaldo":  "media/07-8-960x1128.jpg",
+        "sha256":  "985D2B6FDFDE04876CD136F855905DE4646D88A0C4B20739C9750233678005FC"
+    },
+    {
+        "id":  "2026-04-07-proteccion-salarial-y-apid",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/images.jpeg",
+        "respaldo":  "media/images.jpeg",
+        "sha256":  "C65FAEF79C215C02EAACEA530260A1B77679F9C3452B3F59AD24F2DD912052B6"
+    },
+    {
+        "id":  "2026-04-13-reforma-integral-ioscor-proyecto-diputados",
+        "campo":  "imagen",
+        "ruta":  "/assets/uploads/SLIDE4.jpg",
+        "respaldo":  "media/SLIDE4.jpg",
+        "sha256":  "0F809AB735CB26217EA5714254F89D94B93B8BA5070E6C3DFADE4B10B00C8F58"
+    }
+]
