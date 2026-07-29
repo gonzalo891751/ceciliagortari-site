@@ -1,8 +1,11 @@
 # Actualización editorial integral de Novedades — Proyectos de autoría 2026
 
-Fecha de cierre: 29 de julio de 2026  
-Sitio: https://www.ceciliagortari.com.ar  
-Rama de trabajo: `chore/noticias-proyectos-autoria-2026`  
+Fecha de cierre: 29 de julio de 2026
+
+Sitio: https://www.ceciliagortari.com.ar
+
+Rama de trabajo: `chore/noticias-proyectos-autoria-2026`
+
 Commit funcional publicado: `2cff013`
 
 ## Resultado
