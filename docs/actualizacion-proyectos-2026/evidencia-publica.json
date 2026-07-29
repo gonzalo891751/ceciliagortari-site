@@ -1,0 +1,65 @@
+{
+  "verified_at": "2026-07-29T03:11:39.112Z",
+  "url": "https://ceciliagortari.com.ar/proyectos/",
+  "success": true,
+  "desktop": {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "total": 143,
+    "authorship": {
+      "coautoria": 40,
+      "acompanado": 103
+    },
+    "laws": 28,
+    "education": 34,
+    "approved": 59,
+    "search_title": 1,
+    "search_19669": 1,
+    "download": {
+      "url": "https://ceciliagortari.com.ar/api/projects/public/EXP-19669/documents/2286e1ce-a0e6-4a86-93f5-a327f5d9514c/download",
+      "status": 200,
+      "bytes": 62937,
+      "pdf_header": true
+    },
+    "preview": {
+      "url": "https://ceciliagortari.com.ar/api/projects/public/EXP-19669/documents/2286e1ce-a0e6-4a86-93f5-a327f5d9514c/preview",
+      "status": 200,
+      "content_type": "application/pdf"
+    },
+    "horizontal_overflow_px": 0,
+    "same_origin_request_failures": [],
+    "console_errors": []
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "total": 143,
+    "authorship": {
+      "coautoria": 40,
+      "acompanado": 103
+    },
+    "laws": 28,
+    "education": 34,
+    "approved": 59,
+    "search_title": 1,
+    "search_19669": 1,
+    "download": {
+      "url": "https://ceciliagortari.com.ar/api/projects/public/EXP-19669/documents/2286e1ce-a0e6-4a86-93f5-a327f5d9514c/download",
+      "status": 200,
+      "bytes": 62937,
+      "pdf_header": true
+    },
+    "preview": {
+      "url": "https://ceciliagortari.com.ar/api/projects/public/EXP-19669/documents/2286e1ce-a0e6-4a86-93f5-a327f5d9514c/preview",
+      "status": 200,
+      "content_type": "application/pdf"
+    },
+    "horizontal_overflow_px": 0,
+    "same_origin_request_failures": [],
+    "console_errors": []
+  }
+}

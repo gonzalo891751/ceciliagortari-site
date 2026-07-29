@@ -1,0 +1,169 @@
+{
+  "cutoff": "2026-07-08",
+  "searched_at": "2026-07-28T23:46:17.282273-03:00",
+  "searches": [
+    {
+      "author_query": "Gortari",
+      "url": "https://hcdcorrientes.gov.ar/?post_type=expedientes&expte-hcd=&presentado-en-sesion=&camara_de_inicio=&tipo_autor=&autor-res=Gortari&comision=&asunto=&tipo-de-proyecto=",
+      "first_page_rows": [
+        {
+          "numero_expediente": "20192",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés el 118º aniversario de la fundación de San Lorenzo.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20177",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés las actividades que se realicen en conmemoración del Día de la Ganadería.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20176",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés el 22º aniversario de la creación del Municipio de Villa Olivari.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20145",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés las actividades que se realicen en conmemoración del Día Nacional de la Medicina Social.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20157",
+          "tipo": "Resolución",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "Insta al Poder Ejecutivo, a través de la Dirección Provincial de Vialidad, a ejecutar las obras de mantenimiento y reparación de la RP Nº 33, en su trayecto entre Mocoretá y Monte Caseros.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Energía, Transporte, Obras y Servicios Públicos."
+        }
+      ],
+      "pagination_links": [
+        "https://hcdcorrientes.gov.ar/page/2/?post_type=expedientes&expte-hcd&presentado-en-sesion&camara_de_inicio&tipo_autor&autor-res=Gortari&comision&asunto&tipo-de-proyecto",
+        "https://hcdcorrientes.gov.ar/page/29/?post_type=expedientes&expte-hcd&presentado-en-sesion&camara_de_inicio&tipo_autor&autor-res=Gortari&comision&asunto&tipo-de-proyecto",
+        "https://hcdcorrientes.gov.ar/page/2/?post_type=expedientes&expte-hcd&presentado-en-sesion&camara_de_inicio&tipo_autor&autor-res=Gortari&comision&asunto&tipo-de-proyecto"
+      ]
+    },
+    {
+      "author_query": "Fernández Recalde",
+      "url": "https://hcdcorrientes.gov.ar/?post_type=expedientes&expte-hcd=&presentado-en-sesion=&camara_de_inicio=&tipo_autor=&autor-res=Fern%C3%A1ndez+Recalde&comision=&asunto=&tipo-de-proyecto=",
+      "first_page_rows": [
+        {
+          "numero_expediente": "20192",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés el 118º aniversario de la fundación de San Lorenzo.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20177",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés las actividades que se realicen en conmemoración del Día de la Ganadería.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20176",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés el 22º aniversario de la creación del Municipio de Villa Olivari.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20145",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés las actividades que se realicen en conmemoración del Día Nacional de la Medicina Social.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20157",
+          "tipo": "Resolución",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "Insta al Poder Ejecutivo, a través de la Dirección Provincial de Vialidad, a ejecutar las obras de mantenimiento y reparación de la RP Nº 33, en su trayecto entre Mocoretá y Monte Caseros.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Energía, Transporte, Obras y Servicios Públicos."
+        }
+      ],
+      "pagination_links": [
+        "https://hcdcorrientes.gov.ar/page/2/?post_type=expedientes&expte-hcd&presentado-en-sesion&camara_de_inicio&tipo_autor&autor-res=Fern%C3%A1ndez+Recalde&comision&asunto&tipo-de-proyecto",
+        "https://hcdcorrientes.gov.ar/page/28/?post_type=expedientes&expte-hcd&presentado-en-sesion&camara_de_inicio&tipo_autor&autor-res=Fern%C3%A1ndez+Recalde&comision&asunto&tipo-de-proyecto",
+        "https://hcdcorrientes.gov.ar/page/2/?post_type=expedientes&expte-hcd&presentado-en-sesion&camara_de_inicio&tipo_autor&autor-res=Fern%C3%A1ndez+Recalde&comision&asunto&tipo-de-proyecto"
+      ]
+    },
+    {
+      "author_query": "Canteros",
+      "url": "https://hcdcorrientes.gov.ar/?post_type=expedientes&expte-hcd=&presentado-en-sesion=&camara_de_inicio=&tipo_autor=&autor-res=Canteros&comision=&asunto=&tipo-de-proyecto=",
+      "first_page_rows": [
+        {
+          "numero_expediente": "20192",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés el 118º aniversario de la fundación de San Lorenzo.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20177",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés las actividades que se realicen en conmemoración del Día de la Ganadería.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20176",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés el 22º aniversario de la creación del Municipio de Villa Olivari.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20145",
+          "tipo": "Declaración",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "De interés las actividades que se realicen en conmemoración del Día Nacional de la Medicina Social.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Sobre Tablas"
+        },
+        {
+          "numero_expediente": "20157",
+          "tipo": "Resolución",
+          "autor": "Dips. Canteros, Fernández Recalde y Gortari.",
+          "asunto": "Insta al Poder Ejecutivo, a través de la Dirección Provincial de Vialidad, a ejecutar las obras de mantenimiento y reparación de la RP Nº 33, en su trayecto entre Mocoretá y Monte Caseros.",
+          "fecha_ingreso": "08/07/2026",
+          "comision": "Energía, Transporte, Obras y Servicios Públicos."
+        }
+      ],
+      "pagination_links": [
+        "https://hcdcorrientes.gov.ar/page/2/?post_type=expedientes&expte-hcd&presentado-en-sesion&camara_de_inicio&tipo_autor&autor-res=Canteros&comision&asunto&tipo-de-proyecto",
+        "https://hcdcorrientes.gov.ar/page/71/?post_type=expedientes&expte-hcd&presentado-en-sesion&camara_de_inicio&tipo_autor&autor-res=Canteros&comision&asunto&tipo-de-proyecto",
+        "https://hcdcorrientes.gov.ar/page/2/?post_type=expedientes&expte-hcd&presentado-en-sesion&camara_de_inicio&tipo_autor&autor-res=Canteros&comision&asunto&tipo-de-proyecto"
+      ]
+    }
+  ],
+  "post_cutoff_records": [],
+  "summary": {
+    "queries": 3,
+    "post_cutoff_records": 0,
+    "newest_dates_on_first_pages": {
+      "Gortari": "2026-07-08",
+      "Fernández Recalde": "2026-07-08",
+      "Canteros": "2026-07-08"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-07-29T03:12:00-03:00",
+  "official_expedientes_expected": 143,
+  "official_expedientes_found": 143,
+  "official_expedientes_not_found": [],
+  "upload_errors": [],
+  "projects_requiring_human_review": [
+    {
+      "id": "P-0067",
+      "title": "Declaración de interés: Actividad por el día de la tierra",
+      "reason": "El registro preexistente no pudo conciliarse con ninguno de los dos informes ni con una ficha oficial inequívoca.",
+      "action_taken": "Se preservó el registro y su DOCX; se cambió a Pendiente y se retiraron fecha y estado de trámite para que no se publique como presentado.",
+      "destructive_action": false
+    }
+  ],
+  "source_metadata_observations": [
+    {
+      "expedientes": ["19715", "19790", "19791", "19792", "19859", "19902", "19931"],
+      "note": "La ficha web oficial omite autores, usa 'Varios Señores Diputados' o contiene un error ortográfico. Se verificaron las primeras páginas de los PDF; la autoría pública se clasificó por el fondo celeste del informe, no por estas firmas."
+    },
+    {
+      "expedientes": ["19790", "19793"],
+      "note": "PDF escaneado sin texto extraíble; número, tipo y objeto se verificaron visualmente en las primeras páginas."
+    }
+  ]
+}
