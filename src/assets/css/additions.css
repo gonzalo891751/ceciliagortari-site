@@ -4301,7 +4301,7 @@ html {
     cursor: pointer;
     transition: all 0.2s ease;
 }
-.pl-analysis-context .pl-analysis-scope__button:hover {
+.pl-analysis-context .pl-analysis-scope__button:not(.pl-analysis-scope__button--active):hover {
     color: #11103B;
     background: rgba(255, 255, 255, 0.72);
 }
