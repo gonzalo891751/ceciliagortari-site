@@ -13,7 +13,7 @@ export async function onRequestGet(context) {
       .prepare(
         `SELECT id, tipo, titulo, area_tema, resumen,
                 fecha_presentacion, estado_tramite, created_at,
-                tipo_autoria, autor_principal
+                tipo_autoria, autor_principal, comisiones
          FROM projects
          WHERE id = ?
            AND estado_preparacion = 'Presentado'
@@ -53,9 +53,15 @@ export async function onRequestGet(context) {
       .bind(projectId)
       .first();
 
+    let commissions = [];
+    try {
+      commissions = JSON.parse(project.comisiones || "[]");
+    } catch (_) {}
+
     return new Response(
       JSON.stringify({
         ...project,
+        comisiones: Array.isArray(commissions) ? commissions : [],
         document: expedienteDoc || mainDoc || null,
       }),
       { status: 200, headers: HEADERS }

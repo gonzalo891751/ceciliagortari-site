@@ -3046,6 +3046,31 @@ permalink: gestionproyectos/index.html
         }
         .proj-list-meta-item { display: flex; align-items: center; gap: 0.2rem; }
         .proj-list-meta-item svg { width: 11px; height: 11px; flex-shrink: 0; }
+        .commission-picker {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.45rem 0.75rem;
+            max-height: 190px;
+            overflow-y: auto;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg-soft);
+        }
+        .commission-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.45rem;
+            font-size: 0.78rem;
+            line-height: 1.3;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+        .commission-option input { margin-top: 0.1rem; accent-color: var(--blue); }
+        .commission-help { margin-top: 0.35rem; color: var(--text-muted); font-size: 0.72rem; }
+        @media (max-width: 640px) {
+            .commission-picker { grid-template-columns: 1fr; }
+        }
         .proj-list-status {
             display: flex; flex-direction: column; align-items: flex-end;
             gap: 0.3rem; flex-shrink: 0; width: 130px;
@@ -4068,6 +4093,12 @@ permalink: gestionproyectos/index.html
                                 <option value="No aprobado">No aprobado</option>
                             </select>
                         </div>
+
+                        <div class="input-group full-width">
+                            <label>Comisión / Comisiones <span id="commission-required-label"></span></label>
+                            <div id="f-comisiones" class="commission-picker"></div>
+                            <div class="commission-help">Es opcional mientras está en preparación y obligatorio al marcarlo como presentado.</div>
+                        </div>
                     </form>
 
                     <!-- Plan de Acción (Editable) -->
@@ -4225,6 +4256,11 @@ permalink: gestionproyectos/index.html
                             <option value="Aprobado">Aprobado</option>
                             <option value="No aprobado">No aprobado</option>
                         </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Comisión / Comisiones *</label>
+                        <div id="qp-comisiones" class="commission-picker"></div>
                     </div>
                 </form>
             </div>
@@ -4524,6 +4560,43 @@ permalink: gestionproyectos/index.html
             'Vialidad', 'Seguridad', 'Ambiente', 'Producción', 'Desarrollo Social',
             'Turismo', 'Cultura', 'Deportes'
         ];
+        const COMMISSION_CATALOG = [
+            'Asuntos Constitucionales y Legislación General',
+            'Defensa del Consumidor',
+            'Deportes',
+            'Derechos Humanos, Género y Diversidad',
+            'Ecología y Ambiente',
+            'Educación, Cultura, Ciencia y Tecnología',
+            'Energía, Transporte, Obras y Servicios Públicos',
+            'Hacienda, Presupuesto e Impuestos',
+            'Legislación del Trabajo, Previsión y Seguridad Social',
+            'Peticiones, Reglamento y Poderes',
+            'Políticas Sociales',
+            'Producción, Industria, Comercio y Turismo',
+            'Protección de Personas con Discapacidad',
+            'Salud Pública',
+            'Seguridad y Servicios Penitenciarios',
+            'Sobre Tablas'
+        ];
+
+        function renderCommissionPicker(containerId, selected = []) {
+            const selectedSet = new Set(Array.isArray(selected) ? selected : []);
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = COMMISSION_CATALOG.map((name, index) => `
+                <label class="commission-option">
+                    <input type="checkbox" value="${escapeHtml(name)}"
+                        ${selectedSet.has(name) ? 'checked' : ''}
+                        id="${containerId}-${index}">
+                    <span>${escapeHtml(name)}</span>
+                </label>
+            `).join('');
+        }
+
+        function getSelectedCommissions(containerId) {
+            return [...document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`)]
+                .map(input => input.value);
+        }
 
         /* =========================================
            TOPIC INTELLIGENCE
@@ -5296,6 +5369,9 @@ permalink: gestionproyectos/index.html
                     : (p.tipo_autoria === 'coautoria' && p.autor_principal
                         ? `<span class="proj-list-meta-item" style="color:var(--badge-blue-text);"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Coautoría: ${p.autor_principal}</span>`
                         : '');
+                const commissionsHtml = Array.isArray(p.comisiones) && p.comisiones.length
+                    ? `<span class="proj-list-meta-item" title="${escapeHtml(p.comisiones.join(' · '))}"><i class="ph ph-buildings"></i> ${escapeHtml(p.comisiones.join(' · '))}</span>`
+                    : '';
 
                 // Presentado reference info
                 const refHtml = isPresentado && p.estado_tramite
@@ -5334,6 +5410,7 @@ permalink: gestionproyectos/index.html
                                 ${resp ? `<span class="proj-list-meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> ${resp}</span>` : ''}
                                 ${apHtml}
                                 ${autoriaHtml}
+                                ${commissionsHtml}
                             </div>
                             ${refHtml}
                         </div>
@@ -5422,6 +5499,7 @@ permalink: gestionproyectos/index.html
             saveBtn.style.color = '';
             handlePrepChange(); // Reset conditional fields
             handleAutoriaChange(); // Reset authorship fields
+            renderCommissionPicker('f-comisiones', []);
 
             // Reset autocomplete state
             const acBanner = document.getElementById('autocomplete-banner');
@@ -5455,6 +5533,7 @@ permalink: gestionproyectos/index.html
                     handlePrepChange();
                     document.getElementById('f-fecha-presentacion').value = p.fecha_presentacion || '';
                     document.getElementById('f-estado-tramite').value = p.estado_tramite || '';
+                    renderCommissionPicker('f-comisiones', p.comisiones || []);
 
                     // Load checklist from project
                     tempChecklist = JSON.parse(JSON.stringify(p.action_plan || []));
@@ -5533,10 +5612,12 @@ permalink: gestionproyectos/index.html
 
             if (prepVal === 'Presentado') {
                 condFields.forEach(el => el.style.display = 'block');
+                document.getElementById('commission-required-label').textContent = '*';
             } else {
                 condFields.forEach(el => el.style.display = 'none');
                 tramiteSelect.value = '';
                 fechaPresInput.value = '';
+                document.getElementById('commission-required-label').textContent = '';
             }
         }
 
@@ -5550,6 +5631,12 @@ permalink: gestionproyectos/index.html
             if (estadoPrep === 'Presentado' && !fechaPresInput.value) {
                 alert("Si el proyecto está Presentado, la fecha de presentación es obligatoria.");
                 fechaPresInput.focus();
+                return;
+            }
+            const selectedCommissions = getSelectedCommissions('f-comisiones');
+            if (estadoPrep === 'Presentado' && selectedCommissions.length === 0) {
+                alert("Si el proyecto está Presentado, debe asignarse al menos una comisión.");
+                document.getElementById('f-comisiones').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
 
@@ -5579,7 +5666,8 @@ permalink: gestionproyectos/index.html
                 updated_at: now,
                 action_plan: tempChecklist,
                 tipo_autoria: document.getElementById('f-tipo-autoria').value,
-                autor_principal: document.getElementById('f-autor-principal').value.trim()
+                autor_principal: document.getElementById('f-autor-principal').value.trim(),
+                comisiones: selectedCommissions
             };
 
             // UX: botón en estado loading
@@ -5678,6 +5766,7 @@ permalink: gestionproyectos/index.html
             document.getElementById('quick-form-presentar').reset();
             document.getElementById('qp-id').value = id;
             document.getElementById('qp-tramite').value = 'En comisiones';
+            renderCommissionPicker('qp-comisiones', p.comisiones || []);
 
             document.getElementById('quick-presentar-modal').classList.add('active');
         }
@@ -5686,6 +5775,11 @@ permalink: gestionproyectos/index.html
             const form = document.getElementById('quick-form-presentar');
             if (!form.checkValidity()) {
                 form.reportValidity();
+                return;
+            }
+            const selectedCommissions = getSelectedCommissions('qp-comisiones');
+            if (selectedCommissions.length === 0) {
+                alert('Seleccioná al menos una comisión.');
                 return;
             }
 
@@ -5697,6 +5791,7 @@ permalink: gestionproyectos/index.html
                 projects[index].estado_preparacion = 'Presentado';
                 projects[index].fecha_presentacion = document.getElementById('qp-fecha-presentacion').value;
                 projects[index].estado_tramite = document.getElementById('qp-tramite').value;
+                projects[index].comisiones = selectedCommissions;
                 projects[index].updated_at = now;
             }
 
@@ -5974,6 +6069,11 @@ permalink: gestionproyectos/index.html
                 chipsHtml += `<span class="detail-chip" style="background:var(--badge-blue-bg);color:var(--badge-blue-text);"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Autor: ${escapeHtml(p.autor_principal)} · Cecilia acompaña</span>`;
             else if (p.tipo_autoria === 'coautoria' && p.autor_principal)
                 chipsHtml += `<span class="detail-chip" style="background:var(--badge-blue-bg);color:var(--badge-blue-text);"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Coautoría con ${escapeHtml(p.autor_principal)}</span>`;
+            if (Array.isArray(p.comisiones)) {
+                p.comisiones.forEach(name => {
+                    chipsHtml += `<span class="detail-chip" style="background:var(--badge-purple-bg);color:var(--badge-purple-text);"><i class="ph ph-buildings"></i> ${escapeHtml(name)}</span>`;
+                });
+            }
 
             // --- Dates card ---
             const dateCreated = formatDateOnly(p.created_at) || '—';

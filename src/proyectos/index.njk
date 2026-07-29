@@ -23,17 +23,17 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         <!-- Authorship Tabs -->
         <section class="pl-tabs-section">
             <div class="pl-tabs-wrap" id="plAuthorshipTabs">
-                <button class="pl-tab pl-tab--active" data-tab="todos">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                    Todos
-                </button>
-                <button class="pl-tab" data-tab="autoria">
+                <button class="pl-tab pl-tab--active" data-tab="autoria">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     Proyectos de autoría
                 </button>
                 <button class="pl-tab" data-tab="acompanamos">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     Proyectos que acompañamos
+                </button>
+                <button class="pl-tab" data-tab="todos">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    Todos
                 </button>
             </div>
         </section>
@@ -62,6 +62,13 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                             <option value="Todos">Todos los estados</option>
                             <option value="Presentado">Presentado</option>
                             <option value="Aprobado">Aprobado</option>
+                        </select>
+                    </div>
+
+                    <div class="pl-filter-group">
+                        <label for="plComisionFilter">Comisión</label>
+                        <select id="plComisionFilter" class="pl-filter-input">
+                            <option value="Todas">Todas las comisiones</option>
                         </select>
                     </div>
                 </div>
@@ -171,6 +178,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                     </h3>
                     <p id="plModalSummary">Texto del resumen completo.</p>
                     <div id="plModalTramite" class="pl-modal-tramite" style="display:none;"></div>
+                    <div id="plModalComisiones" class="pl-modal-tramite" style="display:none;"></div>
                     <div id="plModalAutoria" class="pl-modal-autoria" style="display:none;"></div>
                 </div>
 
@@ -221,7 +229,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         var currentPage = 1;
         var pageSize = 9;
         var lastFiltered = [];
-        var activeAuthorship = 'todos'; // 'todos' | 'autoria' | 'acompanamos'
+        var activeAuthorship = 'autoria'; // 'todos' | 'autoria' | 'acompanamos'
         var selectedTipo = 'Todos';
 
         // DOM references
@@ -234,6 +242,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         const searchInput = document.getElementById('plSearchInput');
         const areaFilter = document.getElementById('plAreaFilter');
         const estadoFilter = document.getElementById('plEstadoFilter');
+        const comisionFilter = document.getElementById('plComisionFilter');
         const modal = document.getElementById('plModal');
         const paginationEl = document.getElementById('plPagination');
         const themeGrid = document.getElementById('plThemeGrid');
@@ -333,6 +342,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
 
                 // Populate area filter dynamically
                 populateAreaFilter();
+                populateCommissionFilter();
 
                 // Populate theme explorer
                 populateThemeExplorer();
@@ -376,6 +386,22 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
             });
         }
 
+        function populateCommissionFilter() {
+            var values = {};
+            allProjects.forEach(function(p) {
+                (Array.isArray(p.comisiones) ? p.comisiones : []).forEach(function(name) {
+                    if (name && name.trim()) values[name.trim()] = true;
+                });
+            });
+            comisionFilter.innerHTML = '<option value="Todas">Todas las comisiones</option>';
+            Object.keys(values).sort(function(a, b) { return a.localeCompare(b, 'es'); }).forEach(function(name) {
+                var option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                comisionFilter.appendChild(option);
+            });
+        }
+
         // ---- Theme Explorer ----
         function populateThemeExplorer() {
             var stats = {};
@@ -413,7 +439,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
             areaFilter.value = themeName;
             activeAuthorship = 'todos';
             tabButtons.forEach(function(b) { b.classList.remove('pl-tab--active'); });
-            tabButtons[0].classList.add('pl-tab--active');
+            document.querySelector('#plAuthorshipTabs [data-tab="todos"]').classList.add('pl-tab--active');
             filterAndRender();
             document.getElementById('filtros-section').scrollIntoView({ behavior: 'smooth' });
         }
@@ -424,6 +450,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
             var q = searchInput.value.toLowerCase().trim();
             var area = areaFilter.value;
             var estado = estadoFilter.value;
+            var commission = comisionFilter.value;
 
             return allProjects.filter(function(p) {
                 // Authorship tab filter
@@ -439,7 +466,10 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                     (p.titulo && p.titulo.toLowerCase().includes(q)) ||
                     (p.resumen && p.resumen.toLowerCase().includes(q)) ||
                     (p.id && p.id.toLowerCase().includes(q)) ||
-                    (p.area_tema && p.area_tema.toLowerCase().includes(q));
+                    (p.area_tema && p.area_tema.toLowerCase().includes(q)) ||
+                    (Array.isArray(p.comisiones) && p.comisiones.some(function(name) {
+                        return name.toLowerCase().includes(q);
+                    }));
 
                 // Tipo (chips)
                 var matchTipo = selectedTipo === 'Todos' || p.tipo === selectedTipo;
@@ -453,7 +483,10 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                     (estado === 'Aprobado' && p.estado_tramite === 'Aprobado') ||
                     (estado === 'Presentado' && p.estado_tramite !== 'Aprobado');
 
-                return matchSearch && matchTipo && matchArea && matchEstado;
+                var matchCommission = commission === 'Todas' ||
+                    (Array.isArray(p.comisiones) && p.comisiones.indexOf(commission) !== -1);
+
+                return matchSearch && matchTipo && matchArea && matchEstado && matchCommission;
             });
         }
 
@@ -560,6 +593,10 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                                 formatDate(p.fecha_presentacion) +
                             '</span>' +
                         '</div>' +
+                        (Array.isArray(p.comisiones) && p.comisiones.length
+                            ? '<div class="pl-card-meta-row"><span class="pl-meta-tag">Comisión: ' +
+                                escapeHtml(p.comisiones.join(' · ')) + '</span></div>'
+                            : '') +
                     '</div>' +
                     '<div class="pl-card-actions">' +
                         '<button class="pl-btn pl-btn-primary" onclick="event.stopPropagation(); plOpenModal(\'' + escapeHtml(p.id) + '\')">Ver detalle completo</button>' +
@@ -645,14 +682,15 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
             searchInput.value = '';
             areaFilter.value = 'Todas';
             estadoFilter.value = 'Todos';
+            comisionFilter.value = 'Todas';
             selectedTipo = 'Todos';
-            activeAuthorship = 'todos';
+            activeAuthorship = 'autoria';
             // Reset chips UI
             tipoChips.forEach(function(c) { c.classList.remove('pl-tipo-chip--active'); });
             tipoChips[0].classList.add('pl-tipo-chip--active');
             // Reset tabs UI
             tabButtons.forEach(function(b) { b.classList.remove('pl-tab--active'); });
-            tabButtons[0].classList.add('pl-tab--active');
+            document.querySelector('#plAuthorshipTabs [data-tab="autoria"]').classList.add('pl-tab--active');
             filterAndRender();
         }
         window.plResetFilters = resetFilters;
@@ -661,6 +699,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         searchInput.addEventListener('input', function() { filterAndRender(); });
         areaFilter.addEventListener('change', function() { filterAndRender(); });
         estadoFilter.addEventListener('change', function() { filterAndRender(); });
+        comisionFilter.addEventListener('change', function() { filterAndRender(); });
 
         // ---- Modal ----
         function openModal(id) {
@@ -694,6 +733,14 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                 tramiteEl.style.display = '';
             } else {
                 tramiteEl.style.display = 'none';
+            }
+
+            var commissionEl = document.getElementById('plModalComisiones');
+            if (Array.isArray(p.comisiones) && p.comisiones.length) {
+                commissionEl.textContent = 'Comisión' + (p.comisiones.length > 1 ? 'es: ' : ': ') + p.comisiones.join(' · ');
+                commissionEl.style.display = '';
+            } else {
+                commissionEl.style.display = 'none';
             }
 
             // Authorship info

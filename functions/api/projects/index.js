@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS ${TABLE} (
   deleted_at TEXT DEFAULT NULL,
   action_plan TEXT DEFAULT '[]',
   tipo_autoria TEXT NOT NULL DEFAULT 'propio',
-  autor_principal TEXT DEFAULT ''
+  autor_principal TEXT DEFAULT '',
+  comisiones TEXT NOT NULL DEFAULT '[]'
 )`;
 
 const CREATE_DOCS_TABLE_SQL = `
@@ -54,6 +55,36 @@ async function ensureTable(db) {
     await db.prepare(`ALTER TABLE ${TABLE} ADD COLUMN tipo_autoria TEXT NOT NULL DEFAULT 'propio'`).run();
     await db.prepare(`ALTER TABLE ${TABLE} ADD COLUMN autor_principal TEXT DEFAULT ''`).run();
   }
+  try {
+    await db.prepare(`SELECT comisiones FROM ${TABLE} LIMIT 1`).all();
+  } catch (e) {
+    await db.prepare(`ALTER TABLE ${TABLE} ADD COLUMN comisiones TEXT NOT NULL DEFAULT '[]'`).run();
+  }
+}
+
+function normalizeCommissions(value) {
+  let input = value;
+  if (typeof input === "string") {
+    try {
+      input = JSON.parse(input);
+    } catch (_) {
+      input = input ? [input] : [];
+    }
+  }
+  if (!Array.isArray(input)) return [];
+  return [...new Set(input.map((item) => String(item || "").trim()).filter(Boolean))];
+}
+
+function parseProject(row) {
+  let actionPlan = [];
+  try {
+    actionPlan = JSON.parse(row.action_plan || "[]");
+  } catch (_) {}
+  return {
+    ...row,
+    action_plan: actionPlan,
+    comisiones: normalizeCommissions(row.comisiones),
+  };
 }
 
 export async function onRequestGet(context) {
@@ -66,7 +97,7 @@ export async function onRequestGet(context) {
         `SELECT p.id, p.tipo, p.titulo, p.responsable, p.area_tema, p.resumen,
                 p.estado_preparacion, p.fecha_objetivo_presentacion,
                 p.fecha_presentacion, p.estado_tramite, p.created_at, p.updated_at,
-                p.action_plan, p.tipo_autoria, p.autor_principal,
+                p.action_plan, p.tipo_autoria, p.autor_principal, p.comisiones,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'main') AS has_main_doc,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'material') AS materials_count,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'expediente') AS has_expediente
@@ -76,14 +107,7 @@ export async function onRequestGet(context) {
       )
       .all();
 
-    // Parse action_plan from JSON string to array
-    const parsed = (results || []).map((r) => {
-      let ap = [];
-      try {
-        ap = JSON.parse(r.action_plan || "[]");
-      } catch (_) {}
-      return { ...r, action_plan: ap };
-    });
+    const parsed = (results || []).map(parseProject);
 
     return new Response(JSON.stringify(parsed), {
       status: 200,
@@ -122,6 +146,13 @@ export async function onRequestPost(context) {
           ? body.action_plan
           : JSON.stringify(body.action_plan);
     }
+    const commissions = normalizeCommissions(body.comisiones);
+    if (body.estado_preparacion === "Presentado" && commissions.length === 0) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "Los proyectos presentados deben tener al menos una comisión asignada." }),
+        { status: 400, headers: HEADERS }
+      );
+    }
 
     const project = {
       id: body.id,
@@ -139,6 +170,7 @@ export async function onRequestPost(context) {
       action_plan: actionPlanStr,
       tipo_autoria: body.tipo_autoria || "propio",
       autor_principal: body.autor_principal || "",
+      comisiones: JSON.stringify(commissions),
     };
 
     // UPSERT: INSERT OR REPLACE
@@ -148,8 +180,8 @@ export async function onRequestPost(context) {
            (id, tipo, titulo, responsable, area_tema, resumen,
             estado_preparacion, fecha_objetivo_presentacion,
             fecha_presentacion, estado_tramite, created_at, updated_at, deleted_at,
-            action_plan, tipo_autoria, autor_principal)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)
+            action_plan, tipo_autoria, autor_principal, comisiones)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?)
          ON CONFLICT(id) DO UPDATE SET
            tipo = excluded.tipo,
            titulo = excluded.titulo,
@@ -164,7 +196,8 @@ export async function onRequestPost(context) {
            deleted_at = NULL,
            action_plan = excluded.action_plan,
            tipo_autoria = excluded.tipo_autoria,
-           autor_principal = excluded.autor_principal`
+           autor_principal = excluded.autor_principal,
+           comisiones = excluded.comisiones`
       )
       .bind(
         project.id,
@@ -181,7 +214,8 @@ export async function onRequestPost(context) {
         project.updated_at,
         project.action_plan,
         project.tipo_autoria,
-        project.autor_principal
+        project.autor_principal,
+        project.comisiones
       )
       .run();
 
@@ -192,7 +226,14 @@ export async function onRequestPost(context) {
     } catch (_) {}
 
     return new Response(
-      JSON.stringify({ ok: true, project: { ...project, action_plan: parsedAP } }),
+      JSON.stringify({
+        ok: true,
+        project: {
+          ...project,
+          action_plan: parsedAP,
+          comisiones: normalizeCommissions(project.comisiones),
+        },
+      }),
       { status: 200, headers: HEADERS }
     );
   } catch (err) {
