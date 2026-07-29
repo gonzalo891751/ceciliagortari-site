@@ -23,15 +23,15 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         <!-- Authorship Tabs -->
         <section class="pl-tabs-section">
             <div class="pl-tabs-wrap" id="plAuthorshipTabs">
-                <button class="pl-tab pl-tab--active" data-tab="autoria">
+                <button class="pl-tab pl-tab--active" data-tab="autoria" aria-pressed="true">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     Proyectos de autoría
                 </button>
-                <button class="pl-tab" data-tab="acompanamos">
+                <button class="pl-tab" data-tab="acompanamos" aria-pressed="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     Proyectos que acompañamos
                 </button>
-                <button class="pl-tab" data-tab="todos">
+                <button class="pl-tab" data-tab="todos" aria-pressed="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                     Todos
                 </button>
@@ -155,7 +155,11 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                         <strong id="plAnalysisCategoryCount">0</strong>
                         <span id="plAnalysisCategoryLabel">áreas temáticas</span>
                     </div>
-                    <span class="pl-analysis-context__scope" id="plAnalysisScope">Proyectos de autoría</span>
+                    <div class="pl-analysis-scope" id="plAnalysisScope" role="group" aria-label="Alcance de los proyectos analizados">
+                        <button class="pl-analysis-scope__button pl-analysis-scope__button--active" type="button" data-analysis-scope="autoria" aria-pressed="true">Autoría</button>
+                        <button class="pl-analysis-scope__button" type="button" data-analysis-scope="todos" aria-pressed="false">Todos</button>
+                        <button class="pl-analysis-scope__button" type="button" data-analysis-scope="acompanamos" aria-pressed="false">Acompañamos</button>
+                    </div>
                 </div>
 
                 <div id="plAnalysisChart" class="pl-analysis-chart" role="region" aria-label="Distribución de proyectos">
@@ -277,7 +281,6 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         const analysisTotalLabel = document.getElementById('plAnalysisTotalLabel');
         const analysisCategoryCount = document.getElementById('plAnalysisCategoryCount');
         const analysisCategoryLabel = document.getElementById('plAnalysisCategoryLabel');
-        const analysisScope = document.getElementById('plAnalysisScope');
         const analysisDescription = document.getElementById('plAnalysisDescription');
         const analysisNote = document.getElementById('plAnalysisNote');
 
@@ -341,12 +344,32 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
 
         // ---- Authorship Tabs ----
         var tabButtons = document.querySelectorAll('#plAuthorshipTabs .pl-tab');
+        var analysisScopeButtons = document.querySelectorAll('#plAnalysisScope [data-analysis-scope]');
+
+        function setActiveAuthorship(value) {
+            activeAuthorship = value;
+            tabButtons.forEach(function(button) {
+                var isActive = button.getAttribute('data-tab') === value;
+                button.classList.toggle('pl-tab--active', isActive);
+                button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            });
+            analysisScopeButtons.forEach(function(button) {
+                var isActive = button.getAttribute('data-analysis-scope') === value;
+                button.classList.toggle('pl-analysis-scope__button--active', isActive);
+                button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            });
+            filterAndRender();
+        }
+
         tabButtons.forEach(function(btn) {
             btn.addEventListener('click', function() {
-                tabButtons.forEach(function(b) { b.classList.remove('pl-tab--active'); });
-                btn.classList.add('pl-tab--active');
-                activeAuthorship = btn.getAttribute('data-tab');
-                filterAndRender();
+                setActiveAuthorship(btn.getAttribute('data-tab'));
+            });
+        });
+
+        analysisScopeButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                setActiveAuthorship(btn.getAttribute('data-analysis-scope'));
             });
         });
 
@@ -447,12 +470,6 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         }
 
         // ---- Management Analysis ----
-        function getAuthorshipScopeLabel() {
-            if (activeAuthorship === 'autoria') return 'Proyectos de autoría';
-            if (activeAuthorship === 'acompanamos') return 'Proyectos que acompañamos';
-            return 'Todos los proyectos';
-        }
-
         function buildAnalysisStats(projects) {
             var stats = {};
             projects.forEach(function(p) {
@@ -488,7 +505,6 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
                 analysisTotalLabel.textContent = projects.length === 1 ? 'proyecto analizado' : 'proyectos analizados';
                 analysisCategoryLabel.textContent = analysisDimension === 'tema' ? 'áreas temáticas' : 'comisiones';
                 analysisChart.innerHTML = '<div class="pl-analysis-empty">No hay datos para representar con la selección actual.</div>';
-                analysisScope.textContent = getAuthorshipScopeLabel();
                 analysisDescription.textContent = analysisDimension === 'tema'
                     ? 'Compará los temas con mayor actividad según la selección y los filtros aplicados.'
                     : 'Compará cuántos proyectos fueron girados a cada comisión según la selección actual.';
@@ -540,7 +556,6 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
             analysisCategoryLabel.textContent = analysisDimension === 'tema'
                 ? (sorted.length === 1 ? 'área temática' : 'áreas temáticas')
                 : (sorted.length === 1 ? 'comisión' : 'comisiones');
-            analysisScope.textContent = getAuthorshipScopeLabel();
             analysisDescription.textContent = analysisDimension === 'tema'
                 ? 'Compará los temas con mayor actividad según la selección y los filtros aplicados.'
                 : 'Compará cuántos proyectos fueron girados a cada comisión según la selección actual.';

@@ -503,8 +503,16 @@ jsonLd: |
         <div class="container">
             <!-- Header -->
             <div class="proyectos-home__header" data-scroll-reveal>
+                <div class="proyectos-home__eyebrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg>
+                    Autoría legislativa
+                </div>
                 <h2 class="proyectos-home__title">Proyectos Legislativos</h2>
-                <p class="proyectos-home__subtitle">Algunas de las iniciativas impulsadas</p>
+                <p class="proyectos-home__subtitle">Conocé las últimas iniciativas que impulsamos para transformar Corrientes.</p>
+                <div class="proyectos-home__summary" id="proyectos-home-summary" hidden>
+                    <strong id="proyectos-home-count">0</strong>
+                    <span>proyectos de autoría disponibles para consultar</span>
+                </div>
             </div>
 
             <!-- Dynamic Grid (JS rendered from /api/projects/public) -->
@@ -518,8 +526,8 @@ jsonLd: |
             <!-- Empty State (hidden by default, shown by JS) -->
             <div id="proyectos-home-empty" class="proyectos-home__empty" style="display:none;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#CACAD1;margin-bottom:1rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                <h3>Aún no se han presentado proyectos</h3>
-                <p>Estamos trabajando en nuevas iniciativas. Pronto vas a poder consultar los proyectos presentados y descargar sus documentos.</p>
+                <h3>Aún no hay proyectos de autoría disponibles</h3>
+                <p>Estamos trabajando en nuevas iniciativas. Próximamente vas a poder consultarlas y descargar sus documentos.</p>
                 <a href="/proyectos/" class="proyectos-home__card-link" style="justify-content:center;">
                     Ir a Proyectos
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
@@ -529,7 +537,7 @@ jsonLd: |
             <!-- CTA: Ver todos -->
             <div id="proyectos-home-footer" class="proyectos-home__footer" style="display:none;">
                 <a href="/proyectos/" class="proyectos-home__cta">
-                    Ver todos los proyectos
+                    Explorar todos los proyectos
                     <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
             </div>
@@ -586,6 +594,8 @@ jsonLd: |
         var grid = document.getElementById('proyectos-home-grid');
         var empty = document.getElementById('proyectos-home-empty');
         var footer = document.getElementById('proyectos-home-footer');
+        var summary = document.getElementById('proyectos-home-summary');
+        var count = document.getElementById('proyectos-home-count');
         if (!grid) return;
 
         function esc(str) {
@@ -605,28 +615,58 @@ jsonLd: |
             return 'proyectos-home__card-badge--ordenanza';
         }
 
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            try {
+                return new Date(dateString + 'T00:00:00').toLocaleDateString('es-AR', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            } catch (e) {
+                return dateString;
+            }
+        }
+
         fetch('/api/projects/public')
             .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
             .then(function(projects) {
                 grid.innerHTML = '';
+                var authoredProjects = Array.isArray(projects)
+                    ? projects.filter(function(p) { return p.tipo_autoria !== 'acompanado'; })
+                    : [];
 
-                if (!projects || projects.length === 0) {
+                if (authoredProjects.length === 0) {
                     grid.style.display = 'none';
                     empty.style.display = '';
+                    if (summary) summary.hidden = true;
                     return;
                 }
 
-                // Show up to 3
-                var items = projects.slice(0, 3);
+                if (count) count.textContent = authoredProjects.length;
+                if (summary) summary.hidden = false;
+
+                // Show the three most recent authorship projects.
+                var items = authoredProjects.slice(0, 3);
                 items.forEach(function(p) {
-                    var card = document.createElement('div');
+                    var card = document.createElement('article');
                     card.className = 'proyectos-home__card';
+                    var authorshipLabel = p.tipo_autoria === 'coautoria' ? 'Coautoría' : 'Autoría propia';
+                    var metaHtml =
+                        '<div class="proyectos-home__card-meta">' +
+                            (p.area_tema ? '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg>' + esc(p.area_tema) + '</span>' : '') +
+                            (p.fecha_presentacion ? '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" stroke-width="2"/><path d="M16 3v4M8 3v4M3 11h18" stroke-width="2" stroke-linecap="round"/></svg>' + esc(formatDate(p.fecha_presentacion)) + '</span>' : '') +
+                        '</div>';
                     card.innerHTML =
-                        '<span class="proyectos-home__card-badge ' + badgeClass(p.tipo) + '">' + esc(p.tipo) + '</span>' +
+                        '<div class="proyectos-home__card-top">' +
+                            '<span class="proyectos-home__card-badge ' + badgeClass(p.tipo) + '">' + esc(p.tipo) + '</span>' +
+                            '<span class="proyectos-home__card-authorship">' + authorshipLabel + '</span>' +
+                        '</div>' +
                         '<h3 class="proyectos-home__card-title">' + esc(p.titulo) + '</h3>' +
                         '<p class="proyectos-home__card-desc">' + esc(p.resumen) + '</p>' +
+                        metaHtml +
                         '<a href="/proyectos/" class="proyectos-home__card-link">' +
-                            'Ver más' +
+                            'Conocer el proyecto' +
                             '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>' +
                         '</a>';
                     grid.appendChild(card);
