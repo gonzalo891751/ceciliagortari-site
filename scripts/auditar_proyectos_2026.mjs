@@ -106,10 +106,10 @@ const duplicateIds = [...idCounts].filter(([, count]) => count > 1);
 const unmatched = liveById.get("P-0067");
 if (
   !unmatched ||
-  unmatched.estado_preparacion !== "Pendiente" ||
+  !["Pendiente", "En trabajo"].includes(unmatched.estado_preparacion) ||
   unmatched.fecha_presentacion
 ) {
-  errors.push("P-0067 no quedó preservado como Pendiente y sin fecha");
+  errors.push("P-0067 no quedó preservado como no presentado y sin fecha");
 }
 
 const evidence = {

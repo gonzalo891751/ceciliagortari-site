@@ -380,7 +380,7 @@ if (apply) {
       method: "POST",
       body: JSON.stringify({
         ...original,
-        estado_preparacion: "Pendiente",
+        estado_preparacion: "En trabajo",
         fecha_presentacion: "",
         estado_tramite: "",
         updated_at: new Date().toISOString(),
