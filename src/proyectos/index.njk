@@ -1110,7 +1110,13 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         window.plDownloadMain = downloadMain;
 
         // ---- Init ----
-        document.addEventListener('DOMContentLoaded', loadProjects);
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadProjects();
+            var requestedId = new URLSearchParams(window.location.search).get('id');
+            if (requestedId && allProjects.some(function(project) { return project.id === requestedId; })) {
+                openModal(requestedId);
+            }
+        });
     })();
     </script>
 {% endblock %}
