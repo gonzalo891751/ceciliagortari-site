@@ -1,0 +1,40 @@
+{
+  "base_url": "https://ceciliagortari.com.ar",
+  "fecha_verificacion": "2026-08-05T15:54:53-03:00",
+  "proyectos": {
+    "expedientes_buscados": [
+      "20211",
+      "20212",
+      "20213",
+      "20214",
+      "20215",
+      "20224",
+      "20225",
+      "20226",
+      "20231",
+      "20232"
+    ],
+    "resultado_por_busqueda": "1 tarjeta correcta por expediente",
+    "enlace_profundo_verificado": "https://ceciliagortari.com.ar/proyectos/?id=EXP-20211",
+    "modal_correcto": true,
+    "descarga_visible": true,
+    "desktop_1440x1000_sin_desborde_horizontal": true,
+    "mobile_390x844_sin_desborde_horizontal": true
+  },
+  "novedades": {
+    "cantidad_total": 45,
+    "ids_verificados": [
+      "2026-08-05-informes-obras-publicas",
+      "2026-08-05-regalias-yacyreta",
+      "2026-08-05-simbolo-accesibilidad-universal",
+      "2026-08-05-reforma-reglamento-comisiones"
+    ],
+    "titulos_correctos": true,
+    "enlaces_a_proyecto": true,
+    "enlaces_a_pdf": true,
+    "imagenes_principales_cargadas": true,
+    "ancho_natural_imagenes": 1600,
+    "sin_desborde_horizontal": true
+  },
+  "errores_consola": []
+}

@@ -1,0 +1,482 @@
+{
+  "started_at": "2026-08-05T18:27:37.162Z",
+  "finished_at": "2026-08-05T18:28:51.948Z",
+  "mode": "apply",
+  "branch": "feat/sesion-2026-08-05-proyectos",
+  "backup_summary": {
+    "started_at": "2026-08-05T18:09:34.278Z",
+    "finished_at": "2026-08-05T18:12:50.697Z",
+    "source_url": "https://ceciliagortari.com.ar/api/projects",
+    "projects": 178,
+    "documents_listed": 206,
+    "documents_downloaded": 206,
+    "documents_empty": 0,
+    "documents_failed": 0,
+    "total_downloaded_bytes": 39319850
+  },
+  "backup_checks": {
+    "project_count_matches": true,
+    "document_count_matches": true,
+    "all_documents_downloaded": true,
+    "no_empty_documents": true,
+    "no_failed_documents": true,
+    "all_manifest_items_valid": true
+  },
+  "initial_targets": [],
+  "records": [
+    {
+      "id": "EXP-20211",
+      "action": "created",
+      "legacy_id": null,
+      "legacy_soft_deleted": false,
+      "main_migrated": false,
+      "expediente_uploaded": true,
+      "project": {
+        "id": "EXP-20211",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Pedido de informes sobre obras públicas anunciadas por el Gobierno Provincial",
+        "responsable": "Gonzalo",
+        "area_tema": "Infraestructura",
+        "resumen": "El proyecto solicita información detallada sobre el estado actual, el financiamiento, los convenios, los plazos, el avance físico y presupuestario y las eventuales demoras de distintas obras públicas anunciadas por el Gobierno provincial. Su objetivo es garantizar transparencia y permitir el seguimiento efectivo de los compromisos públicos asumidos.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-05",
+        "estado_tramite": "En comisiones",
+        "created_at": "2026-08-05T18:28:12.623Z",
+        "updated_at": "2026-08-05T18:28:12.623Z",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Gustavo Canteros y Emiliano Fernández Recalde",
+        "comisiones": [
+          "Energía, Transporte, Obras y Servicios Públicos"
+        ]
+      },
+      "official_page_url": "https://hcdcorrientes.gov.ar/expedientes/20211/",
+      "official_pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20211.pdf",
+      "public_project_url": "https://ceciliagortari.com.ar/proyectos/?id=EXP-20211",
+      "document": {
+        "id": "1c83a3a5-f256-4d69-a93e-d96609e2a637",
+        "original_name": "EXPTE-20211-RESOLUCION-obras-publicas.pdf",
+        "bytes": 59709,
+        "sha256": "dd1c4019897d115034467a3b56117fdf88294ee246ba3d2feafc8aa068578485",
+        "download_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20211/documents/1c83a3a5-f256-4d69-a93e-d96609e2a637/download",
+        "preview_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20211/documents/1c83a3a5-f256-4d69-a93e-d96609e2a637/preview",
+        "download_status": 200,
+        "preview_status": 200,
+        "content_type": "application/pdf"
+      },
+      "official_source_note": ""
+    },
+    {
+      "id": "EXP-20212",
+      "action": "created",
+      "legacy_id": "P-0086",
+      "legacy_soft_deleted": true,
+      "main_migrated": true,
+      "expediente_uploaded": true,
+      "project": {
+        "id": "EXP-20212",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Aprovechamiento social y productivo de las regalías de Yacyretá",
+        "responsable": "Gonzalo",
+        "area_tema": "Producción",
+        "resumen": "La iniciativa propone establecer un régimen provincial para que una parte de las regalías hidroeléctricas provenientes de Yacyretá sea destinada de manera planificada, transparente y verificable a inversiones sociales, energéticas, productivas y de infraestructura que generen desarrollo para Corrientes.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-05",
+        "estado_tramite": "En comisiones",
+        "created_at": "2026-06-18T22:35:02.884Z",
+        "updated_at": "2026-08-05T18:28:15.943Z",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Gustavo Canteros y Emiliano Fernández Recalde",
+        "comisiones": [
+          "Energía, Transporte, Obras y Servicios Públicos"
+        ]
+      },
+      "official_page_url": "https://hcdcorrientes.gov.ar/expedientes/20212/",
+      "official_pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20212.pdf",
+      "public_project_url": "https://ceciliagortari.com.ar/proyectos/?id=EXP-20212",
+      "document": {
+        "id": "24847369-5991-4c0b-965f-a969e19db800",
+        "original_name": "EXPTE-20212-LEY-regalias-yacyreta.pdf",
+        "bytes": 138995,
+        "sha256": "1ccb656280e68e7904da7c601a4009f5fd0f1ecac215c1b230d46ea913adf721",
+        "download_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20212/documents/24847369-5991-4c0b-965f-a969e19db800/download",
+        "preview_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20212/documents/24847369-5991-4c0b-965f-a969e19db800/preview",
+        "download_status": 200,
+        "preview_status": 200,
+        "content_type": "application/pdf"
+      },
+      "official_source_note": ""
+    },
+    {
+      "id": "EXP-20213",
+      "action": "created",
+      "legacy_id": null,
+      "legacy_soft_deleted": false,
+      "main_migrated": false,
+      "expediente_uploaded": true,
+      "project": {
+        "id": "EXP-20213",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Efectividad e implementación de las leyes provinciales",
+        "responsable": "Gonzalo",
+        "area_tema": "Transparencia institucional",
+        "resumen": "La iniciativa propone que las leyes provinciales no queden sin aplicación por falta de reglamentación. Prevé plazos, un registro público digital, informes anuales y un relevamiento de normas pendientes para fortalecer la transparencia, la seguridad jurídica y la eficacia de la acción estatal.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-05",
+        "estado_tramite": "En comisiones",
+        "created_at": "2026-08-05T18:28:21.103Z",
+        "updated_at": "2026-08-05T18:28:21.103Z",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Asuntos Constitucionales y Legislación General"
+        ]
+      },
+      "official_page_url": "https://hcdcorrientes.gov.ar/expedientes/20213/",
+      "official_pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20213.pdf",
+      "public_project_url": "https://ceciliagortari.com.ar/proyectos/?id=EXP-20213",
+      "document": {
+        "id": "faaf5cbf-f13c-4b14-8cc5-be8b311d3791",
+        "original_name": "EXPTE-20213-LEY-efectividad-leyes.pdf",
+        "bytes": 56284,
+        "sha256": "90dd2bc6b9ae1b97614d641e36bf85c4be27321cd2bbb52beb07f3f3d2001e76",
+        "download_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20213/documents/faaf5cbf-f13c-4b14-8cc5-be8b311d3791/download",
+        "preview_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20213/documents/faaf5cbf-f13c-4b14-8cc5-be8b311d3791/preview",
+        "download_status": 200,
+        "preview_status": 200,
+        "content_type": "application/pdf"
+      },
+      "official_source_note": ""
+    },
+    {
+      "id": "EXP-20214",
+      "action": "created",
+      "legacy_id": "P-0089",
+      "legacy_soft_deleted": true,
+      "main_migrated": true,
+      "expediente_uploaded": true,
+      "project": {
+        "id": "EXP-20214",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Adopción del nuevo Símbolo Internacional de Accesibilidad Universal",
+        "responsable": "Gonzalo",
+        "area_tema": "Discapacidad",
+        "resumen": "El proyecto propone adoptar progresivamente en la Provincia de Corrientes el Símbolo Internacional de Accesibilidad Universal, promoviendo una concepción integral de la accesibilidad que contemple las barreras físicas, sensoriales, cognitivas, comunicacionales y digitales.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-05",
+        "estado_tramite": "En comisiones",
+        "created_at": "2026-07-29T02:15:46.357Z",
+        "updated_at": "2026-08-05T18:28:24.329Z",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Gustavo Canteros y Emiliano Fernández Recalde",
+        "comisiones": [
+          "Protección de Personas con Discapacidad"
+        ]
+      },
+      "official_page_url": "https://hcdcorrientes.gov.ar/expedientes/20214/",
+      "official_pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20214.pdf",
+      "public_project_url": "https://ceciliagortari.com.ar/proyectos/?id=EXP-20214",
+      "document": {
+        "id": "97f10165-7616-47de-9136-6db296927161",
+        "original_name": "EXPTE-20214-LEY-accesibilidad-universal.pdf",
+        "bytes": 103309,
+        "sha256": "adbcfc6819f14b4670b610f7bc7e547edfc18147199e7e75491c55d32dcf2171",
+        "download_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20214/documents/97f10165-7616-47de-9136-6db296927161/download",
+        "preview_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20214/documents/97f10165-7616-47de-9136-6db296927161/preview",
+        "download_status": 200,
+        "preview_status": 200,
+        "content_type": "application/pdf"
+      },
+      "official_source_note": ""
+    },
+    {
+      "id": "EXP-20215",
+      "action": "created",
+      "legacy_id": "P-0088",
+      "legacy_soft_deleted": true,
+      "main_migrated": true,
+      "expediente_uploaded": true,
+      "project": {
+        "id": "EXP-20215",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Reforma del Reglamento para evitar la paralización de los proyectos",
+        "responsable": "Gonzalo",
+        "area_tema": "Transparencia institucional",
+        "resumen": "La propuesta modifica el Reglamento de la Cámara de Diputados para fortalecer el funcionamiento de las comisiones, promover el tratamiento efectivo de los expedientes y evitar que proyectos de ley y de resolución permanezcan indefinidamente paralizados hasta perder estado parlamentario.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-05",
+        "estado_tramite": "En comisiones",
+        "created_at": "2026-07-07T02:20:38.350Z",
+        "updated_at": "2026-08-05T18:28:29.124Z",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Gustavo Canteros y Emiliano Fernández Recalde",
+        "comisiones": [
+          "Peticiones, Reglamento y Poderes"
+        ]
+      },
+      "official_page_url": "https://hcdcorrientes.gov.ar/expedientes/20215/",
+      "official_pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20215.pdf",
+      "public_project_url": "https://ceciliagortari.com.ar/proyectos/?id=EXP-20215",
+      "document": {
+        "id": "043953ea-eb2e-45b0-af35-5f72e20ffe2e",
+        "original_name": "EXPTE-20215-RESOLUCION-reforma-reglamento.pdf",
+        "bytes": 199214,
+        "sha256": "4f44f9128ad158ca8307e18c947f5c1148c4a18173a19cb8b8ec25a45fdeaac7",
+        "download_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20215/documents/043953ea-eb2e-45b0-af35-5f72e20ffe2e/download",
+        "preview_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20215/documents/043953ea-eb2e-45b0-af35-5f72e20ffe2e/preview",
+        "download_status": 200,
+        "preview_status": 200,
+        "content_type": "application/pdf"
+      },
+      "official_source_note": ""
+    },
+    {
+      "id": "EXP-20224",
+      "action": "created",
+      "legacy_id": null,
+      "legacy_soft_deleted": false,
+      "main_migrated": false,
+      "expediente_uploaded": true,
+      "project": {
+        "id": "EXP-20224",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Regulación de la sedación consciente en odontología",
+        "responsable": "Gonzalo",
+        "area_tema": "Salud",
+        "resumen": "La propuesta actualiza la Ley 2839 para regular la sedación consciente con óxido nitroso y oxígeno en odontología, bajo capacitación, protocolos y fiscalización sanitaria. También incorpora la teleodontología y las unidades móviles, con prioridad para niñas y niños, personas con discapacidad, pacientes neurodivergentes y personas con odontofobia.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-05",
+        "estado_tramite": "En comisiones",
+        "created_at": "2026-08-05T18:28:34.184Z",
+        "updated_at": "2026-08-05T18:28:34.184Z",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Salud Pública"
+        ]
+      },
+      "official_page_url": "https://hcdcorrientes.gov.ar/expedientes/20224/",
+      "official_pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20224.pdf",
+      "public_project_url": "https://ceciliagortari.com.ar/proyectos/?id=EXP-20224",
+      "document": {
+        "id": "6a990231-87b0-44b9-87b2-59d236cf8912",
+        "original_name": "EXPTE-20224-LEY-sedacion-odontologia.pdf",
+        "bytes": 60308,
+        "sha256": "2dcaff1a67fead7145fec71edf7dffe1f0f54d8d46744ed221d9ec5561c9d671",
+        "download_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20224/documents/6a990231-87b0-44b9-87b2-59d236cf8912/download",
+        "preview_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20224/documents/6a990231-87b0-44b9-87b2-59d236cf8912/preview",
+        "download_status": 200,
+        "preview_status": 200,
+        "content_type": "application/pdf"
+      },
+      "official_source_note": ""
+    },
+    {
+      "id": "EXP-20225",
+      "action": "created",
+      "legacy_id": null,
+      "legacy_soft_deleted": false,
+      "main_migrated": false,
+      "expediente_uploaded": true,
+      "project": {
+        "id": "EXP-20225",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Actualización de la Ley de Accesibilidad Cognitiva y Lectura Fácil",
+        "responsable": "Gonzalo",
+        "area_tema": "Discapacidad",
+        "resumen": "El proyecto modifica la Ley 6724 para ampliar la accesibilidad cognitiva y comunicacional mediante lectura fácil, sistemas alternativos y aumentativos de comunicación, pictogramas y formatos comprensibles. Prevé una aplicación gradual en ámbitos públicos y privados de concurrencia masiva, con adecuaciones, incentivos y controles.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-05",
+        "estado_tramite": "En comisiones",
+        "created_at": "2026-08-05T18:28:37.497Z",
+        "updated_at": "2026-08-05T18:28:37.497Z",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Protección de Personas con Discapacidad"
+        ]
+      },
+      "official_page_url": "https://hcdcorrientes.gov.ar/expedientes/20225/",
+      "official_pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20225.pdf",
+      "public_project_url": "https://ceciliagortari.com.ar/proyectos/?id=EXP-20225",
+      "document": {
+        "id": "c47a37a8-d9a1-4d05-b97f-b80c2b4d2424",
+        "original_name": "EXPTE-20225-LEY-lectura-facil.pdf",
+        "bytes": 77652,
+        "sha256": "144657144c54aa2be98ecde5f4a8d8a5d3a942ca3a134b65607987f12bfd953e",
+        "download_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20225/documents/c47a37a8-d9a1-4d05-b97f-b80c2b4d2424/download",
+        "preview_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20225/documents/c47a37a8-d9a1-4d05-b97f-b80c2b4d2424/preview",
+        "download_status": 200,
+        "preview_status": 200,
+        "content_type": "application/pdf"
+      },
+      "official_source_note": "La ficha oficial y la URL corresponden al expediente 20225, pero la primera línea interna del PDF oficial dice 'EXPTE 20254'. El objeto, tipo e iniciadores sí coinciden con la ficha 20225."
+    },
+    {
+      "id": "EXP-20226",
+      "action": "created",
+      "legacy_id": null,
+      "legacy_soft_deleted": false,
+      "main_migrated": false,
+      "expediente_uploaded": true,
+      "project": {
+        "id": "EXP-20226",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Reconocimiento a las cabañas correntinas premiadas en la Exposición Rural de Palermo",
+        "responsable": "Gonzalo",
+        "area_tema": "Producción",
+        "resumen": "La iniciativa reconoce la destacada participación de reproductores, cabañas y productores correntinos en la Exposición Rural de Palermo, poniendo en valor la excelencia genética y el aporte del sector al desarrollo agropecuario. Fue tratada sobre tablas y aprobada como Declaración 257 junto con el expediente 20235, referido al mismo tema.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-05",
+        "estado_tramite": "Aprobado",
+        "created_at": "2026-08-05T18:28:40.777Z",
+        "updated_at": "2026-08-05T18:28:40.777Z",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_page_url": "https://hcdcorrientes.gov.ar/expedientes/20226/",
+      "official_pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20226.pdf",
+      "public_project_url": "https://ceciliagortari.com.ar/proyectos/?id=EXP-20226",
+      "document": {
+        "id": "f7d96f71-e8ac-4cf6-9642-eb25cea8ed1a",
+        "original_name": "EXPTE-20226-DECLARACION-cabana-rural-palermo.pdf",
+        "bytes": 27107,
+        "sha256": "4706434fc4bb00946b6c636ad3621b73980660aae49a34949811af39c0c5c2cf",
+        "download_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20226/documents/f7d96f71-e8ac-4cf6-9642-eb25cea8ed1a/download",
+        "preview_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20226/documents/f7d96f71-e8ac-4cf6-9642-eb25cea8ed1a/preview",
+        "download_status": 200,
+        "preview_status": 200,
+        "content_type": "application/pdf"
+      },
+      "official_source_note": ""
+    },
+    {
+      "id": "EXP-20231",
+      "action": "created",
+      "legacy_id": null,
+      "legacy_soft_deleted": false,
+      "main_migrated": false,
+      "expediente_uploaded": true,
+      "project": {
+        "id": "EXP-20231",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Actividades en honor a San Cayetano, patrono del trabajo",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "La declaración reconoce las actividades religiosas, culturales y comunitarias de la fiesta patronal de San Cayetano, que cada 7 de agosto reúne a fieles y peregrinos en la localidad homónima y forma parte del patrimonio espiritual e identitario de Corrientes. Fue aprobada como Declaración 261.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-05",
+        "estado_tramite": "Aprobado",
+        "created_at": "2026-08-05T18:28:44.079Z",
+        "updated_at": "2026-08-05T18:28:44.079Z",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_page_url": "https://hcdcorrientes.gov.ar/expedientes/20231/",
+      "official_pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20231.pdf",
+      "public_project_url": "https://ceciliagortari.com.ar/proyectos/?id=EXP-20231",
+      "document": {
+        "id": "f005bcca-2c69-4803-9b9d-65b61fb78ff4",
+        "original_name": "EXPTE-20231-DECLARACION-san-cayetano.pdf",
+        "bytes": 177796,
+        "sha256": "b995d617d6dabf54f5ef23fb860558574c87de7b3a2e11e9379b4f2a41dd1bbc",
+        "download_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20231/documents/f005bcca-2c69-4803-9b9d-65b61fb78ff4/download",
+        "preview_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20231/documents/f005bcca-2c69-4803-9b9d-65b61fb78ff4/preview",
+        "download_status": 200,
+        "preview_status": 200,
+        "content_type": "application/pdf"
+      },
+      "official_source_note": ""
+    },
+    {
+      "id": "EXP-20232",
+      "action": "created",
+      "legacy_id": null,
+      "legacy_soft_deleted": false,
+      "main_migrated": false,
+      "expediente_uploaded": true,
+      "project": {
+        "id": "EXP-20232",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Conmemoración del Día Nacional de la Educación Especial",
+        "responsable": "Gonzalo",
+        "area_tema": "Educación",
+        "resumen": "La declaración reconoce las actividades por el Día Nacional de la Educación Especial y la labor de docentes, profesionales, instituciones, familias y organizaciones que promueven trayectorias educativas inclusivas, accesibles y respetuosas de la diversidad. Fue aprobada como Declaración 262.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-05",
+        "estado_tramite": "Aprobado",
+        "created_at": "2026-08-05T18:28:47.424Z",
+        "updated_at": "2026-08-05T18:28:47.424Z",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_page_url": "https://hcdcorrientes.gov.ar/expedientes/20232/",
+      "official_pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20232.pdf",
+      "public_project_url": "https://ceciliagortari.com.ar/proyectos/?id=EXP-20232",
+      "document": {
+        "id": "ccd35dac-74d1-446d-8821-4cfea4c27d4a",
+        "original_name": "EXPTE-20232-DECLARACION-educacion-especial.pdf",
+        "bytes": 182713,
+        "sha256": "1e8049a5c78df81a9a54ec767181e08f848fceeb48b40a6f6283c94b1902450b",
+        "download_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20232/documents/ccd35dac-74d1-446d-8821-4cfea4c27d4a/download",
+        "preview_url": "https://ceciliagortari.com.ar/api/projects/public/EXP-20232/documents/ccd35dac-74d1-446d-8821-4cfea4c27d4a/preview",
+        "download_status": 200,
+        "preview_status": 200,
+        "content_type": "application/pdf"
+      },
+      "official_source_note": ""
+    }
+  ],
+  "audit": {
+    "audited_at": "2026-08-05T18:28:51.948Z",
+    "active_projects": 185,
+    "targets_present": 10,
+    "types": {
+      "Proyecto de Declaración": 3,
+      "Proyecto de Ley": 5,
+      "Proyecto de Resolución": 2
+    },
+    "authorship": {
+      "acompanado": 6,
+      "coautoria": 4
+    },
+    "statuses": {
+      "Aprobado": 3,
+      "En comisiones": 7
+    },
+    "legacy_active": [],
+    "duplicate_ids": [],
+    "documents_verified": 10,
+    "errors": []
+  },
+  "errors": [],
+  "success": true
+}

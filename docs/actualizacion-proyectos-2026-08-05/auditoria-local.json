@@ -1,0 +1,95 @@
+{
+  "audited_at": "2026-08-05T18:36:57.431Z",
+  "npm_ci": {
+    "status": "passed",
+    "packages_added": 134,
+    "vulnerabilities": {
+      "moderate": 1,
+      "high": 6,
+      "critical": 1,
+      "total": 8
+    }
+  },
+  "build": {
+    "command": "npm run build",
+    "status": "passed",
+    "eleventy_version": "3.1.2",
+    "files_written": 15,
+    "files_copied": 164
+  },
+  "news": {
+    "total": 45,
+    "new_items": 4,
+    "ids": [
+      "2026-08-05-informes-obras-publicas",
+      "2026-08-05-regalias-yacyreta",
+      "2026-08-05-simbolo-accesibilidad-universal",
+      "2026-08-05-reforma-reglamento-comisiones"
+    ],
+    "unique_ids": true
+  },
+  "images": [
+    {
+      "id": "2026-08-05-informes-obras-publicas",
+      "path": "/assets/uploads/project-news/2026-08-05-20211-obras-publicas.webp",
+      "bytes": 247554,
+      "sha256": "eaa1649010e8d852c844c6cae140f453bc1ee2aab0f03fd55ed99c9c02473548"
+    },
+    {
+      "id": "2026-08-05-regalias-yacyreta",
+      "path": "/assets/uploads/project-news/2026-08-05-20212-regalias-yacyreta.webp",
+      "bytes": 314136,
+      "sha256": "f45e1edd00611a92533177b65cd86401c3fb1d2690687756c58b8a18e3e73efd"
+    },
+    {
+      "id": "2026-08-05-simbolo-accesibilidad-universal",
+      "path": "/assets/uploads/project-news/2026-08-05-20214-accesibilidad-universal.webp",
+      "bytes": 185318,
+      "sha256": "4a37746c5aecf7d897ccc20df03090b8761bf35eb854adcbdd1f8cf68d363e27"
+    },
+    {
+      "id": "2026-08-05-reforma-reglamento-comisiones",
+      "path": "/assets/uploads/project-news/2026-08-05-20215-reforma-reglamento.webp",
+      "bytes": 142154,
+      "sha256": "f59592afbc8b72ad53785fbf76c14569e0ab99e8621b7cd4d1fad5d539a9bfb3"
+    }
+  ],
+  "browser": {
+    "desktop": {
+      "viewport": "1440x1000",
+      "news_present": 4,
+      "horizontal_overflow": false,
+      "broken_content_images": 0,
+      "screenshot": "novedades-escritorio-1440x1000.png"
+    },
+    "mobile": {
+      "viewport": "390x844",
+      "horizontal_overflow": false,
+      "broken_content_images": 0,
+      "screenshot": "novedades-movil-390x844.png"
+    },
+    "details": {
+      "checked": 4,
+      "project_links": 4,
+      "pdf_links": 4,
+      "horizontal_overflow": false
+    }
+  },
+  "project_news_regression": {
+    "command": "node scripts/audit-project-news.mjs",
+    "status": "passed",
+    "audited_articles": 35,
+    "pending": 1,
+    "errors": 0,
+    "warnings": 0
+  },
+  "idempotency": {
+    "command": "node scripts/actualizar-sesion-2026-08-05.mjs --apply --resume",
+    "status": "passed",
+    "targets": 10,
+    "pdfs_reuploaded": 0,
+    "main_documents_remigrated": 0,
+    "duplicate_ids": 0,
+    "active_projects": 185
+  }
+}

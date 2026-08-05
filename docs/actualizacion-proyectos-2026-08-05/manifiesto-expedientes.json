@@ -1,0 +1,113 @@
+[
+  {
+    "expediente": "20211",
+    "page_url": "https://hcdcorrientes.gov.ar/expedientes/20211/",
+    "page_status": 200,
+    "pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20211.pdf",
+    "pdf_status": 200,
+    "content_type": "application/pdf",
+    "bytes": 59709,
+    "header": "%PDF-",
+    "sha256": "dd1c4019897d115034467a3b56117fdf88294ee246ba3d2feafc8aa068578485"
+  },
+  {
+    "expediente": "20212",
+    "page_url": "https://hcdcorrientes.gov.ar/expedientes/20212/",
+    "page_status": 200,
+    "pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20212.pdf",
+    "pdf_status": 200,
+    "content_type": "application/pdf",
+    "bytes": 138995,
+    "header": "%PDF-",
+    "sha256": "1ccb656280e68e7904da7c601a4009f5fd0f1ecac215c1b230d46ea913adf721"
+  },
+  {
+    "expediente": "20213",
+    "page_url": "https://hcdcorrientes.gov.ar/expedientes/20213/",
+    "page_status": 200,
+    "pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20213.pdf",
+    "pdf_status": 200,
+    "content_type": "application/pdf",
+    "bytes": 56284,
+    "header": "%PDF-",
+    "sha256": "90dd2bc6b9ae1b97614d641e36bf85c4be27321cd2bbb52beb07f3f3d2001e76"
+  },
+  {
+    "expediente": "20214",
+    "page_url": "https://hcdcorrientes.gov.ar/expedientes/20214/",
+    "page_status": 200,
+    "pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20214.pdf",
+    "pdf_status": 200,
+    "content_type": "application/pdf",
+    "bytes": 103309,
+    "header": "%PDF-",
+    "sha256": "adbcfc6819f14b4670b610f7bc7e547edfc18147199e7e75491c55d32dcf2171"
+  },
+  {
+    "expediente": "20215",
+    "page_url": "https://hcdcorrientes.gov.ar/expedientes/20215/",
+    "page_status": 200,
+    "pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20215.pdf",
+    "pdf_status": 200,
+    "content_type": "application/pdf",
+    "bytes": 199214,
+    "header": "%PDF-",
+    "sha256": "4f44f9128ad158ca8307e18c947f5c1148c4a18173a19cb8b8ec25a45fdeaac7"
+  },
+  {
+    "expediente": "20224",
+    "page_url": "https://hcdcorrientes.gov.ar/expedientes/20224/",
+    "page_status": 200,
+    "pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20224.pdf",
+    "pdf_status": 200,
+    "content_type": "application/pdf",
+    "bytes": 60308,
+    "header": "%PDF-",
+    "sha256": "2dcaff1a67fead7145fec71edf7dffe1f0f54d8d46744ed221d9ec5561c9d671"
+  },
+  {
+    "expediente": "20225",
+    "page_url": "https://hcdcorrientes.gov.ar/expedientes/20225/",
+    "page_status": 200,
+    "pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20225.pdf",
+    "pdf_status": 200,
+    "content_type": "application/pdf",
+    "bytes": 77652,
+    "header": "%PDF-",
+    "sha256": "144657144c54aa2be98ecde5f4a8d8a5d3a942ca3a134b65607987f12bfd953e",
+    "observacion_fuente": "La ficha y URL oficiales corresponden a 20225, pero la primera l?nea interna del PDF dice EXPTE 20254; objeto, tipo e iniciadores coinciden con la ficha 20225."
+  },
+  {
+    "expediente": "20226",
+    "page_url": "https://hcdcorrientes.gov.ar/expedientes/20226/",
+    "page_status": 200,
+    "pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20226.pdf",
+    "pdf_status": 200,
+    "content_type": "application/pdf",
+    "bytes": 27107,
+    "header": "%PDF-",
+    "sha256": "4706434fc4bb00946b6c636ad3621b73980660aae49a34949811af39c0c5c2cf"
+  },
+  {
+    "expediente": "20231",
+    "page_url": "https://hcdcorrientes.gov.ar/expedientes/20231/",
+    "page_status": 200,
+    "pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20231.pdf",
+    "pdf_status": 200,
+    "content_type": "application/pdf",
+    "bytes": 177796,
+    "header": "%PDF-",
+    "sha256": "b995d617d6dabf54f5ef23fb860558574c87de7b3a2e11e9379b4f2a41dd1bbc"
+  },
+  {
+    "expediente": "20232",
+    "page_url": "https://hcdcorrientes.gov.ar/expedientes/20232/",
+    "page_status": 200,
+    "pdf_url": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20232.pdf",
+    "pdf_status": 200,
+    "content_type": "application/pdf",
+    "bytes": 182713,
+    "header": "%PDF-",
+    "sha256": "1e8049a5c78df81a9a54ec767181e08f848fceeb48b40a6f6283c94b1902450b"
+  }
+]
