@@ -218,9 +218,10 @@ const courses = [
     category: 'oficios',
     startDate: '2026-09-01',
     days: 'martes',
-    // El afiche del curso indica 8:30 h; la grilla general del semestre
-    // indica 9:00 h. Se toma el horario del afiche específico del curso.
-    time: '08:30',
+    // La grilla oficial del semestre indica 9:00 h y el afiche del curso
+    // indica 8:30 h. Se publica el horario de la grilla, confirmado por
+    // la Escuela el 06/08/2026.
+    time: '09:00',
     isFree: true,
     statusOverride: 'inscripciones-abiertas',
     enrollmentNote: 'Se inscribe a partir de la segunda semana de agosto.',
