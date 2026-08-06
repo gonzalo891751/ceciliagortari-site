@@ -10,6 +10,10 @@
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minuto
 const RATE_LIMIT_MAX = 5; // max 5 envíos por IP por minuto
 const ipTimestamps = new Map();
+const CONTACT_RECIPIENTS = [
+  "cecigortari@gmail.com",
+  "gonzalo891751@gmail.com",
+];
 
 function isRateLimited(ip) {
   const now = Date.now();
@@ -34,10 +38,6 @@ function sanitize(str) {
     .slice(0, 5000);
 }
 
-function validateEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
 function formatDate() {
   return new Date().toLocaleString("es-AR", {
     timeZone: "America/Argentina/Buenos_Aires",
@@ -57,7 +57,6 @@ function buildGeneralEmail(data) {
   }
 
   return {
-    to: "contacto@ceciliagortari.com.ar",
     subject: `[Web Contacto] ${asunto}`,
     html: `
       <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -93,7 +92,6 @@ function buildPrensaEmail(data) {
   }
 
   return {
-    to: "prensa@ceciliagortari.com.ar",
     subject: `[Web Prensa] ${medio}`,
     html: `
       <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -132,7 +130,6 @@ function buildProyectoEmail(data) {
   }
 
   return {
-    to: "contacto@ceciliagortari.com.ar",
     subject: `[Web Propuesta] ${titulo} - ${localidad}`,
     html: `
       <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -161,7 +158,6 @@ function buildProyectoEmail(data) {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  // CORS
   const headers = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -169,7 +165,6 @@ export async function onRequestPost(context) {
     "Access-Control-Allow-Headers": "Content-Type",
   };
 
-  // Rate limiting por IP
   const clientIP =
     request.headers.get("CF-Connecting-IP") ||
     request.headers.get("X-Forwarded-For") ||
@@ -196,16 +191,13 @@ export async function onRequestPost(context) {
     );
   }
 
-  // Honeypot check
   if (body._hp_website) {
-    // Bot detected — respond 200 silently to not reveal honeypot
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
   }
 
-  const tipo = body.tipo;
   let emailData;
 
-  switch (tipo) {
+  switch (body.tipo) {
     case "general":
       emailData = buildGeneralEmail(body);
       break;
@@ -229,7 +221,6 @@ export async function onRequestPost(context) {
     );
   }
 
-  // Enviar via Resend API
   const RESEND_API_KEY = env.RESEND_API_KEY;
   const CONTACT_FROM =
     env.CONTACT_FROM || "Cecilia Gortari Web <web@ceciliagortari.com.ar>";
@@ -255,7 +246,7 @@ export async function onRequestPost(context) {
       },
       body: JSON.stringify({
         from: CONTACT_FROM,
-        to: [emailData.to],
+        to: CONTACT_RECIPIENTS,
         subject: emailData.subject,
         html: emailData.html,
       }),
