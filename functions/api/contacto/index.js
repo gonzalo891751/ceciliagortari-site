@@ -10,10 +10,58 @@
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minuto
 const RATE_LIMIT_MAX = 5; // max 5 envíos por IP por minuto
 const ipTimestamps = new Map();
-const CONTACT_RECIPIENTS = [
+
+/** Destinatarios por defecto si no se configura FORM_RECIPIENTS. */
+const DEFAULT_RECIPIENTS = [
   "cecigortari@gmail.com",
   "gonzalo891751@gmail.com",
 ];
+
+/**
+ * Destinatarios configurables por entorno.
+ * FORM_RECIPIENTS acepta una lista separada por comas, por ejemplo:
+ *   FORM_RECIPIENTS=cecigortari@gmail.com,gonzalo891751@gmail.com
+ */
+function resolveRecipients(env) {
+  const raw = (env && env.FORM_RECIPIENTS) || "";
+  const list = raw
+    .split(",")
+    .map((value) => value.trim())
+    .filter((value) => validateEmail(value));
+  return list.length ? list : DEFAULT_RECIPIENTS;
+}
+
+/** Orígenes autorizados a llamar al endpoint desde el navegador. */
+const ALLOWED_ORIGINS = [
+  "https://ceciliagortari.com.ar",
+  "https://www.ceciliagortari.com.ar",
+];
+
+function resolveCorsOrigin(request) {
+  const origin = request.headers.get("Origin");
+  if (!origin) return ALLOWED_ORIGINS[0];
+  if (ALLOWED_ORIGINS.includes(origin)) return origin;
+  // Deploys de vista previa de Cloudflare Pages y desarrollo local.
+  try {
+    const { hostname, protocol } = new URL(origin);
+    const isPreview = hostname.endsWith(".pages.dev");
+    const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
+    if ((isPreview && protocol === "https:") || isLocal) return origin;
+  } catch {
+    /* origen inválido: se cae al valor por defecto */
+  }
+  return ALLOWED_ORIGINS[0];
+}
+
+function corsHeaders(request) {
+  return {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": resolveCorsOrigin(request),
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    Vary: "Origin",
+  };
+}
 
 function isRateLimited(ip) {
   const now = Date.now();
@@ -36,6 +84,50 @@ function sanitize(str) {
     .replace(/>/g, "&gt;")
     .trim()
     .slice(0, 5000);
+}
+
+function validateEmail(email) {
+  return typeof email === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+}
+
+/**
+ * Normaliza y acorta un campo de texto libre.
+ * Colapsa espacios repetidos y escapa el HTML para que el correo no pueda
+ * inyectar marcado.
+ */
+function field(value, maxLength = 500) {
+  if (typeof value !== "string") return "";
+  return value
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, maxLength)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Igual que field() pero conservando los saltos de línea de un textarea. */
+function multiline(value, maxLength = 2000) {
+  if (typeof value !== "string") return "";
+  return value
+    .replace(/\r\n/g, "\n")
+    .replace(/[ \t]+/g, " ")
+    .trim()
+    .slice(0, maxLength)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Deshace el escape de HTML para armar la versión de texto plano. */
+function unescapeHtml(value) {
+  return String(value || "")
+    .replace(/&quot;/g, '"')
+    .replace(/&gt;/g, ">")
+    .replace(/&lt;/g, "<")
+    .replace(/&amp;/g, "&");
 }
 
 function formatDate() {
@@ -155,15 +247,190 @@ function buildProyectoEmail(data) {
   };
 }
 
+// ---------------------------------------------------------------------------
+// ESCUELA DE EMPRENDEDORES
+// ---------------------------------------------------------------------------
+
+/** Valida un teléfono argentino escrito de forma libre (8 a 15 dígitos). */
+function validatePhone(value) {
+  const digits = String(value || "").replace(/\D/g, "");
+  return digits.length >= 8 && digits.length <= 15;
+}
+
+/** Arma el cuerpo HTML y la versión de texto plano a partir de una lista de filas. */
+function renderEmail({ title, accent, rows, blocks }) {
+  const tableRows = rows
+    .filter(([, value]) => value)
+    .map(
+      ([label, value]) =>
+        `<tr><td style="padding:8px 0;color:#666;width:190px;vertical-align:top;">${label}</td>` +
+        `<td style="padding:8px 0;font-weight:600;color:#11103B;">${value}</td></tr>`
+    )
+    .join("");
+
+  const blockHtml = (blocks || [])
+    .filter(([, value]) => value)
+    .map(
+      ([label, value]) =>
+        `<hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0;">` +
+        `<p style="color:#666;font-size:13px;margin:0 0 4px;">${label}</p>` +
+        `<p style="color:#11103B;line-height:1.6;white-space:pre-wrap;margin:0;">${value}</p>`
+    )
+    .join("");
+
+  const html = `
+      <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:600px;margin:0 auto;">
+        <div style="background:${accent};padding:24px 32px;border-radius:12px 12px 0 0;">
+          <h2 style="color:#fff;margin:0;font-size:20px;">${title}</h2>
+        </div>
+        <div style="background:#fff;padding:32px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">
+          <table style="width:100%;border-collapse:collapse;">${tableRows}</table>
+          ${blockHtml}
+          <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0;">
+          <p style="color:#999;font-size:12px;margin:0;">Enviado el ${formatDate()}</p>
+        </div>
+      </div>`;
+
+  const textLines = [title, "".padEnd(title.length, "=" ), ""];
+  rows.filter(([, v]) => v).forEach(([label, value]) => {
+    textLines.push(`${label}: ${unescapeHtml(value)}`);
+  });
+  (blocks || []).filter(([, v]) => v).forEach(([label, value]) => {
+    textLines.push("", `${label}:`, unescapeHtml(value));
+  });
+  textLines.push("", `Enviado el ${formatDate()}`);
+
+  return { html, text: textLines.join("\n") };
+}
+
+function buildEscuelaAlumnoEmail(data) {
+  const nombre = field(data.nombre, 120);
+  const celular = field(data.celular, 30);
+  const email = field(data.email, 160);
+  const localidad = field(data.localidad, 120);
+  const curso = field(data.curso, 160);
+  const mensaje = multiline(data.mensaje, 1500);
+  const origen = field(data.origen, 200);
+
+  if (!nombre || nombre.length < 3) {
+    return { error: "Ingresá tu nombre y apellido." };
+  }
+  if (!validatePhone(celular)) {
+    return { error: "Ingresá un número de celular válido." };
+  }
+  if (email && !validateEmail(unescapeHtml(email))) {
+    return { error: "Revisá el correo electrónico." };
+  }
+  if (!curso) {
+    return { error: "Elegí el curso que te interesa." };
+  }
+  if (data.consentimiento !== true) {
+    return { error: "Necesitamos tu autorización para poder contactarte." };
+  }
+
+  const { html, text } = renderEmail({
+    title: "Consulta de alumno/a — Escuela de Emprendedores",
+    accent: "linear-gradient(135deg,#1C5CFF,#9F57A7)",
+    rows: [
+      ["Nombre y apellido", nombre],
+      ["Celular", celular],
+      ["Correo electrónico", email],
+      ["Localidad", localidad],
+      ["Curso de interés", curso],
+      ["Página de procedencia", origen],
+    ],
+    blocks: [["Consulta o comentario", mensaje]],
+  });
+
+  return {
+    subject: `[Escuela de Emprendedores] Consulta de alumno/a – ${unescapeHtml(nombre)} – ${unescapeHtml(curso)}`,
+    html,
+    text,
+    replyTo: email ? unescapeHtml(email) : null,
+  };
+}
+
+function buildEscuelaFormadorEmail(data) {
+  const nombre = field(data.nombre, 120);
+  const celular = field(data.celular, 30);
+  const email = field(data.email, 160);
+  const localidad = field(data.localidad, 160);
+  const oficio = field(data.oficio, 200);
+  const experiencia = multiline(data.experiencia, 1500);
+  const disponibilidad = field(data.disponibilidad, 200);
+  const origen = field(data.origen, 200);
+
+  if (!nombre || nombre.length < 3) {
+    return { error: "Ingresá tu nombre y apellido." };
+  }
+  if (!validatePhone(celular)) {
+    return { error: "Ingresá un número de celular válido." };
+  }
+  if (email && !validateEmail(unescapeHtml(email))) {
+    return { error: "Revisá el correo electrónico." };
+  }
+  if (!oficio) {
+    return { error: "Contanos qué te gustaría enseñar." };
+  }
+  if (data.consentimiento !== true) {
+    return { error: "Necesitamos tu autorización para poder contactarte." };
+  }
+
+  const { html, text } = renderEmail({
+    title: "Propuesta de formador/a — Escuela de Emprendedores",
+    accent: "linear-gradient(135deg,#9F57A7,#FBA85F)",
+    rows: [
+      ["Nombre y apellido", nombre],
+      ["Celular", celular],
+      ["Correo electrónico", email],
+      ["Localidad o dirección", localidad],
+      ["Oficio o habilidad", oficio],
+      ["Disponibilidad horaria", disponibilidad],
+      ["Página de procedencia", origen],
+    ],
+    blocks: [["Experiencia o presentación", experiencia]],
+  });
+
+  return {
+    subject: `[Escuela de Emprendedores] Propuesta de formador/a – ${unescapeHtml(nombre)}`,
+    html,
+    text,
+    replyTo: email ? unescapeHtml(email) : null,
+  };
+}
+
+/**
+ * Verifica el token de Cloudflare Turnstile del lado del servidor.
+ * Sólo se exige cuando TURNSTILE_SECRET_KEY está configurada, de modo que el
+ * endpoint sigue funcionando mientras la protección no esté dada de alta.
+ */
+async function verifyTurnstile(env, token, ip) {
+  const secret = env && env.TURNSTILE_SECRET_KEY;
+  if (!secret) return { ok: true, skipped: true };
+  if (!token) return { ok: false };
+
+  try {
+    const form = new FormData();
+    form.append("secret", secret);
+    form.append("response", token);
+    if (ip && ip !== "unknown") form.append("remoteip", ip);
+
+    const response = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      { method: "POST", body: form }
+    );
+    const result = await response.json();
+    return { ok: result.success === true };
+  } catch (err) {
+    console.error("Turnstile: fallo al verificar el token");
+    return { ok: false };
+  }
+}
+
 export async function onRequestPost(context) {
   const { request, env } = context;
 
-  const headers = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-  };
+  const headers = corsHeaders(request);
 
   const clientIP =
     request.headers.get("CF-Connecting-IP") ||
@@ -181,6 +448,14 @@ export async function onRequestPost(context) {
     );
   }
 
+  const contentType = request.headers.get("Content-Type") || "";
+  if (!contentType.toLowerCase().includes("application/json")) {
+    return new Response(
+      JSON.stringify({ ok: false, error: "Formato de solicitud no soportado." }),
+      { status: 415, headers }
+    );
+  }
+
   let body;
   try {
     body = await request.json();
@@ -191,8 +466,31 @@ export async function onRequestPost(context) {
     );
   }
 
+  if (!body || typeof body !== "object") {
+    return new Response(
+      JSON.stringify({ ok: false, error: "Solicitud invalida." }),
+      { status: 400, headers }
+    );
+  }
+
   if (body._hp_website) {
+    // Bot detectado: se responde 200 para no revelar el honeypot.
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
+  }
+
+  const turnstile = await verifyTurnstile(
+    env,
+    body["cf-turnstile-response"],
+    clientIP
+  );
+  if (!turnstile.ok) {
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "No pudimos verificar que seas una persona. Recargá la página e intentá de nuevo.",
+      }),
+      { status: 403, headers }
+    );
   }
 
   let emailData;
@@ -206,6 +504,12 @@ export async function onRequestPost(context) {
       break;
     case "proyecto":
       emailData = buildProyectoEmail(body);
+      break;
+    case "escuela-alumno":
+      emailData = buildEscuelaAlumnoEmail(body);
+      break;
+    case "escuela-formador":
+      emailData = buildEscuelaFormadorEmail(body);
       break;
     default:
       return new Response(
@@ -238,23 +542,28 @@ export async function onRequestPost(context) {
   }
 
   try {
+    const payload = {
+      from: CONTACT_FROM,
+      to: resolveRecipients(env),
+      subject: emailData.subject,
+      html: emailData.html,
+    };
+    if (emailData.text) payload.text = emailData.text;
+    // El correo del visitante va en Reply-To, nunca en From.
+    if (emailData.replyTo) payload.reply_to = emailData.replyTo;
+
     const resendResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${RESEND_API_KEY}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        from: CONTACT_FROM,
-        to: CONTACT_RECIPIENTS,
-        subject: emailData.subject,
-        html: emailData.html,
-      }),
+      body: JSON.stringify(payload),
     });
 
     if (!resendResponse.ok) {
-      const errorBody = await resendResponse.text();
-      console.error("Resend error:", resendResponse.status, errorBody);
+      // No se registran datos personales, sólo el estado del proveedor.
+      console.error("Resend error:", resendResponse.status);
       return new Response(
         JSON.stringify({
           ok: false,
@@ -270,7 +579,8 @@ export async function onRequestPost(context) {
       headers,
     });
   } catch (err) {
-    console.error("Error enviando email:", err);
+    // Se registra el tipo de error sin exponer el contenido del formulario.
+    console.error("Error enviando email:", err && err.name);
     return new Response(
       JSON.stringify({
         ok: false,
@@ -282,13 +592,23 @@ export async function onRequestPost(context) {
   }
 }
 
-export async function onRequestOptions() {
+export async function onRequestOptions({ request }) {
   return new Response(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": resolveCorsOrigin(request),
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Max-Age": "86400",
+      Vary: "Origin",
     },
   });
+}
+
+/** Cualquier otro método queda rechazado: el endpoint sólo acepta POST. */
+export async function onRequest({ request }) {
+  return new Response(
+    JSON.stringify({ ok: false, error: "Método no permitido." }),
+    { status: 405, headers: { ...corsHeaders(request), Allow: "POST, OPTIONS" } }
+  );
 }

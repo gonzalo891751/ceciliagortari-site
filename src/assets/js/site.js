@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    CECILIA GORTARI - SITIO WEB OFICIAL
    JavaScript Principal
    ========================================================================== */
@@ -169,7 +169,7 @@
     function triggerCelebration(container) {
       if (!container) return;
 
-      const emojis = ['🎉', '🎓', '🎉', '🎓'];
+      const emojis = ['ðŸŽ‰', 'ðŸŽ“', 'ðŸŽ‰', 'ðŸŽ“'];
       const count = 12; // 10-16 range
 
       for (let i = 0; i < count; i++) {
@@ -307,113 +307,6 @@
   }
 
   // --------------------------------------------------------------------------
-  // CUSTOM FORMS (Google Sheets)
-  // --------------------------------------------------------------------------
-  function initCustomForms() {
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw2lf7SDxdcwxdGxSxNLxYlQedxKLEeAgzbpQYD9sIAlibafaWL0V7bHc5spf2BWiw8Xg/exec';
-
-    // 1. Preinscripción Alumnos
-    const formAlumnos = document.getElementById('preinscripcion-form');
-    if (formAlumnos) {
-      formAlumnos.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const btn = document.getElementById('submit-btn');
-        const status = document.getElementById('form-status');
-        const honeypot = document.getElementById('website').value;
-
-        if (honeypot) return; // Spam check
-
-        // Simple client validation
-        if (!formAlumnos.checkValidity()) {
-          if (status) {
-            status.className = 'preinscripciones__status preinscripciones__status--error';
-            status.innerText = 'Por favor, completá todos los campos requeridos.';
-          }
-          return;
-        }
-
-        if (btn.disabled) return;
-        btn.disabled = true;
-        const originalText = btn.innerText;
-        btn.innerText = 'Enviando...';
-        if (status) status.innerText = '';
-
-        const formData = new FormData(formAlumnos);
-
-        fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: formData })
-          .then(() => {
-            if (status) {
-              status.className = 'preinscripciones__status preinscripciones__status--success';
-              status.innerText = '¡Listo! Ya registramos tu respuesta 🙌';
-            }
-            formAlumnos.reset();
-            setTimeout(() => { if (status) status.innerText = ''; }, 5000);
-          })
-          .catch(err => {
-            console.error(err);
-            if (status) {
-              status.className = 'preinscripciones__status preinscripciones__status--error';
-              status.innerText = 'Ups, no se pudo enviar. Probá de nuevo.';
-            }
-          })
-          .finally(() => {
-            btn.disabled = false;
-            btn.innerText = originalText;
-          });
-      });
-    }
-
-    // 2. Docentes
-    const formDocentes = document.getElementById('docentes-form');
-    if (formDocentes) {
-      formDocentes.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const btn = document.getElementById('btn-docente');
-        const alertBox = document.getElementById('docentes-alert');
-        const honeypot = document.getElementById('website_docente').value;
-
-        if (honeypot) return;
-
-        // Validate
-        let isValid = true;
-        const requiredIds = ['nombre_docente', 'celular_docente', 'tema_docente'];
-        requiredIds.forEach(id => {
-          const el = document.getElementById(id);
-          el.classList.remove('error'); // clear previous
-          if (!el.value.trim()) {
-            el.classList.add('error');
-            isValid = false;
-          }
-        });
-
-        if (!isValid) return;
-
-        btn.disabled = true;
-        const originalText = btn.innerText;
-        btn.innerText = 'Enviando...';
-
-        const formData = new FormData(formDocentes);
-        // sheetName is hidden field in HTML
-
-        fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: formData })
-          .then(() => {
-            formDocentes.style.display = 'none';
-            if (alertBox) {
-              alertBox.style.display = 'block';
-              alertBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-          })
-          .catch(err => {
-            console.error(err);
-            btn.disabled = false;
-            btn.innerText = originalText;
-            alert('Hubo un error al enviar. Por favor intentá nuevamente.');
-          });
-      });
-    }
-  }
-
-  // --------------------------------------------------------------------------
   // SMOOTH SCROLL
   // --------------------------------------------------------------------------
   function initSmoothScroll() {
@@ -460,12 +353,12 @@
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const panel = hero.querySelector('.hero-new__panel');
 
-    // ═══════════════════════════════════════════════════════════════════════
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     // CONFIGURABLE: Adjust this value to tune how many pixels of scroll
-    // are needed to complete the reveal animation (0 → 1).
-    // Recommended range: 110–140px. Default: 120px.
-    // PIN_RANGE is set in CSS (additions.css) — currently 180px.
-    // ═══════════════════════════════════════════════════════════════════════
+    // are needed to complete the reveal animation (0 â†’ 1).
+    // Recommended range: 110â€“140px. Default: 120px.
+    // PIN_RANGE is set in CSS (additions.css) â€” currently 180px.
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     const REVEAL_RANGE = 120;
 
     function updateScrollProgress() {
@@ -514,7 +407,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // HERO SCROLL INDICATOR ("Deslizá") - Mobile only, scroll-based visibility
+  // HERO SCROLL INDICATOR ("DeslizÃ¡") - Mobile only, scroll-based visibility
   // --------------------------------------------------------------------------
   function initScrollIndicator() {
     const indicator = document.querySelector('.hero-scroll-indicator');
@@ -797,7 +690,7 @@
   const featuredProjects = [
     {
       title: "Impulso Tabacalero Provincial",
-      desc: "Beneficios fiscales y tecnología para pequeños productores de Goya."
+      desc: "Beneficios fiscales y tecnologÃ­a para pequeÃ±os productores de Goya."
     },
     {
       title: "Conectividad Rural Educativa",
@@ -805,7 +698,7 @@
     },
     {
       title: "Fondo Emprendedor Correntino",
-      desc: "Microcréditos blandos para nuevos emprendimientos."
+      desc: "MicrocrÃ©ditos blandos para nuevos emprendimientos."
     }
   ];
 
@@ -834,62 +727,62 @@
   }
 
   // --------------------------------------------------------------------------
-  // BIOGRAFÍA PAGE - TIMELINE (Editable Array)
+  // BIOGRAFÃA PAGE - TIMELINE (Editable Array)
   // --------------------------------------------------------------------------
-  // EDITABLE: Agregar o modificar items de la línea de tiempo aquí
+  // EDITABLE: Agregar o modificar items de la lÃ­nea de tiempo aquÃ­
   const bioTimelineData = [
     {
       year: '31/08/2025',
       title: 'Electa Diputada Provincial de Corrientes',
-      desc: 'Victoria electoral para representar a los correntinos en la Cámara de Diputados.',
+      desc: 'Victoria electoral para representar a los correntinos en la CÃ¡mara de Diputados.',
       color: 'magenta'
     },
     {
-      year: '2025–Actualidad',
+      year: '2025â€“Actualidad',
       title: 'Diputada Provincial de Corrientes',
-      desc: 'Mandato legislativo con foco en desarrollo productivo, educación y cercanía territorial.',
+      desc: 'Mandato legislativo con foco en desarrollo productivo, educaciÃ³n y cercanÃ­a territorial.',
       color: 'magenta'
     },
     {
-      year: '2024–Actualidad',
+      year: '2024â€“Actualidad',
       title: 'Escuela de Oficios / Emprendedores',
-      desc: 'Capacitación gratuita con salida laboral junto a Germán Braillard.',
+      desc: 'CapacitaciÃ³n gratuita con salida laboral junto a GermÃ¡n Braillard.',
       color: 'blue'
     },
     {
-      year: '2023–2025',
+      year: '2023â€“2025',
       title: 'Concejala de Goya',
-      desc: 'Trabajo legislativo local: transparencia, servicios públicos, control institucional.',
+      desc: 'Trabajo legislativo local: transparencia, servicios pÃºblicos, control institucional.',
       color: 'blue'
     },
     {
-      year: '2020–2023',
+      year: '2020â€“2023',
       title: 'Delegada Ministerio de Desarrollo Social (Goya)',
-      desc: 'Gestión de programas Mi Pieza, Mi Baño, Banco de Herramientas.',
+      desc: 'GestiÃ³n de programas Mi Pieza, Mi BaÃ±o, Banco de Herramientas.',
       color: 'turquoise'
     },
     {
-      year: '2008–2011',
+      year: '2008â€“2011',
       title: 'Diputada Provincial (1er mandato)',
-      desc: 'Modernización (Exp. 4044), zona portuaria Lavalle, cultura y educación.',
+      desc: 'ModernizaciÃ³n (Exp. 4044), zona portuaria Lavalle, cultura y educaciÃ³n.',
       color: 'blue'
     },
     {
-      year: '2006–2008',
+      year: '2006â€“2008',
       title: 'Subsecretaria de Seguridad de Corrientes',
-      desc: 'Seguridad en transporte, protocolos de búsqueda de menores.',
+      desc: 'Seguridad en transporte, protocolos de bÃºsqueda de menores.',
       color: 'turquoise'
     },
     {
-      year: '2000–2001',
-      title: 'Asesora Ministerio del Interior (Nación)',
-      desc: 'Seguridad y prevención del delito.',
+      year: '2000â€“2001',
+      title: 'Asesora Ministerio del Interior (NaciÃ³n)',
+      desc: 'Seguridad y prevenciÃ³n del delito.',
       color: 'gray'
     },
     {
       year: '2000',
-      title: 'Graduación UBA',
-      desc: 'Licenciada en Ciencias Políticas.',
+      title: 'GraduaciÃ³n UBA',
+      desc: 'Licenciada en Ciencias PolÃ­ticas.',
       color: 'gray'
     }
   ];
@@ -912,33 +805,33 @@
   }
 
   // --------------------------------------------------------------------------
-  // BIOGRAFÍA PAGE - GESTIONES CAROUSEL (Editable Array)
+  // BIOGRAFÃA PAGE - GESTIONES CAROUSEL (Editable Array)
   // --------------------------------------------------------------------------
-  // EDITABLE: Agregar o modificar gestiones aquí
+  // EDITABLE: Agregar o modificar gestiones aquÃ­
   const gestionesData = [
     {
       name: 'Mi Pieza',
-      desc: 'Ampliación y refacción de viviendas para mujeres en barrios populares.',
+      desc: 'AmpliaciÃ³n y refacciÃ³n de viviendas para mujeres en barrios populares.',
       image: '/assets/img/gestiones/gestion-1.jpg',
-      icon: '🏠'
+      icon: 'ðŸ '
     },
     {
-      name: 'Mi Baño',
+      name: 'Mi BaÃ±o',
       desc: 'Mejoras sanitarias esenciales para familias.',
       image: '/assets/img/gestiones/gestion-2.jpg',
-      icon: '🚿'
+      icon: 'ðŸš¿'
     },
     {
       name: 'Banco de Herramientas / Maquinarias',
       desc: 'Insumos para emprendimientos locales.',
       image: '/assets/img/gestiones/gestion-3.jpg',
-      icon: '🔧'
+      icon: 'ðŸ”§'
     },
     {
       name: 'Escuela de Oficios / Emprendedores',
-      desc: 'Capacitación gratuita con salida laboral.',
+      desc: 'CapacitaciÃ³n gratuita con salida laboral.',
       image: '/assets/img/gestiones/gestion-4.jpg',
-      icon: '🎓'
+      icon: 'ðŸŽ“'
     }
   ];
 
@@ -974,7 +867,7 @@
     dotsContainer.innerHTML = gestionesData.map((_, index) => `
       <button class="gestiones-carousel__dot ${index === 0 ? 'active' : ''}" 
               data-index="${index}" 
-              aria-label="Ir a gestión ${index + 1}"></button>
+              aria-label="Ir a gestiÃ³n ${index + 1}"></button>
     `).join('');
 
     const slides = track.querySelectorAll('.gestiones-carousel__slide');
@@ -1052,8 +945,8 @@
       container.innerHTML = Array(3).fill(0).map(() => `
         <div class="prensa-card prensa-card--placeholder">
           <div class="prensa-card__body">
-            <span class="prensa-card__placeholder-icon">📰</span>
-            <h3 class="prensa-card__title">Próximamente</h3>
+            <span class="prensa-card__placeholder-icon">ðŸ“°</span>
+            <h3 class="prensa-card__title">PrÃ³ximamente</h3>
             <a href="/novedades/" class="prensa-card__cta">Ver Novedades</a>
           </div>
         </div>
@@ -1078,11 +971,11 @@
                    loading="lazy"
                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
               <div class="prensa-card__placeholder" style="display:none;">
-                <span class="prensa-card__placeholder-icon">📰</span>
+                <span class="prensa-card__placeholder-icon">ðŸ“°</span>
               </div>
             ` : `
               <div class="prensa-card__placeholder">
-                <span class="prensa-card__placeholder-icon">📰</span>
+                <span class="prensa-card__placeholder-icon">ðŸ“°</span>
               </div>
             `}
           </div>
@@ -1117,8 +1010,8 @@
           <div class="prensa-carousel__item">
             <div class="prensa-card prensa-card--placeholder">
               <div class="prensa-card__body">
-                <span class="prensa-card__placeholder-icon">📰</span>
-                <h3 class="prensa-card__title">Próximamente</h3>
+                <span class="prensa-card__placeholder-icon">ðŸ“°</span>
+                <h3 class="prensa-card__title">PrÃ³ximamente</h3>
               </div>
             </div>
           </div>
@@ -1145,11 +1038,11 @@
                        loading="lazy"
                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                   <div class="prensa-card__placeholder" style="display:none;">
-                    <span class="prensa-card__placeholder-icon">📰</span>
+                    <span class="prensa-card__placeholder-icon">ðŸ“°</span>
                   </div>
                 ` : `
                   <div class="prensa-card__placeholder">
-                    <span class="prensa-card__placeholder-icon">📰</span>
+                    <span class="prensa-card__placeholder-icon">ðŸ“°</span>
                   </div>
                 `}
               </div>
@@ -1190,12 +1083,11 @@
     initNavbarScroll();
     initLightbox();
     initProjectFilters();
-    initCustomForms();
     initSmoothScroll();
     initActiveNavLink();
     // New home redesign functions
     initHeroScrollEffect();
-    initScrollIndicator(); // Scroll indicator (mobile "Deslizá")
+    initScrollIndicator(); // Scroll indicator (mobile "DeslizÃ¡")
     initImpactMetrics();  // Replaced initImpactCounters
     initFeaturedProjects();
     initInstagramFallback();
