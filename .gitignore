@@ -1,1 +1,5 @@
 dist/
+
+# Artefactos locales de wrangler / miniflare
+.wrangler/
+node_modules/.mf/
