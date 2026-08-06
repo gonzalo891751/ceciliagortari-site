@@ -1,439 +1,806 @@
 ---
 layout: layouts/base.njk
 title: "Escuela de Emprendedores | Cecilia Gortari"
-description: "Formación gratuita para emprendedores correntinos. Talleres, mentorías y financiamiento."
+description: "Cursos, talleres y formación gratuita en oficios para aprender, emprender y generar nuevas oportunidades en Goya y Corrientes."
 ogImage: "https://ceciliagortari.com.ar/assets/img/escuela/escuela-4.jpg"
+bodyClass: "esc"
+extraCSS: "/assets/css/escuela.css?v=202608061200"
 ---
+{%- set c = escuela.contact -%}
+{%- set heroWa = "Hola, vi los cursos de la Escuela de Emprendedores en la página de Cecilia Gortari y quisiera recibir información." -%}
 
-{% block head %}
-    <style>
-        .escuela-pattern {
-            background: linear-gradient(135deg, var(--color-dark) 0%, #1a1a1e 100%);
-        }
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "Escuela de Emprendedores",
+  "description": "Escuela de oficios con cursos, talleres y masterclasses gratuitos y abiertos a la comunidad.",
+  "url": "https://ceciliagortari.com.ar/escuela/",
+  "sameAs": ["{{ c.instagramUrl }}"],
+  "telephone": "+54 3777 737188",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ c.address }}",
+    "addressLocality": "{{ c.city }}",
+    "addressRegion": "{{ c.province }}",
+    "addressCountry": "AR"
+  }
+}
+</script>
 
-        .escuela-pattern::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, #1C5CFF 0%, #9F57A7 100%);
-            opacity: 0.1;
-        }
-    </style>
-{% endblock %}
+<!-- ===================================================================
+     A. PORTADA — el logo es el protagonista
+     =================================================================== -->
+<header class="esc-hero">
+  <div class="esc-hero__glow esc-hero__glow--orange" aria-hidden="true"></div>
+  <div class="esc-hero__glow esc-hero__glow--turquoise" aria-hidden="true"></div>
 
-    <!-- HERO - Estética distinta: más dinámica y joven -->
-    <header class="escuela-pattern relative pt-32 pb-24 text-white overflow-hidden">
-        <div class="ornament-circle ornament-circle--orange"
-            style="width: 500px; height: 500px; top: -200px; right: -100px;"></div>
-        <div class="ornament-circle ornament-circle--blue"
-            style="width: 400px; height: 400px; bottom: -100px; left: -100px;"></div>
-        <div class="container relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="fade-in">
-                    <img src="/assets/img/logo-escuela.png" alt="Escuela de Emprendedores" class="hero__logo mb-8">
-                    <h1 class="text-5xl md:text-6xl font-black mb-6">Animate a <span
-                            class="text-brand-orange">emprender</span> a través de un oficio</h1>
-                    <p class="text-xl text-gray-300 mb-8 max-w-lg"><span class="text-brand-orange">Formación
-                            gratuita</span> en oficios para una rápida salida laboral: Talleres, masterclass y cursos de
-                        corta duración.</p>
-                    <div class="flex flex-wrap gap-4">
-                        <!-- Updated Button with 'btn-gradient-hover' class functionality to be added in CSS -->
-                        <a href="#inscripcion" class="btn btn--hero-cta btn--lg hover-lift">¡Pre-inscribirme ahora!</a>
-                    </div>
-                </div>
-                <div class="fade-in text-center">
-                    <div
-                        class="bg-white/10 backdrop-blur border border-white/20 rounded-3xl p-8 inline-block stats-card">
-                        <!-- Updated Counters with data-target -->
-                        <div class="text-6xl font-black text-brand-orange mb-2 stat-number" data-target="3000">0</div>
-                        <p class="text-xl">Egresados</p>
-                        <div class="grid grid-cols-3 gap-4 mt-6 text-center">
-                            <div>
-                                <div class="text-2xl font-bold stat-number" data-target="25">0</div>
-                                <p class="text-sm text-gray-400">Cursos</p>
-                            </div>
-                            <div>
-                                <div class="text-2xl font-bold stat-number" data-target="30">0</div>
-                                <p class="text-sm text-gray-400">Masterclass</p>
-                            </div>
-                            <div>
-                                <div class="text-2xl font-bold stat-number" data-target="20">0</div>
-                                <p class="text-sm text-gray-400">Charlas</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="esc-hero__inner">
+      <img
+        src="/assets/img/logo-escuela.png"
+        alt="Escuela de Emprendedores"
+        class="esc-hero__logo"
+        width="4087"
+        height="1049"
+        fetchpriority="high"
+        decoding="async">
+
+      <h1 class="esc-hero__tagline">
+        <strong>Formación gratuita</strong> para aprender oficios, desarrollar habilidades
+        y transformar conocimientos en oportunidades.
+      </h1>
+
+      <div class="esc-hero__actions">
+        <a href="#agenda" class="esc-btn esc-btn--primary" data-scroll>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+          </svg>
+          Ver cursos actuales
+        </a>
+        <a href="https://wa.me/{{ c.whatsapp }}?text={{ heroWa | urlencode }}"
+           class="esc-btn esc-btn--whatsapp" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.14c-.25.69-1.45 1.32-1.99 1.36-.53.04-1.03.23-3.47-.72-2.92-1.15-4.77-4.13-4.91-4.32-.14-.19-1.17-1.56-1.17-2.97s.74-2.11 1-2.4c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.65.49.25.58.83 2 .9 2.15.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.3.37-.42.5-.14.14-.29.29-.12.57.16.29.73 1.2 1.56 1.95 1.08.96 1.98 1.26 2.27 1.4.29.14.45.12.62-.07.17-.19.71-.83.9-1.12.19-.29.38-.24.64-.14.26.09 1.66.78 1.94.93.29.14.48.21.55.33.07.12.07.69-.18 1.38Z"/>
+          </svg>
+          Consultar por WhatsApp
+        </a>
+      </div>
+
+      <p class="esc-hero__meta">
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          {{ c.address }}, {{ c.city }}
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.5a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/>
+          </svg>
+          {{ c.phoneDisplay }}
+        </span>
+      </p>
+
+      <ul class="esc-stats">
+        {%- for s in escuela.stats %}
+        <li class="esc-stat">
+          <span class="esc-stat__value" data-count-to="{{ s.value }}" data-suffix="{{ s.suffix }}">{{ s.suffix }}{{ s.value }}</span>
+          <span class="esc-stat__label">{{ s.label }}</span>
+        </li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </div>
+</header>
+
+<!-- ===================================================================
+     B. AGENDA DE CURSOS
+     =================================================================== -->
+<section class="esc-section esc-section--light" id="agenda" aria-labelledby="agenda-title">
+  <div class="container">
+    <div class="esc-head">
+      <span class="esc-eyebrow">Segundo semestre 2026</span>
+      <h2 class="esc-title" id="agenda-title">Agenda de cursos</h2>
+      <p class="esc-lead">Conocé las propuestas de formación gratuitas de la Escuela de Emprendedores.</p>
+    </div>
+
+    <!-- Próxima actividad destacada -->
+    {%- if escuela.next %}
+    <article class="esc-next" id="proximo-curso" data-course-id="{{ escuela.next.id }}" aria-labelledby="proximo-curso-name">
+      <div class="esc-next__grid">
+        <div class="esc-next__date" aria-hidden="true">
+          <span class="esc-next__day">{{ escuela.next.day }}</span>
+          <span class="esc-next__month">{{ escuela.next.monthShort }}</span>
         </div>
-    </header>
-
-    <!-- NUEVA SECCIÓN MODERNA (Tu oficio, tu oportunidad) -->
-    <section class="section section--tint-b relative overflow-hidden" id="tu-oficio">
-        <div class="container relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="order-2 lg:order-1 reveal">
-                    <div class="text-4xl mb-2">👷‍♂️🚪</div>
-                    <h2 class="text-4xl md:text-5xl font-black text-brand-dark mb-6">Tu oficio, <br><span
-                            class="text-brand-blue">tu oportunidad</span></h2>
-                    <p class="text-xl text-gray-600 leading-relaxed mb-8">
-                        Formación gratuita, talleres cortos y acompañamiento para que puedas emprender con salida
-                        laboral real.
-                    </p>
-                    <a href="#inscripcion"
-                        class="btn btn--primary btn--lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                        Pre-inscribite ya!
-                    </a>
-                </div>
-
-                <div class="order-1 lg:order-2 reveal" data-delay="200">
-                    <div
-                        class="w-full aspect-[4/3] bg-gray-200 rounded-3xl shadow-xl flex items-center justify-center relative overflow-hidden group border-4 border-white">
-                        <div class="text-gray-400 font-medium text-lg">Foto / Imagen (próximamente)</div>
-                        <div
-                            class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/40 to-transparent translate-y-full group-hover:-translate-y-full transition-transform duration-1000 pointer-events-none">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="esc-next__body">
+          <p class="esc-next__label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+            </svg>
+            Próximo{% if escuela.next.type == 'masterclass' %}a{% endif %} {{ escuela.next.typeLabel | lower }}
+          </p>
+          <h3 class="esc-next__name" id="proximo-curso-name">{{ escuela.next.name }}</h3>
+          <p class="esc-next__when">
+            <time datetime="{{ escuela.next.startDate }}">{{ escuela.next.dateLabel | capitalize }}</time>
+            · {{ escuela.next.time }} h · {{ escuela.next.location }}
+          </p>
+          <div class="esc-next__actions">
+            <a href="{{ escuela.next.whatsappUrl }}" class="esc-btn esc-btn--whatsapp"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Consultar por WhatsApp sobre {{ escuela.next.name }}">
+              Consultar por WhatsApp
+            </a>
+            <a href="{{ escuela.next.instagramUrl }}" class="esc-btn esc-btn--outline-light"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Ver la publicación de {{ escuela.next.name }} en Instagram">
+              Ver publicación
+            </a>
+          </div>
         </div>
-    </section>
+      </div>
+    </article>
+    {%- else %}
+    <div class="esc-next esc-next__empty">
+      <p class="esc-next__when">
+        Próximamente anunciaremos nuevos cursos.
+        Seguinos en <strong>@{{ c.instagram }}</strong> para enterarte primero.
+      </p>
+    </div>
+    {%- endif %}
 
-    <!-- INSCRIPCIÓN (ALUMNOS) -->
-    <section class="section section--gradient py-24" id="inscripcion">
-        <div class="container">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-white mb-6 reveal text-4xl md:text-5xl font-black">Pre-inscripciones</h2>
-                <p class="text-xl text-white/90 mb-12 reveal max-w-2xl mx-auto">
-                    Todavía no iniciamos el cronograma 2026 pero queremos conocer tu opinión para traer los mejores
-                    cursos.
-                </p>
+    <!-- Filtros -->
+    <div class="esc-filters" role="group" aria-label="Filtrar la agenda de cursos">
+      <button type="button" class="esc-filter" data-filter="todos" aria-pressed="true">Todos</button>
+      {%- for group in escuela.upcomingByMonth %}
+      <button type="button" class="esc-filter" data-filter="mes:{{ group.key }}" aria-pressed="false">{{ group.label | replace(" 2026", "") }}</button>
+      {%- endfor %}
+      <button type="button" class="esc-filter" data-filter="tipo:curso" aria-pressed="false">Cursos</button>
+      <button type="button" class="esc-filter" data-filter="tipo:masterclass" aria-pressed="false">Masterclasses</button>
+    </div>
 
-                <div class="preinscripciones__card reveal">
-                    <form id="preinscripcion-form" novalidate>
-                        <input type="hidden" name="sheetName" value="Alumnos">
-
-                        <div class="visually-hidden" aria-hidden="true">
-                            <label for="website">Website</label>
-                            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-                        </div>
-
-                        <div class="preinscripciones__form-group">
-                            <label for="nombre" class="preinscripciones__label">Nombre completo *</label>
-                            <input type="text" id="nombre" name="nombre" class="preinscripciones__input" required
-                                autocomplete="name" placeholder="Tu nombre y apellido">
-                        </div>
-
-                        <div class="preinscripciones__form-group">
-                            <label for="celular" class="preinscripciones__label">Número de celular *</label>
-                            <input type="tel" id="celular" name="celular" class="preinscripciones__input" required
-                                autocomplete="tel" inputmode="tel" placeholder="Ej: 3794 123456">
-                        </div>
-
-                        <div class="preinscripciones__form-group">
-                            <label for="aprender" class="preinscripciones__label">¿Qué te gustaría aprender? *</label>
-                            <textarea id="aprender" name="aprender" class="preinscripciones__textarea" required
-                                placeholder="Contanos qué oficios o habilidades te interesan..."></textarea>
-                        </div>
-
-                        <button type="submit" class="preinscripciones__submit-btn" id="submit-btn">
-                            Enviar pre-inscripción ➝
-                        </button>
-
-                        <div id="form-status" class="preinscripciones__status" aria-live="polite"></div>
-                    </form>
-                </div>
+    <div id="agenda-lista">
+      {%- for group in escuela.upcomingByMonth %}
+      <section class="esc-month" data-month="{{ group.key }}" aria-labelledby="mes-{{ group.key }}">
+        <h3 class="esc-month__title" id="mes-{{ group.key }}">{{ group.label }}</h3>
+        <ul class="esc-agenda">
+          {%- for course in group.courses %}
+          <li class="esc-course esc-course--{{ course.accent }}"
+              data-course="{{ course.id }}"
+              data-type="{{ course.type }}"
+              data-month="{{ course.monthKey }}"
+              data-start="{{ course.startDate }}"
+              {% if course.statusOverride %}data-status-override="{{ course.statusOverride }}"{% endif %}>
+            <div class="esc-course__date" aria-hidden="true">
+              <span class="esc-course__day">{{ course.day }}</span>
+              <span class="esc-course__mon">{{ course.monthShort }}</span>
             </div>
-        </div>
-    </section>
+            <div class="esc-course__body">
+              <div class="esc-course__tags">
+                <span class="esc-tag {% if course.type == 'masterclass' %}esc-tag--masterclass{% else %}esc-tag--type{% endif %}">{{ course.typeLabel }}</span>
+                <span class="esc-tag esc-tag--status esc-tag--{{ course.status }}" data-status-tag>{{ course.statusLabel }}</span>
+                {%- if course.isFree %}<span class="esc-tag esc-tag--free">Gratuito</span>{% endif %}
+              </div>
 
-    <!-- DOCENTES SECTION -->
-    <section class="docentes__section bg-white" id="docentes">
-        <div class="container">
-            <div class="docentes__grid">
-                <div class="docentes__content reveal">
-                    <h2 class="docentes__title">¿Te interesa <span class="docentes__highlight">enseñar</span>?</h2>
-                    <p class="docentes__subtitle">Dejanos tus datos para comunicarnos con vos</p>
-                    <p class="docentes__text">Sumate como formador/a y ayudá a potenciar emprendedores en Corrientes.
-                    </p>
+              <h4 class="esc-course__name">{{ course.name }}</h4>
 
-                    <ul class="docentes__bullets">
-                        <li>
-                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                            Sumate como docente voluntario/a
-                        </li>
-                        <li>
-                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                            </svg>
-                            Proponé talleres, cursos o charlas
-                        </li>
-                        <li>
-                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Llegá a emprendedores de toda la provincia
-                        </li>
-                    </ul>
-                </div>
+              <ul class="esc-course__meta">
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+                  </svg>
+                  <time datetime="{{ course.startDate }}">{{ course.dateLabel | capitalize }}</time>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+                  </svg>
+                  {{ course.days | capitalize }} · {{ course.time }} h
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  {{ course.location }}
+                </li>
+              </ul>
 
-                <div class="docentes__card reveal" data-delay="200">
-                    <form id="docentes-form" novalidate>
-                        <input type="hidden" name="sheetName" value="Docentes">
+              {%- if course.description %}
+              <p class="esc-course__desc">{{ course.description }}</p>
+              {%- endif %}
+              {%- if course.enrollmentNote %}
+              <p class="esc-course__note">{{ course.enrollmentNote }}</p>
+              {%- endif %}
 
-                        <div class="visually-hidden" aria-hidden="true">
-                            <label for="website_docente">Website</label>
-                            <input type="text" id="website_docente" name="website" tabindex="-1" autocomplete="off">
-                        </div>
-
-                        <div class="docentes__form-group">
-                            <label for="nombre_docente" class="docentes__label">Nombre completo *</label>
-                            <input type="text" id="nombre_docente" name="nombre_docente" class="docentes__input"
-                                required autocomplete="name">
-                            <div class="docentes__error-msg">Por favor ingresá tu nombre completo.</div>
-                        </div>
-
-                        <div class="docentes__form-group">
-                            <label for="celular_docente" class="docentes__label">Número de celular *</label>
-                            <input type="tel" id="celular_docente" name="celular_docente" class="docentes__input"
-                                required autocomplete="tel" inputmode="tel" placeholder="Ej: 3794 123456">
-                            <div class="docentes__error-msg">Ingresá un número válido (0-9, guiones, espacios).</div>
-                        </div>
-
-                        <div class="docentes__form-group">
-                            <label for="direccion_docente" class="docentes__label">Dirección (Opcional)</label>
-                            <input type="text" id="direccion_docente" name="direccion_docente" class="docentes__input"
-                                autocomplete="street-address">
-                        </div>
-
-                        <div class="docentes__form-group">
-                            <label for="tema_docente" class="docentes__label">Contanos qué te gustaría enseñar *</label>
-                            <textarea id="tema_docente" name="tema_docente" class="docentes__textarea"
-                                required></textarea>
-                            <div class="docentes__error-msg">Este campo es obligatorio.</div>
-                        </div>
-
-                        <button type="submit" class="docentes__btn" id="btn-docente">Quiero enseñar</button>
-                    </form>
-
-                    <div id="docentes-alert" class="docentes__alert">
-                        <div class="docentes__success-content">
-                            <svg class="docentes__icon-check" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <div>
-                                <strong>¡Gracias! Ya recibimos tus datos.</strong>
-                                <p style="margin:0; font-size:0.9rem;">Te vamos a contactar.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- UN ESPACIO SOLIDARIO (Antes Beneficios) -->
-    <section class="section section--tint-c">
-        <div class="container">
-            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
-                <h2 class="text-brand-dark mb-4 text-3xl md:text-4xl font-bold">Un espacio solidario que ofrece</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Card 1 -->
-                <div class="card p-8 hover-lift reveal text-center" data-delay="100">
-                    <div class="text-6xl mb-6">🔨💡</div>
-                    <h3 class="text-xl font-bold mb-3 text-brand-dark">Talleres prácticos</h3>
-                    <p class="text-gray-600">Oficios, talleres y charlas.</p>
-                </div>
-                <!-- Card 2 -->
-                <div class="card p-8 hover-lift reveal text-center" data-delay="200">
-                    <div class="text-6xl mb-6">🎓</div>
-                    <h3 class="text-xl font-bold mb-3 text-brand-dark">Cursos gratuitos</h3>
-                    <p class="text-gray-600">De distinta duración, enfocados en rápida salida laboral.</p>
-                </div>
-                <!-- Card 3 -->
-                <div class="card p-8 hover-lift reveal text-center" data-delay="300">
-                    <div class="text-6xl mb-6">🤝</div>
-                    <h3 class="text-xl font-bold mb-3 text-brand-dark">Nuevas amistades</h3>
-                    <p class="text-gray-600">Un espacio para aprender, conocer gente y armar red.</p>
-                </div>
-                <!-- Card 4 -->
-                <div class="card p-8 hover-lift reveal text-center" data-delay="400">
-                    <div class="text-6xl mb-6">🌱</div>
-                    <h3 class="text-xl font-bold mb-3 text-brand-dark">Expansión</h3>
-                    <p class="text-gray-600">Crecemos cada día gracias a quienes colaboran con la Escuela.</p>
-                </div>
-            </div>
-
-
-            <!-- Instagram Button CTA -->
-            <div class="text-center mt-12 reveal">
-                <a href="https://www.instagram.com/goyaemprendedores/" target="_blank" rel="noopener noreferrer"
-                    class="btn btn--instagram btn--lg btn-glow hover-lift">
-                    Seguinos en Instagram
+              <div class="esc-course__actions">
+                <a href="{{ course.whatsappUrl }}" class="esc-btn esc-btn--whatsapp"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="Consultar por WhatsApp sobre {{ course.typeLabel | lower }} de {{ course.name }}">
+                  Consultar por WhatsApp
                 </a>
+                <a href="{{ course.instagramUrl }}" class="esc-btn esc-btn--ghost"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="Ver {{ course.name }} en Instagram">
+                  Ver en Instagram
+                </a>
+              </div>
             </div>
-        </div>
-    </section>
+          </li>
+          {%- endfor %}
+        </ul>
+      </section>
+      {%- endfor %}
+    </div>
 
-    <!-- CRONOGRAMA 2026 -->
-    <section class="section section--tint-a border-t border-gray-100" id="cronograma">
-        <div class="container text-center">
-            <h2 class="text-brand-dark mb-4 reveal text-3xl md:text-4xl font-bold">🗓️ Cronograma 2026</h2>
-            <p class="text-xl text-gray-600 mb-8 reveal">Iniciamos el ciclo en marzo, pero ya te podés preinscribir.</p>
-            <a href="#inscripcion" class="btn btn--primary btn-glow mb-16 reveal hover-lift">Pre-inscribirme
-                (Alumnos)</a>
-
-            <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-8 reveal">Fechas tentativas</p>
-
-            <div class="max-w-3xl mx-auto grid gap-4">
-                <!-- 15 MAR -->
-                <div
-                    class="bg-white border border-gray-100 shadow-sm rounded-xl p-6 flex flex-col md:flex-row items-center gap-6 hover:shadow-md transition-shadow reveal">
-                    <div
-                        class="bg-brand-orange/10 text-brand-orange font-black text-xl px-4 py-2 rounded-lg min-w-[100px]">
-                        15 MAR</div>
-                    <div class="text-left flex-1 w-full text-center md:text-left">
-                        <h4 class="font-bold text-lg text-brand-dark">Chocolatería y repostería 🍫</h4>
-                    </div>
-                    <div
-                        class="px-4 py-1 bg-gray-100 rounded-full text-sm font-medium text-gray-600 mt-2 md:mt-0 whitespace-nowrap">
-                        Profe Marys 👨‍🍳</div>
-                </div>
-                <!-- 20 MAR -->
-                <div class="bg-white border border-gray-100 shadow-sm rounded-xl p-6 flex flex-col md:flex-row items-center gap-6 hover:shadow-md transition-shadow reveal"
-                    data-delay="100">
-                    <div class="bg-brand-blue/10 text-brand-blue font-black text-xl px-4 py-2 rounded-lg min-w-[100px]">
-                        20 MAR</div>
-                    <div class="text-left flex-1 w-full text-center md:text-left">
-                        <h4 class="font-bold text-lg text-brand-dark">Arte creativo 🎨</h4>
-                    </div>
-                    <div
-                        class="px-4 py-1 bg-gray-100 rounded-full text-sm font-medium text-gray-600 mt-2 md:mt-0 whitespace-nowrap">
-                        Profe Laura</div>
-                </div>
-                <!-- 25 MAR -->
-                <div class="bg-white border border-gray-100 shadow-sm rounded-xl p-6 flex flex-col md:flex-row items-center gap-6 hover:shadow-md transition-shadow reveal"
-                    data-delay="200">
-                    <div
-                        class="bg-brand-magenta/10 text-brand-magenta font-black text-xl px-4 py-2 rounded-lg min-w-[100px]">
-                        25 MAR</div>
-                    <div class="text-left flex-1 w-full text-center md:text-left">
-                        <h4 class="font-bold text-lg text-brand-dark">Clases de apoyo Matemáticas ✖️</h4>
-                    </div>
-                    <div
-                        class="px-4 py-1 bg-gray-100 rounded-full text-sm font-medium text-gray-600 mt-2 md:mt-0 whitespace-nowrap">
-                        Profe Carlos</div>
-                </div>
+    <!-- Cursos que ya comenzaron -->
+    {%- if escuela.started.length %}
+    <details class="esc-started" id="ya-comenzaron">
+      <summary>
+        <span>Cursos que ya comenzaron ({{ escuela.started.length }})</span>
+      </summary>
+      <div class="esc-started__body">
+        <p class="esc-started__hint">
+          Estos cursos ya tuvieron su primera clase, pero suelen dictarse durante varias
+          semanas. Consultá por WhatsApp si todavía hay lugar para sumarte.
+        </p>
+        <ul class="esc-agenda">
+          {%- for course in escuela.started %}
+          <li class="esc-course esc-course--{{ course.accent }}"
+              data-course="{{ course.id }}"
+              data-type="{{ course.type }}"
+              data-start="{{ course.startDate }}">
+            <div class="esc-course__date" aria-hidden="true">
+              <span class="esc-course__day">{{ course.day }}</span>
+              <span class="esc-course__mon">{{ course.monthShort }}</span>
             </div>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="section section--tint-d">
-        <div class="container max-w-3xl">
-            <h2 class="text-center text-brand-dark mb-12 reveal text-3xl font-bold">Preguntas Frecuentes</h2>
-            <div class="space-y-4 reveal">
-                <!-- FAQ Item 1 -->
-                <details
-                    class="group bg-white rounded-xl shadow-sm border border-gray-100 open:shadow-md transition-all">
-                    <summary
-                        class="flex justify-between items-center font-bold p-6 cursor-pointer list-none text-brand-dark">
-                        <span>¿La inscripción es gratis?</span>
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-brand-magenta">
-                            <svg fill="none" class="w-6 h-6" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </span>
-                    </summary>
-                    <div class="text-gray-600 px-6 pb-6 pt-0 animate-fadeIn">
-                        ¡Sí! Absolutamente. Todos los talleres, incluyendo materiales en la mayoría de los casos, son
-                        100% gratuitos.
-                    </div>
-                </details>
-
-                <!-- FAQ Item 2 -->
-                <details
-                    class="group bg-white rounded-xl shadow-sm border border-gray-100 open:shadow-md transition-all">
-                    <summary
-                        class="flex justify-between items-center font-bold p-6 cursor-pointer list-none text-brand-dark">
-                        <span>¿Dónde se dictan las clases?</span>
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-brand-magenta">
-                            <svg fill="none" class="w-6 h-6" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </span>
-                    </summary>
-                    <div class="text-gray-600 px-6 pb-6 pt-0 animate-fadeIn">
-                        Tenemos sedes rotativas en distintos barrios y localidades de la provincia. Al confirmar tu
-                        inscripción te avisaremos el lugar exacto.
-                    </div>
-                </details>
-
-                <!-- FAQ Item 3 -->
-                <details
-                    class="group bg-white rounded-xl shadow-sm border border-gray-100 open:shadow-md transition-all">
-                    <summary
-                        class="flex justify-between items-center font-bold p-6 cursor-pointer list-none text-brand-dark">
-                        <span>¿Hay cupos limitados?</span>
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-brand-magenta">
-                            <svg fill="none" class="w-6 h-6" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </span>
-                    </summary>
-                    <div class="text-gray-600 px-6 pb-6 pt-0 animate-fadeIn">
-                        Sí, por cuestiones de espacio y calidad educativa, los cupos son limitados. Te recomendamos
-                        pre-inscribirte cuanto antes.
-                    </div>
-                </details>
-
-                <!-- FAQ Item 4 -->
-                <details
-                    class="group bg-white rounded-xl shadow-sm border border-gray-100 open:shadow-md transition-all">
-                    <summary
-                        class="flex justify-between items-center font-bold p-6 cursor-pointer list-none text-brand-dark">
-                        <span>¿Cómo me contacto?</span>
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-brand-magenta">
-                            <svg fill="none" class="w-6 h-6" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </span>
-                    </summary>
-                    <div class="text-gray-600 px-6 pb-6 pt-0 animate-fadeIn">
-                        Podés escribirnos a través del formulario de contacto en esta web o enviarnos un mensaje directo
-                        a nuestro Instagram.
-                    </div>
-                </details>
-
-                <!-- FAQ Item 5 -->
-                <details
-                    class="group bg-white rounded-xl shadow-sm border border-gray-100 open:shadow-md transition-all">
-                    <summary
-                        class="flex justify-between items-center font-bold p-6 cursor-pointer list-none text-brand-dark">
-                        <span>¿Puedo anotarme si no tengo experiencia?</span>
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-brand-magenta">
-                            <svg fill="none" class="w-6 h-6" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </span>
-                    </summary>
-                    <div class="text-gray-600 px-6 pb-6 pt-0 animate-fadeIn">
-                        ¡Por supuesto! La mayoría de nuestros talleres inician desde cero. Solo necesitás ganas de
-                        aprender.
-                    </div>
-                </details>
+            <div class="esc-course__body">
+              <div class="esc-course__tags">
+                <span class="esc-tag {% if course.type == 'masterclass' %}esc-tag--masterclass{% else %}esc-tag--type{% endif %}">{{ course.typeLabel }}</span>
+                <span class="esc-tag esc-tag--status esc-tag--{{ course.status }}" data-status-tag>{{ course.statusLabel }}</span>
+                {%- if course.isFree %}<span class="esc-tag esc-tag--free">Gratuito</span>{% endif %}
+              </div>
+              <h4 class="esc-course__name">{{ course.name }}</h4>
+              <ul class="esc-course__meta">
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+                  </svg>
+                  <time datetime="{{ course.startDate }}">{{ course.dateLabel | capitalize }}</time>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+                  </svg>
+                  {{ course.days | capitalize }} · {{ course.time }} h
+                </li>
+              </ul>
+              <div class="esc-course__actions">
+                <a href="{{ course.whatsappUrl }}" class="esc-btn esc-btn--whatsapp"
+                   target="_blank" rel="noopener noreferrer"
+                   aria-label="Consultar disponibilidad por WhatsApp para {{ course.name }}">
+                  Consultar disponibilidad
+                </a>
+              </div>
             </div>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </details>
+    {%- endif %}
+
+    <!-- Aviso + Instagram -->
+    <div class="esc-notice">
+      <p class="esc-notice__text">
+        <strong>Los cursos y talleres son libres y gratuitos.</strong>
+        Las fechas, horarios y cupos pueden actualizarse, por eso te recomendamos consultar
+        por WhatsApp y seguir a @{{ c.instagram }}: todos los nuevos cursos se anuncian
+        primero en Instagram.
+      </p>
+      <a href="{{ c.instagramUrl }}" class="esc-btn esc-btn--instagram"
+         target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 5.18a4.66 4.66 0 1 0 0 9.32 4.66 4.66 0 0 0 0-9.32Zm0 7.69a3.03 3.03 0 1 1 0-6.06 3.03 3.03 0 0 1 0 6.06Zm5.94-7.87a1.09 1.09 0 1 1-2.18 0 1.09 1.09 0 0 1 2.18 0Z"/>
+        </svg>
+        Seguir a @{{ c.instagram }}
+      </a>
+    </div>
+
+    <p class="esc-updated">Grilla actualizada al {{ escuela.lastUpdated }}.</p>
+  </div>
+</section>
+
+<!-- ===================================================================
+     C. CÓMO TRABAJAMOS
+     =================================================================== -->
+<section class="esc-section esc-section--white" aria-labelledby="como-title">
+  <div class="container">
+    <div class="esc-head">
+      <span class="esc-eyebrow">Cómo trabajamos</span>
+      <h2 class="esc-title" id="como-title">Una escuela de oficios abierta a toda la comunidad</h2>
+      <p class="esc-lead">
+        Ofrecemos talleres, cursos y capacitaciones gratuitas para aprender oficios con
+        salida laboral, acompañar a quienes quieren producir y emprender, y generar
+        vínculos y redes de colaboración entre vecinos y vecinas.
+      </p>
+    </div>
+
+    <div class="esc-cards">
+      <article class="esc-card">
+        <div class="esc-card__icon esc-card__icon--blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M14.7 6.3a4 4 0 0 0 5 5l-9 9a2.8 2.8 0 0 1-4-4l9-9Z"/><path d="m18 2 4 4"/>
+          </svg>
         </div>
-    </section>
+        <h3 class="esc-card__title">Talleres prácticos</h3>
+        <p class="esc-card__text">
+          Se aprende haciendo. Cada encuentro combina técnica, herramientas y producción
+          real, desde la primera clase.
+        </p>
+      </article>
+
+      <article class="esc-card">
+        <div class="esc-card__icon esc-card__icon--magenta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/>
+          </svg>
+        </div>
+        <h3 class="esc-card__title">Cursos gratuitos</h3>
+        <p class="esc-card__text">
+          Todas las propuestas son libres y gratuitas, abiertas a la comunidad y pensadas
+          para una rápida salida laboral.
+        </p>
+      </article>
+
+      <article class="esc-card">
+        <div class="esc-card__icon esc-card__icon--turquoise">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3 class="esc-card__title">Comunidad y nuevas amistades</h3>
+        <p class="esc-card__text">
+          Un espacio para encontrarse, compartir experiencias y armar redes de
+          colaboración entre quienes están empezando.
+        </p>
+      </article>
+
+      <article class="esc-card">
+        <div class="esc-card__icon esc-card__icon--orange">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M12 2a7 7 0 0 0-4 12.7V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.3A7 7 0 0 0 12 2Z"/>
+            <path d="M9 22h6"/>
+          </svg>
+        </div>
+        <h3 class="esc-card__title">Crecimiento y oportunidades</h3>
+        <p class="esc-card__text">
+          Herramientas concretas para transformar un conocimiento en un oficio, y un
+          oficio en un proyecto propio.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     D. GALERÍA REAL
+     =================================================================== -->
+<section class="esc-section esc-section--night" aria-labelledby="galeria-title">
+  <div class="container">
+    <div class="esc-head">
+      <span class="esc-eyebrow">La Escuela por dentro</span>
+      <h2 class="esc-title" id="galeria-title">Así se vive la Escuela de Emprendedores</h2>
+      <p class="esc-lead">
+        Aulas llenas, oficios que se aprenden entre vecinos y egresados que se llevan
+        su certificado y una herramienta nueva para salir adelante.
+      </p>
+    </div>
+
+    <div class="esc-gallery">
+      <figure class="esc-gallery__item">
+        <img src="/assets/img/escuela/escuela-1.webp" alt="Aula completa de la Escuela de Emprendedores durante una clase, con el cartel de la Escuela al frente" width="768" height="1024" loading="lazy" decoding="async">
+        <figcaption>Clases abiertas a toda la comunidad</figcaption>
+      </figure>
+      <figure class="esc-gallery__item">
+        <img src="/assets/img/escuela/escuela-4.webp" alt="Grupo de egresadas y egresados de la Escuela de Emprendedores mostrando sus certificados junto a Cecilia Gortari" width="900" height="675" loading="lazy" decoding="async">
+        <figcaption>Egresados de una nueva camada</figcaption>
+      </figure>
+      <figure class="esc-gallery__item">
+        <img src="/assets/img/escuela/escuela-2.webp" alt="Una egresada recibe su certificado de la Escuela de Emprendedores junto a su capacitadora" width="768" height="1024" loading="lazy" decoding="async">
+        <figcaption>Entrega de certificados</figcaption>
+      </figure>
+      <figure class="esc-gallery__item">
+        <img src="/assets/img/escuela/escuela-3.webp" alt="Un egresado muestra su certificado acompañado por su capacitadora y por Cecilia Gortari" width="768" height="1024" loading="lazy" decoding="async">
+        <figcaption>Cada oficio, una oportunidad</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     E. FORMULARIO PARA PERSONAS INTERESADAS
+     =================================================================== -->
+<section class="esc-section esc-section--light" id="quiero-info" aria-labelledby="info-title">
+  <div class="container">
+    <div class="esc-form-grid">
+      <div>
+        <div class="esc-head esc-head--start">
+          <span class="esc-eyebrow">Me interesa un curso</span>
+          <h2 class="esc-title" id="info-title">Quiero recibir información</h2>
+          <p class="esc-lead">
+            Dejanos tus datos y te contamos cómo sumarte. Si preferís, escribinos
+            directamente por WhatsApp: te respondemos por ahí.
+          </p>
+        </div>
+
+        <ul class="esc-list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
+            </svg>
+            Todos los cursos son libres y gratuitos.
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
+            </svg>
+            No necesitás experiencia previa: la mayoría arranca desde cero.
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
+            </svg>
+            Si un curso ya empezó, igual podés consultar por un lugar.
+          </li>
+        </ul>
+
+        <div class="esc-hero__actions" style="justify-content:flex-start;margin-top:1.5rem">
+          <a href="https://wa.me/{{ c.whatsapp }}?text={{ heroWa | urlencode }}"
+             class="esc-btn esc-btn--whatsapp" target="_blank" rel="noopener noreferrer">
+            Consultar por WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="esc-form-card">
+        <form id="form-alumno" novalidate data-escuela-form="alumno">
+          <div class="esc-hp" aria-hidden="true">
+            <label for="alumno-web">No completar este campo</label>
+            <input type="text" id="alumno-web" name="_hp_website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="alumno-nombre">Nombre y apellido <span class="esc-field__req" aria-hidden="true">*</span></label>
+            <input class="esc-input" type="text" id="alumno-nombre" name="nombre" required maxlength="120"
+                   autocomplete="name" aria-describedby="alumno-nombre-error">
+            <p class="esc-error" id="alumno-nombre-error" data-error-for="nombre"></p>
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="alumno-celular">Número de celular <span class="esc-field__req" aria-hidden="true">*</span></label>
+            <input class="esc-input" type="tel" id="alumno-celular" name="celular" required maxlength="30"
+                   autocomplete="tel" inputmode="tel" placeholder="Ej: 3777 123456"
+                   aria-describedby="alumno-celular-error">
+            <p class="esc-error" id="alumno-celular-error" data-error-for="celular"></p>
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="alumno-email">Correo electrónico <span class="esc-field__hint" style="display:inline">(opcional)</span></label>
+            <input class="esc-input" type="email" id="alumno-email" name="email" maxlength="160"
+                   autocomplete="email" aria-describedby="alumno-email-error">
+            <p class="esc-error" id="alumno-email-error" data-error-for="email"></p>
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="alumno-localidad">Localidad <span class="esc-field__hint" style="display:inline">(opcional)</span></label>
+            <input class="esc-input" type="text" id="alumno-localidad" name="localidad" maxlength="120"
+                   autocomplete="address-level2" placeholder="Ej: Goya">
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="alumno-curso">Curso de interés <span class="esc-field__req" aria-hidden="true">*</span></label>
+            <select class="esc-select" id="alumno-curso" name="curso" required aria-describedby="alumno-curso-error">
+              <option value="">Elegí una opción…</option>
+              {%- for group in escuela.upcomingByMonth %}
+              <optgroup label="{{ group.label }}">
+                {%- for course in group.courses %}
+                <option value="{{ course.name }}">{{ course.name }} — {{ course.dateLabel }}, {{ course.time }} h</option>
+                {%- endfor %}
+              </optgroup>
+              {%- endfor %}
+              {%- if escuela.started.length %}
+              <optgroup label="Ya comenzaron">
+                {%- for course in escuela.started %}
+                <option value="{{ course.name }}">{{ course.name }} — {{ course.dateLabel }}, {{ course.time }} h</option>
+                {%- endfor %}
+              </optgroup>
+              {%- endif %}
+              <option value="Otro curso o habilidad">Otro curso o habilidad</option>
+            </select>
+            <p class="esc-error" id="alumno-curso-error" data-error-for="curso"></p>
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="alumno-mensaje">Consulta o comentario <span class="esc-field__hint" style="display:inline">(opcional)</span></label>
+            <textarea class="esc-textarea" id="alumno-mensaje" name="mensaje" maxlength="1500"
+                      placeholder="Contanos qué te gustaría aprender o qué duda tenés."></textarea>
+          </div>
+
+          <div class="esc-check">
+            <input type="checkbox" id="alumno-consent" name="consentimiento" required
+                   aria-describedby="alumno-consent-error">
+            <label for="alumno-consent">
+              Acepto que me contacten por los cursos y actividades de la Escuela de Emprendedores.
+              <span class="esc-field__req" aria-hidden="true">*</span>
+            </label>
+          </div>
+          <p class="esc-error" id="alumno-consent-error" data-error-for="consentimiento"></p>
+
+          {%- if escuela.turnstileSiteKey %}
+          <div class="cf-turnstile" data-sitekey="{{ escuela.turnstileSiteKey }}" data-language="es" style="margin-bottom:1rem"></div>
+          {%- endif %}
+
+          <button type="submit" class="esc-btn esc-btn--primary esc-btn--block" data-submit>
+            Quiero recibir información
+          </button>
+
+          <p class="esc-status" role="status" aria-live="polite" data-status></p>
+
+          <p class="esc-privacy">
+            Usaremos estos datos únicamente para comunicarnos con vos en relación con los
+            cursos y actividades de la Escuela de Emprendedores.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     F. QUIERO ENSEÑAR
+     =================================================================== -->
+<section class="esc-section esc-section--white" id="quiero-ensenar" aria-labelledby="ensenar-title">
+  <div class="container">
+    <div class="esc-form-grid">
+      <div>
+        <div class="esc-head esc-head--start">
+          <span class="esc-eyebrow">Sumate como formador o formadora</span>
+          <h2 class="esc-title" id="ensenar-title">¿Tenés un oficio o conocimiento para compartir?</h2>
+          <p class="esc-lead">
+            Sumate como formador o formadora y ayudanos a crear nuevas oportunidades en
+            nuestra comunidad.
+          </p>
+        </div>
+
+        <ul class="esc-list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/>
+            </svg>
+            Sumate como docente voluntario o voluntaria.
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M12 2a7 7 0 0 0-4 12.7V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.3A7 7 0 0 0 12 2Z"/><path d="M9 22h6"/>
+            </svg>
+            Proponé talleres, cursos, masterclasses o charlas.
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z"/>
+            </svg>
+            Llegá a vecinos y vecinas de Goya y de toda la provincia.
+          </li>
+        </ul>
+      </div>
+
+      <div class="esc-form-card">
+        <form id="form-formador" novalidate data-escuela-form="formador">
+          <div class="esc-hp" aria-hidden="true">
+            <label for="formador-web">No completar este campo</label>
+            <input type="text" id="formador-web" name="_hp_website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="formador-nombre">Nombre y apellido <span class="esc-field__req" aria-hidden="true">*</span></label>
+            <input class="esc-input" type="text" id="formador-nombre" name="nombre" required maxlength="120"
+                   autocomplete="name" aria-describedby="formador-nombre-error">
+            <p class="esc-error" id="formador-nombre-error" data-error-for="nombre"></p>
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="formador-celular">Número de celular <span class="esc-field__req" aria-hidden="true">*</span></label>
+            <input class="esc-input" type="tel" id="formador-celular" name="celular" required maxlength="30"
+                   autocomplete="tel" inputmode="tel" placeholder="Ej: 3777 123456"
+                   aria-describedby="formador-celular-error">
+            <p class="esc-error" id="formador-celular-error" data-error-for="celular"></p>
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="formador-email">Correo electrónico <span class="esc-field__hint" style="display:inline">(opcional)</span></label>
+            <input class="esc-input" type="email" id="formador-email" name="email" maxlength="160"
+                   autocomplete="email" aria-describedby="formador-email-error">
+            <p class="esc-error" id="formador-email-error" data-error-for="email"></p>
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="formador-localidad">Localidad o dirección <span class="esc-field__hint" style="display:inline">(opcional)</span></label>
+            <input class="esc-input" type="text" id="formador-localidad" name="localidad" maxlength="160"
+                   autocomplete="address-level2">
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="formador-oficio">Oficio, curso o habilidad que querés enseñar <span class="esc-field__req" aria-hidden="true">*</span></label>
+            <input class="esc-input" type="text" id="formador-oficio" name="oficio" required maxlength="200"
+                   aria-describedby="formador-oficio-error" placeholder="Ej: Carpintería, costura, panadería…">
+            <p class="esc-error" id="formador-oficio-error" data-error-for="oficio"></p>
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="formador-experiencia">Experiencia o breve presentación <span class="esc-field__hint" style="display:inline">(opcional)</span></label>
+            <textarea class="esc-textarea" id="formador-experiencia" name="experiencia" maxlength="1500"
+                      placeholder="Contanos brevemente a qué te dedicás."></textarea>
+          </div>
+
+          <div class="esc-field">
+            <label class="esc-field__label" for="formador-disponibilidad">Disponibilidad horaria <span class="esc-field__hint" style="display:inline">(opcional)</span></label>
+            <input class="esc-input" type="text" id="formador-disponibilidad" name="disponibilidad" maxlength="200"
+                   placeholder="Ej: martes y jueves por la tarde">
+          </div>
+
+          <div class="esc-check">
+            <input type="checkbox" id="formador-consent" name="consentimiento" required
+                   aria-describedby="formador-consent-error">
+            <label for="formador-consent">
+              Acepto que me contacten para coordinar una propuesta de formación.
+              <span class="esc-field__req" aria-hidden="true">*</span>
+            </label>
+          </div>
+          <p class="esc-error" id="formador-consent-error" data-error-for="consentimiento"></p>
+
+          {%- if escuela.turnstileSiteKey %}
+          <div class="cf-turnstile" data-sitekey="{{ escuela.turnstileSiteKey }}" data-language="es" style="margin-bottom:1rem"></div>
+          {%- endif %}
+
+          <button type="submit" class="esc-btn esc-btn--primary esc-btn--block" data-submit>
+            Quiero enseñar
+          </button>
+
+          <p class="esc-status" role="status" aria-live="polite" data-status></p>
+
+          <p class="esc-privacy">
+            Usaremos estos datos únicamente para comunicarnos con vos en relación con los
+            cursos y actividades de la Escuela de Emprendedores.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     G. PREGUNTAS FRECUENTES
+     =================================================================== -->
+<section class="esc-section esc-section--light" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="esc-head">
+      <span class="esc-eyebrow">Dudas frecuentes</span>
+      <h2 class="esc-title" id="faq-title">Preguntas frecuentes</h2>
+    </div>
+
+    <div class="esc-faq">
+      <details class="esc-faq__item">
+        <summary>¿Los cursos son gratuitos?</summary>
+        <div class="esc-faq__answer">
+          Sí. Todos los cursos, talleres y masterclasses de la Escuela son libres y
+          gratuitos, y están abiertos a toda la comunidad.
+        </div>
+      </details>
+
+      <details class="esc-faq__item">
+        <summary>¿Cómo me inscribo?</summary>
+        <div class="esc-faq__answer">
+          Podés escribirnos por WhatsApp al <strong>{{ c.phoneDisplay }}</strong>, acercarte a
+          {{ c.address }} o completar el formulario de
+          <a href="#quiero-info">esta página</a> y nos comunicamos con vos.
+          Algunos cursos tienen un número propio de inscripción: figura en cada tarjeta de la agenda.
+        </div>
+      </details>
+
+      <details class="esc-faq__item">
+        <summary>¿Dónde se dictan?</summary>
+        <div class="esc-faq__answer">
+          En <strong>{{ c.address }}</strong>, {{ c.city }}, {{ c.province }}.
+        </div>
+      </details>
+
+      <details class="esc-faq__item">
+        <summary>¿Necesito experiencia previa?</summary>
+        <div class="esc-faq__answer">
+          No. La mayoría de las propuestas arrancan desde cero: sólo hace falta tener
+          ganas de aprender.
+        </div>
+      </details>
+
+      <details class="esc-faq__item">
+        <summary>¿Qué hago si el curso ya comenzó?</summary>
+        <div class="esc-faq__answer">
+          Consultanos igual. Los cursos se dictan durante varias semanas, así que muchas
+          veces todavía es posible sumarse. En la agenda vas a encontrar el bloque
+          <a href="#ya-comenzaron">“Cursos que ya comenzaron”</a> con el botón para
+          consultar disponibilidad.
+        </div>
+      </details>
+
+      <details class="esc-faq__item">
+        <summary>¿Cómo me entero de los nuevos cursos?</summary>
+        <div class="esc-faq__answer">
+          Todos los nuevos cursos se anuncian primero en Instagram. Seguinos en
+          <a href="{{ c.instagramUrl }}" target="_blank" rel="noopener noreferrer">@{{ c.instagram }}</a>
+          para conocer nuevas propuestas, cambios de horarios y apertura de cupos.
+        </div>
+      </details>
+
+      <details class="esc-faq__item">
+        <summary>¿Puedo proponer un taller?</summary>
+        <div class="esc-faq__answer">
+          Sí, y nos encanta que pase. Completá el formulario de
+          <a href="#quiero-ensenar">“Quiero enseñar”</a> y nos ponemos en contacto para
+          coordinar tu propuesta.
+        </div>
+      </details>
+
+      <details class="esc-faq__item">
+        <summary>¿Dónde consulto por WhatsApp?</summary>
+        <div class="esc-faq__answer">
+          Escribinos al <a href="https://wa.me/{{ c.whatsapp }}?text={{ heroWa | urlencode }}"
+          target="_blank" rel="noopener noreferrer">{{ c.phoneDisplay }}</a>.
+          Cada curso de la agenda también tiene su propio botón de consulta con el mensaje
+          ya preparado.
+        </div>
+      </details>
+
+      <details class="esc-faq__item">
+        <summary>¿Los cupos son limitados?</summary>
+        <div class="esc-faq__answer">
+          Por cuestiones de espacio, cada curso tiene una cantidad de lugares. La
+          disponibilidad cambia según la propuesta, por eso te recomendamos consultar
+          por WhatsApp antes de la fecha de inicio.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     H. CIERRE
+     =================================================================== -->
+<section class="esc-section esc-section--night" aria-labelledby="cierre-title">
+  <div class="container esc-final">
+    <h2 class="esc-title" id="cierre-title">Animate a aprender algo nuevo</h2>
+    <p class="esc-lead" style="max-width:40rem;margin-inline:auto">
+      ¿Tenés dudas sobre un curso? Escribinos por WhatsApp y seguinos en Instagram
+      para no perderte ninguna novedad.
+    </p>
+    <div class="esc-final__actions">
+      <a href="https://wa.me/{{ c.whatsapp }}?text={{ heroWa | urlencode }}"
+         class="esc-btn esc-btn--whatsapp" target="_blank" rel="noopener noreferrer">
+        Consultar por WhatsApp
+      </a>
+      <a href="{{ c.instagramUrl }}" class="esc-btn esc-btn--instagram"
+         target="_blank" rel="noopener noreferrer">
+        Seguir a @{{ c.instagram }}
+      </a>
+    </div>
+    <p class="esc-final__phone">
+      {{ c.address }}, {{ c.city }} · Tel. <a href="tel:+543777737188">{{ c.phoneDisplay }}</a>
+    </p>
+  </div>
+</section>
+
+<script type="application/json" id="escuela-data">{{ escuela.clientData | dump | safe }}</script>
+{%- if escuela.turnstileSiteKey %}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{%- endif %}
+<script src="/assets/js/escuela.js?v=202608061200" defer></script>
