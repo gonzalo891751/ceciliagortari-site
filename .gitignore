@@ -1,1 +1,8 @@
+# Build output (Eleventy)
 dist/
+
+# Dependencias: se reinstalan con `npm ci` a partir de package-lock.json
+node_modules/
+
+# Estado local de Wrangler / Cloudflare (incluye account_id, no versionar)
+.wrangler/
