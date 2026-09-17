@@ -1,0 +1,17 @@
+{
+  "started_at": "2026-09-16T18:27:37.163Z",
+  "mode": "dry-run",
+  "plan_sha256": "570e9dccebf793856b768d9b7dbf0825f80c527bcea594992aaf5de58a864a16",
+  "records": [],
+  "errors": [],
+  "backup": {
+    "projects": 185,
+    "documents": 216,
+    "bytes": 40402937,
+    "empty": 0,
+    "success": true
+  },
+  "validated_records": 49,
+  "success": true,
+  "finished_at": "2026-09-16T18:27:38.532Z"
+}

@@ -1,0 +1,12 @@
+{
+  "clean_build": "15 pages, 174 copied assets; Eleventy 3.1.2",
+  "routes_verified": [
+    "index.html",
+    "proyectos/index.html",
+    "gestionproyectos/index.html",
+    "novedades/index.html"
+  ],
+  "missing_assets": [],
+  "syntax": "node --check passed",
+  "package_tests": "No test/lint scripts defined in package.json; data publication validator and production/regression audits used."
+}

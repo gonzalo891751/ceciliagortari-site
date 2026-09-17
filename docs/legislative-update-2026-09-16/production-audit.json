@@ -1,0 +1,370 @@
+{
+  "started_at": "2026-09-17T22:30:16.140Z",
+  "mode": "audit",
+  "plan_sha256": "570e9dccebf793856b768d9b7dbf0825f80c527bcea594992aaf5de58a864a16",
+  "records": [
+    {
+      "id": "EXP-20413",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "f0b87edf38e5316da1d6eefd1561642288d7c3e8e72375f1f1c5dc8cb50f2de4"
+    },
+    {
+      "id": "EXP-20412",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "5b7e66f9233411a2285b5482215a6c8e319dd37d99873d06c730435c53f3e6a3"
+    },
+    {
+      "id": "EXP-20411",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "05a151cd9bf21244b1e976b3e170a3a86fdaa25eb5aa29ecb47fb5b31a11d116"
+    },
+    {
+      "id": "EXP-20410",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "6acb90d0d4e4048a71e593adf491db72b35daee0435c6faeb50b8a4b4521f7d8"
+    },
+    {
+      "id": "EXP-20408",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "9c96e5499b4be75e1d0a67175c2a67243a32dfc113127c9d1d9a515d17351c73"
+    },
+    {
+      "id": "EXP-20407",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "49ecb87a2e4c42ed43f68d6573cbe1cc3504dca405645db6a0ba811102d78d93"
+    },
+    {
+      "id": "EXP-20406",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "540327f9e806428573ebccc67fd4b02858cefc318a371a167f9ec05a393a4239"
+    },
+    {
+      "id": "EXP-20405",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "026d781f246f52faf2e6de01f29f8cf287779f03d04f21df8f9313da775fef74"
+    },
+    {
+      "id": "EXP-20402",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "fcae8f3841b1976cb5af7514b8a70d4fbf71b3c2924ecedf58e6996cc27939c4"
+    },
+    {
+      "id": "EXP-20401",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "7a869b90b3976bc4f4311ea0649f26c7bf716abe69a4b8bb083f80548dece71b"
+    },
+    {
+      "id": "EXP-20400",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "41d67cff29ea13ba24fd7917499e01f0f52a841c3fbe5be49e218408e11f8335"
+    },
+    {
+      "id": "EXP-20399",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "70a830199bb6504d5a8a210101a438206cc962514e72296406c85b42db7a1c56"
+    },
+    {
+      "id": "EXP-20398",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "76c8c046d9c2aa7275993208aba871edeace09a05791e8c4a82c7e4caba99c6a"
+    },
+    {
+      "id": "EXP-20381",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "6b3b8e6f66e6312144375926012dd3254a6b9eb49ed6762999de3ee12f08e13f"
+    },
+    {
+      "id": "EXP-20380",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "a40dca9d7859e682c1475042fb9b8858442823c22c60a40ca088661e3431a84c"
+    },
+    {
+      "id": "EXP-20367",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "7211ff74688a9149ec3a068e03334625b0496f4b55d9d38c0a97bc6ae919caef"
+    },
+    {
+      "id": "EXP-20366",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "5f1619cd741564cfc5dfbbf75a457762bb6a306b4c82fe4815236daa01d990b0"
+    },
+    {
+      "id": "EXP-20365",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "b916d2edc73a9aff116b4e5cc87a3d9f8a8c9f75139baa88850f692bdfc213b6"
+    },
+    {
+      "id": "EXP-20364",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "27cab6c72de9d25fcdfd8b3fb9bd0d390421ffe388c901a81fadaba82d3561c7"
+    },
+    {
+      "id": "EXP-20363",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "7f929a1593feba1b78d61d2fc2755381c278ad4c1de881bf9e36611240ba2e54"
+    },
+    {
+      "id": "EXP-20352",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "8fe21700a64ee737eb239f7d76d47f86fdad435fb4a7e8943481c648105f5bf3"
+    },
+    {
+      "id": "EXP-20351",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "50fe0ee3397ddd3e87fd6fe3189870724cf7343a3ee507509cb36211e93ae6d0"
+    },
+    {
+      "id": "EXP-20350",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "b40f88670d9af1625d53c113210b6be2814557ed715562abfaf2465225126e7b"
+    },
+    {
+      "id": "EXP-20349",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "b58d12365b9d811d5490faf7fdc0fb18b9a03bc20c0a31f5f6eed560cd49ffd1"
+    },
+    {
+      "id": "EXP-20332",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "427460970b942aeacd12c6edbca6480a8c30726e6531356f5132aec110764c22"
+    },
+    {
+      "id": "EXP-20322",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "0fc5c7357cc88aa860131003bd8b441a63f6f2535b1875408727990a588e51bf"
+    },
+    {
+      "id": "EXP-20321",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "9d20d74b22aa79be3bad1278a5a8de2f4292ceeab32f25355e8968ae9b856846"
+    },
+    {
+      "id": "EXP-20320",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "02714595821778c2168f1e873fa574be47f2049c8df4c91532543748f2c3d874"
+    },
+    {
+      "id": "EXP-20319",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "25c4b83904ac3da101c9d663f90de4f2b18a40bae8379b89be6f403447a17108"
+    },
+    {
+      "id": "EXP-20318",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "f465b90fcb8c1c8cbe6ae77637106ae3505db4b2a69313b4defe29a024b86a78"
+    },
+    {
+      "id": "EXP-20317",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "1f3fbc56fdc91989a329f34f5ff78fa1a12f58da4258731fb96913cb936b2f34"
+    },
+    {
+      "id": "EXP-20316",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "b62570bae3f8377856d506ccf1239644e7378e09a5517417217f59b737c3e65c"
+    },
+    {
+      "id": "EXP-20315",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "8cbc44ad6ecfd1b3e58de33ad948c5013464d818e6ece28c3b8439d662ddf911"
+    },
+    {
+      "id": "EXP-20314",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "08ef0f2ed8fd6512d5dfaa6c6c432bf32c9789d264498c2ae1fec3d456b5c17f"
+    },
+    {
+      "id": "EXP-20311",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "ef18f52819f8f488ccc51b378edc65a9cc805401d3fc5dd06139f4301e4dc7d7"
+    },
+    {
+      "id": "EXP-20309",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "6dc81d917b0c66a6c6f9927e4bd212f70892468e74a14b919a3f198639b50dd0"
+    },
+    {
+      "id": "EXP-20308",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "f776a2b059bf068bd8be2d99d00d58d5497a1ba40627ffe731f091c4d79041ff"
+    },
+    {
+      "id": "EXP-20294",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "6136d4f8497f800facd82806308f76ae53e2cf1ce3ebd5664648c6e18bf146c6"
+    },
+    {
+      "id": "EXP-20293",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "d6e38339345f2eded3c203cb565aca5d0a6f9fdc2080d4f51d79095490832df3"
+    },
+    {
+      "id": "EXP-20292",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "26e389eb8f8980ea2cd4e1cd2fc99fead5debca682a1c895baed15203c2de0ca"
+    },
+    {
+      "id": "EXP-20291",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "efffeb165f309f36c3c4919aa3d3a8fa5511f2f124a3dd5e2cacd7d5651348fe"
+    },
+    {
+      "id": "EXP-20290",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "e26367b55daa3d15a01776334e866d4c4c28d1182f7e2c49776939eeb05ba367"
+    },
+    {
+      "id": "EXP-20289",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "7377b63a6fe1395acd8d9003f6425ba51b09803b9df420c6d3154b5119be15cb"
+    },
+    {
+      "id": "EXP-20288",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "ed4040a56cabe7435cdab613780f58d1c8407ed6148c7e62c801621675307653"
+    },
+    {
+      "id": "EXP-20264",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "b1f8437a28fd018228ab37a928d00ffc08cba5d7273e3b583a6f1da50181faa0"
+    },
+    {
+      "id": "EXP-20262",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "f20a0fd9e1259c55b2eeb969ddc793e0e0b269d160f61bf3b9a43626baa3d677"
+    },
+    {
+      "id": "EXP-20113",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "ac58645346c8fcc254cba238fd5c64991fe1d04526066eb379d1dea840a8681b"
+    },
+    {
+      "id": "EXP-20112",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "4464e0639104b250dd2c0c17a623771f04db8463a8adf88eb06ed936af2b50bd"
+    },
+    {
+      "id": "EXP-19947",
+      "detail": 200,
+      "download": 200,
+      "preview": 200,
+      "sha256": "9918b54eb5a8fa62a39975732c6ad17495783b6b5d08729ee792a1cfb7ab0bca"
+    }
+  ],
+  "errors": [],
+  "backup": {
+    "projects": 185,
+    "documents": 216,
+    "bytes": 40402937,
+    "empty": 0,
+    "success": true
+  },
+  "validated_records": 49,
+  "audit": {
+    "active_projects": 234,
+    "public_projects": 203,
+    "new_projects": 49,
+    "previous_projects_preserved": 185,
+    "previous_public_documents_verified": 154,
+    "duplicate_ids": 0,
+    "chronology": "descending"
+  },
+  "success": true,
+  "finished_at": "2026-09-17T22:34:08.685Z"
+}

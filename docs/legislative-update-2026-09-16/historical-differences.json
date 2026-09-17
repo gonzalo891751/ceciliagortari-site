@@ -1,0 +1,128 @@
+[
+  {
+    "id": "EXP-20156",
+    "diff": {
+      "comisiones": {
+        "site": "Energía, Transporte, Obras y Servicios Públicos - Hacienda, Presupuesto e Impuestos",
+        "official": "Hacienda, Presupuesto e Impuestos - Energía, Transporte, Obras y Servicios Públicos."
+      }
+    }
+  },
+  {
+    "id": "EXP-19966",
+    "diff": {
+      "comisiones": {
+        "site": "Energía, Transporte, Obras y Servicios Públicos - Hacienda, Presupuesto e Impuestos - Producción, Industria, Comercio y Turismo",
+        "official": "Energía, Transporte, Obras y Servicios Públicos - Producción, Industria, Comercio y Turismo - Hacienda, Presupuesto e Impuestos."
+      }
+    }
+  },
+  {
+    "id": "EXP-19941",
+    "diff": {
+      "comisiones": {
+        "site": "Hacienda, Presupuesto e Impuestos - Peticiones, Reglamento y Poderes",
+        "official": "Peticiones, Reglamento y Poderes -Hacienda, Presupuesto e Impuestos"
+      }
+    }
+  },
+  {
+    "id": "EXP-19875",
+    "diff": {
+      "comisiones": {
+        "site": "Energía, Transporte, Obras y Servicios Públicos - Hacienda, Presupuesto e Impuestos",
+        "official": "Hacienda, Presupuesto e Impuesto - Energía, Transporte, Obras y Servicios Públicos."
+      }
+    }
+  },
+  {
+    "id": "EXP-19840",
+    "diff": {
+      "comisiones": {
+        "site": "Educación, Cultura, Ciencia y Tecnología - Energía, Transporte, Obras y Servicios Públicos",
+        "official": "Energía, Transporte, Obras y Servicios Públicos y Educación, Cultura, Ciencia y Tecnología."
+      }
+    }
+  },
+  {
+    "id": "EXP-19792",
+    "diff": {
+      "comisiones": {
+        "site": "Protección de Personas con Discapacidad - Salud Pública",
+        "official": "Protección de Personas con Discapacidad y Salud Pública."
+      }
+    }
+  },
+  {
+    "id": "EXP-20154",
+    "diff": {
+      "comisiones": {
+        "site": "Asuntos Constitucionales y Legislación General - Seguridad y Servicios Penitenciarios",
+        "official": "Seguridad y Servicios Penitenciarios - Asuntos Constitucionales y Legislación General."
+      }
+    }
+  },
+  {
+    "id": "EXP-20038",
+    "diff": {
+      "comisiones": {
+        "site": "Asuntos Constitucionales y Legislación General - Deportes",
+        "official": "Deportes - Asuntos Constitucionales y Legislación General."
+      }
+    }
+  },
+  {
+    "id": "EXP-19972",
+    "diff": {
+      "comisiones": {
+        "site": "Hacienda, Presupuesto e Impuestos - Salud Pública",
+        "official": "Salud Pública - Hacienda, Presupuesto e Impuestos"
+      }
+    }
+  },
+  {
+    "id": "EXP-19970",
+    "diff": {
+      "comisiones": {
+        "site": "Asuntos Constitucionales y Legislación General - Producción, Industria, Comercio y Turismo",
+        "official": "Producción, Industria, Comercio y Turismo -Asuntos Constitucionales y Legislación General"
+      }
+    }
+  },
+  {
+    "id": "EXP-19939",
+    "diff": {
+      "comisiones": {
+        "site": "Hacienda, Presupuesto e Impuestos - Salud Pública",
+        "official": "Salud Pública - Hacienda, Presupuesto e Impuestos"
+      }
+    }
+  },
+  {
+    "id": "EXP-19788",
+    "diff": {
+      "comisiones": {
+        "site": "Defensa del Consumidor - Hacienda, Presupuesto e Impuestos",
+        "official": "Hacienda, Presupuesto e Impuestos - Defensa del Consumidor."
+      }
+    }
+  },
+  {
+    "id": "EXP-19714",
+    "diff": {
+      "comisiones": {
+        "site": "Derechos Humanos, Género y Diversidad - Salud Pública",
+        "official": "Salud Pública - Derechos Humanos, Género y Diversidad."
+      }
+    }
+  },
+  {
+    "id": "EXP-19669",
+    "diff": {
+      "comisiones": {
+        "site": "Hacienda, Presupuesto e Impuestos - Legislación del Trabajo, Previsión y Seguridad Social",
+        "official": "Hacienda, Presupuesto e Impuestos y Legislación del Trabajo, Previsión y Seguridad Social"
+      }
+    }
+  }
+]

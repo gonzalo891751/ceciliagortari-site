@@ -1,0 +1,55 @@
+{
+  "cutoff": "2026-09-16",
+  "original_active_projects": 185,
+  "original_public_projects": 154,
+  "official_historical_fiches_checked": 153,
+  "local_docx_expedientes": 143,
+  "local_docx_missing_in_production": [],
+  "local_docx_authorship_mismatches": [],
+  "historical_material_corrections": [],
+  "commission_differences": "14 differences limited to order, separators or singular/plural; no substantive commission change. Existing normalized data retained.",
+  "unverified_legacy": [
+    {
+      "id": "P-0067",
+      "title": "Declaración de interés: Actividad por el día de la tierra",
+      "observed_state": "Presentado / Aprobado / 2026-04-22",
+      "resolution": "Preservado sin cambios. DOCX local acredita iniciativa, pero no se localizó expediente ni sanción inequívoca. Una búsqueda negativa no acredita inexistencia; no se revierte la edición posterior al informe de julio."
+    }
+  ],
+  "unpublished_topics": [
+    {
+      "topic": "SISVIAL y propuestas del Parlamento Norte Grande",
+      "resolution": "Borradores locales y actividad en otro ámbito localizados; sin expediente HCD inequívoco en las fuentes verificadas. No se inventa número ni se publican como expedientes HCD."
+    }
+  ],
+  "linked_topics": [
+    {
+      "topic": "Escuela Isabel King / Salón Blanco",
+      "expediente": "20408",
+      "resolution": "Una misma iniciativa. Isabel King es el nombre del Salón Blanco de la Escuela Normal Superior Dr. Mariano I. Loza; no se duplica como otra escuela."
+    },
+    {
+      "topic": "Regalías de Yacyretá",
+      "expediente": "20212",
+      "resolution": "Ya publicado; preservado y auditado."
+    },
+    {
+      "topic": "P-0069 puente y balsa",
+      "expedientes": [
+        "20311",
+        "20332"
+      ],
+      "resolution": "Antecedente interno común de dos expedientes distintos. Borrador interno preservado, sin duplicación pública."
+    }
+  ],
+  "previous_editorial_changes": {
+    "ids": [
+      "EXP-20211",
+      "EXP-20212",
+      "EXP-20213",
+      "EXP-20214",
+      "EXP-20215"
+    ],
+    "observation": "La auditoría antigua usa una instantánea superada: cinco proyectos ya estaban clasificados como propios en la captura inicial. Nueve diferencias de campos de autoría frente al archivo de agosto son previas a esta tarea. Se preservan las ediciones existentes, sin deducir autoría exclusiva de las firmas. La prueba de regresión vigente usa el respaldo inicial de esta ejecución."
+  }
+}

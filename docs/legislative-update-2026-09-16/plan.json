@@ -1,0 +1,1649 @@
+{
+  "cutoff": "2026-09-16",
+  "base_url": "https://ceciliagortari.com.ar",
+  "records": [
+    {
+      "expediente": "20413",
+      "project": {
+        "id": "EXP-20413",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Informe y medidas sobre el funcionamiento del hospital de Loreto",
+        "responsable": "Gonzalo",
+        "area_tema": "Salud",
+        "resumen": "Solicita al Poder Ejecutivo un informe y la adopción de medidas respecto al funcionamiento del hospital de la localidad de Loreto. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Salud Pública"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo un informe y la adopción de medidas respecto al funcionamiento del hospital de la localidad de Loreto.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20413/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20413.pdf",
+      "pdf_filename": "20413.pdf",
+      "pdf_sha256": "f0b87edf38e5316da1d6eefd1561642288d7c3e8e72375f1f1c5dc8cb50f2de4",
+      "pdf_bytes": 52007,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20412",
+      "project": {
+        "id": "EXP-20412",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Red de Apoyo, Incubación, Capacitación y Emprendimiento Sostenible RAICES",
+        "responsable": "Gonzalo",
+        "area_tema": "Producción",
+        "resumen": "Crea la Red de Apoyo, Incubación, Capacitación y Emprendimiento Sostenible (RAICES). Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Producción, Industria, Comercio y Turismo"
+        ]
+      },
+      "official_title": "Crea la Red de Apoyo, Incubación, Capacitación y Emprendimiento Sostenible (RAICES).",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20412/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20412.pdf",
+      "pdf_filename": "20412.pdf",
+      "pdf_sha256": "5b7e66f9233411a2285b5482215a6c8e319dd37d99873d06c730435c53f3e6a3",
+      "pdf_bytes": 139652,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20411",
+      "project": {
+        "id": "EXP-20411",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Actualización de la Ley de Educación Económica y Financiera",
+        "responsable": "Gonzalo",
+        "area_tema": "Educación",
+        "resumen": "Modifica la ley 6562 -Ley de Educación Económica y Financiera-. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Educación, Cultura, Ciencia y Tecnología",
+          "Asuntos Constitucionales y Legislación General"
+        ]
+      },
+      "official_title": "Modifica la ley 6562 -Ley de Educación Económica y Financiera-.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20411/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20411.pdf",
+      "pdf_filename": "20411.pdf",
+      "pdf_sha256": "05a151cd9bf21244b1e976b3e170a3a86fdaa25eb5aa29ecb47fb5b31a11d116",
+      "pdf_bytes": 102386,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20410",
+      "project": {
+        "id": "EXP-20410",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Residencia Social y Hospitalaria de Contención Familiar",
+        "responsable": "Gonzalo",
+        "area_tema": "Salud",
+        "resumen": "Crea la Residencia Social y Hospitalaria de Contención Familiar. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Políticas Sociales"
+        ]
+      },
+      "official_title": "Crea la Residencia Social y Hospitalaria de Contención Familiar.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20410/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20410.pdf",
+      "pdf_filename": "20410.pdf",
+      "pdf_sha256": "6acb90d0d4e4048a71e593adf491db72b35daee0435c6faeb50b8a4b4521f7d8",
+      "pdf_bytes": 86568,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20408",
+      "project": {
+        "id": "EXP-20408",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Refacción y puesta en valor del Salón Blanco Isabel King de Goya",
+        "responsable": "Gonzalo",
+        "area_tema": "Infraestructura",
+        "resumen": "Solicita al Poder Ejecutivo la refacción y puesta en valor del salón blanco “Isabel King” de la Escuela Normal Superior “Dr. Mariano I. Loza” de Goya. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Emiliano Fernández Recalde y Gustavo Canteros",
+        "comisiones": [
+          "Energía, Transporte, Obras y Servicios Públicos"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo la refacción y puesta en valor del salón blanco “Isabel King” de la Escuela Normal Superior “Dr. Mariano I. Loza” de Goya.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20408/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20408.pdf",
+      "pdf_filename": "20408.pdf",
+      "pdf_sha256": "9c96e5499b4be75e1d0a67175c2a67243a32dfc113127c9d1d9a515d17351c73",
+      "pdf_bytes": 43754,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [
+        {
+          "document": "Proyecto_de_Resolucion_Salon_Blanco_Isabel_King_Goya.docx",
+          "sha256": "aed0683f871121e99e9efe8b00990e7c5df375fd7c2d2ad798c9f8bd0381d0ce",
+          "reason": "Documento de trabajo local del equipo, con Cecilia como iniciadora y objeto concordante con el expediente oficial."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20407",
+      "project": {
+        "id": "EXP-20407",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Régimen Provincial de Gobernanza de Datos del Sector Público",
+        "responsable": "Gonzalo",
+        "area_tema": "Transparencia institucional",
+        "resumen": "Régimen Provincial de Gobernanza de Datos del Sector Público. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Emiliano Fernández Recalde y Gustavo Canteros",
+        "comisiones": [
+          "Asuntos Constitucionales y Legislación General"
+        ]
+      },
+      "official_title": "Régimen Provincial de Gobernanza de Datos del Sector Público.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20407/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20407.pdf",
+      "pdf_filename": "20407.pdf",
+      "pdf_sha256": "49ecb87a2e4c42ed43f68d6573cbe1cc3504dca405645db6a0ba811102d78d93",
+      "pdf_bytes": 142238,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [
+        {
+          "document": "Copia de Proyecto de Ley - Gobernanza de Datos - Corrientes.docx",
+          "sha256": "35b7fb52795ecbe40e5654b946aaa3e1fb1d9c3e2d6de0c713feb19ff8926057",
+          "reason": "Documento de trabajo local del equipo, con Cecilia como iniciadora y objeto concordante con el expediente oficial."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20406",
+      "project": {
+        "id": "EXP-20406",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Ley EMA para prevenir y abordar la violencia digital en el ámbito educativo",
+        "responsable": "Gonzalo",
+        "area_tema": "Niñez y Adolescencia",
+        "resumen": "Ley “Ema” para la Prevención y Abordaje de la Violencia Digital en el Ámbito Educativo. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Emiliano Fernández Recalde y Gustavo Canteros",
+        "comisiones": [
+          "Niñez, Adolescencia y Familia",
+          "Educación, Cultura, Ciencia y Tecnología"
+        ]
+      },
+      "official_title": "Ley “Ema” para la Prevención y Abordaje de la Violencia Digital en el Ámbito Educativo.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20406/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20406.pdf",
+      "pdf_filename": "20406.pdf",
+      "pdf_sha256": "540327f9e806428573ebccc67fd4b02858cefc318a371a167f9ec05a393a4239",
+      "pdf_bytes": 158634,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [
+        {
+          "document": "Proyecto de Ley - Ley EMA - Corrientes.docx",
+          "sha256": "8e72220db0f5fb151eb3d7ed5c85aac68f55f1cbfcc86786fb681e1ec34173d4",
+          "reason": "Documento de trabajo local del equipo, con Cecilia como iniciadora y objeto concordante con el expediente oficial."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20405",
+      "project": {
+        "id": "EXP-20405",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Expropiaciones para las defensas contra inundaciones y drenajes de Goya",
+        "responsable": "Gonzalo",
+        "area_tema": "Infraestructura",
+        "resumen": "Declara de utilidad pública y sujetos a expropiación los inmuebles necesarios para la ejecución de las obras de defensa contra las inundaciones y drenajes urbanos de la ciudad de Goya. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Emiliano Fernández Recalde y Gustavo Canteros",
+        "comisiones": [
+          "Asuntos Constitucionales y Legislación General"
+        ]
+      },
+      "official_title": "Declara de utilidad pública y sujetos a expropiación los inmuebles necesarios para la ejecución de las obras de defensa contra las inundaciones y drenajes urbanos de la ciudad de Goya.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20405/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20405.pdf",
+      "pdf_filename": "20405.pdf",
+      "pdf_sha256": "026d781f246f52faf2e6de01f29f8cf287779f03d04f21df8f9313da775fef74",
+      "pdf_bytes": 73728,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [
+        {
+          "document": "PROYECTO DE LEY Expropiación defensas (1).docx",
+          "sha256": "ceebbce2cc323154ecb52ad25777426f0a4c6d2de17d8877b070ba7d75964a45",
+          "reason": "Documento de trabajo local del equipo, con Cecilia como iniciadora y objeto concordante con el expediente oficial."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20402",
+      "project": {
+        "id": "EXP-20402",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "230º aniversario de la fundación de Concepción del Yaguareté Corá",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "De interés el 230º aniversario de la fundación de Concepción del Yaguareté Corá y los actos oficiales y homenajes que se realicen. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 352/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés el 230º aniversario de la fundación de Concepción del Yaguareté Corá y los actos oficiales y homenajes que se realicen.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20402/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20402.pdf",
+      "pdf_filename": "20402.pdf",
+      "pdf_sha256": "fcae8f3841b1976cb5af7514b8a70d4fbf71b3c2924ecedf58e6996cc27939c4",
+      "pdf_bytes": 20416,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20401",
+      "project": {
+        "id": "EXP-20401",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Institucionalización de la Red Provincial de Telesalud",
+        "responsable": "Gonzalo",
+        "area_tema": "Salud",
+        "resumen": "Ley de Institucionalización de la Red Provincial de Telesalud de Corrientes. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Emiliano Fernández Recalde y Gustavo Canteros",
+        "comisiones": [
+          "Salud Pública"
+        ]
+      },
+      "official_title": "Ley de Institucionalización de la Red Provincial de Telesalud de Corrientes.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20401/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20401.pdf",
+      "pdf_filename": "20401.pdf",
+      "pdf_sha256": "7a869b90b3976bc4f4311ea0649f26c7bf716abe69a4b8bb083f80548dece71b",
+      "pdf_bytes": 161399,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [
+        {
+          "document": "ley de telesalud.docx",
+          "sha256": "ef9a55ec41783e81519bd2940c7090b9f7e082009e472e3332dc5b3f908c779d",
+          "reason": "Documento de trabajo local del equipo, con Cecilia como iniciadora y objeto concordante con el expediente oficial."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20400",
+      "project": {
+        "id": "EXP-20400",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Día Nacional del Chamamé",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "De interés las actividades en conmemoración del Día Nacional del Chamamé. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 357/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés las actividades en conmemoración del Día Nacional del Chamamé.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20400/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20400.pdf",
+      "pdf_filename": "20400.pdf",
+      "pdf_sha256": "41d67cff29ea13ba24fd7917499e01f0f52a841c3fbe5be49e218408e11f8335",
+      "pdf_bytes": 16865,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20399",
+      "project": {
+        "id": "EXP-20399",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Día del Profesor",
+        "responsable": "Gonzalo",
+        "area_tema": "Educación",
+        "resumen": "De interés las actividades en conmemoración del Día del Profesor. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 356/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés las actividades en conmemoración del Día del Profesor.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20399/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20399.pdf",
+      "pdf_filename": "20399.pdf",
+      "pdf_sha256": "70a830199bb6504d5a8a210101a438206cc962514e72296406c85b42db7a1c56",
+      "pdf_bytes": 19419,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20398",
+      "project": {
+        "id": "EXP-20398",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Día Mundial del Alzheimer",
+        "responsable": "Gonzalo",
+        "area_tema": "Salud",
+        "resumen": "De interés las actividades en conmemoración del Día Mundial del Alzheimer. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 355/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés las actividades en conmemoración del Día Mundial del Alzheimer.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20398/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20398.pdf",
+      "pdf_filename": "20398.pdf",
+      "pdf_sha256": "76c8c046d9c2aa7275993208aba871edeace09a05791e8c4a82c7e4caba99c6a",
+      "pdf_bytes": 19489,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20381",
+      "project": {
+        "id": "EXP-20381",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "183º aniversario de la fundación de Paso de los Libres",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "De interés el 183º aniversario de la fundación de Paso de los Libres y los actos oficiales y homenajes que se realicen. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 344/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés el 183º aniversario de la fundación de Paso de los Libres y los actos oficiales y homenajes que se realicen.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20381/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20381.pdf",
+      "pdf_filename": "20381.pdf",
+      "pdf_sha256": "6b3b8e6f66e6312144375926012dd3254a6b9eb49ed6762999de3ee12f08e13f",
+      "pdf_bytes": 19725,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20380",
+      "project": {
+        "id": "EXP-20380",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Bicentenario de la fundación de Empedrado",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "De interés el bicentenario de la fundación de Empedrado y los actos oficiales y homenajes que se realicen. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 332/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Emiliano Fernández Recalde y Gustavo Canteros",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés el bicentenario de la fundación de Empedrado y los actos oficiales y homenajes que se realicen.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20380/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20380.pdf",
+      "pdf_filename": "20380.pdf",
+      "pdf_sha256": "a40dca9d7859e682c1475042fb9b8858442823c22c60a40ca088661e3431a84c",
+      "pdf_bytes": 19631,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [
+        {
+          "document": "Proyecto_de_Declaracion_Bicentenario_Empedrado_2026.docx",
+          "sha256": "ed9c0406efac6b72878b7eeb3ec73a17bccc4ac19554a1dd35b075d234277663",
+          "reason": "Documento de trabajo local del equipo, con Cecilia como iniciadora y objeto concordante con el expediente oficial."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20367",
+      "project": {
+        "id": "EXP-20367",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Rechazo a la presentación de una obra sobre el Regimiento 9 en la Legislatura",
+        "responsable": "Gonzalo",
+        "area_tema": "Derechos Humanos",
+        "resumen": "De rechazo y preocupación por la presentación de la obra sobre el Regimiento 9 de Infantería del General Diego Alejandro Soria, que se realizó en las instalaciones de la Biblioteca de la Legislatura Provincial. Autores consignados por la Cámara: Dips. Almirón, Aparicio, Fernández Recalde, Gortari y Ojeda.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Derechos Humanos, Género y Diversidad"
+        ]
+      },
+      "official_title": "De rechazo y preocupación por la presentación de la obra sobre el Regimiento 9 de Infantería del General Diego Alejandro Soria, que se realizó en las instalaciones de la Biblioteca de la Legislatura Provincial.",
+      "official_authors": "Dips. Almirón, Aparicio, Fernández Recalde, Gortari y Ojeda.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20367/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20367.pdf",
+      "pdf_filename": "20367.pdf",
+      "pdf_sha256": "7211ff74688a9149ec3a068e03334625b0496f4b55d9d38c0a97bc6ae919caef",
+      "pdf_bytes": 25764,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20366",
+      "project": {
+        "id": "EXP-20366",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Día Internacional del Periodista",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "De interés las actividades en conmemoración del Día Internacional del Periodista. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 343/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés las actividades en conmemoración del Día Internacional del Periodista.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20366/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20366.pdf",
+      "pdf_filename": "20366.pdf",
+      "pdf_sha256": "5f1619cd741564cfc5dfbbf75a457762bb6a306b4c82fe4815236daa01d990b0",
+      "pdf_bytes": 603830,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": "PDF escaneado: número, objeto y/o firmas cotejados visualmente; extracción textual insuficiente."
+    },
+    {
+      "expediente": "20365",
+      "project": {
+        "id": "EXP-20365",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Día de la Secretaria",
+        "responsable": "Gonzalo",
+        "area_tema": "Trabajo",
+        "resumen": "De interés las actividades en conmemoración del Día de la Secretaria. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 342/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés las actividades en conmemoración del Día de la Secretaria.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20365/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20365.pdf",
+      "pdf_filename": "20365.pdf",
+      "pdf_sha256": "b916d2edc73a9aff116b4e5cc87a3d9f8a8c9f75139baa88850f692bdfc213b6",
+      "pdf_bytes": 716561,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": "PDF escaneado: número, objeto y/o firmas cotejados visualmente; extracción textual insuficiente."
+    },
+    {
+      "expediente": "20364",
+      "project": {
+        "id": "EXP-20364",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Día Internacional de la Mujer Indígena",
+        "responsable": "Gonzalo",
+        "area_tema": "Derechos Humanos",
+        "resumen": "De interés las actividades en conmemoración del Día Internacional de la Mujer Indígena. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 341/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés las actividades en conmemoración del Día Internacional de la Mujer Indígena.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20364/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20364.pdf",
+      "pdf_filename": "20364.pdf",
+      "pdf_sha256": "27cab6c72de9d25fcdfd8b3fb9bd0d390421ffe388c901a81fadaba82d3561c7",
+      "pdf_bytes": 726877,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": "PDF escaneado: número, objeto y/o firmas cotejados visualmente; extracción textual insuficiente."
+    },
+    {
+      "expediente": "20363",
+      "project": {
+        "id": "EXP-20363",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Día Internacional de la Alfabetización",
+        "responsable": "Gonzalo",
+        "area_tema": "Educación",
+        "resumen": "De interés las actividades en conmemoración del Día Internacional de la Alfabetización. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 340/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés las actividades en conmemoración del Día Internacional de la Alfabetización.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20363/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20363.pdf",
+      "pdf_filename": "20363.pdf",
+      "pdf_sha256": "7f929a1593feba1b78d61d2fc2755381c278ad4c1de881bf9e36611240ba2e54",
+      "pdf_bytes": 709998,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": "PDF escaneado: número, objeto y/o firmas cotejados visualmente; extracción textual insuficiente."
+    },
+    {
+      "expediente": "20352",
+      "project": {
+        "id": "EXP-20352",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Preocupación por el cese de la asignación del programa Volver al Trabajo",
+        "responsable": "Gonzalo",
+        "area_tema": "Trabajo",
+        "resumen": "De preocupación por el cese de la asignación dineraria del Programa Volver al Trabajo. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Emiliano Fernández Recalde y Gustavo Canteros",
+        "comisiones": [
+          "Políticas Sociales"
+        ]
+      },
+      "official_title": "De preocupación por el cese de la asignación dineraria del Programa Volver al Trabajo.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20352/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20352.pdf",
+      "pdf_filename": "20352.pdf",
+      "pdf_sha256": "8fe21700a64ee737eb239f7d76d47f86fdad435fb4a7e8943481c648105f5bf3",
+      "pdf_bytes": 43999,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [
+        {
+          "document": "Proyecto_de_declaracion_Volver_al_Trabajo.docx",
+          "sha256": "f7f364e8aa228d0da624ba85202ee6dca5c570279a8f69b9755be05a0deba1f0",
+          "reason": "Documento de trabajo local del equipo, con Cecilia como iniciadora y objeto concordante con el expediente oficial."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20351",
+      "project": {
+        "id": "EXP-20351",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Capacidad provincial para aplicar medidas del régimen penal juvenil",
+        "responsable": "Gonzalo",
+        "area_tema": "Niñez y Adolescencia",
+        "resumen": "Solicita al Poder Ejecutivo un informe sobre la capacidad operativa para ejecutar, dentro de su competencia, las medidas complementarias y penas no privativas de libertad que sean dispuestas judicialmente, conforme a la ley nacional 27801 en articulación con la ley 6736 . Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Emiliano Fernández Recalde y Gustavo Canteros",
+        "comisiones": [
+          "Asuntos Constitucionales y Legislación General",
+          "Seguridad y Servicios Penitenciarios"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo un informe sobre la capacidad operativa para ejecutar, dentro de su competencia, las medidas complementarias y penas no privativas de libertad que sean dispuestas judicialmente, conforme a la ley nacional 27801 en articulación con la ley 6736 .",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20351/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20351.pdf",
+      "pdf_filename": "20351.pdf",
+      "pdf_sha256": "50fe0ee3397ddd3e87fd6fe3189870724cf7343a3ee507509cb36211e93ae6d0",
+      "pdf_bytes": 60453,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [
+        {
+          "document": "Proyecto de resolución - Régimen Penal Juvenil.docx",
+          "sha256": "ac8c1f91f5286f4d0cee5c8d9202b8df858de56f0945c428a93b247b514b9ad0",
+          "reason": "Documento de trabajo local del equipo, con Cecilia como iniciadora y objeto concordante con el expediente oficial."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20350",
+      "project": {
+        "id": "EXP-20350",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Apoyos para la inclusión escolar de estudiantes afiliados al IOSCOR",
+        "responsable": "Gonzalo",
+        "area_tema": "Discapacidad",
+        "resumen": "Solicita al Poder Ejecutivo que, por intermedio del Instituto de Obra Social de Corrientes (IOSCOR), arbitre las medidas para asegurar el acceso efectivo a las prestaciones de apoyo a la inclusión escolar que correspondan a estudiantes afiliados con discapacidad. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Emiliano Fernández Recalde y Gustavo Canteros",
+        "comisiones": [
+          "Protección de Personas con Discapacidad",
+          "Salud Pública"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo que, por intermedio del Instituto de Obra Social de Corrientes (IOSCOR), arbitre las medidas para asegurar el acceso efectivo a las prestaciones de apoyo a la inclusión escolar que correspondan a estudiantes afiliados con discapacidad.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20350/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20350.pdf",
+      "pdf_filename": "20350.pdf",
+      "pdf_sha256": "b40f88670d9af1625d53c113210b6be2814557ed715562abfaf2465225126e7b",
+      "pdf_bytes": 52507,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [
+        {
+          "document": "Proyecto de resolución - Apoyos para la inclusión educativa e IOSCOR.docx",
+          "sha256": "914274c821ab08f9907f3f59305c75fd9b2c53f8f26ecdb76e66c9f7b7f960a8",
+          "reason": "Documento de trabajo local del equipo, con Cecilia como iniciadora y objeto concordante con el expediente oficial."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20349",
+      "project": {
+        "id": "EXP-20349",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Día Provincial de los Cuidados y el Apoyo",
+        "responsable": "Gonzalo",
+        "area_tema": "Derechos Humanos",
+        "resumen": "Día Provincial de los Cuidados y el Apoyo. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-09-16",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Emiliano Fernández Recalde y Gustavo Canteros",
+        "comisiones": [
+          "Educación, Cultura, Ciencia y Tecnología"
+        ]
+      },
+      "official_title": "Día Provincial de los Cuidados y el Apoyo.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20349/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/09/Expte-20349.pdf",
+      "pdf_filename": "20349.pdf",
+      "pdf_sha256": "b58d12365b9d811d5490faf7fdc0fb18b9a03bc20c0a31f5f6eed560cd49ffd1",
+      "pdf_bytes": 74136,
+      "report": "Informe-16-09-26.pdf",
+      "authorship_evidence": [
+        {
+          "document": "Revisión final del Día Provincial de los Cuidados y el Apoyo, trabajo documentado el 08/09/2026",
+          "reason": "Antecedente de elaboración del equipo, corroborado con el PDF oficial 20349 y sus iniciadores. El archivo original de aquella carpeta ya no está en esa ruta."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20332",
+      "project": {
+        "id": "EXP-20332",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Reactivación del servicio de balsa entre Goya y Reconquista",
+        "responsable": "Gonzalo",
+        "area_tema": "Infraestructura",
+        "resumen": "Solicita al Poder Ejecutivo Nacional que, por intermedio del Ministerio de Defensa y/o del Ejército Argentino, arbitre las medidas necesarias para la reactivación de un servicio regular de cruce fluvial mediante balsa entre las ciudades de Goya (provincia de Corrientes) y Reconquista (provincia de Santa Fe). Autores consignados por la Cámara: Dips. Brambilla - Gortari - Méndez Vernengo y Vassel.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Brambilla, Méndez Vernengo y Vassel",
+        "comisiones": [
+          "Asuntos Constitucionales y Legislación General"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo Nacional que, por intermedio del Ministerio de Defensa y/o del Ejército Argentino, arbitre las medidas necesarias para la reactivación de un servicio regular de cruce fluvial mediante balsa entre las ciudades de Goya (provincia de Corrientes) y Reconquista (provincia de Santa Fe).",
+      "official_authors": "Dips. Brambilla - Gortari - Méndez Vernengo y Vassel.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20332/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20332.pdf",
+      "pdf_filename": "20332.pdf",
+      "pdf_sha256": "427460970b942aeacd12c6edbca6480a8c30726e6531356f5132aec110764c22",
+      "pdf_bytes": 200096,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [
+        {
+          "document": "Proyecto de resolucion - BALSA goya reconquista.docx",
+          "sha256": "9234d98fddb15084d7fd0649f2a1019439589089e4373852870a3eb2f0b5671a",
+          "reason": "Documento de trabajo local del equipo, con Cecilia como iniciadora y objeto concordante con el expediente oficial."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20322",
+      "project": {
+        "id": "EXP-20322",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Mantenimiento y reparación de la Ruta Provincial 25",
+        "responsable": "Gonzalo",
+        "area_tema": "Infraestructura",
+        "resumen": "Solicita al Poder Ejecutivo, a través del Ministerio de Obras y Servicios Públicos y de la Dirección Provincial de Vialidad (DPV), la elaboración y ejecución urgente de un plan integral de mantenimiento, reparación y conservación de la RP Nº 25, departamento Monte Caseros. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Energía, Transporte, Obras y Servicios Públicos"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo, a través del Ministerio de Obras y Servicios Públicos y de la Dirección Provincial de Vialidad (DPV), la elaboración y ejecución urgente de un plan integral de mantenimiento, reparación y conservación de la RP Nº 25, departamento Monte Caseros.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20322/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20322.pdf",
+      "pdf_filename": "20322.pdf",
+      "pdf_sha256": "0fc5c7357cc88aa860131003bd8b441a63f6f2535b1875408727990a588e51bf",
+      "pdf_bytes": 186326,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20321",
+      "project": {
+        "id": "EXP-20321",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Estudios hidrológicos y alcantarillas en la Ruta Provincial 5",
+        "responsable": "Gonzalo",
+        "area_tema": "Infraestructura",
+        "resumen": "Solicita al Poder Ejecutivo, a través del Ministerio de Obras y Servicios Públicos, la Dirección Provincial de Vialidad (DPV) y el Instituto Correntino del Agua y del Ambiente (ICAA), la realización de estudios hidrológicos y obras de adecuación, ensanche y construcción de alcantarillas sobre la RP N° 5, tramo comprendido entre Curuzú Laurel y Caá Catí, en el cruce de los esteros Santa Lucía y Karanday. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Energía, Transporte, Obras y Servicios Públicos"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo, a través del Ministerio de Obras y Servicios Públicos, la Dirección Provincial de Vialidad (DPV) y el Instituto Correntino del Agua y del Ambiente (ICAA), la realización de estudios hidrológicos y obras de adecuación, ensanche y construcción de alcantarillas sobre la RP N° 5, tramo comprendido entre Curuzú Laurel y Caá Catí, en el cruce de los esteros Santa Lucía y Karanday.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20321/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20321.pdf",
+      "pdf_filename": "20321.pdf",
+      "pdf_sha256": "9d20d74b22aa79be3bad1278a5a8de2f4292ceeab32f25355e8968ae9b856846",
+      "pdf_bytes": 157374,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20320",
+      "project": {
+        "id": "EXP-20320",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "40º aniversario de la Escuela Técnica Nuevo Milenio de Virasoro",
+        "responsable": "Gonzalo",
+        "area_tema": "Educación",
+        "resumen": "De interés el 40º aniversario de la Escuela Técnica “Nuevo Milenio” de la ciudad de Gobernador Virasoro. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 314/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés el 40º aniversario de la Escuela Técnica “Nuevo Milenio” de la ciudad de Gobernador Virasoro.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20320/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20320.pdf",
+      "pdf_filename": "20320.pdf",
+      "pdf_sha256": "02714595821778c2168f1e873fa574be47f2049c8df4c91532543748f2c3d874",
+      "pdf_bytes": 303905,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20319",
+      "project": {
+        "id": "EXP-20319",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "32ª Expo Rural de Gobernador Virasoro",
+        "responsable": "Gonzalo",
+        "area_tema": "Producción",
+        "resumen": "De interés la 32ª Expo Rural de Gobernador Virasoro, organizada por la Sociedad Rural de Gobernador Virasoro. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 313/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés la 32ª Expo Rural de Gobernador Virasoro, organizada por la Sociedad Rural de Gobernador Virasoro.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20319/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20319.pdf",
+      "pdf_filename": "20319.pdf",
+      "pdf_sha256": "25c4b83904ac3da101c9d663f90de4f2b18a40bae8379b89be6f403447a17108",
+      "pdf_bytes": 308508,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20318",
+      "project": {
+        "id": "EXP-20318",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Homenaje al historiador correntino Antonio Félix Ramírez",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "De interés la conmemoración del 50º aniversario del fallecimiento del historiador correntino Antonio Félix Ramírez en el marco de las celebraciones por el Día de la Fundación del Pueblo Nuestra Señora de Loreto. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 312/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés la conmemoración del 50º aniversario del fallecimiento del historiador correntino Antonio Félix Ramírez en el marco de las celebraciones por el Día de la Fundación del Pueblo Nuestra Señora de Loreto.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20318/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20318.pdf",
+      "pdf_filename": "20318.pdf",
+      "pdf_sha256": "f465b90fcb8c1c8cbe6ae77637106ae3505db4b2a69313b4defe29a024b86a78",
+      "pdf_bytes": 361630,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20317",
+      "project": {
+        "id": "EXP-20317",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "209º aniversario de la fundación de Loreto",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "De interés el 209º aniversario de la fundación de la localidad de Loreto. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 311/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés el 209º aniversario de la fundación de la localidad de Loreto.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20317/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20317.pdf",
+      "pdf_filename": "20317.pdf",
+      "pdf_sha256": "1f3fbc56fdc91989a329f34f5ff78fa1a12f58da4258731fb96913cb936b2f34",
+      "pdf_bytes": 264562,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20316",
+      "project": {
+        "id": "EXP-20316",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Día de la Fundación del Pueblo Nuestra Señora de Loreto",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "Declara el 8 de septiembre de cada año como el “Día de la Fundación del Pueblo Nuestra Señora de Loreto” (departamento San Miguel), y reconoce el año 1817 como su hito fundacional. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Educación, Cultura, Ciencia y Tecnología"
+        ]
+      },
+      "official_title": "Declara el 8 de septiembre de cada año como el “Día de la Fundación del Pueblo Nuestra Señora de Loreto” (departamento San Miguel), y reconoce el año 1817 como su hito fundacional.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20316/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20316.pdf",
+      "pdf_filename": "20316.pdf",
+      "pdf_sha256": "b62570bae3f8377856d506ccf1239644e7378e09a5517417217f59b737c3e65c",
+      "pdf_bytes": 170081,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20315",
+      "project": {
+        "id": "EXP-20315",
+        "tipo": "Proyecto de Ley",
+        "titulo": "Cuidado y salud mental del personal de la Policía de Corrientes",
+        "responsable": "Gonzalo",
+        "area_tema": "Salud mental",
+        "resumen": "Programa Integral de Cuidado, Contención y Salud Mental para el Personal de la Policía de la Provincia de Corrientes. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Salud Pública"
+        ]
+      },
+      "official_title": "Programa Integral de Cuidado, Contención y Salud Mental para el Personal de la Policía de la Provincia de Corrientes.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20315/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20315.pdf",
+      "pdf_filename": "20315.pdf",
+      "pdf_sha256": "8cbc44ad6ecfd1b3e58de33ad948c5013464d818e6ece28c3b8439d662ddf911",
+      "pdf_bytes": 293506,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20314",
+      "project": {
+        "id": "EXP-20314",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Reparación y ampliación del puente Acceso Norte de Virasoro",
+        "responsable": "Gonzalo",
+        "area_tema": "Infraestructura",
+        "resumen": "Solicita al Poder Ejecutivo que, a través del Ministerio de Obras y Servicios Públicos, gestione ante el Poder Ejecutivo Nacional y Vialidad Nacional (VN) la incorporación al plan de obras de las tareas de reparación integral, mantenimiento estructural y ampliación del puente Acceso Norte sobre las vías del ferrocarril (conocido como “El Túnel”), RN N° 14, jurisdicción de Gobernador Ing. V. Virasoro. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Energía, Transporte, Obras y Servicios Públicos"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo que, a través del Ministerio de Obras y Servicios Públicos, gestione ante el Poder Ejecutivo Nacional y Vialidad Nacional (VN) la incorporación al plan de obras de las tareas de reparación integral, mantenimiento estructural y ampliación del puente Acceso Norte sobre las vías del ferrocarril (conocido como “El Túnel”), RN N° 14, jurisdicción de Gobernador Ing. V. Virasoro.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20314/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20314.pdf",
+      "pdf_filename": "20314.pdf",
+      "pdf_sha256": "08ef0f2ed8fd6512d5dfaa6c6c432bf32c9789d264498c2ae1fec3d456b5c17f",
+      "pdf_bytes": 166020,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20311",
+      "project": {
+        "id": "EXP-20311",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Reactivación de las gestiones del puente Goya-Reconquista / Lavalle-Avellaneda",
+        "responsable": "Gonzalo",
+        "area_tema": "Infraestructura",
+        "resumen": "Solicita al Poder Ejecutivo, impulse las acciones necesarias para la actualización y reactivación de las gestiones vinculadas al proyecto del puente interprovincial Goya-Reconquista / Lavalle-Avellaneda. Autores consignados por la Cámara: Dips. Almirón, Aparicio, Canteros, Fernández Recalde, Gauna, Gortari, Lezcano y OJeda.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "coautoria",
+        "autor_principal": "Emiliano Fernández Recalde, Gustavo Canteros, Ana Almirón, Sara Aparicio, Marlene Gauna, César Lezcano y Juan de la Cruz Ojeda",
+        "comisiones": [
+          "Energía, Transporte, Obras y Servicios Públicos"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo, impulse las acciones necesarias para la actualización y reactivación de las gestiones vinculadas al proyecto del puente interprovincial Goya-Reconquista / Lavalle-Avellaneda.",
+      "official_authors": "Dips. Almirón, Aparicio, Canteros, Fernández Recalde, Gauna, Gortari, Lezcano y OJeda.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20311/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20311.pdf",
+      "pdf_filename": "20311.pdf",
+      "pdf_sha256": "ef18f52819f8f488ccc51b378edc65a9cc805401d3fc5dd06139f4301e4dc7d7",
+      "pdf_bytes": 1545125,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [
+        {
+          "document": "PROYECTO DE RESOLUCIÓN Puente Goya Reconquista.docx",
+          "sha256": "84a8f22b9f10de63a52868e543958708c4a54461f160bea2f093459f31f95721",
+          "reason": "Documento de trabajo local del equipo, con Cecilia como iniciadora y objeto concordante con el expediente oficial."
+        }
+      ],
+      "authorship_decision": "Coautoría documentada; no se atribuye iniciativa exclusiva.",
+      "source_note": "PDF escaneado: número, objeto y/o firmas cotejados visualmente; extracción textual insuficiente."
+    },
+    {
+      "expediente": "20309",
+      "project": {
+        "id": "EXP-20309",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Día Internacional de las Víctimas de Desapariciones Forzadas",
+        "responsable": "Gonzalo",
+        "area_tema": "Derechos Humanos",
+        "resumen": "De interés las actividades que se realicen en conmemoración del Día Internacional de las Víctimas de Desapariciones Forzadas. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 309/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés las actividades que se realicen en conmemoración del Día Internacional de las Víctimas de Desapariciones Forzadas.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20309/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20309.pdf",
+      "pdf_filename": "20309.pdf",
+      "pdf_sha256": "6dc81d917b0c66a6c6f9927e4bd212f70892468e74a14b919a3f198639b50dd0",
+      "pdf_bytes": 20784,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20308",
+      "project": {
+        "id": "EXP-20308",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Día del Abogado",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "De interés las actividades que se realicen en conmemoración del Día del Abogado. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 308/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-26",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés las actividades que se realicen en conmemoración del Día del Abogado.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20308/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20308.pdf",
+      "pdf_filename": "20308.pdf",
+      "pdf_sha256": "f776a2b059bf068bd8be2d99d00d58d5497a1ba40627ffe731f091c4d79041ff",
+      "pdf_bytes": 18730,
+      "report": "Informe-26-08-26-2.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20294",
+      "project": {
+        "id": "EXP-20294",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "85º aniversario de la fundación de Parada Pucheta",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "De interés el 85º aniversario de la fundación de Parada Pucheta. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 275/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-19",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés el 85º aniversario de la fundación de Parada Pucheta.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20294/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20294.pdf",
+      "pdf_filename": "20294.pdf",
+      "pdf_sha256": "6136d4f8497f800facd82806308f76ae53e2cf1ce3ebd5664648c6e18bf146c6",
+      "pdf_bytes": 18862,
+      "report": "Informe-19-08-26-3.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20293",
+      "project": {
+        "id": "EXP-20293",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Día Mundial del Folklore y Día del Folklore Argentino",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "De interés las actividades que se realicen en conmemoración del Día Mundial del Folklore y Día del Folklore Argentino. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 297/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-19",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés las actividades que se realicen en conmemoración del Día Mundial del Folklore y Día del Folklore Argentino.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20293/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20293.pdf",
+      "pdf_filename": "20293.pdf",
+      "pdf_sha256": "d6e38339345f2eded3c203cb565aca5d0a6f9fdc2080d4f51d79095490832df3",
+      "pdf_bytes": 20545,
+      "report": "Informe-19-08-26-3.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20292",
+      "project": {
+        "id": "EXP-20292",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Día Nacional del Vacunador y de la Vacunadora",
+        "responsable": "Gonzalo",
+        "area_tema": "Salud",
+        "resumen": "De interés las actividades que se realicen en conmemoración del Día Nacional del Vacunador y de la Vacunadora. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 296/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-19",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés las actividades que se realicen en conmemoración del Día Nacional del Vacunador y de la Vacunadora.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20292/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20292.pdf",
+      "pdf_filename": "20292.pdf",
+      "pdf_sha256": "26e389eb8f8980ea2cd4e1cd2fc99fead5debca682a1c895baed15203c2de0ca",
+      "pdf_bytes": 19873,
+      "report": "Informe-19-08-26-3.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20291",
+      "project": {
+        "id": "EXP-20291",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Obras en la Ruta Provincial 26 en Arroyo Ceibal",
+        "responsable": "Gonzalo",
+        "area_tema": "Infraestructura",
+        "resumen": "Solicita al Poder Ejecutivo, a través del Ministerio de Obras y Servicios Públicos y la Dirección Provincial de Vialidad, la urgente ejecución de obras de la calzada de la RP Nº 26, en el tramo correspondiente al paraje Arroyo Ceibal, Municipio de San Lorenzo. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-19",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Energía, Transporte, Obras y Servicios Públicos"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo, a través del Ministerio de Obras y Servicios Públicos y la Dirección Provincial de Vialidad, la urgente ejecución de obras de la calzada de la RP Nº 26, en el tramo correspondiente al paraje Arroyo Ceibal, Municipio de San Lorenzo.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20291/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20291.pdf",
+      "pdf_filename": "20291.pdf",
+      "pdf_sha256": "efffeb165f309f36c3c4919aa3d3a8fa5511f2f124a3dd5e2cacd7d5651348fe",
+      "pdf_bytes": 114497,
+      "report": "Informe-19-08-26-3.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20290",
+      "project": {
+        "id": "EXP-20290",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Evento deportivo Taragüi Run Trail de la Yerba",
+        "responsable": "Gonzalo",
+        "area_tema": "Deportes",
+        "resumen": "De interés el evento Taragüi Run “ Trail de la Yerba” a realizarse en el establecimiento “Las Marías” en la localidad de Gobernador Virasoro, en sus modalidades 7K, 14K y 21K. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 295/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-19",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés el evento Taragüi Run “ Trail de la Yerba” a realizarse en el establecimiento “Las Marías” en la localidad de Gobernador Virasoro, en sus modalidades 7K, 14K y 21K.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20290/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20290.pdf",
+      "pdf_filename": "20290.pdf",
+      "pdf_sha256": "e26367b55daa3d15a01776334e866d4c4c28d1182f7e2c49776939eeb05ba367",
+      "pdf_bytes": 21966,
+      "report": "Informe-19-08-26-3.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20289",
+      "project": {
+        "id": "EXP-20289",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Edificio propio para el ISFD María Luisa Román de Frechou de Saladas",
+        "responsable": "Gonzalo",
+        "area_tema": "Educación",
+        "resumen": "Solicita al Poder Ejecutivo que, a través del Ministerio de Educación, informe sobre el estado de avance del proyecto de construcción del edificio propio del Instituto Superior de Formación Docente (ISFD) “María Luisa Román de Frechou” de la ciudad de Saladas. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-19",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Energía, Transporte, Obras y Servicios Públicos"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo que, a través del Ministerio de Educación, informe sobre el estado de avance del proyecto de construcción del edificio propio del Instituto Superior de Formación Docente (ISFD) “María Luisa Román de Frechou” de la ciudad de Saladas.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20289/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20289.pdf",
+      "pdf_filename": "20289.pdf",
+      "pdf_sha256": "7377b63a6fe1395acd8d9003f6425ba51b09803b9df420c6d3154b5119be15cb",
+      "pdf_bytes": 50316,
+      "report": "Informe-19-08-26-3.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20288",
+      "project": {
+        "id": "EXP-20288",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Pedido de informes sobre el programa Emprendedores Somos Todos",
+        "responsable": "Gonzalo",
+        "area_tema": "Producción",
+        "resumen": "Solicita al Poder Ejecutivo un informe detallado sobre los resultados, inversión y alcance del Programa “Emprendedores Somos Todos”. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-19",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Hacienda, Presupuesto e Impuestos"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo un informe detallado sobre los resultados, inversión y alcance del Programa “Emprendedores Somos Todos”.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20288/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20288.pdf",
+      "pdf_filename": "20288.pdf",
+      "pdf_sha256": "ed4040a56cabe7435cdab613780f58d1c8407ed6148c7e62c801621675307653",
+      "pdf_bytes": 50443,
+      "report": "Informe-19-08-26-3.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20264",
+      "project": {
+        "id": "EXP-20264",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Reparación del puente sobre el arroyo Totora en la Ruta Provincial 79",
+        "responsable": "Gonzalo",
+        "area_tema": "Infraestructura",
+        "resumen": "Solicita al Poder Ejecutivo, a través del Ministerio de Obras y Servicios Públicos y la Dirección Provincial de Vialidad, la reparación y reconstrucción integral del puente ubicado sobre el arroyo Totora RP Nº 79, departamento Monte Caseros. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-19",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Energía, Transporte, Obras y Servicios Públicos"
+        ]
+      },
+      "official_title": "Solicita al Poder Ejecutivo, a través del Ministerio de Obras y Servicios Públicos y la Dirección Provincial de Vialidad, la reparación y reconstrucción integral del puente ubicado sobre el arroyo Totora RP Nº 79, departamento Monte Caseros.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20264/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20264.pdf",
+      "pdf_filename": "20264.pdf",
+      "pdf_sha256": "b1f8437a28fd018228ab37a928d00ffc08cba5d7273e3b583a6f1da50181faa0",
+      "pdf_bytes": 557525,
+      "report": "Informe-19-08-26-3.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20262",
+      "project": {
+        "id": "EXP-20262",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Aniversario del fallecimiento del General José de San Martín",
+        "responsable": "Gonzalo",
+        "area_tema": "Cultura",
+        "resumen": "De interés el aniversario del fallecimiento del General Don José de San Martín, así como los actos y actividades conmemorativas. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 271/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-08-19",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés el aniversario del fallecimiento del General Don José de San Martín, así como los actos y actividades conmemorativas.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20262/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/08/Expte-20262.pdf",
+      "pdf_filename": "20262.pdf",
+      "pdf_sha256": "f20a0fd9e1259c55b2eeb969ddc793e0e0b269d160f61bf3b9a43626baa3d677",
+      "pdf_bytes": 19900,
+      "report": "Informe-19-08-26-3.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20113",
+      "project": {
+        "id": "EXP-20113",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "Rechazo al retiro del nombre Orlando Gustavo Pascua del Museo Malvinas",
+        "responsable": "Gonzalo",
+        "area_tema": "Derechos Humanos",
+        "resumen": "De repudio y rechazo ante la decisión del Gobierno Nacional, ejecutada a través de la Dirección del Museo Nacional Malvinas e Islas del Atlántico Sur, de retirar el nombre del ex combatiente, periodista, dirigente sindical y militante de los Derechos Humanos correntino, Orlando Gustavo Pascua, de las instalaciones del Salón Auditorio de dicha institución. Autores consignados por la Cámara: Dips. Almirón, Aparicio, Fernández Recalde, Gortari, Lezcano y Vidal Domínguez.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-06-17",
+        "estado_tramite": "En comisiones",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Asuntos Constitucionales y Legislación General"
+        ]
+      },
+      "official_title": "De repudio y rechazo ante la decisión del Gobierno Nacional, ejecutada a través de la Dirección del Museo Nacional Malvinas e Islas del Atlántico Sur, de retirar el nombre del ex combatiente, periodista, dirigente sindical y militante de los Derechos Humanos correntino, Orlando Gustavo Pascua, de las instalaciones del Salón Auditorio de dicha institución.",
+      "official_authors": "Dips. Almirón, Aparicio, Fernández Recalde, Gortari, Lezcano y Vidal Domínguez.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20113/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/06/Expte-20113.pdf",
+      "pdf_filename": "20113.pdf",
+      "pdf_sha256": "ac58645346c8fcc254cba238fd5c64991fe1d04526066eb379d1dea840a8681b",
+      "pdf_bytes": 24873,
+      "report": "Informe-17-06-26-1.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    },
+    {
+      "expediente": "20112",
+      "project": {
+        "id": "EXP-20112",
+        "tipo": "Proyecto de Resolución",
+        "titulo": "Restitución del nombre Orlando Gustavo Pascua al auditorio del Museo Malvinas",
+        "responsable": "Gonzalo",
+        "area_tema": "Derechos Humanos",
+        "resumen": "Insta al Poder Ejecutivo Nacional y a la Dirección del Museo Nacional Malvinas e Islas del Atlántico Sur, a rever de forma urgente la medida adoptada, disponiendo de otros espacios físicos dentro de la institución para homenajear al maestro Julio Cao, restituyendo el nombre de Orlando Gustavo Pascua al Salón Auditorio. Autores consignados por la Cámara: Dips. Almirón, Aparicio, Fernández Recalde, Gauna, Gortari, Lezcano y Vidal Domínguez. Aprobado como Resolución 09/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-06-17",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "Insta al Poder Ejecutivo Nacional y a la Dirección del Museo Nacional Malvinas e Islas del Atlántico Sur, a rever de forma urgente la medida adoptada, disponiendo de otros espacios físicos dentro de la institución para homenajear al maestro Julio Cao, restituyendo el nombre de Orlando Gustavo Pascua al Salón Auditorio.",
+      "official_authors": "Dips. Almirón, Aparicio, Fernández Recalde, Gauna, Gortari, Lezcano y Vidal Domínguez.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/20112/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/06/Expte-20104-adj-20112.pdf",
+      "pdf_filename": "20112.pdf",
+      "pdf_sha256": "4464e0639104b250dd2c0c17a623771f04db8463a8adf88eb06ed936af2b50bd",
+      "pdf_bytes": 6981903,
+      "report": "Informe-17-06-26-1.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": "El PDF oficial reúne el expediente 20104, el adjunto 20112 (desde página 5) y la Resolución 09/26; no es un duplicado del 20113. PDF escaneado: número, objeto y/o firmas cotejados visualmente; extracción textual insuficiente."
+    },
+    {
+      "expediente": "19947",
+      "project": {
+        "id": "EXP-19947",
+        "tipo": "Proyecto de Declaración",
+        "titulo": "25º aniversario de la Escuela Vuelta del Ombú de Virasoro",
+        "responsable": "Gonzalo",
+        "area_tema": "Educación",
+        "resumen": "De interés el 25º aniversario de la Escuela Nº 958 “Vuelta del Ombú” de Gobernador Ingeniero Valentín Virasoro. Autores consignados por la Cámara: Dips. Canteros, Fernández Recalde y Gortari. Aprobado como Declaración 116/26.",
+        "estado_preparacion": "Presentado",
+        "fecha_objetivo_presentacion": "",
+        "fecha_presentacion": "2026-05-06",
+        "estado_tramite": "Aprobado",
+        "action_plan": [],
+        "tipo_autoria": "acompanado",
+        "autor_principal": "",
+        "comisiones": [
+          "Sobre Tablas"
+        ]
+      },
+      "official_title": "De interés el 25º aniversario de la Escuela Nº 958 “Vuelta del Ombú” de Gobernador Ingeniero Valentín Virasoro.",
+      "official_authors": "Dips. Canteros, Fernández Recalde y Gortari.",
+      "official_page": "https://hcdcorrientes.gov.ar/expedientes/19947/",
+      "official_pdf": "https://hcdcorrientes.gov.ar/wp-content/uploads/2026/05/Expte-19947.pdf",
+      "pdf_filename": "19947.pdf",
+      "pdf_sha256": "9918b54eb5a8fa62a39975732c6ad17495783b6b5d08729ee792a1cfb7ab0bca",
+      "pdf_bytes": 180879,
+      "report": "Informe-06-05-26-1.pdf",
+      "authorship_evidence": [],
+      "authorship_decision": "Participación o firma conjunta acreditada; sin evidencia suficiente de iniciativa propia. Se publica como acompañado.",
+      "source_note": ""
+    }
+  ]
+}
