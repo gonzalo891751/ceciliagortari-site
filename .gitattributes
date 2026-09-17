@@ -1,0 +1,2 @@
+# Preserve the exact audited plan bytes used by publication receipts and SHA-256.
+docs/legislative-update-2026-09-16/plan.json -text whitespace=cr-at-eol

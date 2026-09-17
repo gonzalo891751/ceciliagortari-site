@@ -61,3 +61,7 @@ Rama de producción: `main`, integrada con Cloudflare Pages. No se modificaron D
 URL pública: https://ceciliagortari.com.ar/proyectos/
 
 Ejemplo nuevo: https://ceciliagortari.com.ar/proyectos/?id=EXP-20407
+
+Commit de actualización: `f4fcdb489d7881ce751d95be71a96a769e6a68b1`, push a `origin/main` exitoso. Cloudflare Pages terminó en **success**: https://14334e9b.ceciliagortari-site.pages.dev. Se verificaron el manifiesto en el dominio público, inicio, tarjetas recientes, 203 resultados totales, búsqueda, filtros, ficha y enlace directo. El navegador integrado abrió el iframe del PDF, pero su superficie quedó vacía; la renderización en ese navegador no se certifica visualmente. Las rutas de preview y descarga de los 49 PDF sí devolvieron los bytes oficiales correctos.
+
+El commit de cierre incorpora el recibo y una regla específica de `.gitattributes` para conservar los bytes CRLF del plan auditado. El primer commit había normalizado sus saltos de línea sin alterar los datos JSON; la regla hace reproducible el SHA-256 registrado también al clonar el repositorio.
