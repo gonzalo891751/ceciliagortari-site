@@ -38,10 +38,14 @@ export async function onRequestGet(context) {
       );
     }
 
-    // Fetch document metadata — main and expediente documents are publicly downloadable
+    // Official expediente PDFs are public; the internal main draft only when no official PDF exists
     const doc = await db
       .prepare(
-        "SELECT id, project_id, kind, original_name, stored_key, mime_type FROM project_documents WHERE id = ? AND project_id = ? AND kind IN ('main', 'expediente')"
+        `SELECT id, project_id, kind, original_name, stored_key, mime_type FROM project_documents
+         WHERE id = ? AND project_id = ?
+           AND (kind = 'expediente'
+                OR (kind = 'main' AND NOT EXISTS (
+                  SELECT 1 FROM project_documents e WHERE e.project_id = project_documents.project_id AND e.kind = 'expediente')))`
       )
       .bind(docId, projectId)
       .first();

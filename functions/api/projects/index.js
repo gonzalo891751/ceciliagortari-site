@@ -1,3 +1,9 @@
+import { getColumns, PARLIAMENTARY_FIELDS } from "../../../lib/proyectos-publicos.mjs";
+import {
+  normalizarImpulso, normalizarParticipacion, normalizarNumero, participacionDesdeFirmantes,
+  autoriaDesdeImpulso, enlaceOficial, tipoCorto,
+} from "../../../lib/legislativo.mjs";
+
 const HEADERS = {
   "Content-Type": "application/json",
   "Cache-Control": "no-store",
@@ -75,6 +81,32 @@ function normalizeCommissions(value) {
   return [...new Set(input.map((item) => String(item || "").trim()).filter(Boolean))];
 }
 
+const EDITABLE_PARLIAMENTARY_FIELDS = [...PARLIAMENTARY_FIELDS, "impulso_nota"];
+
+/** Normalizes the parliamentary fields sent by the panel; keeps tipo_autoria consistent with impulso. */
+function parliamentaryValues(body) {
+  const numero = normalizarNumero(body.numero_expediente);
+  const firmantes = String(body.firmantes || "").trim();
+  const impulso = normalizarImpulso(body.impulso || "pendiente");
+  const values = {
+    numero_expediente: numero,
+    titulo_oficial: String(body.titulo_oficial || "").trim(),
+    firmantes,
+    participacion: normalizarParticipacion(body.participacion) || participacionDesdeFirmantes(firmantes),
+    impulso,
+    impulso_nota: String(body.impulso_nota || "").trim(),
+    norma_tipo: body.norma_numero ? tipoCorto(body.norma_tipo || body.tipo) : "",
+    norma_numero: String(body.norma_numero || "").trim(),
+    fecha_aprobacion: /^\d{4}-\d{2}-\d{2}$/.test(body.fecha_aprobacion || "") ? body.fecha_aprobacion : "",
+    enlace_oficial: /^https:\/\/(www\.)?hcdcorrientes\.gov\.ar\//.test(body.enlace_oficial || "")
+      ? body.enlace_oficial
+      : enlaceOficial(numero),
+    fuente: String(body.fuente || "").trim(),
+    verificado_at: /^\d{4}-\d{2}-\d{2}$/.test(body.verificado_at || "") ? body.verificado_at : "",
+  };
+  return values;
+}
+
 function parseProject(row) {
   let actionPlan = [];
   try {
@@ -91,13 +123,15 @@ export async function onRequestGet(context) {
   const db = context.env.DB;
   try {
     await ensureTable(db);
+    const columns = await getColumns(db, TABLE);
+    const extraFields = EDITABLE_PARLIAMENTARY_FIELDS.filter((f) => columns.has(f)).map((f) => `p.${f}, `).join("");
 
     const { results } = await db
       .prepare(
         `SELECT p.id, p.tipo, p.titulo, p.responsable, p.area_tema, p.resumen,
                 p.estado_preparacion, p.fecha_objetivo_presentacion,
                 p.fecha_presentacion, p.estado_tramite, p.created_at, p.updated_at,
-                p.action_plan, p.tipo_autoria, p.autor_principal, p.comisiones,
+                ${extraFields}p.action_plan, p.tipo_autoria, p.autor_principal, p.comisiones,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'main') AS has_main_doc,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'material') AS materials_count,
                 (SELECT COUNT(*) FROM project_documents WHERE project_id = p.id AND kind = 'expediente') AS has_expediente
@@ -154,6 +188,10 @@ export async function onRequestPost(context) {
       );
     }
 
+    const columns = await getColumns(db, TABLE);
+    const hasParliamentary = body.impulso !== undefined || body.numero_expediente !== undefined;
+    const parliamentary = hasParliamentary ? parliamentaryValues(body) : {};
+
     const project = {
       id: body.id,
       tipo: body.tipo,
@@ -168,55 +206,28 @@ export async function onRequestPost(context) {
       created_at: body.created_at,
       updated_at: body.updated_at,
       action_plan: actionPlanStr,
-      tipo_autoria: body.tipo_autoria || "propio",
+      tipo_autoria: hasParliamentary
+        ? autoriaDesdeImpulso(parliamentary.impulso, body.tipo_autoria)
+        : body.tipo_autoria || "propio",
       autor_principal: body.autor_principal || "",
       comisiones: JSON.stringify(commissions),
     };
+    // New parliamentary columns are written only once migration 0010 exists.
+    for (const field of EDITABLE_PARLIAMENTARY_FIELDS) {
+      if (hasParliamentary && columns.has(field)) project[field] = parliamentary[field];
+    }
 
-    // UPSERT: INSERT OR REPLACE
+    const fields = Object.keys(project);
+    const updatable = fields.filter((f) => f !== "id" && f !== "created_at");
     await db
       .prepare(
-        `INSERT INTO ${TABLE}
-           (id, tipo, titulo, responsable, area_tema, resumen,
-            estado_preparacion, fecha_objetivo_presentacion,
-            fecha_presentacion, estado_tramite, created_at, updated_at, deleted_at,
-            action_plan, tipo_autoria, autor_principal, comisiones)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?)
+        `INSERT INTO ${TABLE} (${fields.join(", ")}, deleted_at)
+         VALUES (${fields.map(() => "?").join(", ")}, NULL)
          ON CONFLICT(id) DO UPDATE SET
-           tipo = excluded.tipo,
-           titulo = excluded.titulo,
-           responsable = excluded.responsable,
-           area_tema = excluded.area_tema,
-           resumen = excluded.resumen,
-           estado_preparacion = excluded.estado_preparacion,
-           fecha_objetivo_presentacion = excluded.fecha_objetivo_presentacion,
-           fecha_presentacion = excluded.fecha_presentacion,
-           estado_tramite = excluded.estado_tramite,
-           updated_at = excluded.updated_at,
-           deleted_at = NULL,
-           action_plan = excluded.action_plan,
-           tipo_autoria = excluded.tipo_autoria,
-           autor_principal = excluded.autor_principal,
-           comisiones = excluded.comisiones`
+           ${updatable.map((f) => `${f} = excluded.${f}`).join(",\n           ")},
+           deleted_at = NULL`
       )
-      .bind(
-        project.id,
-        project.tipo,
-        project.titulo,
-        project.responsable,
-        project.area_tema,
-        project.resumen,
-        project.estado_preparacion,
-        project.fecha_objetivo_presentacion,
-        project.fecha_presentacion,
-        project.estado_tramite,
-        project.created_at,
-        project.updated_at,
-        project.action_plan,
-        project.tipo_autoria,
-        project.autor_principal,
-        project.comisiones
-      )
+      .bind(...fields.map((f) => project[f]))
       .run();
 
     // Return project with parsed action_plan

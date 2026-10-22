@@ -1,27 +1,14 @@
+import { loadPublicProject } from "../../../../lib/proyectos-publicos.mjs";
+
 const HEADERS = {
   "Content-Type": "application/json",
   "Cache-Control": "public, max-age=60, s-maxage=120",
 };
 
 export async function onRequestGet(context) {
-  const db = context.env.DB;
-  const projectId = context.params.id;
-
   try {
-    // Fetch project — only if it's public (Presentado + not deleted)
-    const project = await db
-      .prepare(
-        `SELECT id, tipo, titulo, area_tema, resumen,
-                fecha_presentacion, estado_tramite, created_at,
-                tipo_autoria, autor_principal, comisiones
-         FROM projects
-         WHERE id = ?
-           AND estado_preparacion = 'Presentado'
-           AND deleted_at IS NULL`
-      )
-      .bind(projectId)
-      .first();
-
+    // Only public projects (Presentado + not deleted) are returned.
+    const project = await loadPublicProject(context.env.DB, context.params.id);
     if (!project) {
       return new Response(
         JSON.stringify({ ok: false, error: "Proyecto no encontrado." }),
@@ -29,43 +16,12 @@ export async function onRequestGet(context) {
       );
     }
 
-    // Fetch public document: expediente has priority over main doc
-    // Expediente = final signed/stamped PDF; main = original project document
-    const expedienteDoc = await db
-      .prepare(
-        `SELECT id, kind, original_name, mime_type, size_bytes, created_at
-         FROM project_documents
-         WHERE project_id = ? AND kind = 'expediente'
-         ORDER BY created_at DESC
-         LIMIT 1`
-      )
-      .bind(projectId)
-      .first();
-
-    const mainDoc = expedienteDoc ? null : await db
-      .prepare(
-        `SELECT id, kind, original_name, mime_type, size_bytes, created_at
-         FROM project_documents
-         WHERE project_id = ? AND kind = 'main'
-         ORDER BY created_at DESC
-         LIMIT 1`
-      )
-      .bind(projectId)
-      .first();
-
-    let commissions = [];
-    try {
-      commissions = JSON.parse(project.comisiones || "[]");
-    } catch (_) {}
-
-    return new Response(
-      JSON.stringify({
-        ...project,
-        comisiones: Array.isArray(commissions) ? commissions : [],
-        document: expedienteDoc || mainDoc || null,
-      }),
-      { status: 200, headers: HEADERS }
-    );
+    // `document` keeps the shape used by earlier versions of the public pages.
+    const doc = project.documento;
+    const document = doc
+      ? { id: doc.id, kind: doc.kind, original_name: doc.nombre, mime_type: doc.mime, size_bytes: doc.bytes }
+      : null;
+    return new Response(JSON.stringify({ ...project, document }), { status: 200, headers: HEADERS });
   } catch (err) {
     return new Response(
       JSON.stringify({ ok: false, error: "Error interno." }),
