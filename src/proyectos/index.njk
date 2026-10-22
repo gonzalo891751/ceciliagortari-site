@@ -3,7 +3,7 @@ layout: layouts/base.njk
 title: "Proyectos Legislativos | Cecilia Gortari"
 description: "Todos los proyectos legislativos con participación de Cecilia Gortari y su bloque en la Cámara de Diputados de Corrientes: comisión, estado parlamentario, autoría y descarga del documento oficial."
 ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
-extraCSS: "/assets/css/legislativo.css?v=202610221830"
+extraCSS: "/assets/css/legislativo.css?v=202610231000"
 bodyClass: "lg-page"
 ---
 
@@ -38,41 +38,14 @@ bodyClass: "lg-page"
 
     <main class="lg-main" id="contenido">
         <div class="container">
-            <section class="lg-toolbar" aria-label="Filtros de proyectos">
-                <div class="lg-segment" role="group" aria-label="Participación" data-segment>
-                    <button type="button" class="lg-segment__btn" data-grupo="todos" aria-pressed="true">Todos <span class="lg-segment__count" data-count="todos">—</span></button>
-                    <button type="button" class="lg-segment__btn" data-grupo="autoria" aria-pressed="false">De autoría <span class="lg-segment__count" data-count="autoria">—</span></button>
-                    <button type="button" class="lg-segment__btn" data-grupo="bloque" aria-pressed="false">Del bloque <span class="lg-segment__count" data-count="bloque">—</span></button>
-                    <button type="button" class="lg-segment__btn" data-grupo="acompanamos" aria-pressed="false">Acompañamos <span class="lg-segment__count" data-count="acompanamos">—</span></button>
-                </div>
-                <p class="lg-scope-note" data-scope-note>Todos los proyectos que llevan nuestra firma en la Cámara de Diputados.</p>
-
-                <div class="lg-filters">
+            <section class="lg-toolbar" aria-label="Buscar proyectos">
+                <div class="lg-searchbar">
                     <div class="lg-field lg-field--search">
-                        <label class="lg-field__label" for="lg-q">Buscar</label>
+                        <label class="lg-sr-only" for="lg-q">Buscar proyectos</label>
                         <div class="lg-input-wrap">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                            <input type="search" id="lg-q" class="lg-input" placeholder="Título, palabra clave o N.º de expediente" autocomplete="off" enterkeyhint="search">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            <input type="search" id="lg-q" class="lg-input lg-input--grande" placeholder="Buscá por título, palabra clave o N.º de expediente" autocomplete="off" enterkeyhint="search">
                         </div>
-                    </div>
-                    <div class="lg-field lg-field--comision">
-                        <label class="lg-field__label" for="lg-comision">Comisión</label>
-                        <select id="lg-comision" class="lg-select"><option value="">Todas</option></select>
-                    </div>
-                    <div class="lg-field">
-                        <label class="lg-field__label" for="lg-tipo">Tipo</label>
-                        <select id="lg-tipo" class="lg-select"><option value="">Todos</option></select>
-                    </div>
-                    <div class="lg-field">
-                        <label class="lg-field__label" for="lg-estado">Estado</label>
-                        <select id="lg-estado" class="lg-select"><option value="">Todos</option></select>
-                    </div>
-                </div>
-
-                <div class="lg-statusbar">
-                    <div class="lg-active-filters">
-                        <p class="lg-results" id="lg-results" aria-live="polite">Cargando proyectos…</p>
-                        <div class="lg-active-filters" data-chips></div>
                     </div>
                     <div class="lg-sort">
                         <label class="lg-field__label" for="lg-orden">Ordenar</label>
@@ -82,6 +55,21 @@ bodyClass: "lg-page"
                             <option value="expediente">N.º de expediente</option>
                         </select>
                     </div>
+                    <div class="lg-vista" role="group" aria-label="Vista del listado" data-vista>
+                        <button type="button" data-vista-btn="grilla" aria-pressed="true" title="Ver en cuadrícula">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                            <span class="lg-sr-only">Cuadrícula</span>
+                        </button>
+                        <button type="button" data-vista-btn="lista" aria-pressed="false" title="Ver en lista">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
+                            <span class="lg-sr-only">Lista</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg-statusbar">
+                    <p class="lg-results" id="lg-results" aria-live="polite">Cargando proyectos…</p>
+                    <div class="lg-active-filters" data-chips></div>
                 </div>
             </section>
 
@@ -89,25 +77,40 @@ bodyClass: "lg-page"
                 <aside class="lg-panel" id="analisis" aria-labelledby="lg-panel-title">
                     <div class="lg-panel__head">
                         <h2 class="lg-panel__title" id="lg-panel-title">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12" y="8" width="3" height="10" rx="1"/><rect x="17" y="5" width="3" height="13" rx="1"/></svg>
-                            <span class="lg-panel__title-text">Análisis por comisión</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></svg>
+                            <span class="lg-panel__title-text">Filtros y análisis</span>
+                            <span class="lg-panel__badge" data-filtros-activos hidden></span>
                         </h2>
                         <button type="button" class="lg-panel__toggle" aria-expanded="true" aria-controls="lg-panel-body" data-panel-toggle>
-                            <span class="lg-sr-only" data-panel-toggle-label>Ocultar análisis</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+                            <span data-panel-toggle-label>Ocultar</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
                         </button>
-                        <span class="lg-panel__rail-label" aria-hidden="true">Análisis por comisión</span>
                     </div>
                     <div class="lg-panel__body" id="lg-panel-body">
-                        <div class="lg-scope-mini" role="group" aria-label="Alcance del análisis" data-scope-mini>
-                            <button type="button" data-grupo="todos" aria-pressed="true">Todos</button>
-                            <button type="button" data-grupo="autoria" aria-pressed="false">De autoría</button>
-                            <button type="button" data-grupo="bloque" aria-pressed="false">Del bloque</button>
-                            <button type="button" data-grupo="acompanamos" aria-pressed="false">Acompañamos</button>
+                        <div class="lg-filtro">
+                            <h3 class="lg-filtro__titulo" id="lg-f-participacion">Participación</h3>
+                            <div class="lg-segment" role="group" aria-labelledby="lg-f-participacion" data-segment>
+                                <button type="button" class="lg-segment__btn" data-grupo="todos" aria-pressed="true">Todos <span class="lg-segment__count" data-count="todos">—</span></button>
+                                <button type="button" class="lg-segment__btn" data-grupo="autoria" aria-pressed="false">De autoría <span class="lg-segment__count" data-count="autoria">—</span></button>
+                                <button type="button" class="lg-segment__btn" data-grupo="bloque" aria-pressed="false">Del bloque <span class="lg-segment__count" data-count="bloque">—</span></button>
+                                <button type="button" class="lg-segment__btn" data-grupo="acompanamos" aria-pressed="false">Acompañamos <span class="lg-segment__count" data-count="acompanamos">—</span></button>
+                            </div>
+                            <p class="lg-scope-note" data-scope-note>Todos los proyectos que llevan nuestra firma en la Cámara de Diputados.</p>
                         </div>
-                        <div class="lg-panel__summary" data-panel-summary></div>
-                        <ul class="lg-bars" data-bars aria-label="Expedientes girados a cada comisión"></ul>
-                        <p class="lg-panel__note">Un expediente girado a dos comisiones se cuenta en ambas barras, pero una sola vez en el total de proyectos. Seleccioná una comisión para filtrar el listado.</p>
+                        <div class="lg-filtro">
+                            <h3 class="lg-filtro__titulo" id="lg-f-estado">Estado</h3>
+                            <div class="lg-opciones" role="group" aria-labelledby="lg-f-estado" data-estados></div>
+                        </div>
+                        <div class="lg-filtro">
+                            <h3 class="lg-filtro__titulo" id="lg-f-tipo">Tipo</h3>
+                            <div class="lg-opciones lg-opciones--fila" role="group" aria-labelledby="lg-f-tipo" data-tipos></div>
+                        </div>
+                        <div class="lg-filtro">
+                            <h3 class="lg-filtro__titulo" id="lg-f-comision">Por comisión</h3>
+                            <div class="lg-panel__summary" data-panel-summary></div>
+                            <ul class="lg-bars" data-bars aria-labelledby="lg-f-comision"></ul>
+                            <p class="lg-panel__note">Un expediente girado a dos comisiones se cuenta en ambas barras, pero una sola vez en el total de proyectos. Tocá una comisión para filtrar el listado.</p>
+                        </div>
                     </div>
                 </aside>
 
@@ -152,5 +155,5 @@ bodyClass: "lg-page"
 
     <a href="/gestionproyectos/" rel="nofollow" class="lg-internal-link">Acceso interno</a>
 
-    <script src="/assets/js/legislativo-core.js?v=202610221830"></script>
-    <script src="/assets/js/proyectos.js?v=202610221830"></script>
+    <script src="/assets/js/legislativo-core.js?v=202610231000"></script>
+    <script src="/assets/js/proyectos.js?v=202610231000"></script>

@@ -23,15 +23,15 @@
 
   L.cargar().then(function (projects) {
     var t = L.totales(projects);
-    if (heroNote && t.total) heroNote.textContent = t.total + ' expedientes para consultar y descargar';
+    if (heroNote && t.total) heroNote.textContent = t.total + ' expedientes para descargar';
 
     var noteTotal = section.querySelector('[data-home-note="total"]');
     if (noteTotal) noteTotal.textContent = t.comisiones + ' comisiones con expedientes · última sesión ' + L.fecha(t.ultimaSesion);
     var noteComision = section.querySelector('[data-home-note="comision"]');
     if (noteComision) {
-      var c = t.caducidadMasAntiguo;
+      var v = t.vencimientos[0];
       noteComision.textContent = 'El ' + t.porcentajeEnComision + ' % de lo que presentamos sigue guardado en comisión' +
-        (c ? '. El más antiguo caduca en ' + L.duracion(c.mesesRestantes, c.diasRestantes) : '');
+        (v ? '. En ' + L.mesTexto(v.vence) + ' ' + L.plural(v.cantidad, 'vence', 'vencen') + ' ' + v.cantidad + ' si no se tratan' : '');
     }
     animarAlVer(function () {
       kpi('total', t.total);

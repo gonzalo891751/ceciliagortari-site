@@ -78,7 +78,7 @@
 
     <!-- Site CSS -->
     <link rel="stylesheet" href="/assets/css/site.css?v=202603181200">
-    <link rel="stylesheet" href="/assets/css/additions.css?v=202610221200">
+    <link rel="stylesheet" href="/assets/css/additions.css?v=202610231000">
     
     {% if identityWidget %}
     <!-- Netlify Identity & Redirect -->
@@ -92,7 +92,9 @@
 
     <!-- Extra Head Content -->
     {% if extraCSS %}
-    <link rel="stylesheet" href="{{ extraCSS }}">
+    {% for hoja in ([extraCSS] if extraCSS is string else extraCSS) %}
+    <link rel="stylesheet" href="{{ hoja }}">
+    {% endfor %}
     {% endif %}
     {% block head %}{% endblock %}
 </head>
@@ -106,7 +108,7 @@
     {% include "partials/footer.njk" %}
 
     {% block scripts %}
-    <script src="/assets/js/site.js?v=202603141200"></script>
+    <script src="/assets/js/site.js?v=202610231000"></script>
     {% endblock %}
 </body>
 

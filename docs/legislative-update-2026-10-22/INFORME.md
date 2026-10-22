@@ -211,3 +211,39 @@ No escribe en la base; todo queda para revisar antes de aplicar.
 
 - `_headers` aplica `Cache-Control: no-store` a todo (`/*`), y Cloudflare lo combina con la regla de `/assets/*`; en la práctica los recursos estáticos no se cachean. Conviene agregar `! Cache-Control` en `/assets/*` (los íconos nuevos ya lo tienen).
 - `node_modules` está versionado en el repositorio (incluye shims de Windows), algo que conviene revisar.
+
+## Segunda ronda de ajustes (22/10/2026, publicada)
+
+Pedidos del equipo después de ver el sitio en producción:
+
+- **Menú superior**:
+  - "Proyectos legislativos" pasa a ser el acceso destacado y "Escuela de Emprendedores" queda como enlace común. En móvil, Proyectos es la primera opción del menú.
+  - Al desplazarse, la barra se convierte en una cápsula flotante de vidrio. El logo usa una versión recortada (`logo-cecilia-nav`), así que ya no se achica de más.
+- **Hero**: dos accesos destacados, "Ver proyectos legislativos" y "Seguime en Instagram" (con los colores de Instagram). Debajo quedan Novedades y Escuela.
+- **Reloj de caducidad**:
+  - Explicación para el público: los proyectos tienen 2 años de vida y, si no se tratan, vencen en silencio.
+  - "Próximos vencimientos": cada botón muestra los proyectos que vencen ese mes, por ejemplo "12 vencen en marzo de 2028".
+  - El titular plegado muestra el vencimiento más próximo.
+  - Los proyectos que superan los 2 años sin actualizar su estado se cuentan aparte hasta verificarlos.
+- **/proyectos/**:
+  - El buscador queda arriba, junto al orden y al cambio de vista: **cuadrícula o lista**. La preferencia se recuerda y queda en la URL con `vista=lista`.
+  - Participación, estado, tipo y análisis por comisión quedan juntos en el panel derecho. Se quitaron el selector de comisión y el de participación, que estaban duplicados. En móvil, el panel se despliega con un botón e indica cuántos filtros hay activos.
+- **Portada**:
+  - La biografía tiene márgenes propios, la etiqueta "Quién soy" y la foto en vertical en escritorio.
+  - La Escuela ya no se corta en móvil: el contenido ensanchaba la grilla. Su fondo pasa a ser CSS; la imagen anterior traía un marco dentro del archivo.
+  - Emojis reemplazados por íconos de línea en la Escuela y en "¿Querés ser parte?".
+  - Las cifras de la Escuela usan el azul noche del sitio.
+  - El botón de Instagram tiene los colores de la marca y el logo del pie es más grande.
+- **Rendimiento**:
+  - Las fotos del carrusel pasan a WebP (unos 450 KB menos).
+  - Se quitó `instagram.com/embed.js`, que no se usaba.
+  - El widget de Instagram se carga recién al acercarse a su sección.
+- **Accesibilidad**: axe WCAG 2 A/AA sin violaciones en la portada y en /proyectos/, en escritorio y en móvil. Se corrigió el rol de los puntos del carrusel.
+- **Skill** `.claude/skills/actualizar-proyectos-legislativos/` con el procedimiento para las próximas actualizaciones desde los informes de la Cámara. `scripts/conciliar-auditoria-preliminar.mjs` acepta `--dir`, `--migracion` y `--nota`, y sin opciones reproduce 0013 sin cambios.
+
+Pruebas:
+- 60 de 60 pruebas funcionales y 13 del reloj superadas.
+- El hero entra completo entre 1280×600 y 2560×1300.
+- Sin scroll horizontal a 375 px.
+
+Quedan fuera de alcance algunos avisos de axe que ya existían en otras páginas: contraste en /escuela/, /prensa/ y /contacto/, el nombre del selector en /novedades/ y una zona con desplazamiento en /biografia/.

@@ -1,4 +1,4 @@
-# Pruebas funcionales — 22/10/2026 (servidor local con D1 que reproduce producción + migraciones 0010–0013)
+# Pruebas funcionales — 22/10/2026, segunda ronda (servidor local con D1 que reproduce producción + migraciones 0010–0013)
 
 PASS  Vista inicial muestra todos  — 227 de 227
 PASS  Botón "Todos" activo por defecto
@@ -17,8 +17,10 @@ PASS  Pestaña autoria  — 41
 PASS  Pestaña bloque  — 213
 PASS  Pestaña acompanamos  — 14
 PASS  Bloque + Acompañamos = Todos (sin solapamiento)  — 227
-PASS  Filtro por comisión  — 22
+PASS  Filtro por comisión (barra del panel)  — 22
 PASS  Expediente con 2 comisiones aparece filtrando por la segunda  — EXP-20411
+PASS  Sin selector duplicado de comisión ni de participación
+PASS  Buscador arriba y filtros en el panel lateral
 PASS  Barras por comisión correctas  — 17 barras
 PASS  Panel: total analizado = proyectos únicos
 PASS  Suma de giros ≥ proyectos con comisión (doble conteo explicado)  — 156 giros
@@ -26,11 +28,15 @@ PASS  Click en barra filtra
 PASS  Segundo click quita el filtro
 PASS  Búsqueda por N.º con punto
 PASS  Búsqueda por palabra clave  — 2
-PASS  Tipo Ley + En comisión  — 44
+PASS  Tipo Ley + Esperando ser tratados (botones del panel)  — 44
 PASS  URL refleja filtros
+PASS  Contador de filtros activos en el panel
+PASS  Segundo clic en Tipo y Estado quita los filtros
 PASS  Sin PDF: no hay botón de descarga y se ofrece la ficha oficial  — EXP-20530
 PASS  Descargar proyecto entrega un PDF sin modal  — EXP-20413_Informe_y_medidas_sobre_el_funcionamiento_del_hospital_de_Loreto_Expediente.pdf
 PASS  Mostrar más agrega 12
+PASS  Vista lista: una columna y preferencia en la URL
+PASS  Vuelta a cuadrícula
 PASS  Más información se expande dentro de la tarjeta
 PASS  Sin tarjetas duplicadas
 PASS  Sin expedientes duplicados en la API
@@ -42,9 +48,12 @@ PASS  Enlace ?id= abre el expediente destacado
 PASS  ?grupo=autoria
 PASS  Enlace anterior ?grupo=cecilia sigue funcionando
 PASS  Hero: botón principal a /proyectos/
+PASS  Hero: botón destacado de Instagram
+PASS  Menú: Proyectos legislativos destacado
+PASS  Portada sin emojis
 PASS  Proyectos antes que Novedades  — top > proyectos-legislativos > prensa-novedades > bio-preview
 PASS  Home KPI total = API
-PASS  Home KPI duermen en comisión = API
+PASS  Home KPI esperando ser tratados = API
 PASS  Home sin "Impulsados por Cecilia" ni contador de aprobados
 PASS  Home: 3 últimos expedientes
 PASS  axe WCAG 2 A/AA en sección de portada
@@ -52,7 +61,7 @@ PASS  Sin errores JS en portada
 PASS  Sin scroll horizontal a 375 px en /  — 0px
 PASS  Sin scroll horizontal a 375 px en /proyectos/  — 0px
 
-51/51 pruebas superadas
+60/60 pruebas superadas
 
 # Reloj de caducidad
 

@@ -1,0 +1,247 @@
+/* ==========================================================================
+   Portada: ajustes de diseño (octubre de 2026). Se carga solo en la página de inicio.
+   Biografía con márgenes propios, Escuela sin desbordes en móvil, íconos en lugar
+   de emojis, bandas de color coherentes con la paleta y efectos livianos.
+   ========================================================================== */
+
+:root {
+  --inicio-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --inicio-grad: linear-gradient(120deg, #9F57A7 0%, #1C5CFF 100%);
+  --inicio-ig: linear-gradient(100deg, #F58529 0%, #D62976 28%, #962FBF 64%, #4F5BD5 100%);
+}
+
+/* Etiqueta superior de sección (como "Actividad legislativa") */
+.inicio-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7A3F82;
+}
+
+.inicio-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--inicio-grad);
+}
+
+/* --------------------------------------------------------------------------
+   Biografía: la clase .bio-section también se usa en /biografia/ con otro
+   sentido; acá se le dan márgenes propios de sección.
+   -------------------------------------------------------------------------- */
+#bio-preview.bio-section {
+  position: relative;
+  margin: 0;
+  padding: clamp(4.5rem, 9vw, 7rem) 0;
+  border: 0;
+  overflow: hidden;
+}
+
+#bio-preview .bio-grid { align-items: center; }
+#bio-preview .bio-header { margin-bottom: 1.75rem; }
+#bio-preview .bio-title { margin: 0 0 0.4rem; }
+
+@media (min-width: 1024px) {
+  #bio-preview .bio-grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  #bio-preview .bio-card-photo__img {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 44% 30%;
+  }
+}
+
+@media (max-width: 1023px) {
+  #bio-preview .bio-header { text-align: center; }
+  #bio-preview .bio-card-photo__img { aspect-ratio: 4 / 3; object-fit: cover; object-position: 44% 30%; }
+}
+
+/* --------------------------------------------------------------------------
+   Cifras de la Escuela: misma familia de azul noche que Novedades y el pie
+   -------------------------------------------------------------------------- */
+#impacto.impact-section {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.5rem, 5vw, 3.5rem) 0;
+  background:
+    radial-gradient(50% 120% at 12% 0%, rgba(159, 87, 167, 0.35), transparent 60%),
+    radial-gradient(45% 120% at 92% 100%, rgba(28, 92, 255, 0.3), transparent 60%),
+    #14133A;
+}
+
+#impacto .impact-number { letter-spacing: -0.01em; }
+#impacto .impact-label { color: rgba(255, 255, 255, 0.78); }
+
+/* --------------------------------------------------------------------------
+   Escuela de Emprendedores
+   -------------------------------------------------------------------------- */
+/* Fondo en CSS: la imagen anterior traía un marco y bandas dentro del archivo. */
+#escuela-preview.section-escuela--bg::before {
+  background-image:
+    radial-gradient(55% 75% at 12% 18%, rgba(159, 87, 167, 0.18), transparent 62%),
+    radial-gradient(50% 70% at 88% 85%, rgba(28, 92, 255, 0.12), transparent 62%),
+    radial-gradient(35% 45% at 70% 8%, rgba(251, 168, 95, 0.12), transparent 60%),
+    linear-gradient(180deg, #FBF5FC 0%, #F5F0FB 100%);
+  opacity: 1;
+  filter: none;
+}
+
+#escuela-preview.section-escuela--bg::after { background: none; }
+
+#escuela-preview.escuela-home { padding: clamp(4rem, 8vw, 6rem) 0; }
+
+/* minmax(0, …) evita que el contenido ensanche la columna y se corte en móvil */
+#escuela-preview .escuela-home__grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+@media (min-width: 1024px) {
+  #escuela-preview .escuela-home__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+
+#escuela-preview .escuela-home__content { max-width: 560px; margin: 0 auto; text-align: center; }
+#escuela-preview .escuela-home__text { max-width: 100%; }
+
+#escuela-preview .escuela-actions {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+#escuela-preview .btn-school {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 1.2rem;
+  border: 1px solid rgba(17, 16, 59, 0.14);
+  border-radius: 14px;
+  background: #FFFFFF;
+  color: #11103B;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  box-shadow: 0 10px 22px -16px rgba(17, 16, 59, 0.55);
+  transition: transform 0.2s var(--inicio-ease), box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+#escuela-preview .btn-school svg { flex-shrink: 0; color: #9F57A7; }
+
+#escuela-preview .btn-school:hover {
+  transform: translateY(-2px);
+  background: #FFFFFF;
+  color: #11103B;
+  letter-spacing: 0;
+  border-color: rgba(159, 87, 167, 0.55);
+  box-shadow: 0 16px 30px -18px rgba(159, 87, 167, 0.9);
+}
+
+#escuela-preview .btn-school--primario,
+#escuela-preview .btn-school--primario:hover {
+  border-color: transparent;
+  background: var(--inicio-grad);
+  color: #FFFFFF;
+  box-shadow: 0 14px 28px -14px rgba(28, 92, 255, 0.75);
+}
+
+#escuela-preview .btn-school--primario svg { color: #FFFFFF; }
+#escuela-preview .btn-school:focus-visible { outline: 3px solid #1C5CFF; outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  #escuela-preview .escuela-actions > * { width: 100%; justify-content: center; }
+  #escuela-preview .escuela-showcase { margin-left: 0; margin-right: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   Instagram: botón con los colores de la marca
+   -------------------------------------------------------------------------- */
+#instagram .ig-follow-btn {
+  gap: 8px;
+  background: var(--inicio-ig);
+  box-shadow: 0 12px 26px -12px rgba(214, 41, 118, 0.7);
+  text-shadow: 0 1px 2px rgba(70, 10, 60, 0.25);
+}
+
+#instagram .ig-follow-btn:hover { box-shadow: 0 16px 32px -12px rgba(150, 47, 191, 0.75); }
+#instagram .ig-avatar-ring { background: var(--inicio-ig); }
+
+/* --------------------------------------------------------------------------
+   ¿Querés ser parte?: íconos de línea en lugar de emojis
+   -------------------------------------------------------------------------- */
+#participa.participa-home {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(4rem, 8vw, 6rem) 0;
+}
+
+#participa .participa-home__cards { align-items: stretch; gap: clamp(14px, 2vw, 22px); }
+
+#participa .participa-card {
+  position: relative;
+  gap: 0.55rem;
+  padding: 2rem 1.5rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 22px;
+  box-shadow: 0 18px 40px -24px rgba(17, 16, 59, 0.7);
+  transition: transform 0.3s var(--inicio-ease), box-shadow 0.3s ease;
+}
+
+#participa .participa-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 50px -24px rgba(17, 16, 59, 0.8), 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+#participa .participa-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 0.35rem;
+  border-radius: 18px;
+  background: var(--inicio-grad);
+  color: #FFFFFF;
+  font-size: 0;
+  box-shadow: 0 12px 24px -12px rgba(28, 92, 255, 0.8);
+  transition: transform 0.35s var(--inicio-ease);
+}
+
+#participa .participa-card:hover .participa-card__icon { transform: rotate(-6deg) scale(1.06); }
+#participa .participa-card__title { font-size: 1.2rem; }
+
+#participa .participa-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 0.7rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #1C5CFF;
+}
+
+#participa .participa-card__cta svg { transition: transform 0.25s var(--inicio-ease); }
+#participa .participa-card:hover .participa-card__cta svg { transform: translateX(4px); }
+
+@media (max-width: 768px) {
+  #participa .participa-card { padding: 1.6rem 1.25rem 1.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #escuela-preview .btn-school,
+  #participa .participa-card,
+  #participa .participa-card__icon,
+  #participa .participa-card__cta svg { transition: none; }
+  #participa .participa-card:hover,
+  #escuela-preview .btn-school:hover { transform: none; }
+  #participa .participa-card:hover .participa-card__icon { transform: none; }
+}

@@ -206,13 +206,12 @@
     const navbar = document.querySelector('.navbar');
     if (!navbar) return;
 
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 10) {
-        navbar.classList.add('navbar--scrolled');
-      } else {
-        navbar.classList.remove('navbar--scrolled');
-      }
-    }, { passive: true });
+    function update() {
+      navbar.classList.toggle('navbar--scrolled', window.scrollY > 10);
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    update(); // Página recargada a mitad de scroll
   }
 
   // --------------------------------------------------------------------------
@@ -596,6 +595,7 @@
 
       dots.forEach((dot, i) => {
         dot.classList.toggle('is-active', i === index);
+        dot.setAttribute('aria-current', i === index ? 'true' : 'false');
       });
 
       currentIndex = index;
