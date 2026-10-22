@@ -12,25 +12,25 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Favicons y manifiesto: caché breve (las referencias llevan ?v= para renovarla)
+# Favicons y manifiesto: URLs estables, caché breve y revalidación al vencer.
 /favicon.ico
   ! Cache-Control
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600, must-revalidate
 /favicon.svg
   ! Cache-Control
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600, must-revalidate
 /favicon-*.png
   ! Cache-Control
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600, must-revalidate
 /apple-touch-icon.png
   ! Cache-Control
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600, must-revalidate
 /android-chrome-*.png
   ! Cache-Control
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600, must-revalidate
 /maskable-icon-512x512.png
   ! Cache-Control
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600, must-revalidate
 /manifest.webmanifest
   ! Cache-Control
-  Cache-Control: public, max-age=3600
+  Cache-Control: public, max-age=3600, must-revalidate
