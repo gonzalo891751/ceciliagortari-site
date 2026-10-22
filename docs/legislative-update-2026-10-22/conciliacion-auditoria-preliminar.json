@@ -1,0 +1,505 @@
+{
+  "generado": "2026-10-22T12:00:00.000Z",
+  "auditoria": "docs/legislative-update-2026-10-22/auditoria-preliminar-49.json",
+  "instantanea_d1": "docs/legislative-update-2026-10-22/d1-snapshot-2026-10-22.txt",
+  "existentes_coinciden": [
+    "EXP-20321",
+    "EXP-20322",
+    "EXP-20332",
+    "EXP-20349",
+    "EXP-20401",
+    "EXP-20405",
+    "EXP-20406",
+    "EXP-20407",
+    "EXP-20410",
+    "EXP-20411",
+    "EXP-20412",
+    "EXP-20350",
+    "EXP-20351",
+    "EXP-20408",
+    "EXP-20413",
+    "EXP-20352",
+    "EXP-20363",
+    "EXP-20364",
+    "EXP-20365",
+    "EXP-20366",
+    "EXP-20367",
+    "EXP-20380",
+    "EXP-20398",
+    "EXP-20399",
+    "EXP-20400"
+  ],
+  "existentes_con_diferencias": [],
+  "altas": [
+    {
+      "id": "EXP-20443",
+      "sesion": "2026-09-23",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "380/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20450",
+      "sesion": "2026-09-23",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "385/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20451",
+      "sesion": "2026-09-23",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "386/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20452",
+      "sesion": "2026-09-23",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "387/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20453",
+      "sesion": "2026-09-23",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "388/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20454",
+      "sesion": "2026-09-23",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "389/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20476",
+      "sesion": "2026-10-14",
+      "tipo": "Ley",
+      "estado": "En comisiones",
+      "norma": null,
+      "comisiones": [
+        "Salud Pública"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20496",
+      "sesion": "2026-10-14",
+      "tipo": "Resolución",
+      "estado": "En comisiones",
+      "norma": null,
+      "comisiones": [
+        "Asuntos Constitucionales y Legislación General"
+      ],
+      "participacion": "acompanamos"
+    },
+    {
+      "id": "EXP-20517",
+      "sesion": "2026-10-14",
+      "tipo": "Resolución",
+      "estado": "En comisiones",
+      "norma": null,
+      "comisiones": [
+        "Educación, Cultura, Ciencia y Tecnología"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20525",
+      "sesion": "2026-10-14",
+      "tipo": "Resolución",
+      "estado": "En comisiones",
+      "norma": null,
+      "comisiones": [
+        "Peticiones, Reglamento y Poderes"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20464",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "En comisiones",
+      "norma": null,
+      "comisiones": [
+        "Asuntos Constitucionales y Legislación General"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20481",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "399/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20477",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "402/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20478",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "403/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20479",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "404/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20480",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "405/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20518",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "428/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20519",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "429/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20520",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "430/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20521",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "431/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20522",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "432/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20523",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "433/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20526",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "435/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "bloque"
+    },
+    {
+      "id": "EXP-20530",
+      "sesion": "2026-10-14",
+      "tipo": "Declaración",
+      "estado": "Aprobado",
+      "norma": "438/26",
+      "comisiones": [
+        "Sobre Tablas"
+      ],
+      "participacion": "acompanamos"
+    }
+  ],
+  "pendientes_de_verificacion": [
+    {
+      "id": "EXP-20443",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20450",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20451",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20452",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20453",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20454",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20476",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20496",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20517",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20525",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20464",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20481",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20477",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20478",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20479",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20480",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20518",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20519",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20520",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20521",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20522",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20523",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20526",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    },
+    {
+      "id": "EXP-20530",
+      "falta": [
+        "título oficial (Asunto) de la ficha",
+        "PDF oficial del expediente",
+        "clasificación del impulso"
+      ]
+    }
+  ],
+  "resumen": {
+    "total_auditoria": 49,
+    "ya_cargados_y_coincidentes": 25,
+    "ya_cargados_con_diferencias": 0,
+    "altas": 24,
+    "altas_aprobadas": 19,
+    "altas_en_comision": 5,
+    "altas_con_otros_bloques": [
+      "EXP-20496",
+      "EXP-20530"
+    ]
+  }
+}

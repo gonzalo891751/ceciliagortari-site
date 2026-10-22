@@ -4040,7 +4040,7 @@ permalink: gestionproyectos/index.html
                         </div>
 
                         <div class="input-group">
-                            <label for="f-tipo-autoria">Autoría</label>
+                            <label for="f-tipo-autoria">Autoría (clasificación general)</label>
                             <select id="f-tipo-autoria" class="input-control" onchange="handleAutoriaChange()">
                                 <option value="propio">Propio de Cecilia</option>
                                 <option value="acompanado">Autor externo — Cecilia acompaña</option>
@@ -4050,6 +4050,18 @@ permalink: gestionproyectos/index.html
                         <div class="input-group autoria-external-field" id="autoria-external-group" style="display:none;">
                             <label for="f-autor-principal">Autor principal</label>
                             <input type="text" id="f-autor-principal" class="input-control" placeholder="Ej: Emiliano Fernández">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="f-impulso">Impulso político</label>
+                            <select id="f-impulso" class="input-control" onchange="handleImpulsoChange()">
+                                <option value="pendiente">Pendiente de clasificación</option>
+                                <option value="cecilia">Cecilia Gortari</option>
+                                <option value="emiliano">Emiliano Fernández Recalde</option>
+                                <option value="gustavo">Gustavo Canteros</option>
+                                <option value="conjunto">Elaboración conjunta</option>
+                                <option value="otros">Otros diputados</option>
+                            </select>
                         </div>
 
                         <div class="input-group">
@@ -4088,9 +4100,14 @@ permalink: gestionproyectos/index.html
                             <select id="f-estado-tramite" class="input-control">
                                 <option value="">(Seleccionar)</option>
                                 <option value="En comisiones">En comisiones</option>
+                                <option value="Con despacho de comisión">Con despacho de comisión</option>
                                 <option value="En tratamiento">En tratamiento</option>
+                                <option value="Media sanción">Media sanción</option>
                                 <option value="Aprobado">Aprobado</option>
+                                <option value="Sancionado">Sancionado (Ley)</option>
                                 <option value="No aprobado">No aprobado</option>
+                                <option value="Archivado">Archivado</option>
+                                <option value="Retirado">Retirado</option>
                             </select>
                         </div>
 
@@ -4098,6 +4115,57 @@ permalink: gestionproyectos/index.html
                             <label>Comisión / Comisiones <span id="commission-required-label"></span></label>
                             <div id="f-comisiones" class="commission-picker"></div>
                             <div class="commission-help">Es opcional mientras está en preparación y obligatorio al marcarlo como presentado.</div>
+                        </div>
+
+                        <!-- Datos parlamentarios (se publican en /proyectos/ cuando el proyecto está presentado) -->
+                        <div class="input-group full-width parl-heading" style="border-top: 1px solid var(--border-light); padding-top: 1rem; margin-top: 0.5rem;">
+                            <label style="font-size:0.95rem;">Datos parlamentarios oficiales</label>
+                            <div class="commission-help">Copiá los datos tal como figuran en la ficha del expediente en hcdcorrientes.gov.ar. No completes campos sin respaldo documental.</div>
+                        </div>
+                        <div class="input-group">
+                            <label for="f-numero-expediente">N.º de expediente</label>
+                            <input type="text" id="f-numero-expediente" class="input-control" inputmode="numeric" pattern="[0-9.]{4,8}" placeholder="Ej: 20413" oninput="handleNumeroExpedienteChange()">
+                        </div>
+                        <div class="input-group">
+                            <label for="f-enlace-oficial">Ficha oficial (URL)</label>
+                            <input type="url" id="f-enlace-oficial" class="input-control" placeholder="https://hcdcorrientes.gov.ar/expedientes/20413/">
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="f-titulo-oficial">Título oficial (Asunto)</label>
+                            <textarea id="f-titulo-oficial" class="input-control" rows="2" placeholder="Texto del campo Asunto de la ficha oficial"></textarea>
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="f-firmantes">Firmantes (autoría formal)</label>
+                            <input type="text" id="f-firmantes" class="input-control" placeholder="Dips. Canteros, Fernández Recalde y Gortari.">
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="f-impulso-nota">Respaldo del impulso (uso interno)</label>
+                            <input type="text" id="f-impulso-nota" class="input-control" placeholder="Ej: borrador elaborado por el equipo de Cecilia (Drive, 12/03)">
+                        </div>
+                        <div class="input-group">
+                            <label for="f-norma-tipo">Norma aprobada</label>
+                            <select id="f-norma-tipo" class="input-control">
+                                <option value="">(Sin aprobar)</option>
+                                <option value="Declaración">Declaración</option>
+                                <option value="Resolución">Resolución</option>
+                                <option value="Ley">Ley</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="f-norma-numero">N.º de norma</label>
+                            <input type="text" id="f-norma-numero" class="input-control" placeholder="Ej: 352/26">
+                        </div>
+                        <div class="input-group">
+                            <label for="f-fecha-aprobacion">Fecha de aprobación</label>
+                            <input type="date" id="f-fecha-aprobacion" class="input-control">
+                        </div>
+                        <div class="input-group">
+                            <label for="f-verificado-at">Verificado contra la fuente el</label>
+                            <input type="date" id="f-verificado-at" class="input-control">
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="f-fuente">Fuente</label>
+                            <input type="text" id="f-fuente" class="input-control" placeholder="Ej: Informe de sesión 14/10/2026 y ficha oficial">
                         </div>
                     </form>
 
@@ -4540,12 +4608,8 @@ permalink: gestionproyectos/index.html
            ESTADO Y CONFIGURACIÓN
            ========================================= */
         const DB_KEY = 'cg_proyectos_db';
-        const PIN_KEY = 'cg_pin_acceso';
-        const DEFAULT_PIN = '1234';
         const API_BASE = '/api/projects';
         const SYNC_INTERVAL = 30000; // 30 segundos
-        const AUTH_KEY = 'gp_auth_until';
-        const AUTH_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 días
 
         let projects = [];
         let _savingInProgress = false;
@@ -4742,43 +4806,88 @@ permalink: gestionproyectos/index.html
             document.getElementById('topic-hint').classList.remove('visible');
         }
 
-        // Inicialización
-        window.onload = () => {
-            const authUntil = parseInt(localStorage.getItem(AUTH_KEY));
-            if (authUntil && Date.now() < authUntil) {
-                document.getElementById('pin-screen').style.display = 'none';
-                document.getElementById('app-container').style.display = 'flex';
-                loadData();
-            } else {
-                localStorage.removeItem(AUTH_KEY);
-                document.getElementById('pin-input').focus();
+        // Inicialización: la sesión se valida en el servidor (cookie HttpOnly firmada).
+        window.onload = async () => {
+            try {
+                const res = await fetch('/api/auth/session', { cache: 'no-store' });
+                const session = await res.json();
+                if (session.authenticated) {
+                    showApp();
+                    return;
+                }
+                if (!session.configured) showPinMessage('El acceso interno no está configurado en el servidor (falta el secreto ADMIN_PIN).');
+            } catch (e) {
+                showPinMessage('No se pudo verificar la sesión. Revisá la conexión.');
             }
+            document.getElementById('pin-input').focus();
         };
 
         /* =========================================
-           SEGURIDAD BÁSICA (PIN)
+           ACCESO (PIN validado en el servidor)
            ========================================= */
-        function login() {
-            const input = document.getElementById('pin-input').value;
-            const validPin = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
-            if (input === validPin) {
-                if (document.getElementById('pin-remember').checked) {
-                    localStorage.setItem(AUTH_KEY, String(Date.now() + AUTH_DURATION));
-                }
-                document.getElementById('pin-screen').style.display = 'none';
-                document.getElementById('app-container').style.display = 'flex';
-                loadData();
-            } else {
-                alert('PIN incorrecto.');
-            }
+        function showApp() {
+            document.getElementById('pin-screen').style.display = 'none';
+            document.getElementById('app-container').style.display = 'flex';
+            loadData();
         }
 
-        function logout() {
-            localStorage.removeItem(AUTH_KEY);
+        function showPinScreen(message) {
             document.getElementById('app-container').style.display = 'none';
             document.getElementById('pin-screen').style.display = 'flex';
             document.getElementById('pin-input').value = '';
+            if (message) showPinMessage(message);
             document.getElementById('pin-input').focus();
+        }
+
+        function showPinMessage(message) {
+            let el = document.getElementById('pin-message');
+            if (!el) {
+                el = document.createElement('p');
+                el.id = 'pin-message';
+                el.setAttribute('role', 'alert');
+                el.style.cssText = 'color:#B42318;font-size:0.85rem;margin:0 0 1rem;text-align:center;';
+                document.querySelector('#pin-screen .pin-card .input-group').before(el);
+            }
+            el.textContent = message;
+        }
+
+        // Si la sesión vence, cualquier respuesta 401 de la API vuelve a pedir el PIN.
+        const _nativeFetch = window.fetch.bind(window);
+        window.fetch = async (...args) => {
+            const res = await _nativeFetch(...args);
+            const url = typeof args[0] === 'string' ? args[0] : (args[0] && args[0].url) || '';
+            if (res.status === 401 && url.includes('/api/') && !url.includes('/api/auth/')) {
+                showPinScreen('La sesión venció. Ingresá el PIN nuevamente.');
+            }
+            return res;
+        };
+
+        async function login() {
+            const input = document.getElementById('pin-input');
+            try {
+                const res = await _nativeFetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pin: input.value, remember: document.getElementById('pin-remember').checked })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok && data.ok) {
+                    input.value = '';
+                    const msg = document.getElementById('pin-message');
+                    if (msg) msg.textContent = '';
+                    showApp();
+                } else {
+                    showPinMessage(data.error || 'PIN incorrecto.');
+                    input.select();
+                }
+            } catch (e) {
+                showPinMessage('No se pudo conectar con el servidor.');
+            }
+        }
+
+        async function logout() {
+            try { await _nativeFetch('/api/auth/logout', { method: 'POST' }); } catch (e) {}
+            showPinScreen();
         }
 
         /* =========================================
@@ -5534,6 +5643,7 @@ permalink: gestionproyectos/index.html
                     document.getElementById('f-fecha-presentacion').value = p.fecha_presentacion || '';
                     document.getElementById('f-estado-tramite').value = p.estado_tramite || '';
                     renderCommissionPicker('f-comisiones', p.comisiones || []);
+                    fillParliamentaryFields(p);
 
                     // Load checklist from project
                     tempChecklist = JSON.parse(JSON.stringify(p.action_plan || []));
@@ -5546,6 +5656,7 @@ permalink: gestionproyectos/index.html
                 document.getElementById('btn-delete').style.display = 'none';
 
                 // Defaults
+                fillParliamentaryFields({});
                 document.getElementById('f-estado-prep').value = 'Pendiente';
                 document.getElementById('f-responsable').value = 'Sin asignar';
                 tempChecklist = [];
@@ -5602,6 +5713,57 @@ permalink: gestionproyectos/index.html
                 extGroup.style.display = 'none';
                 document.getElementById('f-autor-principal').value = '';
             }
+        }
+
+        const IMPULSO_TO_AUTORIA = { cecilia: 'propio', conjunto: 'coautoria', emiliano: 'acompanado', gustavo: 'acompanado', otros: 'acompanado' };
+        const AUTORIA_TO_IMPULSO = { propio: 'cecilia', coautoria: 'conjunto' };
+
+        function fillParliamentaryFields(p) {
+            const numero = p.numero_expediente || ((/^EXP-(\d+)$/.exec(p.id || '') || [])[1] || '');
+            document.getElementById('f-numero-expediente').value = numero;
+            document.getElementById('f-enlace-oficial').value = p.enlace_oficial || '';
+            document.getElementById('f-titulo-oficial').value = p.titulo_oficial || '';
+            document.getElementById('f-firmantes').value = p.firmantes || '';
+            document.getElementById('f-impulso-nota').value = p.impulso_nota || '';
+            document.getElementById('f-norma-tipo').value = p.norma_tipo || '';
+            document.getElementById('f-norma-numero').value = p.norma_numero || '';
+            document.getElementById('f-fecha-aprobacion').value = p.fecha_aprobacion || '';
+            document.getElementById('f-verificado-at').value = p.verificado_at || '';
+            document.getElementById('f-fuente').value = p.fuente || '';
+            const impulso = p.impulso && p.impulso !== 'pendiente' ? p.impulso : (AUTORIA_TO_IMPULSO[p.tipo_autoria] || 'pendiente');
+            document.getElementById('f-impulso').value = impulso;
+        }
+
+        function handleImpulsoChange() {
+            const autoria = IMPULSO_TO_AUTORIA[document.getElementById('f-impulso').value];
+            if (autoria) {
+                document.getElementById('f-tipo-autoria').value = autoria;
+                handleAutoriaChange();
+            }
+        }
+
+        function handleNumeroExpedienteChange() {
+            const numero = (document.getElementById('f-numero-expediente').value.match(/\d{4,6}/) || [''])[0];
+            const enlace = document.getElementById('f-enlace-oficial');
+            if (numero && (!enlace.value || /\/expedientes\/\d+\/?$/.test(enlace.value))) {
+                enlace.value = 'https://hcdcorrientes.gov.ar/expedientes/' + numero + '/';
+            }
+        }
+
+        function readParliamentaryFields() {
+            return {
+                numero_expediente: (document.getElementById('f-numero-expediente').value.match(/\d{4,6}/) || [''])[0],
+                enlace_oficial: document.getElementById('f-enlace-oficial').value.trim(),
+                titulo_oficial: document.getElementById('f-titulo-oficial').value.trim(),
+                firmantes: document.getElementById('f-firmantes').value.trim(),
+                impulso: document.getElementById('f-impulso').value,
+                impulso_nota: document.getElementById('f-impulso-nota').value.trim(),
+                norma_tipo: document.getElementById('f-norma-tipo').value,
+                norma_numero: document.getElementById('f-norma-numero').value.trim(),
+                fecha_aprobacion: document.getElementById('f-fecha-aprobacion').value,
+                verificado_at: document.getElementById('f-verificado-at').value,
+                fuente: document.getElementById('f-fuente').value.trim()
+            };
         }
 
         function handlePrepChange() {
@@ -5667,7 +5829,8 @@ permalink: gestionproyectos/index.html
                 action_plan: tempChecklist,
                 tipo_autoria: document.getElementById('f-tipo-autoria').value,
                 autor_principal: document.getElementById('f-autor-principal').value.trim(),
-                comisiones: selectedCommissions
+                comisiones: selectedCommissions,
+                ...readParliamentaryFields()
             };
 
             // UX: botón en estado loading
@@ -6073,6 +6236,18 @@ permalink: gestionproyectos/index.html
                 p.comisiones.forEach(name => {
                     chipsHtml += `<span class="detail-chip" style="background:var(--badge-purple-bg);color:var(--badge-purple-text);"><i class="ph ph-buildings"></i> ${escapeHtml(name)}</span>`;
                 });
+            }
+            const impulsoLabels = { cecilia: 'Impulso: Cecilia', emiliano: 'Impulso: Emiliano', gustavo: 'Impulso: Gustavo', conjunto: 'Impulso: conjunto', otros: 'Impulso: otros diputados' };
+            if (p.numero_expediente) {
+                chipsHtml += `<span class="detail-chip"><i class="ph ph-hash"></i> Expte. ${escapeHtml(p.numero_expediente)}</span>`;
+            }
+            if (impulsoLabels[p.impulso]) {
+                chipsHtml += `<span class="detail-chip">${escapeHtml(impulsoLabels[p.impulso])}</span>`;
+            } else if (p.estado_preparacion === 'Presentado' && p.impulso === 'pendiente') {
+                chipsHtml += `<span class="detail-chip" style="background:#FFF4E5;color:#8A4B0B;">Impulso pendiente de clasificar</span>`;
+            }
+            if (p.norma_numero) {
+                chipsHtml += `<span class="detail-chip" style="background:#E6F5EE;color:#047857;">${escapeHtml((p.norma_tipo || '') + ' ' + p.norma_numero)}</span>`;
             }
 
             // --- Dates card ---

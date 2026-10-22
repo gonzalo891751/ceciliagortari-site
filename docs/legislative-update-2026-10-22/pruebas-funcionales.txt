@@ -1,0 +1,73 @@
+# Pruebas funcionales — 22/10/2026 (servidor local con D1 que reproduce producción + migraciones 0010–0013)
+
+PASS  Vista inicial muestra todos  — 227 de 227
+PASS  Botón "Todos" activo por defecto
+PASS  KPI total = API
+PASS  KPI De autoría = API
+PASS  KPI Esperando ser tratados = API  — 122
+PASS  Tile rojo "Esperando ser tratados"
+PASS  Sin "Duermen" en la página
+PASS  Reloj de caducidad plegado al entrar
+PASS  Sin contador de aprobados
+PASS  Porcentaje en comisión
+PASS  Sin "Impulsados por Cecilia" en la página
+PASS  12 tarjetas en la primera página
+PASS  Sin filtro por área temática
+PASS  Pestaña autoria  — 41
+PASS  Pestaña bloque  — 213
+PASS  Pestaña acompanamos  — 14
+PASS  Bloque + Acompañamos = Todos (sin solapamiento)  — 227
+PASS  Filtro por comisión  — 22
+PASS  Expediente con 2 comisiones aparece filtrando por la segunda  — EXP-20411
+PASS  Barras por comisión correctas  — 17 barras
+PASS  Panel: total analizado = proyectos únicos
+PASS  Suma de giros ≥ proyectos con comisión (doble conteo explicado)  — 156 giros
+PASS  Click en barra filtra
+PASS  Segundo click quita el filtro
+PASS  Búsqueda por N.º con punto
+PASS  Búsqueda por palabra clave  — 2
+PASS  Tipo Ley + En comisión  — 44
+PASS  URL refleja filtros
+PASS  Sin PDF: no hay botón de descarga y se ofrece la ficha oficial  — EXP-20530
+PASS  Descargar proyecto entrega un PDF sin modal  — EXP-20413_Informe_y_medidas_sobre_el_funcionamiento_del_hospital_de_Loreto_Expediente.pdf
+PASS  Mostrar más agrega 12
+PASS  Más información se expande dentro de la tarjeta
+PASS  Sin tarjetas duplicadas
+PASS  Sin expedientes duplicados en la API
+PASS  Enlaces oficiales válidos
+PASS  Todo proyecto tiene descarga o ficha oficial
+PASS  axe WCAG 2 A/AA en /proyectos/
+PASS  Sin errores JS en /proyectos/
+PASS  Enlace ?id= abre el expediente destacado
+PASS  ?grupo=autoria
+PASS  Enlace anterior ?grupo=cecilia sigue funcionando
+PASS  Hero: botón principal a /proyectos/
+PASS  Proyectos antes que Novedades  — top > proyectos-legislativos > prensa-novedades > bio-preview
+PASS  Home KPI total = API
+PASS  Home KPI duermen en comisión = API
+PASS  Home sin "Impulsados por Cecilia" ni contador de aprobados
+PASS  Home: 3 últimos expedientes
+PASS  axe WCAG 2 A/AA en sección de portada
+PASS  Sin errores JS en portada
+PASS  Sin scroll horizontal a 375 px en /  — 0px
+PASS  Sin scroll horizontal a 375 px en /proyectos/  — 0px
+
+51/51 pruebas superadas
+
+# Reloj de caducidad
+
+OK   panel plegado al entrar
+OK   aria-expanded=false
+OK   panel visible tras clic
+OK   aria-expanded=true
+OK   sin pista con perilla
+OK   URL con mes y estado: ?estado=comision&mes=2026-04
+OK   resultados = barra (30): "30 proyectos"
+OK   chip "Presentados en abril de 2026"
+     chip: Presentados en abril de 2026
+OK   barra marcada como seleccionada
+OK   tarjetas listadas: 12
+OK   quitar chip elimina el mes
+     URL directa: 12 proyectos
+OK   segundo clic en el mismo mes lo quita
+OK   sin errores JS 
