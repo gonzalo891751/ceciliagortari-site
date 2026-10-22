@@ -1,8 +1,9 @@
 ---
 layout: layouts/base.njk
 title: "Cecilia Gortari | Diputada Provincial por Corrientes"
-description: "Sitio oficial de Cecilia Gortari, Diputada Provincial por Corrientes. Escuela de Emprendedores, proyectos legislativos y trabajo en territorio."
+description: "Sitio oficial de Cecilia Gortari, Diputada Provincial por Corrientes. Proyectos legislativos con descarga de expedientes, novedades, Escuela de Emprendedores y trabajo en territorio."
 ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
+extraCSS: "/assets/css/legislativo.css?v=202610221200"
 jsonLd: |
     {
       "@context": "https://schema.org",
@@ -57,50 +58,68 @@ jsonLd: |
                         hacerlo conmigo.
                         <strong>Entre todos podemos hacer una Corrientes mejor.</strong>
                     </p>
-                    <!-- Hero Actions -->
+                    <!-- Hero Actions: proyectos legislativos como acción principal -->
                     <div class="hero-new__actions-container">
-                        <!-- Botón 1: Escuela (Primary Gradient) -->
-                        <a href="/escuela/" class="hero-new__cta-primary">
-                            <span class="btn__icon" aria-hidden="true">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                                    <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                        <a href="/proyectos/" class="lg-hero-cta">
+                            <span class="lg-hero-cta__icon" aria-hidden="true">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <path d="M14 2v6h6" />
+                                    <path d="m9 15 2 2 4-4" />
                                 </svg>
                             </span>
-                            Escuela de Emprendedores &rarr;
+                            <span class="lg-hero-cta__text">
+                                Ver proyectos legislativos
+                                <small data-hero-proyectos>Expedientes, comisiones y documentos</small>
+                            </span>
+                            <svg class="lg-hero-cta__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                                aria-hidden="true">
+                                <path d="M5 12h14" />
+                                <path d="m13 6 6 6-6 6" />
+                            </svg>
                         </a>
 
-                        <!-- Botón 2: Novedades (Secondary/Ghost) -->
-                        <a href="/novedades/" class="hero-new__cta-secondary btn--novedades">
-                            <span class="btn__icon" aria-hidden="true">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path
-                                        d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
-                                    <path d="M18 14h-8" />
-                                    <path d="M15 18h-5" />
-                                    <path d="M10 6h8v4h-8V6Z" />
-                                </svg>
-                            </span>
-                            Novedades →
-                        </a>
-
-                        <!-- Botón 3: Instagram (Unificado con estilo Secondary/Ghost) -->
-                        <a href="https://instagram.com/cecilia.diputada" target="_blank" rel="noopener"
-                            class="hero-new__cta-secondary btn--instagram">
-                            <span class="btn__icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"
-                                    height="20">
-                                    <rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect>
-                                    <circle cx="12" cy="12" r="4"></circle>
-                                    <circle cx="17.5" cy="6.5" r="1"></circle>
-                                </svg>
-                            </span>
-                            Seguime en Instagram! &rarr;
-                        </a>
+                        <div class="lg-hero-secondary">
+                            <a href="/novedades/" class="hero-new__cta-secondary btn--novedades">
+                                <span class="btn__icon" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path
+                                            d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
+                                        <path d="M18 14h-8" />
+                                        <path d="M15 18h-5" />
+                                        <path d="M10 6h8v4h-8V6Z" />
+                                    </svg>
+                                </span>
+                                Novedades
+                            </a>
+                            <a href="/escuela/" class="hero-new__cta-secondary">
+                                <span class="btn__icon" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                                        <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                                    </svg>
+                                </span>
+                                <span class="lg-hide-mobile">Escuela de Emprendedores</span><span class="lg-show-mobile">Escuela</span>
+                            </a>
+                            <a href="https://instagram.com/cecilia.diputada" target="_blank" rel="noopener"
+                                class="hero-new__cta-secondary btn--instagram lg-hero-icon-btn" title="Instagram">
+                                <span class="btn__icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"
+                                        height="18">
+                                        <rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect>
+                                        <circle cx="12" cy="12" r="4"></circle>
+                                        <circle cx="17.5" cy="6.5" r="1"></circle>
+                                    </svg>
+                                </span>
+                                <span class="lg-sr-only">Instagram de Cecilia Gortari (se abre en una pestaña nueva)</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -117,6 +136,57 @@ jsonLd: |
             </div>
         </div>
     </header>
+
+    <!-- ========================================================================
+         A.1 PROYECTOS LEGISLATIVOS (vidriera del trabajo parlamentario)
+         Cifras calculadas en vivo desde /api/projects/public
+         ======================================================================== -->
+    <section class="lg-home" id="proyectos-legislativos" aria-labelledby="lg-home-title">
+        <div class="container">
+            <div class="lg-home__grid">
+                <div>
+                    <p class="lg-eyebrow">Actividad legislativa</p>
+                    <h2 class="lg-home__title" id="lg-home-title">Proyectos <span>legislativos</span></h2>
+                    <p class="lg-home__lead">Cada expediente que presentamos en la Cámara de Diputados de Corrientes, con su comisión, su estado parlamentario y el documento oficial listo para descargar.</p>
+                    <div class="lg-home__actions">
+                        <a href="/proyectos/" class="lg-btn-primary">
+                            Explorar y descargar proyectos
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                        </a>
+                        <a href="/proyectos/?grupo=autoria" class="lg-btn-secondary">Proyectos de autoría</a>
+                    </div>
+                </div>
+
+                <div class="lg-home__kpis" aria-live="polite">
+                    <a class="lg-home-kpi lg-home-kpi--main" href="/proyectos/">
+                        <span class="lg-home-kpi__value" data-home-kpi="total">—</span>
+                        <span class="lg-home-kpi__label">Proyectos con nuestra firma</span>
+                        <span class="lg-home-kpi__note" data-home-note="total">Expedientes únicos presentados en la Cámara</span>
+                    </a>
+                    <a class="lg-home-kpi lg-home-kpi--autoria" href="/proyectos/?grupo=autoria">
+                        <span class="lg-home-kpi__value" data-home-kpi="autoria">—</span>
+                        <span class="lg-home-kpi__label">De autoría</span>
+                        <span class="lg-home-kpi__note">Elaborados por nuestro equipo</span>
+                    </a>
+                    <a class="lg-home-kpi lg-home-kpi--comision" href="/proyectos/?estado=comision">
+                        <span class="lg-home-kpi__value" data-home-kpi="comision">—</span>
+                        <span class="lg-home-kpi__label">Duermen en comisión</span>
+                        <span class="lg-home-kpi__note" data-home-note="comision">Siguen sin tratamiento</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="lg-home__recent">
+                <div class="lg-home__recent-head">
+                    <h3>Últimos expedientes presentados</h3>
+                    <a href="/proyectos/">Ver todos los proyectos &rarr;</a>
+                </div>
+                <div class="lg-home__cards" data-home-cards>
+                    <div class="lg-skeleton"></div><div class="lg-skeleton"></div><div class="lg-skeleton"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- ========================================================================
          A.1 PRENSA Y NOVEDADES SECTION (Moved after Hero)
@@ -497,55 +567,6 @@ jsonLd: |
     <script async src="//www.instagram.com/embed.js"></script>
 
     <!-- ========================================================================
-         E. PROYECTOS LEGISLATIVOS SECTION (Redesigned with Switch)
-         ======================================================================== -->
-    <section class="proyectos-home" id="proyectos-preview">
-        <div class="container">
-            <!-- Header -->
-            <div class="proyectos-home__header" data-scroll-reveal>
-                <div class="proyectos-home__eyebrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg>
-                    Autoría legislativa
-                </div>
-                <h2 class="proyectos-home__title">Proyectos Legislativos</h2>
-                <p class="proyectos-home__subtitle">Conocé las últimas iniciativas que impulsamos para transformar Corrientes.</p>
-                <div class="proyectos-home__summary" id="proyectos-home-summary" hidden>
-                    <strong id="proyectos-home-count">0</strong>
-                    <span>proyectos de autoría disponibles para consultar</span>
-                </div>
-            </div>
-
-            <!-- Dynamic Grid (JS rendered from /api/projects/public) -->
-            <div id="proyectos-home-grid" class="proyectos-home__grid" data-scroll-reveal>
-                <!-- Loading skeleton -->
-                <div class="proyectos-home__card proyectos-home__card--skeleton"></div>
-                <div class="proyectos-home__card proyectos-home__card--skeleton"></div>
-                <div class="proyectos-home__card proyectos-home__card--skeleton"></div>
-            </div>
-
-            <!-- Empty State (hidden by default, shown by JS) -->
-            <div id="proyectos-home-empty" class="proyectos-home__empty" style="display:none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#CACAD1;margin-bottom:1rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                <h3>Aún no hay proyectos de autoría disponibles</h3>
-                <p>Estamos trabajando en nuevas iniciativas. Próximamente vas a poder consultarlas y descargar sus documentos.</p>
-                <a href="/proyectos/" class="proyectos-home__card-link" style="justify-content:center;">
-                    Ir a Proyectos
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                </a>
-            </div>
-
-            <!-- CTA: Ver todos -->
-            <div id="proyectos-home-footer" class="proyectos-home__footer" style="display:none;">
-                <a href="/proyectos/" class="proyectos-home__cta">
-                    Explorar todos los proyectos
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                </a>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ========================================================================
          H. PARTICIPÁ SECTION
          ======================================================================== -->
     <section class="participa-home" id="participa">
@@ -587,97 +608,6 @@ jsonLd: |
     <script defer src="/assets/js/bio-animations.js?v=202503061200"></script>
     <script defer src="/assets/js/home-redesign.js?v=202601081200"></script>
 
-    <!-- Proyectos Legislativos: Home Section (live data) -->
-    <script>
-    (function() {
-        'use strict';
-        var grid = document.getElementById('proyectos-home-grid');
-        var empty = document.getElementById('proyectos-home-empty');
-        var footer = document.getElementById('proyectos-home-footer');
-        var summary = document.getElementById('proyectos-home-summary');
-        var count = document.getElementById('proyectos-home-count');
-        if (!grid) return;
-
-        function esc(str) {
-            if (!str) return '';
-            var d = document.createElement('div');
-            d.textContent = str;
-            return d.innerHTML;
-        }
-
-        function badgeClass(tipo) {
-            if (!tipo) return '';
-            var t = tipo.toLowerCase();
-            if (t.includes('ley')) return 'proyectos-home__card-badge--ley';
-            if (t.includes('resolución') || t.includes('resolucion')) return 'proyectos-home__card-badge--resolucion';
-            if (t.includes('declaración') || t.includes('declaracion')) return 'proyectos-home__card-badge--declaracion';
-            if (t.includes('informe')) return 'proyectos-home__card-badge--informe';
-            return 'proyectos-home__card-badge--ordenanza';
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return '';
-            try {
-                return new Date(dateString + 'T00:00:00').toLocaleDateString('es-AR', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric'
-                });
-            } catch (e) {
-                return dateString;
-            }
-        }
-
-        fetch('/api/projects/public')
-            .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-            .then(function(projects) {
-                grid.innerHTML = '';
-                var authoredProjects = Array.isArray(projects)
-                    ? projects.filter(function(p) { return p.tipo_autoria !== 'acompanado'; })
-                    : [];
-
-                if (authoredProjects.length === 0) {
-                    grid.style.display = 'none';
-                    empty.style.display = '';
-                    if (summary) summary.hidden = true;
-                    return;
-                }
-
-                if (count) count.textContent = authoredProjects.length;
-                if (summary) summary.hidden = false;
-
-                // Show the three most recent authorship projects.
-                var items = authoredProjects.slice(0, 3);
-                items.forEach(function(p) {
-                    var card = document.createElement('article');
-                    card.className = 'proyectos-home__card';
-                    var authorshipLabel = p.tipo_autoria === 'coautoria' ? 'Coautoría' : 'Autoría propia';
-                    var metaHtml =
-                        '<div class="proyectos-home__card-meta">' +
-                            (p.area_tema ? '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg>' + esc(p.area_tema) + '</span>' : '') +
-                            (p.fecha_presentacion ? '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" stroke-width="2"/><path d="M16 3v4M8 3v4M3 11h18" stroke-width="2" stroke-linecap="round"/></svg>' + esc(formatDate(p.fecha_presentacion)) + '</span>' : '') +
-                        '</div>';
-                    card.innerHTML =
-                        '<div class="proyectos-home__card-top">' +
-                            '<span class="proyectos-home__card-badge ' + badgeClass(p.tipo) + '">' + esc(p.tipo) + '</span>' +
-                            '<span class="proyectos-home__card-authorship">' + authorshipLabel + '</span>' +
-                        '</div>' +
-                        '<h3 class="proyectos-home__card-title">' + esc(p.titulo) + '</h3>' +
-                        '<p class="proyectos-home__card-desc">' + esc(p.resumen) + '</p>' +
-                        metaHtml +
-                        '<a href="/proyectos/" class="proyectos-home__card-link">' +
-                            'Conocer el proyecto' +
-                            '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>' +
-                        '</a>';
-                    grid.appendChild(card);
-                });
-
-                footer.style.display = '';
-            })
-            .catch(function() {
-                // On error, show empty state
-                grid.style.display = 'none';
-                empty.style.display = '';
-            });
-    })();
-    </script>
+    <!-- Proyectos legislativos: vidriera con datos en vivo -->
+    <script defer src="/assets/js/legislativo-core.js?v=202610221200"></script>
+    <script defer src="/assets/js/legislativo-home.js?v=202610221200"></script>

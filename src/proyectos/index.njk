@@ -1,177 +1,151 @@
 ---
 layout: layouts/base.njk
 title: "Proyectos Legislativos | Cecilia Gortari"
-description: "Consultá, leé los fundamentos y descargá los documentos originales de todos los proyectos legislativos presentados por Cecilia Gortari en la Cámara de Diputados de Corrientes."
+description: "Todos los proyectos legislativos con participación de Cecilia Gortari y su bloque en la Cámara de Diputados de Corrientes: comisión, estado parlamentario, autoría y descarga del documento oficial."
 ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
+extraCSS: "/assets/css/legislativo.css?v=202610221200"
+bodyClass: "lg-page"
 ---
 
-    <!-- Hero Section (New Gradient Design) -->
-    <section class="pl-hero">
-        <div class="pl-hero__decor" aria-hidden="true">
-            <svg width="400" height="400" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#FFFFFF" d="M45.7,-76.1C58.9,-69.3,69,-55.4,77.2,-41.1C85.4,-26.8,91.8,-12.1,89.5,1.7C87.2,15.5,76.3,28.4,66.1,40.1C55.9,51.8,46.3,62.3,34.2,69.5C22.1,76.7,7.4,80.6,-6.6,80.1C-20.6,79.5,-33.9,74.5,-46.5,67.3C-59.1,60.1,-71,50.7,-78.9,38.3C-86.8,25.9,-90.7,10.5,-88.2,-3.8C-85.7,-18.1,-76.8,-31.3,-66.2,-41.9C-55.6,-52.5,-43.3,-60.5,-30.5,-67.2C-17.7,-73.9,-4.4,-79.3,10.2,-82.1C24.8,-84.9,40.9,-85.1,45.7,-76.1Z" transform="translate(100 100) scale(1.1)" />
-            </svg>
-        </div>
+    <section class="lg-hero" aria-labelledby="lg-title">
         <div class="container">
-            <h1>Proyectos Legislativos</h1>
-            <p class="pl-hero__subtitle">Explorá las iniciativas, leyes y resoluciones impulsadas para transformar nuestra provincia. Transparencia y trabajo constante.</p>
+            <p class="lg-eyebrow">Cámara de Diputados de Corrientes · Período 2025–2029</p>
+            <h1 class="lg-hero__title" id="lg-title">Proyectos legislativos</h1>
+            <p class="lg-hero__lead">Acá están todos los proyectos que presentamos y acompañamos en la Cámara de Diputados de Corrientes: en qué comisión está cada uno, cuál es su estado, quiénes lo firmamos y el documento oficial para descargar.</p>
+
+            <div class="lg-kpis" aria-live="polite">
+                <div class="lg-kpi lg-kpi--main">
+                    <span class="lg-kpi__value" data-kpi="total">—</span>
+                    <span class="lg-kpi__label">Proyectos con nuestra firma</span>
+                    <span class="lg-kpi__note" data-kpi-note="total">Expedientes únicos en la Cámara de Diputados</span>
+                </div>
+                <div class="lg-kpi">
+                    <span class="lg-kpi__value" data-kpi="autoria">—</span>
+                    <span class="lg-kpi__label"><span class="lg-kpi__dot" style="background:#C98BD0" aria-hidden="true"></span>De autoría</span>
+                    <span class="lg-kpi__note">Elaborados por nuestro equipo, incluidos en el total</span>
+                </div>
+                <div class="lg-kpi lg-kpi--alerta">
+                    <span class="lg-kpi__value" data-kpi="comision">—</span>
+                    <span class="lg-kpi__label"><span class="lg-kpi__dot" style="background:#FBA85F" aria-hidden="true"></span>Duermen en comisión</span>
+                    <span class="lg-kpi__note" data-kpi-note="comision">Siguen sin tratamiento</span>
+                    <span class="lg-kpi__note lg-kpi__note--corta" data-kpi-note="comision-corta" aria-hidden="true"></span>
+                </div>
+                <div class="lg-kpi lg-kpi--alerta">
+                    <span class="lg-kpi__value" data-kpi="mas90">—</span>
+                    <span class="lg-kpi__label"><span class="lg-kpi__dot" style="background:#F47A43" aria-hidden="true"></span>Esperan hace más de 3 meses</span>
+                    <span class="lg-kpi__note" data-kpi-note="mas90">Sin tratamiento desde su presentación</span>
+                </div>
+            </div>
+            <p class="lg-hero__meta" data-kpi-note="meta">Datos de la Cámara de Diputados de la Provincia de Corrientes.</p>
         </div>
     </section>
 
-    <main class="container">
-
-        <!-- Authorship Tabs -->
-        <section class="pl-tabs-section">
-            <div class="pl-tabs-wrap" id="plAuthorshipTabs">
-                <button class="pl-tab pl-tab--active" data-tab="autoria" aria-pressed="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    Proyectos de autoría
-                </button>
-                <button class="pl-tab" data-tab="acompanamos" aria-pressed="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    Proyectos que acompañamos
-                </button>
-                <button class="pl-tab" data-tab="todos" aria-pressed="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                    Todos
-                </button>
-            </div>
-        </section>
-
-        <!-- Filters -->
-        <section class="pl-filters" id="filtros-section">
-            <div class="pl-filters-panel">
-                <div class="pl-filters-grid">
-                    <div class="pl-filter-group pl-search-group">
-                        <label for="plSearchInput">Buscar proyecto</label>
-                        <svg class="pl-filter-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                        <input type="text" id="plSearchInput" class="pl-filter-input" placeholder="Título, tema, palabra clave...">
-                    </div>
-
-                    <div class="pl-filter-group">
-                        <label for="plAreaFilter">Área Temática</label>
-                        <select id="plAreaFilter" class="pl-filter-input">
-                            <option value="Todas">Todas</option>
-                            <!-- Populated dynamically from API data -->
-                        </select>
-                    </div>
-
-                    <div class="pl-filter-group">
-                        <label for="plEstadoFilter">Estado</label>
-                        <select id="plEstadoFilter" class="pl-filter-input">
-                            <option value="Todos">Todos los estados</option>
-                            <option value="Presentado">Presentado</option>
-                            <option value="Aprobado">Aprobado</option>
-                        </select>
-                    </div>
-
-                    <div class="pl-filter-group">
-                        <label for="plComisionFilter">Comisión</label>
-                        <select id="plComisionFilter" class="pl-filter-input">
-                            <option value="Todas">Todas las comisiones</option>
-                        </select>
-                    </div>
+    <main class="lg-main" id="contenido">
+        <div class="container">
+            <section class="lg-toolbar" aria-label="Filtros de proyectos">
+                <div class="lg-segment" role="group" aria-label="Participación" data-segment>
+                    <button type="button" class="lg-segment__btn" data-grupo="todos" aria-pressed="true">Todos <span class="lg-segment__count" data-count="todos">—</span></button>
+                    <button type="button" class="lg-segment__btn" data-grupo="autoria" aria-pressed="false">De autoría <span class="lg-segment__count" data-count="autoria">—</span></button>
+                    <button type="button" class="lg-segment__btn" data-grupo="bloque" aria-pressed="false">Del bloque <span class="lg-segment__count" data-count="bloque">—</span></button>
+                    <button type="button" class="lg-segment__btn" data-grupo="acompanamos" aria-pressed="false">Acompañamos <span class="lg-segment__count" data-count="acompanamos">—</span></button>
                 </div>
+                <p class="lg-scope-note" data-scope-note>Todos los proyectos que llevan nuestra firma en la Cámara de Diputados.</p>
 
-                <!-- Type Chips -->
-                <div class="pl-tipo-chips">
-                    <span class="pl-tipo-label">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-                        Tipo:
-                    </span>
-                    <button class="pl-tipo-chip pl-tipo-chip--active" data-tipo="Todos">Todos</button>
-                    <button class="pl-tipo-chip" data-tipo="Proyecto de Ley">Ley</button>
-                    <button class="pl-tipo-chip" data-tipo="Proyecto de Resolución">Resolución</button>
-                    <button class="pl-tipo-chip" data-tipo="Proyecto de Declaración">Declaración</button>
-                </div>
-            </div>
-
-            <div id="plResultsCount" class="pl-results-count">
-                <span id="plResultsText">Cargando proyectos...</span>
-                <span id="plResultsBadge" class="pl-results-badge" style="display:none;"></span>
-            </div>
-        </section>
-
-        <!-- Projects Grid -->
-        <section class="pl-section">
-            <div id="plProjectsGrid" class="pl-grid">
-                <!-- Loading state -->
-                <div class="pl-loading" id="plLoadingState">
-                    <div class="pl-loading-spinner"></div>
-                    <p>Cargando proyectos...</p>
-                </div>
-            </div>
-
-            <!-- Empty State -->
-            <div id="plEmptyState" class="pl-empty-state" style="display:none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                <h3>No se encontraron proyectos</h3>
-                <p>No hay proyectos que coincidan con tu búsqueda. Probá ajustando los filtros.</p>
-                <button class="pl-btn pl-btn-outline" onclick="plResetFilters()">Limpiar todos los filtros</button>
-            </div>
-
-            <!-- Error State -->
-            <div id="plErrorState" class="pl-empty-state" style="display:none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                <h3>Error al cargar proyectos</h3>
-                <p>No pudimos obtener los datos. Intentá nuevamente en unos momentos.</p>
-                <button class="pl-btn pl-btn-outline" onclick="plLoadProjects()">Reintentar</button>
-            </div>
-
-            <!-- Pagination -->
-            <nav id="plPagination" class="pl-pagination" aria-label="Paginación de proyectos" style="display:none;"></nav>
-        </section>
-
-        <!-- Management Analysis Section -->
-        <section class="pl-theme-explorer" id="plThemeExplorer" style="display:none;">
-            <div class="pl-theme-panel">
-                <div class="pl-theme-panel__decor" aria-hidden="true"></div>
-                <div class="pl-analysis-heading">
-                    <div class="pl-theme-header">
-                        <div class="pl-theme-header__label">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                            Análisis de Gestión
+                <div class="lg-filters">
+                    <div class="lg-field lg-field--search">
+                        <label class="lg-field__label" for="lg-q">Buscar</label>
+                        <div class="lg-input-wrap">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            <input type="search" id="lg-q" class="lg-input" placeholder="Título, palabra clave o N.º de expediente" autocomplete="off" enterkeyhint="search">
                         </div>
-                        <h2>Distribución de proyectos</h2>
-                        <p id="plAnalysisDescription">Compará la actividad legislativa según la selección y los filtros aplicados.</p>
                     </div>
-                    <div class="pl-analysis-tabs" id="plAnalysisTabs" role="tablist" aria-label="Dimensión del análisis">
-                        <button class="pl-analysis-tab pl-analysis-tab--active" type="button" role="tab" aria-selected="true" data-analysis="tema">
-                            Por tema
-                        </button>
-                        <button class="pl-analysis-tab" type="button" role="tab" aria-selected="false" data-analysis="comision">
-                            Por comisión
-                        </button>
+                    <div class="lg-field lg-field--comision">
+                        <label class="lg-field__label" for="lg-comision">Comisión</label>
+                        <select id="lg-comision" class="lg-select"><option value="">Todas</option></select>
                     </div>
-                </div>
-
-                <div class="pl-analysis-context" aria-live="polite">
-                    <div>
-                        <strong id="plAnalysisTotal">0</strong>
-                        <span id="plAnalysisTotalLabel">proyectos analizados</span>
+                    <div class="lg-field">
+                        <label class="lg-field__label" for="lg-tipo">Tipo</label>
+                        <select id="lg-tipo" class="lg-select"><option value="">Todos</option></select>
                     </div>
-                    <span class="pl-analysis-context__divider" aria-hidden="true"></span>
-                    <div>
-                        <strong id="plAnalysisCategoryCount">0</strong>
-                        <span id="plAnalysisCategoryLabel">áreas temáticas</span>
-                    </div>
-                    <div class="pl-analysis-scope" id="plAnalysisScope" role="group" aria-label="Alcance de los proyectos analizados">
-                        <button class="pl-analysis-scope__button pl-analysis-scope__button--active" type="button" data-analysis-scope="autoria" aria-pressed="true">Autoría</button>
-                        <button class="pl-analysis-scope__button" type="button" data-analysis-scope="todos" aria-pressed="false">Todos</button>
-                        <button class="pl-analysis-scope__button" type="button" data-analysis-scope="acompanamos" aria-pressed="false">Acompañamos</button>
+                    <div class="lg-field">
+                        <label class="lg-field__label" for="lg-estado">Estado</label>
+                        <select id="lg-estado" class="lg-select"><option value="">Todos</option></select>
                     </div>
                 </div>
 
-                <div id="plAnalysisChart" class="pl-analysis-chart" role="region" aria-label="Distribución de proyectos">
-                    <!-- Populated by JS -->
+                <div class="lg-statusbar">
+                    <div class="lg-active-filters">
+                        <p class="lg-results" id="lg-results" aria-live="polite">Cargando proyectos…</p>
+                        <div class="lg-active-filters" data-chips></div>
+                    </div>
+                    <div class="lg-sort">
+                        <label class="lg-field__label" for="lg-orden">Ordenar</label>
+                        <select id="lg-orden" class="lg-select">
+                            <option value="recientes">Más recientes</option>
+                            <option value="antiguos">Más antiguos</option>
+                            <option value="expediente">N.º de expediente</option>
+                        </select>
+                    </div>
                 </div>
-                <p class="pl-analysis-note" id="plAnalysisNote"></p>
+            </section>
+
+            <div class="lg-layout" data-layout>
+                <aside class="lg-panel" id="analisis" aria-labelledby="lg-panel-title">
+                    <div class="lg-panel__head">
+                        <h2 class="lg-panel__title" id="lg-panel-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="1"/><rect x="12" y="8" width="3" height="10" rx="1"/><rect x="17" y="5" width="3" height="13" rx="1"/></svg>
+                            <span class="lg-panel__title-text">Análisis por comisión</span>
+                        </h2>
+                        <button type="button" class="lg-panel__toggle" aria-expanded="true" aria-controls="lg-panel-body" data-panel-toggle>
+                            <span class="lg-sr-only" data-panel-toggle-label>Ocultar análisis</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+                        </button>
+                        <span class="lg-panel__rail-label" aria-hidden="true">Análisis por comisión</span>
+                    </div>
+                    <div class="lg-panel__body" id="lg-panel-body">
+                        <div class="lg-scope-mini" role="group" aria-label="Alcance del análisis" data-scope-mini>
+                            <button type="button" data-grupo="todos" aria-pressed="true">Todos</button>
+                            <button type="button" data-grupo="autoria" aria-pressed="false">De autoría</button>
+                            <button type="button" data-grupo="bloque" aria-pressed="false">Del bloque</button>
+                            <button type="button" data-grupo="acompanamos" aria-pressed="false">Acompañamos</button>
+                        </div>
+                        <div class="lg-panel__summary" data-panel-summary></div>
+                        <ul class="lg-bars" data-bars aria-label="Expedientes girados a cada comisión"></ul>
+                        <p class="lg-panel__note">Un expediente girado a dos comisiones se cuenta en ambas barras, pero una sola vez en el total de proyectos. Seleccioná una comisión para filtrar el listado.</p>
+                    </div>
+                </aside>
+
+                <section class="lg-list" aria-labelledby="lg-list-title">
+                    <h2 class="lg-sr-only" id="lg-list-title">Listado de proyectos</h2>
+                    <div data-spotlight hidden></div>
+                    <div class="lg-grid" data-grid aria-busy="true">
+                        <div class="lg-skeleton"></div><div class="lg-skeleton"></div><div class="lg-skeleton"></div><div class="lg-skeleton"></div>
+                    </div>
+                    <div class="lg-state" data-empty hidden>
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#5E5D78" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <h3>No encontramos proyectos con esos filtros</h3>
+                        <p>Probá con otra palabra o quitá alguno de los filtros aplicados.</p>
+                        <button type="button" class="lg-more-btn" data-reset>Limpiar filtros</button>
+                    </div>
+                    <div class="lg-state" data-error hidden>
+                        <h3>No pudimos cargar los proyectos</h3>
+                        <p>Revisá tu conexión e intentá nuevamente. También podés consultar el <a href="https://hcdcorrientes.gov.ar/" target="_blank" rel="noopener">sitio oficial de la Cámara</a>.</p>
+                        <button type="button" class="lg-more-btn" data-retry>Reintentar</button>
+                    </div>
+                    <div class="lg-more-wrap" data-more hidden>
+                        <button type="button" class="lg-more-btn" data-more-btn>Mostrar más proyectos</button>
+                        <p data-more-text></p>
+                    </div>
+                </section>
             </div>
-        </section>
 
+            <p class="lg-footnote">
+                <strong>Cómo leer esta información.</strong> Los <em>firmantes</em> son los diputados que constan en cada expediente de la Cámara: en general presentamos los proyectos con la firma de los tres integrantes del bloque. “De autoría” marca los proyectos que elaboramos desde nuestro equipo; “Del bloque”, los que presentamos junto a Emiliano Fernández Recalde y Gustavo Canteros; y “Acompañamos”, las iniciativas compartidas con diputados de otros bloques. “Duermen en comisión” cuenta los proyectos que siguen en comisión sin tratamiento según el último estado verificado. Los documentos descargables son los PDF oficiales de cada expediente; ante cualquier diferencia, prevalece la información publicada por la <a href="https://hcdcorrientes.gov.ar/" target="_blank" rel="noopener">Cámara de Diputados</a>.
+            </p>
+            <noscript><p class="lg-footnote">Para filtrar y descargar los proyectos es necesario habilitar JavaScript.</p></noscript>
+        </div>
     </main>
 
-    <!-- CTA Banner -->
     <section class="pl-cta-banner">
         <div class="container">
             <h2>¿Tenés una idea para mejorar Corrientes?</h2>
@@ -180,943 +154,7 @@ ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
         </div>
     </section>
 
-    <div style="text-align:center; padding: 2rem 0 1rem;">
-        <a href="/gestionproyectos/" rel="nofollow"
-           style="font-size:12px; color:#aaa; opacity:0.45; text-decoration:none; transition: opacity 0.2s;"
-           onmouseover="this.style.opacity='1';this.style.textDecoration='underline'"
-           onmouseout="this.style.opacity='0.45';this.style.textDecoration='none'">Acceso interno</a>
-    </div>
+    <a href="/gestionproyectos/" rel="nofollow" class="lg-internal-link">Acceso interno</a>
 
-    <!-- Modal de Detalle -->
-    <div id="plModal" class="pl-modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="plModalTitle">
-        <div class="pl-modal-content">
-            <div class="pl-modal-header">
-                <div class="pl-modal-header-info">
-                    <div id="plModalBadges" class="pl-card-badges" style="margin-bottom: 0;"></div>
-                    <h2 id="plModalTitle">Título del Proyecto</h2>
-                </div>
-                <button class="pl-btn-close" aria-label="Cerrar modal" onclick="plCloseModal()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
-            </div>
-            <div class="pl-modal-body">
-                <div class="pl-modal-section">
-                    <h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9F57A7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                        Resumen del Proyecto
-                    </h3>
-                    <p id="plModalSummary">Texto del resumen completo.</p>
-                    <div id="plModalTramite" class="pl-modal-tramite" style="display:none;"></div>
-                    <div id="plModalComisiones" class="pl-modal-tramite" style="display:none;"></div>
-                    <div id="plModalAutoria" class="pl-modal-autoria" style="display:none;"></div>
-                </div>
-
-                <div class="pl-modal-section" id="plModalDocsSection" style="display:none;">
-                    <h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1C5CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-                        Documento del Proyecto
-                    </h3>
-                    <div id="plModalDocsList" class="pl-doc-list">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Vista Previa PDF -->
-    <div id="plPreviewModal" class="pl-modal-overlay" aria-hidden="true" role="dialog" aria-label="Vista previa del documento">
-        <div class="pl-modal-content pl-preview-modal-content">
-            <div class="pl-modal-header">
-                <div class="pl-modal-header-info">
-                    <h2 id="plPreviewTitle" style="font-size:1rem;">Vista previa</h2>
-                </div>
-                <button class="pl-btn-close" aria-label="Cerrar vista previa" onclick="plClosePreview()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
-            </div>
-            <div class="pl-preview-body" id="plPreviewBody">
-                <div style="text-align:center;color:#838389;padding:3rem;font-size:0.9rem;">Cargando...</div>
-            </div>
-            <div class="pl-preview-footer">
-                <button class="pl-btn pl-btn-outline" onclick="plClosePreview()">Cerrar</button>
-                <a id="plPreviewDownloadBtn" href="#" class="pl-btn pl-btn-primary" target="_blank" rel="noopener" style="display:none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    Descargar
-                </a>
-            </div>
-        </div>
-    </div>
-
-{% block scripts %}
-    <script>
-    (function() {
-        'use strict';
-
-        const API_URL = '/api/projects/public';
-        let allProjects = [];
-        var currentPage = 1;
-        var pageSize = 9;
-        var lastFiltered = [];
-        var activeAuthorship = 'autoria'; // 'todos' | 'autoria' | 'acompanamos'
-        var selectedTipo = 'Todos';
-        var analysisDimension = 'tema'; // 'tema' | 'comision'
-
-        // DOM references
-        const grid = document.getElementById('plProjectsGrid');
-        const emptyState = document.getElementById('plEmptyState');
-        const errorState = document.getElementById('plErrorState');
-        const loadingState = document.getElementById('plLoadingState');
-        const resultsText = document.getElementById('plResultsText');
-        const resultsBadge = document.getElementById('plResultsBadge');
-        const searchInput = document.getElementById('plSearchInput');
-        const areaFilter = document.getElementById('plAreaFilter');
-        const estadoFilter = document.getElementById('plEstadoFilter');
-        const comisionFilter = document.getElementById('plComisionFilter');
-        const modal = document.getElementById('plModal');
-        const paginationEl = document.getElementById('plPagination');
-        const themeExplorer = document.getElementById('plThemeExplorer');
-        const analysisChart = document.getElementById('plAnalysisChart');
-        const analysisTotal = document.getElementById('plAnalysisTotal');
-        const analysisTotalLabel = document.getElementById('plAnalysisTotalLabel');
-        const analysisCategoryCount = document.getElementById('plAnalysisCategoryCount');
-        const analysisCategoryLabel = document.getElementById('plAnalysisCategoryLabel');
-        const analysisDescription = document.getElementById('plAnalysisDescription');
-        const analysisNote = document.getElementById('plAnalysisNote');
-
-        // ---- Helpers ----
-        function escapeHtml(str) {
-            if (!str) return '';
-            var d = document.createElement('div');
-            d.textContent = str;
-            return d.innerHTML;
-        }
-
-        function getTipoSlug(tipo) {
-            if (!tipo) return 'ley';
-            var t = tipo.toLowerCase();
-            if (t.includes('ley')) return 'ley';
-            if (t.includes('resolución') || t.includes('resolucion')) return 'resolucion';
-            if (t.includes('declaración') || t.includes('declaracion')) return 'declaracion';
-            if (t.includes('informe')) return 'informe';
-            if (t.includes('nota')) return 'nota';
-            return 'ley';
-        }
-
-        function getTipoBadgeClass(tipo) {
-            return 'pl-badge-' + getTipoSlug(tipo);
-        }
-
-        function getTipoLabel(tipo) {
-            if (!tipo) return 'Ley';
-            var t = tipo.toLowerCase();
-            if (t.includes('ley')) return 'Ley';
-            if (t.includes('resolución') || t.includes('resolucion')) return 'Resolución';
-            if (t.includes('declaración') || t.includes('declaracion')) return 'Declaración';
-            if (t.includes('informe')) return 'Pedido de Informe';
-            if (t.includes('nota')) return 'Nota';
-            return tipo;
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return '';
-            try {
-                var date = new Date(dateString + 'T00:00:00');
-                return date.toLocaleDateString('es-AR', { year: 'numeric', month: 'short', day: 'numeric' });
-            } catch (e) {
-                return dateString;
-            }
-        }
-
-        function formatFileSize(bytes) {
-            if (!bytes || bytes === 0) return '';
-            if (bytes < 1024) return bytes + ' B';
-            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB';
-            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-        }
-
-        function toTitleCase(str) {
-            if (!str) return '';
-            return str.trim().replace(/\w\S*/g, function(txt) {
-                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            });
-        }
-
-        // ---- Authorship Tabs ----
-        var tabButtons = document.querySelectorAll('#plAuthorshipTabs .pl-tab');
-        var analysisScopeButtons = document.querySelectorAll('#plAnalysisScope [data-analysis-scope]');
-
-        function setActiveAuthorship(value) {
-            activeAuthorship = value;
-            tabButtons.forEach(function(button) {
-                var isActive = button.getAttribute('data-tab') === value;
-                button.classList.toggle('pl-tab--active', isActive);
-                button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-            });
-            analysisScopeButtons.forEach(function(button) {
-                var isActive = button.getAttribute('data-analysis-scope') === value;
-                button.classList.toggle('pl-analysis-scope__button--active', isActive);
-                button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-            });
-            filterAndRender();
-        }
-
-        tabButtons.forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                setActiveAuthorship(btn.getAttribute('data-tab'));
-            });
-        });
-
-        analysisScopeButtons.forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                setActiveAuthorship(btn.getAttribute('data-analysis-scope'));
-            });
-        });
-
-        var analysisTabButtons = document.querySelectorAll('#plAnalysisTabs .pl-analysis-tab');
-        analysisTabButtons.forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                analysisTabButtons.forEach(function(item) {
-                    item.classList.remove('pl-analysis-tab--active');
-                    item.setAttribute('aria-selected', 'false');
-                });
-                btn.classList.add('pl-analysis-tab--active');
-                btn.setAttribute('aria-selected', 'true');
-                analysisDimension = btn.getAttribute('data-analysis');
-                renderManagementAnalysis();
-            });
-        });
-
-        // ---- Type Chips ----
-        var tipoChips = document.querySelectorAll('.pl-tipo-chip');
-        tipoChips.forEach(function(chip) {
-            chip.addEventListener('click', function() {
-                tipoChips.forEach(function(c) { c.classList.remove('pl-tipo-chip--active'); });
-                chip.classList.add('pl-tipo-chip--active');
-                selectedTipo = chip.getAttribute('data-tipo');
-                filterAndRender();
-            });
-        });
-
-        // ---- Data Loading ----
-        async function loadProjects() {
-            loadingState.style.display = '';
-            emptyState.style.display = 'none';
-            errorState.style.display = 'none';
-            grid.style.display = '';
-
-            try {
-                var res = await fetch(API_URL);
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                allProjects = await res.json();
-
-                // Populate area filter dynamically
-                populateAreaFilter();
-                populateCommissionFilter();
-
-                // Initial render
-                filterAndRender();
-            } catch (e) {
-                loadingState.style.display = 'none';
-                grid.style.display = 'none';
-                errorState.style.display = '';
-                resultsText.textContent = 'Error al cargar proyectos.';
-            }
-        }
-        // Expose for retry button
-        window.plLoadProjects = loadProjects;
-
-        function populateAreaFilter() {
-            var areasSet = new Map();
-            allProjects.forEach(function(p) {
-                if (p.area_tema && p.area_tema.trim()) {
-                    var normalized = toTitleCase(p.area_tema.trim());
-                    var key = normalized.toLowerCase();
-                    if (!areasSet.has(key)) {
-                        areasSet.set(key, normalized);
-                    }
-                }
-            });
-
-            // Sort alphabetically
-            var sorted = Array.from(areasSet.values()).sort(function(a, b) {
-                return a.localeCompare(b, 'es');
-            });
-
-            // Rebuild select keeping "Todas" as first option
-            areaFilter.innerHTML = '<option value="Todas">Todas</option>';
-            sorted.forEach(function(area) {
-                var opt = document.createElement('option');
-                opt.value = area;
-                opt.textContent = area;
-                areaFilter.appendChild(opt);
-            });
-        }
-
-        function populateCommissionFilter() {
-            var values = {};
-            allProjects.forEach(function(p) {
-                (Array.isArray(p.comisiones) ? p.comisiones : []).forEach(function(name) {
-                    if (name && name.trim()) values[name.trim()] = true;
-                });
-            });
-            comisionFilter.innerHTML = '<option value="Todas">Todas las comisiones</option>';
-            Object.keys(values).sort(function(a, b) { return a.localeCompare(b, 'es'); }).forEach(function(name) {
-                var option = document.createElement('option');
-                option.value = name;
-                option.textContent = name;
-                comisionFilter.appendChild(option);
-            });
-        }
-
-        // ---- Management Analysis ----
-        function buildAnalysisStats(projects) {
-            var stats = {};
-            projects.forEach(function(p) {
-                if (analysisDimension === 'tema') {
-                    if (p.area_tema && p.area_tema.trim()) {
-                        var theme = toTitleCase(p.area_tema.trim());
-                        stats[theme] = (stats[theme] || 0) + 1;
-                    }
-                    return;
-                }
-
-                (Array.isArray(p.comisiones) ? p.comisiones : []).forEach(function(name) {
-                    if (name && name.trim()) {
-                        var commission = name.trim();
-                        stats[commission] = (stats[commission] || 0) + 1;
-                    }
-                });
-            });
-            return Object.entries(stats).sort(function(a, b) {
-                if (b[1] !== a[1]) return b[1] - a[1];
-                return a[0].localeCompare(b[0], 'es');
-            });
-        }
-
-        function renderManagementAnalysis() {
-            var projects = lastFiltered;
-            var sorted = buildAnalysisStats(projects);
-
-            if (sorted.length === 0) {
-                themeExplorer.style.display = '';
-                analysisTotal.textContent = projects.length;
-                analysisCategoryCount.textContent = '0';
-                analysisTotalLabel.textContent = projects.length === 1 ? 'proyecto analizado' : 'proyectos analizados';
-                analysisCategoryLabel.textContent = analysisDimension === 'tema' ? 'áreas temáticas' : 'comisiones';
-                analysisChart.innerHTML = '<div class="pl-analysis-empty">No hay datos para representar con la selección actual.</div>';
-                analysisDescription.textContent = analysisDimension === 'tema'
-                    ? 'Compará los temas con mayor actividad según la selección y los filtros aplicados.'
-                    : 'Compará cuántos proyectos fueron girados a cada comisión según la selección actual.';
-                analysisNote.textContent = '';
-                return;
-            }
-
-            var maxValue = sorted[0][1];
-            var totalProjects = projects.length;
-            var palette = analysisDimension === 'tema'
-                ? [
-                    ['#1C5CFF', '#557FFF'],
-                    ['#9F57A7', '#C17AC8'],
-                    ['#F47A43', '#FBA85F'],
-                    ['#16A7C7', '#24BCDE']
-                ]
-                : [
-                    ['#6F46D9', '#9F57A7'],
-                    ['#1C5CFF', '#5D82FF'],
-                    ['#16A7C7', '#24BCDE'],
-                    ['#E16F45', '#FBA85F']
-                ];
-            var selectedValue = analysisDimension === 'tema' ? areaFilter.value : comisionFilter.value;
-
-            analysisChart.innerHTML = sorted.map(function(entry, index) {
-                var label = entry[0];
-                var count = entry[1];
-                var width = Math.max(4, Math.round((count / maxValue) * 100));
-                var percentage = totalProjects > 0 ? Math.round((count / totalProjects) * 100) : 0;
-                var colors = palette[index % palette.length];
-                var isSelected = selectedValue !== 'Todas' && selectedValue === label;
-                var safeLabel = escapeHtml(label);
-                return '<button type="button" class="pl-analysis-row' + (isSelected ? ' pl-analysis-row--selected' : '') + '"' +
-                    ' onclick="plFilterByAnalysis(\'' + safeLabel.replace(/'/g, "\\'") + '\')"' +
-                    ' aria-label="' + safeLabel + ': ' + count + ' proyecto' + (count === 1 ? '' : 's') + ', ' + percentage + ' por ciento">' +
-                    '<span class="pl-analysis-rank">' + String(index + 1).padStart(2, '0') + '</span>' +
-                    '<span class="pl-analysis-name" title="' + safeLabel + '">' + safeLabel + '</span>' +
-                    '<span class="pl-analysis-meter" aria-hidden="true">' +
-                        '<span class="pl-analysis-bar" style="--bar-width:' + width + '%;--bar-start:' + colors[0] + ';--bar-end:' + colors[1] + ';"></span>' +
-                    '</span>' +
-                    '<span class="pl-analysis-value">' + count + '</span>' +
-                    '<span class="pl-analysis-percent">' + percentage + '%</span>' +
-                '</button>';
-            }).join('');
-
-            analysisTotal.textContent = totalProjects;
-            analysisTotalLabel.textContent = totalProjects === 1 ? 'proyecto analizado' : 'proyectos analizados';
-            analysisCategoryCount.textContent = sorted.length;
-            analysisCategoryLabel.textContent = analysisDimension === 'tema'
-                ? (sorted.length === 1 ? 'área temática' : 'áreas temáticas')
-                : (sorted.length === 1 ? 'comisión' : 'comisiones');
-            analysisDescription.textContent = analysisDimension === 'tema'
-                ? 'Compará los temas con mayor actividad según la selección y los filtros aplicados.'
-                : 'Compará cuántos proyectos fueron girados a cada comisión según la selección actual.';
-            analysisNote.textContent = analysisDimension === 'comision'
-                ? 'Un proyecto puede integrar más de una comisión; por eso las asignaciones pueden superar el total de proyectos.'
-                : 'Seleccioná una barra para filtrar el listado. Volvé a seleccionarla para quitar ese filtro.';
-            themeExplorer.style.display = '';
-        }
-
-        function filterByAnalysis(value) {
-            if (analysisDimension === 'tema') {
-                areaFilter.value = areaFilter.value === value ? 'Todas' : value;
-            } else {
-                comisionFilter.value = comisionFilter.value === value ? 'Todas' : value;
-            }
-            filterAndRender();
-            document.getElementById('filtros-section').scrollIntoView({ behavior: 'smooth' });
-        }
-        window.plFilterByAnalysis = filterByAnalysis;
-
-        // ---- Filtering & Rendering ----
-        function applyFilters() {
-            var q = searchInput.value.toLowerCase().trim();
-            var area = areaFilter.value;
-            var estado = estadoFilter.value;
-            var commission = comisionFilter.value;
-
-            return allProjects.filter(function(p) {
-                // Authorship tab filter
-                if (activeAuthorship === 'autoria') {
-                    if (p.tipo_autoria === 'acompanado') return false;
-                }
-                if (activeAuthorship === 'acompanamos') {
-                    if (p.tipo_autoria !== 'acompanado') return false;
-                }
-
-                // Search
-                var matchSearch = !q ||
-                    (p.titulo && p.titulo.toLowerCase().includes(q)) ||
-                    (p.resumen && p.resumen.toLowerCase().includes(q)) ||
-                    (p.id && p.id.toLowerCase().includes(q)) ||
-                    (p.area_tema && p.area_tema.toLowerCase().includes(q)) ||
-                    (Array.isArray(p.comisiones) && p.comisiones.some(function(name) {
-                        return name.toLowerCase().includes(q);
-                    }));
-
-                // Tipo (chips)
-                var matchTipo = selectedTipo === 'Todos' || p.tipo === selectedTipo;
-
-                // Area
-                var matchArea = area === 'Todas' ||
-                    (p.area_tema && toTitleCase(p.area_tema.trim()).toLowerCase() === area.toLowerCase());
-
-                // Estado
-                var matchEstado = estado === 'Todos' ||
-                    (estado === 'Aprobado' && p.estado_tramite === 'Aprobado') ||
-                    (estado === 'Presentado' && p.estado_tramite !== 'Aprobado');
-
-                var matchCommission = commission === 'Todas' ||
-                    (Array.isArray(p.comisiones) && p.comisiones.indexOf(commission) !== -1);
-
-                return matchSearch && matchTipo && matchArea && matchEstado && matchCommission;
-            });
-        }
-
-        function filterAndRender(resetPage) {
-            if (resetPage !== false) currentPage = 1;
-            lastFiltered = applyFilters();
-            renderPage();
-            renderManagementAnalysis();
-        }
-
-        function renderPage() {
-            var total = lastFiltered.length;
-            var totalPages = Math.max(1, Math.ceil(total / pageSize));
-
-            // Clamp currentPage
-            if (currentPage > totalPages) currentPage = totalPages;
-            if (currentPage < 1) currentPage = 1;
-
-            // Clear
-            grid.innerHTML = '';
-            loadingState.style.display = 'none';
-
-            if (total === 0) {
-                grid.style.display = 'none';
-                emptyState.style.display = '';
-                paginationEl.style.display = 'none';
-                resultsText.textContent = '0 proyectos encontrados';
-                resultsBadge.style.display = 'none';
-                return;
-            }
-
-            grid.style.display = '';
-            emptyState.style.display = 'none';
-            errorState.style.display = 'none';
-
-            // Slice for current page
-            var start = (currentPage - 1) * pageSize;
-            var end = Math.min(start + pageSize, total);
-            var pageProjects = lastFiltered.slice(start, end);
-
-            // Results count
-            if (total <= pageSize) {
-                resultsText.textContent = 'Mostrando ' + total + ' proyecto' + (total > 1 ? 's' : '');
-            } else {
-                resultsText.textContent = 'Mostrando ' + (start + 1) + '–' + end + ' de ' + total + ' proyectos';
-            }
-            resultsBadge.textContent = total + ' resultado' + (total > 1 ? 's' : '');
-            resultsBadge.style.display = '';
-
-            // Render cards
-            pageProjects.forEach(function(p) {
-                var tipoSlug = getTipoSlug(p.tipo);
-                var tipoLabel = getTipoLabel(p.tipo);
-                var isAprobado = p.estado_tramite === 'Aprobado';
-
-                // Authorship badge
-                var autoriaBadgeHtml = '';
-                if (p.tipo_autoria === 'coautoria') {
-                    autoriaBadgeHtml = '<span class="pl-badge pl-badge-coautoria">' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
-                        ' Coautoría</span>';
-                } else if (p.tipo_autoria === 'acompanado') {
-                    autoriaBadgeHtml = '<span class="pl-badge pl-badge-acompana">' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
-                        ' Acompaña</span>';
-                } else {
-                    autoriaBadgeHtml = '<span class="pl-badge pl-badge-autoria">' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
-                        ' Autoría Propia</span>';
-                }
-
-                // Expediente button
-                var hasDoc = p.has_main_doc || p.has_expediente;
-                var btnExpediente = '';
-                if (hasDoc) {
-                    btnExpediente =
-                        '<button class="pl-btn pl-btn-expediente" onclick="event.stopPropagation(); plOpenPreview(\'' + escapeHtml(p.id) + '\')">' +
-                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>' +
-                        'Ver expediente</button>';
-                }
-
-                var card = document.createElement('article');
-                card.className = 'pl-card';
-                card.setAttribute('data-tipo', tipoSlug);
-
-                card.innerHTML =
-                    '<div class="pl-card-top">' +
-                        '<span class="pl-badge ' + getTipoBadgeClass(p.tipo) + '">' + escapeHtml(tipoLabel) + '</span>' +
-                        '<div class="pl-card-status pl-card-status--' + (isAprobado ? 'aprobado' : 'presentado') + '">' +
-                            '<span class="pl-status-dot pl-status-dot--' + (isAprobado ? 'aprobado' : 'presentado') + '"></span>' +
-                            (isAprobado ? 'Aprobado' : 'Presentado') +
-                        '</div>' +
-                    '</div>' +
-                    '<h3 class="pl-card-title" title="' + escapeHtml(p.titulo) + '">' + escapeHtml(p.titulo) + '</h3>' +
-                    '<p class="pl-card-summary">' + escapeHtml(p.resumen) + '</p>' +
-                    '<div class="pl-card-bottom">' +
-                        '<div>' + autoriaBadgeHtml + '</div>' +
-                        '<div class="pl-card-meta-row">' +
-                            '<span class="pl-meta-tag">' +
-                                '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>' +
-                                escapeHtml(p.area_tema || 'Sin definir') +
-                            '</span>' +
-                            '<span class="pl-meta-date">' +
-                                '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
-                                formatDate(p.fecha_presentacion) +
-                            '</span>' +
-                        '</div>' +
-                        (Array.isArray(p.comisiones) && p.comisiones.length
-                            ? '<div class="pl-card-meta-row"><span class="pl-meta-tag">Comisión: ' +
-                                escapeHtml(p.comisiones.join(' · ')) + '</span></div>'
-                            : '') +
-                    '</div>' +
-                    '<div class="pl-card-actions">' +
-                        '<button class="pl-btn pl-btn-primary" onclick="event.stopPropagation(); plOpenModal(\'' + escapeHtml(p.id) + '\')">Ver detalle completo</button>' +
-                        btnExpediente +
-                    '</div>';
-
-                // Make the entire card clickable to open modal
-                card.addEventListener('click', function(e) {
-                    if (!e.target.closest('button, a')) {
-                        openModal(p.id);
-                    }
-                });
-
-                grid.appendChild(card);
-            });
-
-            // Pagination
-            renderPagination(total, totalPages);
-        }
-
-        // ---- Pagination ----
-        function getVisiblePages(current, total) {
-            if (total <= 7) {
-                var pages = [];
-                for (var i = 1; i <= total; i++) pages.push(i);
-                return pages;
-            }
-            if (current <= 3) return [1, 2, 3, 4, '...', total];
-            if (current >= total - 2) return [1, '...', total - 3, total - 2, total - 1, total];
-            return [1, '...', current - 1, current, current + 1, '...', total];
-        }
-
-        function renderPagination(total, totalPages) {
-            if (totalPages <= 1) {
-                paginationEl.style.display = 'none';
-                return;
-            }
-
-            paginationEl.style.display = '';
-            var pages = getVisiblePages(currentPage, totalPages);
-            var html = '';
-
-            // Previous
-            html += '<button class="pl-page-btn pl-page-nav" ' +
-                (currentPage === 1 ? 'disabled' : 'onclick="plGoToPage(' + (currentPage - 1) + ')"') +
-                ' aria-label="Página anterior">' +
-                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>' +
-                ' Anterior</button>';
-
-            // Page numbers
-            pages.forEach(function(p) {
-                if (p === '...') {
-                    html += '<span class="pl-page-ellipsis">&hellip;</span>';
-                } else {
-                    var isActive = p === currentPage;
-                    html += '<button class="pl-page-btn' + (isActive ? ' pl-page-active' : '') + '" ' +
-                        (isActive ? 'aria-current="page"' : 'onclick="plGoToPage(' + p + ')"') +
-                        ' aria-label="Página ' + p + '">' + p + '</button>';
-                }
-            });
-
-            // Next
-            html += '<button class="pl-page-btn pl-page-nav" ' +
-                (currentPage === totalPages ? 'disabled' : 'onclick="plGoToPage(' + (currentPage + 1) + ')"') +
-                ' aria-label="Página siguiente">Siguiente ' +
-                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>' +
-                '</button>';
-
-            paginationEl.innerHTML = html;
-        }
-
-        function goToPage(page) {
-            var totalPages = Math.max(1, Math.ceil(lastFiltered.length / pageSize));
-            if (page < 1 || page > totalPages || page === currentPage) return;
-            currentPage = page;
-            renderPage();
-            // Smooth scroll to top of grid
-            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        window.plGoToPage = goToPage;
-
-        function resetFilters() {
-            searchInput.value = '';
-            areaFilter.value = 'Todas';
-            estadoFilter.value = 'Todos';
-            comisionFilter.value = 'Todas';
-            selectedTipo = 'Todos';
-            activeAuthorship = 'autoria';
-            // Reset chips UI
-            tipoChips.forEach(function(c) { c.classList.remove('pl-tipo-chip--active'); });
-            tipoChips[0].classList.add('pl-tipo-chip--active');
-            // Reset tabs UI
-            tabButtons.forEach(function(b) { b.classList.remove('pl-tab--active'); });
-            document.querySelector('#plAuthorshipTabs [data-tab="autoria"]').classList.add('pl-tab--active');
-            filterAndRender();
-        }
-        window.plResetFilters = resetFilters;
-
-        // Filter listeners — always reset to page 1
-        searchInput.addEventListener('input', function() { filterAndRender(); });
-        areaFilter.addEventListener('change', function() { filterAndRender(); });
-        estadoFilter.addEventListener('change', function() { filterAndRender(); });
-        comisionFilter.addEventListener('change', function() { filterAndRender(); });
-
-        // ---- Modal ----
-        function openModal(id) {
-            var p = allProjects.find(function(x) { return x.id === id; });
-            if (!p) return;
-
-            // Header
-            document.getElementById('plModalTitle').textContent = p.titulo;
-
-            var badgesHtml =
-                '<span class="pl-badge ' + getTipoBadgeClass(p.tipo) + '">' + escapeHtml(p.tipo) + '</span>' +
-                '<span class="pl-badge pl-badge-presentado">Presentado</span>';
-            if (p.estado_tramite === 'Aprobado') {
-                badgesHtml += '<span class="pl-badge pl-badge-aprobado">Aprobado</span>';
-            }
-            if (p.area_tema) {
-                badgesHtml += '<span class="pl-badge" style="background:#ECECF3;color:#4E4E54">' + escapeHtml(p.area_tema) + '</span>';
-            }
-            document.getElementById('plModalBadges').innerHTML = badgesHtml;
-
-            // Summary
-            document.getElementById('plModalSummary').textContent = p.resumen || 'Sin resumen disponible.';
-
-            // Trámite info
-            var tramiteEl = document.getElementById('plModalTramite');
-            if (p.estado_tramite && p.estado_tramite !== 'Aprobado') {
-                tramiteEl.textContent = 'Trámite: ' + p.estado_tramite;
-                tramiteEl.style.display = '';
-            } else if (p.estado_tramite === 'Aprobado') {
-                tramiteEl.textContent = 'Trámite: Aprobado';
-                tramiteEl.style.display = '';
-            } else {
-                tramiteEl.style.display = 'none';
-            }
-
-            var commissionEl = document.getElementById('plModalComisiones');
-            if (Array.isArray(p.comisiones) && p.comisiones.length) {
-                commissionEl.textContent = 'Comisión' + (p.comisiones.length > 1 ? 'es: ' : ': ') + p.comisiones.join(' · ');
-                commissionEl.style.display = '';
-            } else {
-                commissionEl.style.display = 'none';
-            }
-
-            // Authorship info
-            var autoriaEl = document.getElementById('plModalAutoria');
-            if (p.tipo_autoria === 'acompanado' && p.autor_principal) {
-                autoriaEl.innerHTML =
-                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
-                    'Autor principal: <strong>' + escapeHtml(p.autor_principal) + '</strong> · Acompañado por Cecilia Gortari';
-                autoriaEl.style.display = '';
-            } else if (p.tipo_autoria === 'coautoria' && p.autor_principal) {
-                autoriaEl.innerHTML =
-                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' +
-                    'Coautoría: <strong>' + escapeHtml(p.autor_principal) + '</strong> y Cecilia Gortari';
-                autoriaEl.style.display = '';
-            } else {
-                autoriaEl.style.display = 'none';
-            }
-
-            // Docs — fetch from detail endpoint
-            var docsSection = document.getElementById('plModalDocsSection');
-            var docsList = document.getElementById('plModalDocsList');
-            docsSection.style.display = 'none';
-            docsList.innerHTML = '<div style="text-align:center;color:#838389;padding:1rem;font-size:0.85rem;">Cargando documentos...</div>';
-
-            fetchDocuments(p.id);
-
-            // Show modal
-            modal.classList.add('active');
-            modal.setAttribute('aria-hidden', 'false');
-            document.body.classList.add('pl-modal-open');
-            setTimeout(function() {
-                var closeBtn = modal.querySelector('.pl-btn-close');
-                if (closeBtn) closeBtn.focus();
-            }, 100);
-        }
-        window.plOpenModal = openModal;
-
-        async function fetchDocuments(projectId) {
-            var docsSection = document.getElementById('plModalDocsSection');
-            var docsList = document.getElementById('plModalDocsList');
-
-            try {
-                var res = await fetch(API_URL + '/' + encodeURIComponent(projectId));
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                var data = await res.json();
-
-                var doc = data.document;
-                docsSection.style.display = '';
-                docsList.innerHTML = '';
-
-                if (doc) {
-                    var downloadUrl = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(doc.id) + '/download';
-                    var previewUrl = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(doc.id) + '/preview';
-                    var isPdf = doc.mime_type === 'application/pdf';
-                    var previewBtnHtml = isPdf
-                        ? '<button class="pl-btn-preview" onclick="plShowPreviewDirect(\'' + encodeURIComponent(projectId) + '\', \'' + encodeURIComponent(doc.id) + '\', \'' + escapeHtml(doc.original_name).replace(/'/g, "\\'") + '\')" title="Vista previa">' +
-                          '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
-                          'Ver expediente</button>'
-                        : '';
-                    docsList.innerHTML =
-                        '<div class="pl-doc-item">' +
-                            '<div class="pl-doc-info">' +
-                                '<div class="pl-doc-icon">' +
-                                    '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>' +
-                                '</div>' +
-                                '<div class="pl-doc-details">' +
-                                    '<h4>' + escapeHtml(doc.original_name) + '</h4>' +
-                                    '<div class="pl-doc-meta">' +
-                                        '<span>' + formatFileSize(doc.size_bytes) + '</span>' +
-                                        (doc.created_at ? ' &bull; <span>' + formatDate(doc.created_at.split('T')[0]) + '</span>' : '') +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="pl-doc-actions">' +
-                                previewBtnHtml +
-                                '<a href="' + downloadUrl + '" class="pl-btn pl-btn-outline" target="_blank" rel="noopener">' +
-                                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
-                                    'Descargar expediente' +
-                                '</a>' +
-                            '</div>' +
-                        '</div>';
-                } else {
-                    docsList.innerHTML =
-                        '<p style="color:#838389; font-size:0.9rem; text-align:center; padding:1rem 0;">' +
-                            'El documento oficial aún no está disponible para descarga.' +
-                        '</p>';
-                }
-            } catch (e) {
-                docsSection.style.display = 'none';
-            }
-        }
-
-        function closeModal() {
-            modal.classList.remove('active');
-            modal.setAttribute('aria-hidden', 'true');
-            document.body.classList.remove('pl-modal-open');
-        }
-        window.plCloseModal = closeModal;
-
-        // Close on overlay click
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) closeModal();
-        });
-
-        // Close on Escape
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('active') && !document.getElementById('plPreviewModal').classList.contains('active')) {
-                closeModal();
-            }
-        });
-
-        // ---- Preview ----
-        var previewModal = document.getElementById('plPreviewModal');
-
-        function showPreviewDirect(projectId, docId, originalName) {
-            var previewUrl = '/api/projects/public/' + projectId + '/documents/' + docId + '/preview';
-            var downloadUrl = '/api/projects/public/' + projectId + '/documents/' + docId + '/download';
-            var title = document.getElementById('plPreviewTitle');
-            var body = document.getElementById('plPreviewBody');
-            var dlBtn = document.getElementById('plPreviewDownloadBtn');
-
-            title.textContent = decodeURIComponent(originalName) || 'Vista previa';
-            body.innerHTML = '<iframe src="' + previewUrl + '" title="Vista previa del documento"></iframe>';
-            dlBtn.href = downloadUrl;
-            dlBtn.style.display = '';
-
-            previewModal.classList.add('active');
-            previewModal.setAttribute('aria-hidden', 'false');
-            document.body.classList.add('pl-modal-open');
-        }
-        window.plShowPreviewDirect = showPreviewDirect;
-
-        function openPreview(projectId) {
-            // Fetch doc data and open preview with priority: expediente > main PDF
-            var title = document.getElementById('plPreviewTitle');
-            var body = document.getElementById('plPreviewBody');
-            var dlBtn = document.getElementById('plPreviewDownloadBtn');
-
-            title.textContent = 'Vista previa';
-            body.innerHTML = '<div style="text-align:center;color:#838389;padding:3rem;font-size:0.9rem;">Cargando...</div>';
-            dlBtn.style.display = 'none';
-
-            previewModal.classList.add('active');
-            previewModal.setAttribute('aria-hidden', 'false');
-            document.body.classList.add('pl-modal-open');
-
-            fetch(API_URL + '/' + encodeURIComponent(projectId))
-                .then(function(res) { return res.json(); })
-                .then(function(data) {
-                    var doc = data.document;
-                    if (doc && doc.mime_type === 'application/pdf') {
-                        var previewUrl = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(doc.id) + '/preview';
-                        var downloadUrl = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(doc.id) + '/download';
-                        var kindLabel = doc.kind === 'expediente' ? 'Expediente' : 'Documento del Proyecto';
-
-                        title.textContent = kindLabel;
-                        body.innerHTML = '<iframe src="' + previewUrl + '" title="Vista previa del documento"></iframe>';
-                        dlBtn.href = downloadUrl;
-                        dlBtn.style.display = '';
-                    } else if (doc) {
-                        // Document exists but is not PDF
-                        var downloadUrl2 = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(doc.id) + '/download';
-                        title.textContent = 'Vista previa';
-                        body.innerHTML =
-                            '<div class="pl-no-preview">' +
-                                '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
-                                '<strong>No hay un PDF disponible para vista previa.</strong>' +
-                                '<p>El documento está disponible para descarga.</p>' +
-                                '<a href="' + downloadUrl2 + '" class="pl-btn pl-btn-outline" target="_blank" rel="noopener" style="margin-top:1rem;text-decoration:none;">' +
-                                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
-                                    ' Descargar documento</a>' +
-                            '</div>';
-                        dlBtn.style.display = 'none';
-                    } else {
-                        title.textContent = 'Vista previa';
-                        body.innerHTML =
-                            '<div class="pl-no-preview">' +
-                                '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
-                                '<strong>No hay un PDF disponible para vista previa.</strong>' +
-                                '<p>El documento oficial aún no está disponible.</p>' +
-                            '</div>';
-                        dlBtn.style.display = 'none';
-                    }
-                })
-                .catch(function() {
-                    body.innerHTML =
-                        '<div class="pl-no-preview">' +
-                            '<strong>Error al cargar la vista previa.</strong>' +
-                            '<p>Intentá nuevamente en unos momentos.</p>' +
-                        '</div>';
-                    dlBtn.style.display = 'none';
-                });
-        }
-        window.plOpenPreview = openPreview;
-
-        function closePreview() {
-            previewModal.classList.remove('active');
-            previewModal.setAttribute('aria-hidden', 'true');
-            // Only remove modal-open if the detail modal is also closed
-            if (!modal.classList.contains('active')) {
-                document.body.classList.remove('pl-modal-open');
-            }
-            // Clear iframe to stop loading
-            document.getElementById('plPreviewBody').innerHTML = '';
-        }
-        window.plClosePreview = closePreview;
-
-        // Close preview on overlay click
-        previewModal.addEventListener('click', function(e) {
-            if (e.target === previewModal) closePreview();
-        });
-
-        // Close preview on Escape (preview takes priority over detail modal)
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && previewModal.classList.contains('active')) {
-                e.stopImmediatePropagation();
-                closePreview();
-            }
-        });
-
-        // ---- Download Main Doc ----
-        function downloadMain(projectId) {
-            fetch(API_URL + '/' + encodeURIComponent(projectId))
-                .then(function(res) { return res.json(); })
-                .then(function(data) {
-                    if (data.document) {
-                        var url = '/api/projects/public/' + encodeURIComponent(projectId) + '/documents/' + encodeURIComponent(data.document.id) + '/download';
-                        window.open(url, '_blank');
-                    }
-                })
-                .catch(function() {
-                    alert('No se pudo descargar el documento. Intentá nuevamente.');
-                });
-        }
-        window.plDownloadMain = downloadMain;
-
-        // ---- Init ----
-        document.addEventListener('DOMContentLoaded', async function() {
-            await loadProjects();
-            var requestedId = new URLSearchParams(window.location.search).get('id');
-            if (requestedId && allProjects.some(function(project) { return project.id === requestedId; })) {
-                openModal(requestedId);
-            }
-        });
-    })();
-    </script>
-{% endblock %}
+    <script src="/assets/js/legislativo-core.js?v=202610221200"></script>
+    <script src="/assets/js/proyectos.js?v=202610221200"></script>
