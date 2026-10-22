@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { adminHeaders } from './lib/admin-session.mjs';
 
 // D1 and R2 remain the source of truth. This tool uses the existing Pages API.
 // Dry-run is the default; --apply explicitly publishes a previously audited plan.
@@ -27,9 +28,12 @@ assert(!(apply && auditOnly), 'Choose --apply or --audit');
 const result = { started_at: new Date().toISOString(), mode: auditOnly ? 'audit' : apply ? 'apply' : 'dry-run',
   plan_sha256: hash(await readFile(planPath)), records: [], errors: [] };
 
+// The internal API requires a session since the admin middleware (ADMIN_PIN in the environment).
+let sessionHeaders = null;
 async function request(url, options = {}) {
+  if (!sessionHeaders && !url.includes('/api/projects/public')) sessionHeaders = await adminHeaders(base);
   const response = await fetch(url, {
-    ...options, headers: { 'User-Agent': 'Mozilla/5.0', Accept: 'application/json',
+    ...options, headers: { 'User-Agent': 'Mozilla/5.0', Accept: 'application/json', ...(sessionHeaders || {}),
       ...(options.body && !(options.body instanceof FormData) ? { 'Content-Type': 'application/json' } : {}),
       ...options.headers }, signal: AbortSignal.timeout(60000),
   });
