@@ -705,14 +705,17 @@
     }
 }
 
+/* Texto oscuro sobre el verde de WhatsApp (como .esc-btn--whatsapp): el
+   blanco sobre #25D366 no llega al 4.5:1 de WCAG AA. */
 .prensa-cta__btn--whatsapp {
     background: #25D366;
-    color: #fff;
+    color: #08301A;
     box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);
 }
 
 .prensa-cta__btn--whatsapp:hover {
-    background: #128C7E;
+    background: #075E54;
+    color: #fff;
     box-shadow: 0 12px 30px rgba(18, 140, 126, 0.3);
 }
 

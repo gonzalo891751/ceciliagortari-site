@@ -293,7 +293,9 @@
   padding: 0.35rem 0.9rem;
   border-radius: 999px;
   background: rgba(28, 92, 255, 0.1);
-  color: var(--esc-blue);
+  /* Azul de marca un punto más oscuro: sobre el fondo tintado de las
+     secciones claras el #1C5CFF no llega al 4.5:1 de WCAG AA. */
+  color: #1A52E6;
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0.09em;
