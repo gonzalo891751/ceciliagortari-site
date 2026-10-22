@@ -14,7 +14,7 @@
     acompanamos: { nombre: 'Acompañamos', nota: 'Iniciativas compartidas con diputados de otros bloques que acompañamos con nuestra firma.' }
   };
   var ALIAS_GRUPO = { cecilia: 'autoria' };
-  var ESTADOS = { comision: 'Duermen en comisión', tramite: 'Con avances en el trámite', aprobado: 'Aprobados', archivado: 'Archivados o retirados' };
+  var ESTADOS = { comision: 'Esperando ser tratados', tramite: 'Con avances en el trámite', aprobado: 'Aprobados', archivado: 'Archivados o retirados' };
   var TIPOS = ['Ley', 'Resolución', 'Declaración'];
 
   var $ = function (sel) { return document.querySelector(sel); };
@@ -24,12 +24,12 @@
     q: $('#lg-q'), comision: $('#lg-comision'), tipo: $('#lg-tipo'), estado: $('#lg-estado'), orden: $('#lg-orden'),
     segment: $('[data-segment]'), scopeNote: $('[data-scope-note]'), scopeMini: $('[data-scope-mini]'),
     layout: $('[data-layout]'), panelToggle: $('[data-panel-toggle]'), panelToggleLabel: $('[data-panel-toggle-label]'),
-    bars: $('[data-bars]'), summary: $('[data-panel-summary]'), spotlight: $('[data-spotlight]')
+    bars: $('[data-bars]'), summary: $('[data-panel-summary]'), spotlight: $('[data-spotlight]'), reloj: $('[data-reloj]')
   };
 
   var todos = [];
   var comisionesGlobal = [];
-  var state = { grupo: 'todos', q: '', comision: '', tipo: '', estado: '', orden: 'recientes', visibles: PAGE, spotlight: '' };
+  var state = { grupo: 'todos', q: '', comision: '', tipo: '', estado: '', mes: '', orden: 'recientes', visibles: PAGE, spotlight: '' };
 
   // ---------------------------------------------------------------- filtros
   function enGrupo(p, grupo) {
@@ -68,7 +68,8 @@
         (excepto === 'q' || coincideTexto(p, q)) &&
         (excepto === 'comision' || coincideComision(p, state.comision)) &&
         (excepto === 'tipo' || !state.tipo || p.tipo_corto === state.tipo) &&
-        (excepto === 'estado' || !state.estado || p.estado_grupo === state.estado);
+        (excepto === 'estado' || !state.estado || p.estado_grupo === state.estado) &&
+        (!state.mes || String(p.fecha_presentacion).slice(0, 7) === state.mes);
     });
   }
 
@@ -144,7 +145,7 @@
 
     el.summary.innerHTML =
       '<div class="lg-panel__stat"><strong>' + base.length + '</strong><span>' + L.plural(base.length, 'proyecto analizado', 'proyectos analizados') + '</span></div>' +
-      '<div class="lg-panel__stat lg-panel__stat--alerta"><strong>' + dormidos + '</strong><span>' + L.plural(dormidos, 'duerme en comisión', 'duermen en comisión') + '</span></div>' +
+      '<div class="lg-panel__stat lg-panel__stat--alerta"><strong>' + dormidos + '</strong><span>esperando ser ' + L.plural(dormidos, 'tratado', 'tratados') + '</span></div>' +
       '<div class="lg-panel__stat"><strong>' + multiples + '</strong><span>' + L.plural(multiples, 'girado a 2 o más', 'girados a 2 o más') + '</span></div>';
 
     function barra(valor, nombre, n, clase) {
@@ -177,6 +178,7 @@
     if (state.comision) chip('comision', state.comision === TABLAS ? 'Sobre tablas' : state.comision);
     if (state.tipo) chip('tipo', state.tipo);
     if (state.estado) chip('estado', ESTADOS[state.estado]);
+    if (state.mes) chip('mes', 'Presentados en ' + L.mesTexto(state.mes));
     if (chips.length > 1) chips.push('<button type="button" class="lg-link-btn" data-reset>Limpiar filtros</button>');
     el.chips.innerHTML = chips.join('');
   }
@@ -234,6 +236,11 @@
       });
     });
     el.scopeNote.textContent = GRUPOS[state.grupo].nota;
+    if (el.reloj) {
+      el.reloj.querySelectorAll('[data-mes]').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-mes') === state.mes));
+      });
+    }
     el.orden.value = state.orden;
   }
 
@@ -246,6 +253,7 @@
       if (state.comision) params.set('comision', state.comision === TABLAS ? 'sobre-tablas' : state.comision);
       if (state.tipo) params.set('tipo', state.tipo);
       if (state.estado) params.set('estado', state.estado);
+      if (state.mes) params.set('mes', state.mes);
       if (state.orden !== 'recientes') params.set('orden', state.orden);
     }
     var qs = params.toString();
@@ -275,7 +283,6 @@
     kpi('total', t.total);
     kpi('autoria', t.autoria);
     kpi('comision', t.enComision);
-    kpi('mas90', t.enComisionMas90);
     function nota(key, texto) {
       var el = document.querySelector('[data-kpi-note="' + key + '"]');
       if (el) el.textContent = texto;
@@ -283,9 +290,12 @@
     var sinNumero = t.total - t.conNumero;
     nota('total', t.conNumero + ' con número de expediente de la Cámara' +
       (sinNumero ? ' y ' + sinNumero + ' en trámite de identificación' : '') + ', sin duplicados');
-    nota('comision', 'El ' + t.porcentajeEnComision + ' % de lo que presentamos sigue sin tratamiento');
+    nota('comision', 'El ' + t.porcentajeEnComision + ' % de lo que presentamos sigue guardado en comisión, sin dictamen');
     nota('comision-corta', t.porcentajeEnComision + ' % del total');
-    if (t.enComisionMasAntiguo) nota('mas90', 'Algunos esperan desde el ' + L.fechaLarga(t.enComisionMasAntiguo));
+    if (el.reloj && t.caducidadMasAntiguo) {
+      el.reloj.innerHTML = L.relojHtml(t);
+      el.reloj.hidden = false;
+    }
     var meta = document.querySelector('[data-kpi-note="meta"]');
     if (meta && t.ultimaSesion) {
       meta.innerHTML = 'Última sesión registrada: ' + L.esc(L.fechaLarga(t.ultimaSesion)) +
@@ -322,8 +332,18 @@
   }
 
   function resetear() {
-    state.grupo = 'todos'; state.q = ''; state.comision = ''; state.tipo = ''; state.estado = ''; state.spotlight = '';
+    state.grupo = 'todos'; state.q = ''; state.comision = ''; state.tipo = ''; state.estado = ''; state.mes = ''; state.spotlight = '';
     render({ syncInputs: true });
+  }
+
+  /** Mes del reloj de caducidad: muestra solo los proyectos de ese mes que siguen esperando (otro clic lo quita). */
+  function verMes(mes) {
+    var activo = state.mes === mes && state.estado === 'comision';
+    state.grupo = 'todos'; state.q = ''; state.comision = ''; state.tipo = ''; state.spotlight = '';
+    state.estado = 'comision';
+    state.mes = activo ? '' : mes;
+    render({ syncInputs: true });
+    if (!activo) document.querySelector('.lg-statusbar').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function enlazar() {
@@ -373,7 +393,9 @@
     });
     var cambioMq = function () { setPanel(mqPanel.matches ? true : leerPreferencia() === '1', false); };
     if (mqPanel.addEventListener) mqPanel.addEventListener('change', cambioMq);
+    if (el.reloj) L.activarReloj(el.reloj, verMes);
     L.activarCopiaEnlaces(el.grid);
+    L.activarBrillo(el.grid);
   }
 
   function leerUrl() {
@@ -387,6 +409,7 @@
     state.comision = comision === 'sobre-tablas' ? TABLAS : (comisionesGlobal.indexOf(comision) !== -1 ? comision : '');
     state.tipo = TIPOS.indexOf(params.get('tipo')) !== -1 ? params.get('tipo') : '';
     state.estado = ESTADOS[params.get('estado')] ? params.get('estado') : '';
+    state.mes = /^\d{4}-(0[1-9]|1[0-2])$/.test(params.get('mes') || '') ? params.get('mes') : '';
     state.orden = ['recientes', 'antiguos', 'expediente'].indexOf(params.get('orden')) !== -1 ? params.get('orden') : 'recientes';
   }
 

@@ -28,7 +28,11 @@
     var noteTotal = section.querySelector('[data-home-note="total"]');
     if (noteTotal) noteTotal.textContent = t.comisiones + ' comisiones con expedientes · última sesión ' + L.fecha(t.ultimaSesion);
     var noteComision = section.querySelector('[data-home-note="comision"]');
-    if (noteComision) noteComision.textContent = 'El ' + t.porcentajeEnComision + ' % de lo que presentamos sigue sin tratamiento';
+    if (noteComision) {
+      var c = t.caducidadMasAntiguo;
+      noteComision.textContent = 'El ' + t.porcentajeEnComision + ' % de lo que presentamos sigue guardado en comisión' +
+        (c ? '. El más antiguo caduca en ' + L.duracion(c.mesesRestantes, c.diasRestantes) : '');
+    }
     animarAlVer(function () {
       kpi('total', t.total);
       kpi('autoria', t.autoria);
