@@ -175,7 +175,7 @@
 
   function totales(projects) {
     var t = { total: projects.length, conNumero: 0, autoria: 0, bloque: 0, acompanamos: 0, enComision: 0,
-      enComisionMas90: 0, enComisionMasAntiguo: '', esperaPorMes: {}, comisiones: 0, ultimaSesion: '', verificado: '' };
+      enComisionMas90: 0, enComisionMasAntiguo: '', esperaPorMes: {}, plazoVencido: 0, comisiones: 0, ultimaSesion: '', verificado: '' };
     var comisiones = {};
     projects.forEach(function (p) {
       if (p.numero_expediente) t.conNumero++;
@@ -184,10 +184,16 @@
       if (p.grupo === 'acompanamos') t.acompanamos++;
       if (p.estado_grupo === 'comision') {
         t.enComision++;
-        var mes = String(p.fecha_presentacion).slice(0, 7);
-        if (mes) t.esperaPorMes[mes] = (t.esperaPorMes[mes] || 0) + 1;
-        if (diasDesde(p.fecha_presentacion) > 90) t.enComisionMas90++;
-        if (!t.enComisionMasAntiguo || p.fecha_presentacion < t.enComisionMasAntiguo) t.enComisionMasAntiguo = p.fecha_presentacion;
+        var cad = caducidad(p);
+        if (cad && cad.progreso >= 1) {
+          // Superó los dos años sin que se actualice su estado: se cuenta aparte hasta verificarlo en la Cámara.
+          t.plazoVencido++;
+        } else {
+          var mes = String(p.fecha_presentacion).slice(0, 7);
+          if (mes) t.esperaPorMes[mes] = (t.esperaPorMes[mes] || 0) + 1;
+          if (diasDesde(p.fecha_presentacion) > 90) t.enComisionMas90++;
+          if (!t.enComisionMasAntiguo || p.fecha_presentacion < t.enComisionMasAntiguo) t.enComisionMasAntiguo = p.fecha_presentacion;
+        }
       }
       (p.comisiones || []).forEach(function (c) { comisiones[c] = true; });
       if (p.fecha_presentacion > t.ultimaSesion) t.ultimaSesion = p.fecha_presentacion;
@@ -196,6 +202,10 @@
     t.comisiones = Object.keys(comisiones).length;
     t.porcentajeEnComision = t.total ? Math.round((t.enComision / t.total) * 100) : 0;
     t.caducidadMasAntiguo = t.enComisionMasAntiguo ? caducidad({ fecha_presentacion: t.enComisionMasAntiguo }) : null;
+    // Un expediente vence el mismo mes de presentación, dos años después.
+    t.vencimientos = Object.keys(t.esperaPorMes).sort().map(function (mes) {
+      return { mes: mes, vence: (+mes.slice(0, 4) + CADUCIDAD_ANIOS) + mes.slice(4), cantidad: t.esperaPorMes[mes] };
+    });
     return t;
   }
 
@@ -235,21 +245,31 @@
             '<b aria-hidden="true">' + n + '</b><span class="lg-reloj__barra" style="--h:' + Math.max(12, Math.round((n / max) * 100)) + '%"></span></button>'
         : '<span class="lg-reloj__col" aria-hidden="true"><span class="lg-reloj__barra"></span></span>';
       columnas.push('<div class="' + clase + '">' + columna + '<span class="lg-reloj__etiqueta" aria-hidden="true">' + esc(etiqueta) + '</span></div>');
-      if (n) chips.push('<button type="button" class="lg-reloj__chip" data-mes="' + clave + '" aria-pressed="false">' + esc(MESES[m] + ' ' + y) + ' <b>' + n + '</b></button>');
     }
-    var resumen = 'El más antiguo caduca en ' + duracion(c.mesesRestantes, c.diasRestantes) + ' · vencen a los ' + CADUCIDAD_ANIOS + ' años sin tratamiento';
+    t.vencimientos.forEach(function (v) {
+      var vm = partes(v.vence + '-01');
+      chips.push('<button type="button" class="lg-reloj__chip" data-mes="' + v.mes + '" aria-pressed="false"' +
+        ' aria-label="' + esc(v.cantidad + ' ' + plural(v.cantidad, 'proyecto vence', 'proyectos vencen') + ' en ' + mesTexto(v.vence) + '. Ver ' + plural(v.cantidad, 'ese proyecto', 'esos proyectos')) + '">' +
+        '<b>' + v.cantidad + '</b><span>' + plural(v.cantidad, 'vence', 'vencen') + ' en <strong>' + esc(MESES[vm.m] + ' ' + vm.y) + '</strong></span></button>');
+    });
+    var proximo = t.vencimientos[0];
+    var resumen = proximo
+      ? '<strong>' + proximo.cantidad + ' ' + plural(proximo.cantidad, 'proyecto vence', 'proyectos vencen') + ' en ' + esc(mesTexto(proximo.vence)) + '</strong> si no se tratan · los expedientes caducan a los ' + CADUCIDAD_ANIOS + ' años'
+      : 'Los expedientes caducan a los ' + CADUCIDAD_ANIOS + ' años si no se tratan';
     return '<button type="button" class="lg-reloj__toggle" aria-expanded="false" aria-controls="lg-reloj-panel" data-reloj-toggle>' +
         '<span class="lg-reloj__icono">' + ICON.reloj + '</span>' +
-        '<span class="lg-reloj__titulo"><strong>Reloj de caducidad</strong><span>' + esc(resumen) + '</span></span>' +
+        '<span class="lg-reloj__titulo"><strong>Reloj de caducidad</strong><span>' + resumen + '</span></span>' +
         '<span class="lg-reloj__accion"><span data-reloj-accion>Ver cronología</span>' + ICON.chevron + '</span></button>' +
       '<div class="lg-reloj__panel" id="lg-reloj-panel" hidden>' +
-        '<p class="lg-reloj__ayuda">Cada barra suma los proyectos presentados ese mes que siguen esperando. Tocá un mes para verlos en el listado.</p>' +
+        '<div class="lg-reloj__explica"><p><strong>Cada proyecto que presentamos tiene una vida de ' + CADUCIDAD_ANIOS + ' años.</strong> Muchos nacen de urgencias y pedidos de vecinas y vecinos: son propuestas concretas para resolver problemas reales. Pero si la comisión no los trata en ese plazo, vencen y se archivan sin que nadie los haya votado en contra. Es una forma silenciosa de rechazarlos.</p></div>' +
+        '<p class="lg-reloj__ayuda">Cada barra suma los proyectos presentados ese mes que siguen esperando. Tocá un mes, o un vencimiento, para verlos en el listado.</p>' +
         '<div class="lg-reloj__grafico' + (posHoy > 88 ? ' cerca' : '') + '">' +
           '<span class="lg-reloj__transcurrido" style="--p:' + posHoy.toFixed(1) + '%" aria-hidden="true"><span>Hoy</span></span>' +
           '<span class="lg-reloj__vence" aria-hidden="true"><span>Caduca</span></span>' +
           '<div class="lg-reloj__meses" role="group" aria-label="Proyectos que siguen esperando, por mes de presentación">' + columnas.join('') + '</div>' +
         '</div>' +
-        '<div class="lg-reloj__chips" role="group" aria-label="Ver proyectos por mes de presentación">' + chips.join('') + '</div>' +
+        '<div class="lg-reloj__vencimientos"><h3 class="lg-reloj__subtitulo">Próximos vencimientos</h3>' +
+          '<div class="lg-reloj__chips" role="group" aria-label="Próximos vencimientos">' + chips.join('') + '</div></div>' +
         '<ul class="lg-reloj__leyenda" aria-hidden="true">' +
           '<li><span class="lg-reloj__clave lg-reloj__clave--barra"></span>Proyectos sin tratar, por mes de presentación</li>' +
           '<li><span class="lg-reloj__clave lg-reloj__clave--transcurrido"></span>Tiempo ya transcurrido</li>' +
@@ -257,7 +277,8 @@
         '</ul>' +
         '<p class="lg-reloj__texto">El proyecto en espera más antiguo se presentó el <strong>' + esc(fechaLarga(t.enComisionMasAntiguo)) +
           '</strong> y caduca el <strong>' + esc(fechaLarga(c.vence)) + '</strong>: pasaron ' + esc(duracion(c.mesesEsperando, 0)) +
-          ' de ' + meses + ' y le quedan <strong>' + esc(duracion(c.mesesRestantes, c.diasRestantes)) + '</strong>.</p>' +
+          ' de ' + meses + ' y le quedan <strong>' + esc(duracion(c.mesesRestantes, c.diasRestantes)) + '</strong>.' +
+          (t.plazoVencido ? ' Además, ' + t.plazoVencido + ' ' + plural(t.plazoVencido, 'proyecto superó', 'proyectos superaron') + ' los ' + CADUCIDAD_ANIOS + ' años: estamos verificando su estado en la Cámara.' : '') + '</p>' +
       '</div>';
   }
 

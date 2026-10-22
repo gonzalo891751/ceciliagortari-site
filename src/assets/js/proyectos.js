@@ -21,15 +21,16 @@
   var el = {
     grid: $('[data-grid]'), empty: $('[data-empty]'), error: $('[data-error]'), more: $('[data-more]'),
     moreBtn: $('[data-more-btn]'), moreText: $('[data-more-text]'), results: $('#lg-results'), chips: $('[data-chips]'),
-    q: $('#lg-q'), comision: $('#lg-comision'), tipo: $('#lg-tipo'), estado: $('#lg-estado'), orden: $('#lg-orden'),
-    segment: $('[data-segment]'), scopeNote: $('[data-scope-note]'), scopeMini: $('[data-scope-mini]'),
+    q: $('#lg-q'), orden: $('#lg-orden'), vista: $('[data-vista]'),
+    segment: $('[data-segment]'), scopeNote: $('[data-scope-note]'), estados: $('[data-estados]'), tipos: $('[data-tipos]'),
+    badge: $('[data-filtros-activos]'),
     layout: $('[data-layout]'), panelToggle: $('[data-panel-toggle]'), panelToggleLabel: $('[data-panel-toggle-label]'),
     bars: $('[data-bars]'), summary: $('[data-panel-summary]'), spotlight: $('[data-spotlight]'), reloj: $('[data-reloj]')
   };
 
   var todos = [];
   var comisionesGlobal = [];
-  var state = { grupo: 'todos', q: '', comision: '', tipo: '', estado: '', mes: '', orden: 'recientes', visibles: PAGE, spotlight: '' };
+  var state = { grupo: 'todos', q: '', comision: '', tipo: '', estado: '', mes: '', orden: 'recientes', vista: 'grilla', visibles: PAGE, spotlight: '' };
 
   // ---------------------------------------------------------------- filtros
   function enGrupo(p, grupo) {
@@ -83,20 +84,13 @@
   }
 
   // ---------------------------------------------------------------- facetas
-  function opciones(select, items, vacio, actual) {
-    select.innerHTML = '';
-    var base = document.createElement('option');
-    base.value = '';
-    base.textContent = vacio;
-    select.appendChild(base);
-    items.forEach(function (item) {
-      if (!item.n && item.value !== actual) return;
-      var opt = document.createElement('option');
-      opt.value = item.value;
-      opt.textContent = item.label + ' (' + item.n + ')';
-      select.appendChild(opt);
-    });
-    select.value = actual;
+  /** Botones de filtro con su cantidad; se ocultan las opciones sin resultados (salvo la elegida). */
+  function opciones(cont, attr, items, actual) {
+    cont.innerHTML = items.filter(function (item) { return item.n || item.value === actual; }).map(function (item) {
+      return '<button type="button" class="lg-opcion' + (item.clase ? ' ' + item.clase : '') + '" ' + attr + '="' + L.esc(item.value) +
+        '" aria-pressed="' + (item.value === actual) + '"><span class="lg-opcion__texto">' + L.esc(item.label) + '</span>' +
+        '<span class="lg-opcion__n">' + item.n + '</span></button>';
+    }).join('') || '<p class="lg-nodoc">Sin opciones para la selección actual.</p>';
   }
 
   function actualizarFacetas() {
@@ -107,23 +101,18 @@
       if (badge) badge.textContent = n;
     });
 
-    var porComision = filtrar('comision');
-    opciones(el.comision, comisionesGlobal.map(function (c) {
-      return { value: c, label: c, n: porComision.filter(function (p) { return p.comisiones.indexOf(c) !== -1; }).length };
-    }).concat([{ value: TABLAS, label: 'Tratados sobre tablas (sin comisión)', n: porComision.filter(function (p) { return p.sobre_tablas; }).length }]),
-    'Todas', state.comision);
+    var porEstado = filtrar('estado');
+    opciones(el.estados, 'data-estado', Object.keys(ESTADOS).map(function (e) {
+      return { value: e, label: ESTADOS[e], n: porEstado.filter(function (p) { return p.estado_grupo === e; }).length,
+        clase: e === 'comision' ? 'lg-opcion--alerta' : '' };
+    }), state.estado);
 
     var porTipo = filtrar('tipo');
-    opciones(el.tipo, TIPOS.concat(todos.map(function (p) { return p.tipo_corto; }).filter(function (t, i, arr) {
+    opciones(el.tipos, 'data-tipo', TIPOS.concat(todos.map(function (p) { return p.tipo_corto; }).filter(function (t, i, arr) {
       return TIPOS.indexOf(t) === -1 && arr.indexOf(t) === i;
     })).map(function (t) {
       return { value: t, label: t, n: porTipo.filter(function (p) { return p.tipo_corto === t; }).length };
-    }), 'Todos', state.tipo);
-
-    var porEstado = filtrar('estado');
-    opciones(el.estado, Object.keys(ESTADOS).map(function (e) {
-      return { value: e, label: ESTADOS[e], n: porEstado.filter(function (p) { return p.estado_grupo === e; }).length };
-    }), 'Todos', state.estado);
+    }), state.tipo);
   }
 
   // ---------------------------------------------------------------- análisis
@@ -230,12 +219,13 @@
   }
 
   function sincronizarControles() {
-    [el.segment, el.scopeMini].forEach(function (grupo) {
-      grupo.querySelectorAll('[data-grupo]').forEach(function (b) {
-        b.setAttribute('aria-pressed', String(b.getAttribute('data-grupo') === state.grupo));
-      });
+    el.segment.querySelectorAll('[data-grupo]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-grupo') === state.grupo));
     });
     el.scopeNote.textContent = GRUPOS[state.grupo].nota;
+    var activos = [state.grupo !== 'todos', state.estado, state.tipo, state.comision, state.mes].filter(Boolean).length;
+    el.badge.hidden = !activos;
+    el.badge.textContent = activos ? activos + ' ' + L.plural(activos, 'activo', 'activos') : '';
     if (el.reloj) {
       el.reloj.querySelectorAll('[data-mes]').forEach(function (b) {
         b.setAttribute('aria-pressed', String(b.getAttribute('data-mes') === state.mes));
@@ -255,6 +245,7 @@
       if (state.estado) params.set('estado', state.estado);
       if (state.mes) params.set('mes', state.mes);
       if (state.orden !== 'recientes') params.set('orden', state.orden);
+      if (state.vista === 'lista') params.set('vista', 'lista');
     }
     var qs = params.toString();
     try { history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash); } catch (_) {}
@@ -304,17 +295,26 @@
     }
   }
 
-  // ---------------------------------------------------------------- panel
+  // ---------------------------------------------------------------- panel y vista
+  // En escritorio los filtros quedan siempre a la vista; en pantallas angostas se despliegan con un botón.
   var mqPanel = window.matchMedia('(max-width: 1180px)');
-  function leerPreferencia() { try { return localStorage.getItem('lg-panel-colapsado'); } catch (_) { return null; } }
-  function guardarPreferencia(v) { try { localStorage.setItem('lg-panel-colapsado', v ? '1' : '0'); } catch (_) {} }
 
-  function setPanel(colapsado, persistir) {
+  function setPanel(colapsado) {
     el.layout.classList.toggle('is-panel-collapsed', colapsado);
     el.panelToggle.setAttribute('aria-expanded', String(!colapsado));
-    el.panelToggleLabel.textContent = colapsado ? 'Mostrar análisis por comisión' : 'Ocultar análisis por comisión';
+    el.panelToggleLabel.textContent = colapsado ? 'Mostrar' : 'Ocultar';
     document.getElementById('lg-panel-body').hidden = colapsado;
-    if (persistir && !mqPanel.matches) guardarPreferencia(colapsado);
+  }
+
+  function leerVista() { try { return localStorage.getItem('lg-vista'); } catch (_) { return null; } }
+
+  function setVista(vista, persistir) {
+    state.vista = vista === 'lista' ? 'lista' : 'grilla';
+    el.grid.classList.toggle('lg-grid--lista', state.vista === 'lista');
+    el.vista.querySelectorAll('[data-vista-btn]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-vista-btn') === state.vista));
+    });
+    if (persistir) { try { localStorage.setItem('lg-vista', state.vista); } catch (_) {} }
   }
 
   // ---------------------------------------------------------------- eventos
@@ -351,17 +351,32 @@
       var b = e.target.closest('[data-grupo]');
       if (b) setGrupo(b.getAttribute('data-grupo'));
     });
-    el.scopeMini.addEventListener('click', function (e) {
-      var b = e.target.closest('[data-grupo]');
-      if (b) setGrupo(b.getAttribute('data-grupo'));
-    });
     el.q.addEventListener('input', function () {
       clearTimeout(tq);
       tq = setTimeout(function () { state.spotlight = ''; render(); }, 160);
     });
-    el.comision.addEventListener('change', function () { state.comision = el.comision.value; state.spotlight = ''; render(); });
-    el.tipo.addEventListener('change', function () { state.tipo = el.tipo.value; state.spotlight = ''; render(); });
-    el.estado.addEventListener('change', function () { state.estado = el.estado.value; state.spotlight = ''; render(); });
+    el.estados.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-estado]');
+      if (!b) return;
+      var valor = b.getAttribute('data-estado');
+      state.estado = state.estado === valor ? '' : valor;
+      state.spotlight = '';
+      render();
+    });
+    el.tipos.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-tipo]');
+      if (!b) return;
+      var valor = b.getAttribute('data-tipo');
+      state.tipo = state.tipo === valor ? '' : valor;
+      state.spotlight = '';
+      render();
+    });
+    el.vista.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-vista-btn]');
+      if (!b) return;
+      setVista(b.getAttribute('data-vista-btn'), true);
+      guardarUrl();
+    });
     el.orden.addEventListener('change', function () { state.orden = el.orden.value; render(); });
     el.moreBtn.addEventListener('click', function () {
       var antes = state.visibles;
@@ -389,9 +404,9 @@
     });
     document.querySelector('[data-retry]').addEventListener('click', iniciar);
     el.panelToggle.addEventListener('click', function () {
-      setPanel(!el.layout.classList.contains('is-panel-collapsed'), true);
+      setPanel(!el.layout.classList.contains('is-panel-collapsed'));
     });
-    var cambioMq = function () { setPanel(mqPanel.matches ? true : leerPreferencia() === '1', false); };
+    var cambioMq = function () { setPanel(mqPanel.matches); };
     if (mqPanel.addEventListener) mqPanel.addEventListener('change', cambioMq);
     if (el.reloj) L.activarReloj(el.reloj, verMes);
     L.activarCopiaEnlaces(el.grid);
@@ -411,6 +426,7 @@
     state.estado = ESTADOS[params.get('estado')] ? params.get('estado') : '';
     state.mes = /^\d{4}-(0[1-9]|1[0-2])$/.test(params.get('mes') || '') ? params.get('mes') : '';
     state.orden = ['recientes', 'antiguos', 'expediente'].indexOf(params.get('orden')) !== -1 ? params.get('orden') : 'recientes';
+    setVista(params.get('vista') || leerVista(), false);
   }
 
   function iniciar() {
@@ -437,6 +453,6 @@
   }
 
   enlazar();
-  setPanel(mqPanel.matches ? true : leerPreferencia() === '1', false);
+  setPanel(mqPanel.matches);
   iniciar();
 })();

@@ -3,7 +3,9 @@ layout: layouts/base.njk
 title: "Cecilia Gortari | Diputada Provincial por Corrientes"
 description: "Sitio oficial de Cecilia Gortari, Diputada Provincial por Corrientes. Proyectos legislativos con descarga de expedientes, novedades, Escuela de Emprendedores y trabajo en territorio."
 ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
-extraCSS: "/assets/css/legislativo.css?v=202610221830"
+extraCSS:
+    - "/assets/css/legislativo.css?v=202610231000"
+    - "/assets/css/inicio.css?v=202610231000"
 jsonLd: |
     {
       "@context": "https://schema.org",
@@ -60,26 +62,50 @@ jsonLd: |
                     </p>
                     <!-- Hero Actions: proyectos legislativos como acción principal -->
                     <div class="hero-new__actions-container">
-                        <a href="/proyectos/" class="lg-hero-cta">
-                            <span class="lg-hero-cta__icon" aria-hidden="true">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                                    <path d="M14 2v6h6" />
-                                    <path d="m9 15 2 2 4-4" />
+                        <div class="lg-hero-primarios">
+                            <a href="/proyectos/" class="lg-hero-cta">
+                                <span class="lg-hero-cta__icon" aria-hidden="true">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                        <path d="M14 2v6h6" />
+                                        <path d="m9 15 2 2 4-4" />
+                                    </svg>
+                                </span>
+                                <span class="lg-hero-cta__text">
+                                    Ver proyectos legislativos
+                                    <small data-hero-proyectos>Expedientes para descargar</small>
+                                </span>
+                                <svg class="lg-hero-cta__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M5 12h14" />
+                                    <path d="m13 6 6 6-6 6" />
                                 </svg>
-                            </span>
-                            <span class="lg-hero-cta__text">
-                                Ver proyectos legislativos
-                                <small data-hero-proyectos>Expedientes, comisiones y documentos</small>
-                            </span>
-                            <svg class="lg-hero-cta__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
-                                aria-hidden="true">
-                                <path d="M5 12h14" />
-                                <path d="m13 6 6 6-6 6" />
-                            </svg>
-                        </a>
+                            </a>
+                            <a href="https://www.instagram.com/cecilia.diputada/" target="_blank" rel="noopener"
+                                class="lg-hero-cta lg-hero-cta--ig">
+                                <span class="lg-hero-cta__icon" aria-hidden="true">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+                                        <circle cx="12" cy="12" r="4.2" />
+                                        <circle cx="17.6" cy="6.4" r="0.6" fill="currentColor" />
+                                    </svg>
+                                </span>
+                                <span class="lg-hero-cta__text">
+                                    Seguime en Instagram
+                                    <small>Noticias y reels de cada día</small>
+                                </span>
+                                <svg class="lg-hero-cta__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                                    aria-hidden="true">
+                                    <path d="M7 17 17 7" />
+                                    <path d="M8 7h9v9" />
+                                </svg>
+                                <span class="lg-sr-only">(se abre en una pestaña nueva)</span>
+                            </a>
+                        </div>
 
                         <div class="lg-hero-secondary">
                             <a href="/novedades/" class="hero-new__cta-secondary btn--novedades">
@@ -106,18 +132,6 @@ jsonLd: |
                                     </svg>
                                 </span>
                                 <span class="lg-hide-mobile">Escuela de Emprendedores</span><span class="lg-show-mobile">Escuela</span>
-                            </a>
-                            <a href="https://instagram.com/cecilia.diputada" target="_blank" rel="noopener"
-                                class="hero-new__cta-secondary btn--instagram lg-hero-icon-btn" title="Instagram">
-                                <span class="btn__icon" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"
-                                        height="18">
-                                        <rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect>
-                                        <circle cx="12" cy="12" r="4"></circle>
-                                        <circle cx="17.5" cy="6.5" r="1"></circle>
-                                    </svg>
-                                </span>
-                                <span class="lg-sr-only">Instagram de Cecilia Gortari (se abre en una pestaña nueva)</span>
                             </a>
                         </div>
                     </div>
@@ -258,6 +272,7 @@ jsonLd: |
                 <!-- Column 2: Content -->
                 <div class="bio-content fade-in fade-up delay-100">
                     <div class="bio-header">
+                        <p class="inicio-eyebrow">Quién soy</p>
                         <h2 class="bio-title bio-title--gradient">Cecilia Gortari</h2>
                         <p class="bio-subtitle bio-subtitle--soft">Un poco de mí</p>
                     </div>
@@ -422,14 +437,17 @@ jsonLd: |
                         crezcas.
                     </p>
                     <div class="escuela-actions">
-                        <a href="/escuela/#inscripcion" class="btn-school">
-                            🔥 Inscribirme ya!
+                        <a href="/escuela/#inscripcion" class="btn-school btn-school--primario">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
+                            ¡Inscribirme ya!
                         </a>
                         <a href="/escuela/#docentes" class="btn-school">
-                            🎓 Quiero enseñar
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/></svg>
+                            Quiero enseñar
                         </a>
                         <a href="/escuela/#cronograma" class="btn-school">
-                            📅 Ver cursos y cronogramas
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg>
+                            Ver cursos y cronogramas
                         </a>
                     </div>
                 </div>
@@ -442,24 +460,24 @@ jsonLd: |
                         <div class="escuela-showcase__track" id="escuela-track" aria-roledescription="carousel">
                             <!-- Slide 1 -->
                             <figure class="escuela-showcase__slide is-active" aria-hidden="false">
-                                <img src="/assets/img/escuela/escuela-4.jpg" alt="" class="escuela-showcase__bg"
+                                <img src="/assets/img/escuela/escuela-4.webp" alt="" class="escuela-showcase__bg"
                                     aria-hidden="true">
-                                <img src="/assets/img/escuela/escuela-4.jpg"
+                                <img src="/assets/img/escuela/escuela-4.webp"
                                     alt="Egresados de la Escuela de Emprendedores" class="escuela-showcase__img"
                                     loading="eager">
                             </figure>
                             <!-- Slide 2 -->
                             <figure class="escuela-showcase__slide" aria-hidden="true">
-                                <img src="/assets/img/escuela/escuela-2.jpg" alt="" class="escuela-showcase__bg"
+                                <img src="/assets/img/escuela/escuela-2.webp" alt="" class="escuela-showcase__bg"
                                     aria-hidden="true">
-                                <img src="/assets/img/escuela/escuela-2.jpg" alt="Entrega de certificados"
+                                <img src="/assets/img/escuela/escuela-2.webp" alt="Entrega de certificados"
                                     class="escuela-showcase__img" loading="lazy">
                             </figure>
                             <!-- Slide 3 -->
                             <figure class="escuela-showcase__slide" aria-hidden="true">
-                                <img src="/assets/img/escuela/escuela-3.jpg" alt="" class="escuela-showcase__bg"
+                                <img src="/assets/img/escuela/escuela-3.webp" alt="" class="escuela-showcase__bg"
                                     aria-hidden="true">
-                                <img src="/assets/img/escuela/escuela-3.jpg" alt="Taller práctico en la Escuela"
+                                <img src="/assets/img/escuela/escuela-3.webp" alt="Taller práctico en la Escuela"
                                     class="escuela-showcase__img" loading="lazy">
                             </figure>
                         </div>
@@ -479,7 +497,7 @@ jsonLd: |
                         </button>
 
                         <!-- Dots managed by JS -->
-                        <div class="escuela-showcase__dots" id="escuela-dots" role="tablist"></div>
+                        <div class="escuela-showcase__dots" id="escuela-dots" role="group" aria-label="Elegir imagen"></div>
                     </div>
                 </div>
                 <!-- (Botones de navegación eliminados por pedido de 'Automático', pero se pueden re-agregar si necesario) -->
@@ -554,17 +572,23 @@ jsonLd: |
     <!-- Behold Widget Script (Loaded once) -->
     <script>
         (() => {
-            if (!document.querySelector('script[src="https://w.behold.so/widget.js"]')) {
-                const d = document, s = d.createElement("script");
+            // Se carga cuando la sección de Instagram se acerca a la pantalla, para no demorar la portada.
+            const cargar = () => {
+                if (document.querySelector('script[src="https://w.behold.so/widget.js"]')) return;
+                const s = document.createElement("script");
                 s.type = "module";
                 s.src = "https://w.behold.so/widget.js";
-                d.head.append(s);
-            }
+                document.head.append(s);
+            };
+            const seccion = document.getElementById("instagram");
+            if (!seccion || !("IntersectionObserver" in window)) { cargar(); return; }
+            const obs = new IntersectionObserver((entries) => {
+                if (entries.some((e) => e.isIntersecting)) { obs.disconnect(); cargar(); }
+            }, { rootMargin: "800px 0px" });
+            obs.observe(seccion);
         })();
     </script>
 
-    <!-- Instagram Embed Script (async for performance) -->
-    <script async src="//www.instagram.com/embed.js"></script>
 
     <!-- ========================================================================
          H. PARTICIPÁ SECTION
@@ -579,24 +603,24 @@ jsonLd: |
                 <div class="participa-home__cards">
                     <!-- Card 1: Proponer una idea -->
                     <a href="/contacto/#proponer" class="participa-card">
-                        <span class="participa-card__icon">💡</span>
+                        <span class="participa-card__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
                         <h3 class="participa-card__title">Proponer una idea</h3>
-                        <p class="participa-card__text">Compartí con nosotros alguna idea que tengas para Corrientes
-                        </p>
+                        <p class="participa-card__text">Compartí con nosotros alguna idea que tengas para Corrientes.</p>
+                        <span class="participa-card__cta">Proponer <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
                     </a>
                     <!-- Card 2: Proponer un proyecto -->
                     <a href="/contacto/#proyecto" class="participa-card">
-                        <span class="participa-card__icon">📋</span>
+                        <span class="participa-card__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 22H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v9.5"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M13.378 15.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/></svg></span>
                         <h3 class="participa-card__title">Proponer un proyecto</h3>
-                        <p class="participa-card__text">Estamos en democracia! Y la participación ciudadana es
-                            fundamental, compartinos un proyecto que tengas en mente</p>
+                        <p class="participa-card__text">La participación ciudadana es fundamental: compartinos un proyecto que tengas en mente.</p>
+                        <span class="participa-card__cta">Enviar proyecto <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
                     </a>
                     <!-- Card 3: Contactate -->
                     <a href="/contacto/" class="participa-card">
-                        <span class="participa-card__icon">💬</span>
+                        <span class="participa-card__icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg></span>
                         <h3 class="participa-card__title">Contactate</h3>
-                        <p class="participa-card__text">Estamos en todas las redes! Escribinos para comunicarte con
-                            nosotros.</p>
+                        <p class="participa-card__text">¡Estamos en todas las redes! Escribinos para comunicarte con nosotros.</p>
+                        <span class="participa-card__cta">Escribinos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
                     </a>
                 </div>
             </div>
@@ -609,5 +633,5 @@ jsonLd: |
     <script defer src="/assets/js/home-redesign.js?v=202601081200"></script>
 
     <!-- Proyectos legislativos: vidriera con datos en vivo -->
-    <script defer src="/assets/js/legislativo-core.js?v=202610221830"></script>
-    <script defer src="/assets/js/legislativo-home.js?v=202610221830"></script>
+    <script defer src="/assets/js/legislativo-core.js?v=202610231000"></script>
+    <script defer src="/assets/js/legislativo-home.js?v=202610231000"></script>

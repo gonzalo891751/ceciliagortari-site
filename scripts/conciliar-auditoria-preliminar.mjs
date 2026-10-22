@@ -3,15 +3,22 @@ import { readFile, writeFile } from 'node:fs/promises';
 import DATOS_OFICIALES from '../lib/datos-oficiales.mjs';
 import { participacionDesdeFirmantes, enlaceOficial } from '../lib/legislativo.mjs';
 
-// Concilia la auditoría preliminar (expedientes hallados en informes de sesión) con D1.
-// Solo lee: produce el reporte de conciliación y la migración 0013 con las altas,
-// que inserta sin sobrescribir (ON CONFLICT DO NOTHING). Requiere 0010 aplicada.
+// Concilia una auditoría de informes de sesión (expedientes del bloque hallados en los informes
+// oficiales) con una instantánea de D1. Solo lee: produce el reporte de conciliación y una
+// migración con las altas, que inserta sin sobrescribir (ON CONFLICT DO NOTHING). Requiere 0010.
+//
+// Uso (ver .claude/skills/actualizar-proyectos-legislativos/SKILL.md):
+//   node scripts/conciliar-auditoria-preliminar.mjs --dir docs/actualizacion-AAAA-MM-DD \
+//     --auditoria <dir>/auditoria.json --snapshot <dir>/d1-snapshot.txt --migracion migrations/00NN_altas_....sql
+// Sin opciones reproduce la conciliación del 22/10/2026 (migración 0013).
 const args = process.argv.slice(2);
 const option = (name, fallback) => args.includes(name) ? args[args.indexOf(name) + 1] : fallback;
-const dir = 'docs/legislative-update-2026-10-22';
+const dir = option('--dir', 'docs/legislative-update-2026-10-22');
 const auditPath = option('--auditoria', `${dir}/auditoria-preliminar-49.json`);
 const snapshotPath = option('--snapshot', `${dir}/d1-snapshot-2026-10-22.txt`);
+const migracionPath = option('--migracion', 'migrations/0013_altas_sesiones_2026-09-23_y_2026-10-14.sql');
 const now = option('--fecha', new Date().toISOString());
+const nota = option('--nota', 'Alta desde informe oficial de sesión (auditoría preliminar 22/10/2026); impulso sin clasificar.');
 
 const audit = JSON.parse(await readFile(auditPath, 'utf8'));
 const d1 = new Map((await readFile(snapshotPath, 'utf8')).split('\n').filter((l) => l && !l.startsWith('#'))
@@ -60,7 +67,7 @@ for (const e of audit.expedientes) {
     estado_tramite: estado, created_at: now, updated_at: now, action_plan: '[]', tipo_autoria: 'acompanado',
     autor_principal: '', comisiones: JSON.stringify(comisiones), numero_expediente: e.numero, titulo_oficial: '',
     firmantes, participacion, impulso: 'pendiente',
-    impulso_nota: 'Alta desde informe oficial de sesión (auditoría preliminar 22/10/2026); impulso sin clasificar.',
+    impulso_nota: nota,
     norma_tipo: e.norma ? e.tipo : '', norma_numero: e.norma || '', fecha_aprobacion: e.norma ? e.sesion : '',
     enlace_oficial: enlaceOficial(e.numero), fuente, verificado_at: '',
   };
@@ -80,8 +87,15 @@ reporte.resumen = {
   altas_con_otros_bloques: reporte.altas.filter((a) => a.participacion === 'acompanamos').map((a) => a.id),
 };
 await writeFile(`${dir}/conciliacion-auditoria-preliminar.json`, JSON.stringify(reporte, null, 2) + '\n');
-await writeFile('migrations/0013_altas_sesiones_2026-09-23_y_2026-10-14.sql',
-  `-- 0013 · Altas de ${reporte.altas.length} expedientes de las sesiones del 23/09 y 14/10/2026\n` +
+// "23/09 y 14/10/2026": sesiones de las altas, con el año al final.
+const sesiones = [...new Set(reporte.altas.map((a) => a.sesion))].sort();
+const sesionesTexto = sesiones.map((f, i) => i === sesiones.length - 1 ? fechaCorta(f) : fechaCorta(f).slice(0, 5))
+  .join(', ').replace(/, ([^,]*)$/, ' y $1');
+const numeroMigracion = migracionPath.split('/').pop().slice(0, 4);
+if (!inserts.length) {
+  console.log('Sin altas: no se genera migración.');
+} else await writeFile(migracionPath,
+  `-- ${numeroMigracion} · Altas de ${reporte.altas.length} expedientes de ${sesiones.length > 1 ? 'las sesiones' : 'la sesión'} del ${sesionesTexto}\n` +
   `-- Generado por scripts/conciliar-auditoria-preliminar.mjs desde ${auditPath}.\n` +
   '-- Fuente: informes oficiales de sesión. Quedan pendientes el título oficial, el PDF (se carga desde el panel)\n' +
   '-- y la clasificación del impulso. Requiere migrations/0010 aplicada. No sobrescribe registros existentes.\n' +
