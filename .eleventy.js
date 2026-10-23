@@ -6,6 +6,9 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addPassthroughCopy("src/content"); // If exists
 
+  // Biblioteca de recursos gráficos (stickers PNG/SVG, miniaturas, láminas y guía)
+  eleventyConfig.addPassthroughCopy("src/prensa/recursos-graficos/archivos");
+
   // Root files passthrough
   eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
   eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers" });

@@ -1,0 +1,118 @@
+---
+layout: layouts/base.njk
+title: "Recursos gráficos | Cecilia Gortari - Diputada Provincial"
+description: "Biblioteca libre de stickers, logos, íconos y etiquetas de Cecilia Gortari para historias de Instagram: PNG con transparencia, versiones para Recortes y SVG editables."
+ogImage: "https://ceciliagortari.com.ar/prensa/recursos-graficos/archivos/laminas/LAMINA_08_EJEMPLOS_DE_HISTORIAS.jpg"
+bodyClass: "page-recursos-graficos"
+extraCSS: "/assets/css/recursos-graficos.css?v=202610230300"
+---
+{%- set A = "/prensa/recursos-graficos/archivos/" -%}
+<div class="rg f-ajedrez" id="rg">
+
+    <header class="rg-head">
+        <nav class="rg-migas" aria-label="Ruta de navegación">
+            <a href="/prensa/#identidad-visual">Prensa</a><span aria-hidden="true">›</span><span>Recursos gráficos</span>
+        </nav>
+        <img class="rg-head__logo" src="{{ A }}miniaturas/01-01_imagotipo-oficial_blanco.webp" alt="Cecilia Gortari" width="520" height="327">
+        <h1>Biblioteca de recursos gráficos</h1>
+        <p>Stickers para historias de Instagram y piezas de difusión: PNG con transparencia real, versiones troqueladas para <b>Recortes</b> y editables SVG.
+        Son de uso libre: descargalos, copialos y compartilos. Cambiá el fondo de prueba para ver cómo se ve cada elemento sobre claro, oscuro o foto.</p>
+        <div class="rg-stats" id="rg-stats"></div>
+    </header>
+
+    <div class="rg-barra" id="rg-barra">
+        <div class="rg-barra__fila">
+            <input type="search" id="rg-buscar" placeholder="Buscar: flecha, Goya…" aria-label="Buscar recursos" autocomplete="off">
+            <div class="rg-bloque" role="group" aria-label="Versión">
+                <span class="rg-etq">Versión</span>
+                <button type="button" class="rg-chip on" data-ver="orig" aria-pressed="true">Original</button><button type="button" class="rg-chip" data-ver="rec" aria-pressed="false">Para Recortes</button>
+            </div>
+        </div>
+        <div class="rg-bloque rg-bloque--fondos" role="group" aria-label="Fondo de prueba">
+            <span class="rg-etq">Fondo</span><span id="rg-fondos" class="rg-fondos"></span>
+        </div>
+    </div>
+
+    <nav class="rg-cats" id="rg-nav" aria-label="Categorías"></nav>
+
+    <main class="rg-main">
+        <div class="rg-intro">
+            <div><b>Original</b>: PNG con transparencia real, sombras y vidrio translúcido. Es la versión de máxima calidad.</div>
+            <div><b>Para Recortes</b>: el mismo diseño con un borde troquelado opaco, para que Instagram tome la silueta completa en el sticker Recortes.</div>
+            <div><b>Copiar y pegar</b>: los elementos semitransparentes (marca de agua, resaltador, marcos, lupa, logo de vidrio) conservan mejor su efecto si se copian y se pegan en la historia.</div>
+            <div><b>En el celular</b>: tocá un sticker para verlo en grande y guardarlo en Fotos o copiarlo. Paso a paso en la <a href="{{ A }}GUIA_DE_USO_INSTAGRAM.pdf" target="_blank" rel="noopener">guía de uso (PDF)</a>.</div>
+        </div>
+
+        <div id="rg-lista"><p class="rg-cargando">Cargando la biblioteca…</p></div>
+        <p class="rg-vacio" id="rg-vacio" hidden>No hay recursos que coincidan con la búsqueda.</p>
+
+        <section class="rg-cat rg-uso" id="como-usarlos">
+            <h2>Cómo llevarlos a una historia</h2>
+            <div class="rg-uso__grid">
+                <div class="rg-grupo">
+                    <div class="rg-ghead"><h3>Recortes</h3><span class="rg-met recortes">Para guardar y reutilizar</span></div>
+                    <ol>
+                        <li>Guardá el PNG en Fotos.</li>
+                        <li>En la historia, tocá <b>stickers → Recortes</b> y creá un recorte nuevo con esa imagen.</li>
+                        <li>Queda en tu biblioteca de Recortes para la próxima vez.</li>
+                    </ol>
+                    <p>Ideal para logos planos, firma, flechas, íconos y etiquetas. Si la detección deja algo afuera, usá la versión <b>Para Recortes</b>.</p>
+                </div>
+                <div class="rg-grupo">
+                    <div class="rg-ghead"><h3>Copiar y pegar</h3><span class="rg-met pegar">Conserva el vidrio</span></div>
+                    <ol>
+                        <li>Abrí el sticker en grande y tocá <b>Copiar</b> (o mantené presionada la imagen → Copiar).</li>
+                        <li>En la historia aparece la sugerencia de agregarlo como sticker. Si no, tocá <b>Aa</b>, mantené presionado y elegí <b>Pegar</b>.</li>
+                    </ol>
+                    <p>Recomendado para marca de agua, resaltador, corchetes, marcos y piezas de vidrio.</p>
+                </div>
+                <div class="rg-grupo">
+                    <div class="rg-ghead"><h3>Antes de empezar</h3></div>
+                    <p>Probá con tres archivos: un logo plano, una etiqueta de vidrio y su versión para Recortes. Instagram cambia estas funciones seguido.</p>
+                    <p><b>No los mandes por WhatsApp como foto</b>: se pierde la transparencia. Si hace falta, enviálos como Documento.</p>
+                    <p><a class="rg-btn" href="{{ A }}GUIA_DE_USO_INSTAGRAM.pdf" target="_blank" rel="noopener">Guía completa (PDF)</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="rg-cat" id="laminas">
+            <h2>Láminas e historias de ejemplo <small>{{ recursosGraficos.laminas | length }} imágenes</small></h2>
+            <p class="rg-uso-txt">Hojas con toda la colección para recorrerla de un vistazo, y dos historias armadas con piezas de la biblioteca.</p>
+            <div class="rg-laminas">
+                {%- for l in recursosGraficos.laminas %}
+                <a class="rg-lamina" href="{{ A }}laminas/{{ l.f }}" target="_blank" rel="noopener">
+                    <span class="rg-lamina__img"><img loading="lazy" src="{{ A }}laminas/vista/{{ l.f }}" alt="{{ l.t }}" width="560" height="{{ l.vh }}"></span>
+                    <span class="rg-lamina__t">{{ l.t }}</span>
+                    <span class="rg-lamina__d">JPG · {{ l.w }} × {{ l.h }} px · {{ (l.s / 1000000) | round(1) | replace(".", ",") }} MB</span>
+                </a>
+                {%- endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer class="rg-pie">
+        Paleta y logotipo tomados del manual de marca de Cecilia Gortari, sin modificar sus proporciones · Tipografía Outfit (Regular, Medium y Bold).
+        ¿Necesitás otra pieza? Escribinos a <a href="mailto:prensa@ceciliagortari.com.ar">prensa@ceciliagortari.com.ar</a>.
+    </footer>
+
+    <div class="rg-visor" id="rg-visor" role="dialog" aria-modal="true" aria-labelledby="rg-vtit" hidden>
+        <div class="rg-visor__caja">
+            <div class="rg-visor__grande rg-prev" id="rg-vgrande"><img id="rg-vimg" alt=""></div>
+            <div class="rg-visor__lado">
+                <button type="button" class="rg-visor__cerrar" id="rg-vcerrar" aria-label="Cerrar">×</button>
+                <h3 id="rg-vtit"></h3>
+                <div id="rg-vinfo"></div>
+                <div class="rg-acc rg-acc--visor" id="rg-vacc"></div>
+                <p class="rg-visor__tip" id="rg-vtip">En el celular también podés mantener presionada la imagen y elegir <b>Guardar en Fotos</b> o <b>Copiar</b>.</p>
+                <div>
+                    <span class="rg-etq">Fondo</span>
+                    <div id="rg-vfondos" class="rg-fondos rg-fondos--visor"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rg-toast" id="rg-toast" role="status" aria-live="polite"></div>
+</div>
+
+<script type="application/json" id="rg-datos">{{ recursosGraficos.categorias | dump | replace("</", "<\\/") | safe }}</script>
+<script src="/assets/js/recursos-graficos.js?v=202610230345" defer></script>

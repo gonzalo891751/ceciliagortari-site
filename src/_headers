@@ -12,6 +12,11 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Biblioteca de recursos gráficos: los nombres no llevan versión, así que se revalidan cada día.
+/prensa/recursos-graficos/archivos/*
+  ! Cache-Control
+  Cache-Control: public, max-age=86400
+
 # Favicons y manifiesto: URLs estables y revalidación antes de reutilizar la caché.
 /favicon.ico
   ! Cache-Control
