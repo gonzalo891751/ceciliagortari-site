@@ -1,0 +1,64 @@
+VERIFICACIÓN DE LA BIBLIOTECA DE STICKERS — CECILIA GORTARI
+==============================================================
+
+Recursos: 83   PNG originales: 238   versiones _RECORTE: 222   SVG: 238
+
+  01_LOGOS_Y_MARCA                 9 recursos   23 PNG   20 _RECORTE
+  02_FLECHAS_Y_MARCADORES         15 recursos   54 PNG   48 _RECORTE
+  03_CAPSULAS_Y_CONTENEDORES       9 recursos   30 PNG   25 _RECORTE
+  04_ICONOS_INSTITUCIONALES       23 recursos   69 PNG   69 _RECORTE
+  05_ETIQUETAS_Y_TEXTOS           16 recursos   32 PNG   32 _RECORTE
+  06_ELEMENTOS_CREATIVOS          11 recursos   30 PNG   28 _RECORTE
+
+Dimensiones (ancho × alto en px):
+  1024×1024   124 archivos
+  2048×640     14 archivos
+  2048×512      9 archivos
+  2048×1286     6 archivos
+  2048×768      6 archivos
+  1536×1024     6 archivos
+  2048×1024     6 archivos
+  1536×1536     5 archivos
+  1024×384      5 archivos
+  2048×320      4 archivos
+  2048×1174     3 archivos
+  1536×1920     3 archivos
+  2048×384      3 archivos
+  2048×1568     2 archivos
+  2048×1186     2 archivos
+  2048×1219     2 archivos
+  2048×1280     2 archivos
+  2048×1408     2 archivos
+  1593×798      2 archivos
+  1605×798      2 archivos
+  1575×468      2 archivos
+  1688×468      2 archivos
+  1170×581      2 archivos
+  1888×468      2 archivos
+  1596×618      2 archivos
+  2032×937      2 archivos
+  1635×717      2 archivos
+  1757×468      2 archivos
+  2299×468      2 archivos
+  2600×468      2 archivos
+  1678×468      2 archivos
+  1571×468      2 archivos
+  1807×468      2 archivos
+  1226×468      2 archivos
+  1536×1280     2 archivos
+
+Controles aplicados a cada PNG y a cada versión _RECORTE:
+  · modo RGBA (transparencia real con canal alfa)
+  · tamaño igual al declarado; sin fondo incrustado (hay píxeles 100 % transparentes) y esquinas transparentes
+  · margen libre alrededor del elemento (mínimo encontrado: 1.8% del lado)
+  · píxeles transparentes guardados en gris neutro (si una app ignora el alfa, no aparece un fondo negro)
+  · SVG editable presente y con XML válido
+  · nombres sin espacios, tildes ni símbolos; sin archivos idénticos; sin archivos sueltos fuera del índice
+  · catálogo HTML, guía PDF y 460 miniaturas presentes
+
+Láminas: EJEMPLO_HISTORIA_1_SESION.jpg, EJEMPLO_HISTORIA_2_AGENDA.jpg, LAMINA_00_INDICE_GENERAL.jpg, LAMINA_01_LOGOS_Y_MARCA.jpg, LAMINA_02_FLECHAS_Y_MARCADORES.jpg, LAMINA_03_CAPSULAS_Y_CONTENEDORES.jpg, LAMINA_04_ICONOS_INSTITUCIONALES.jpg, LAMINA_05_ETIQUETAS_Y_TEXTOS.jpg, LAMINA_06_ELEMENTOS_CREATIVOS.jpg, LAMINA_07_VERSIONES_PARA_RECORTES_A.jpg, LAMINA_07_VERSIONES_PARA_RECORTES_B.jpg, LAMINA_08_EJEMPLOS_DE_HISTORIAS.jpg
+
+Errores: 0
+Avisos: 0
+
+Revisión visual: todas las categorías se revisaron sobre fondo de transparencia, claro, grafito y dos fotografías.

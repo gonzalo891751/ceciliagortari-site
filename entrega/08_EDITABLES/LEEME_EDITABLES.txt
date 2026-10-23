@@ -1,0 +1,10 @@
+EDITABLES SVG — Biblioteca de stickers de Cecilia Gortari
+
+Hay un SVG por cada PNG de las carpetas 01 a 06, ordenados en subcarpetas por categoría y con el mismo nombre.
+
+· Se abren con Inkscape, Illustrator, Figma o Affinity Designer.
+· Los textos usan la tipografía Outfit: tiene que estar instalada en la computadora (también está en
+  09_CATALOGOS_Y_GUIAS/_recursos/fuentes). El manual admite Regular, Medium y Bold.
+· Los logos son los trazos vectoriales originales del manual de marca: no los modifiques, no los deformes ni cambies sus colores.
+· Si editás un SVG, exportá el PNG con fondo transparente a 1024 px o más de lado.
+· Los efectos de vidrio (desenfoques, degradés y sombras) se ven mejor en Inkscape y en navegadores; algunos programas los simplifican.
