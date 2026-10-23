@@ -77,7 +77,7 @@
 
   const thumb = i => `${BASE}miniaturas/${i.a}${ver === 'rec' && i.rec ? '_RECORTE' : ''}.webp`;
   // Archivo que corresponde a la versión elegida (las piezas sin troquelado usan el original).
-  const elegido = i => (ver === 'rec' && i.rec ? { rel: i.rec, s: i.rs } : { rel: i.png, s: i.ps });
+  const elegido = (i, v = ver) => (v === 'rec' && i.rec ? { rel: i.rec, s: i.rs } : { rel: i.png, s: i.ps });
 
   function zipInfo(c) {
     let n = 0, s = 0;
@@ -196,8 +196,10 @@
 
   async function descargarZip(id, boton) {
     const c = D.find(x => x.id === id);
+    // La versión se fija al tocar el botón: si se cambia mientras se arma, el ZIP no se mezcla.
+    const v = ver;
     const archivos = [];
-    c.grupos.forEach(g => g.items.forEach(i => archivos.push(elegido(i).rel)));
+    c.grupos.forEach(g => g.items.forEach(i => archivos.push(elegido(i, v).rel)));
     const texto = boton.textContent;
     boton.disabled = true;
     try {
@@ -220,7 +222,7 @@
       const blob = await zip.generateAsync({ type: 'blob', compression: 'STORE' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = `CECILIA_GORTARI_${c.dir}${ver === 'rec' ? '_PARA_RECORTES' : ''}.zip`;
+      a.download = `CECILIA_GORTARI_${c.dir}${v === 'rec' ? '_PARA_RECORTES' : ''}.zip`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -294,7 +296,25 @@
       abrir(t.dataset.a);
     }
   });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrar(); });
+  document.addEventListener('keydown', e => {
+    const v = $('#rg-visor');
+    if (v.hidden) return;
+    if (e.key === 'Escape') {
+      cerrar();
+    } else if (e.key === 'Tab') {
+      // Con el visor abierto, el foco no sale hacia la página de atrás.
+      const f = [...v.querySelectorAll('button, a[href]')].filter(x => x.getClientRects().length);
+      if (!f.length) return;
+      const dentro = v.contains(document.activeElement);
+      if (e.shiftKey && (!dentro || document.activeElement === f[0])) {
+        e.preventDefault();
+        f[f.length - 1].focus();
+      } else if (!e.shiftKey && (!dentro || document.activeElement === f[f.length - 1])) {
+        e.preventDefault();
+        f[0].focus();
+      }
+    }
+  });
   $('#rg-buscar').addEventListener('input', filtrar);
 
   pintar();
