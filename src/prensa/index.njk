@@ -1,10 +1,10 @@
 ---
 layout: layouts/base.njk
 title: "Prensa | Cecilia Gortari - Diputada Provincial"
-description: "Sala de prensa oficial de Cecilia Gortari. Información institucional, biografía, galería de imágenes, identidad visual y recursos para medios de comunicación."
+description: "Sala de prensa oficial de Cecilia Gortari. Información institucional, biografía, galería de imágenes y recursos gráficos de uso libre para medios de comunicación."
 ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
 bodyClass: "page-prensa-sala"
-extraCSS: "/assets/css/prensa-sala.css?v=202610230300"
+extraCSS: "/assets/css/prensa-sala.css?v=202610231200"
 ---
 
     <!-- ============================
@@ -231,144 +231,50 @@ extraCSS: "/assets/css/prensa-sala.css?v=202610230300"
     </section>
 
     <!-- ============================
-         4) IDENTIDAD VISUAL / LOGOS
+         4) RECURSOS GRÁFICOS (identidad visual)
+         Acceso a la biblioteca: una tarjeta por tipo, que abre la biblioteca ya filtrada.
          ============================ -->
-    <section class="prensa-identidad" id="identidad-visual">
-        <div class="prensa-identidad__container">
-
-            <!-- 4A. Versiones de marca -->
-            <div class="prensa-identidad__header">
-                <h2 class="prensa-identidad__title">Identidad visual</h2>
-                <p class="prensa-identidad__lead">Logotipos oficiales en formatos editables y con transparencia.</p>
+    {%- set RG = "/prensa/recursos-graficos/" %}
+    {%- set tiles = [
+        {"id": "01", "t": "Logos y marca", "img": "01-01_imagotipo-oficial_blanco", "oscuro": true},
+        {"id": "02", "t": "Flechas y marcadores", "img": "02-03_flecha-curva_derecha_magenta", "oscuro": false},
+        {"id": "03", "t": "Cápsulas y contenedores", "img": "03-01_capsula-vidrio_vidrio-claro", "oscuro": true},
+        {"id": "04", "t": "Íconos", "img": "04-01_icono-camara-de-diputados_insignia-oscura", "oscuro": false},
+        {"id": "05", "t": "Etiquetas y títulos", "img": "05-19_etiqueta-entrevista_magenta", "oscuro": false},
+        {"id": "06", "t": "Elementos", "img": "06-12_pin-de-ubicacion_rojo", "oscuro": true},
+        {"id": "09", "t": "Emojis", "img": "09-02_emoji-carcajada", "oscuro": false}
+    ] %}
+    <section class="prensa-recursos" id="recursos-graficos">
+        <span class="prensa-recursos__ancla" id="identidad-visual" aria-hidden="true"></span>
+        <div class="prensa-recursos__container">
+            <div class="prensa-recursos__header">
+                <span class="prensa-recursos__eyebrow">Identidad visual · De uso libre</span>
+                <h2 class="prensa-recursos__title">Recursos gráficos</h2>
+                <p class="prensa-recursos__lead">Logos, íconos, etiquetas y elementos de la marca de Cecilia Gortari en PNG con fondo transparente y SVG editable.</p>
             </div>
 
-            <!-- 4·0. Biblioteca de recursos gráficos (stickers para historias) -->
-            <div class="recursos-promo">
-                <div class="recursos-promo__muestra" aria-hidden="true">
-                    <img src="/prensa/recursos-graficos/archivos/miniaturas/01-05_logo-vidrio-premium_vidrio-claro.webp" alt="" width="520" height="327" loading="lazy" class="recursos-promo__pieza recursos-promo__pieza--logo">
-                    <img src="/prensa/recursos-graficos/archivos/miniaturas/05-03_etiqueta-EN-SESION_blanco.webp" alt="" loading="lazy" class="recursos-promo__pieza recursos-promo__pieza--etiqueta">
-                    <img src="/prensa/recursos-graficos/archivos/miniaturas/02-03_flecha-curva_derecha_magenta.webp" alt="" loading="lazy" class="recursos-promo__pieza recursos-promo__pieza--flecha">
-                    <img src="/prensa/recursos-graficos/archivos/miniaturas/04-01_icono-camara-de-diputados_insignia-clara.webp" alt="" loading="lazy" class="recursos-promo__pieza recursos-promo__pieza--icono">
-                    <img src="/prensa/recursos-graficos/archivos/miniaturas/06-10_mapa-corrientes-goya_vidrio.webp" alt="" loading="lazy" class="recursos-promo__pieza recursos-promo__pieza--mapa">
-                </div>
-                <div class="recursos-promo__texto">
-                    <span class="recursos-promo__eyebrow">De uso libre</span>
-                    <h3 class="recursos-promo__title">Recursos gráficos</h3>
-                    <p class="recursos-promo__lead">Logos, íconos, flechas, etiquetas y elementos de la identidad visual de Cecilia Gortari en PNG con fondo transparente y SVG editable. Filtrá por tipo y color, y descargá lo que necesites.</p>
-                    <a href="/prensa/recursos-graficos/" class="recursos-promo__btn">
-                        Ir a los recursos gráficos
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            <ul class="prensa-recursos__grid" role="list">
+                {%- for t in tiles %}
+                <li>
+                    <a class="recurso-tile" href="{{ RG }}?tipo={{ t.id }}">
+                        <span class="recurso-tile__media{{ ' recurso-tile__media--oscuro' if t.oscuro }}">
+                            <img src="{{ RG }}archivos/miniaturas/{{ t.img }}.webp" alt="" loading="lazy">
+                        </span>
+                        <span class="recurso-tile__nombre">{{ t.t }}</span>
+                        <span class="recurso-tile__n">{%- for c in recursosGraficos.categorias %}{% if c.id == t.id %}{{ c.grupos | length }} recursos{% endif %}{% endfor %}</span>
                     </a>
-                </div>
-            </div>
-
-            <h3 class="prensa-identidad__subtitle">Versiones de marca</h3>
-
-            <div class="prensa-identidad__grid prensa-identidad__grid--quad">
-
-                <!-- Logo 1: Color Fondo Claro -->
-                <div class="logo-card">
-                    <div class="logo-card__preview logo-card__preview--light">
-                        <span class="logo-card__wordmark"><span class="text-black">Cecilia</span><span style="color:#9F57A7;">Gortari</span></span>
-                        <span class="logo-card__subtitle">Diputada provincial</span>
-                    </div>
-                    <h4 class="logo-card__name">Color (Fondos claros)</h4>
-                    <div class="logo-card__downloads">
-                        <a href="/assets/prensa/logo-marca-color-claro.png" download class="logo-card__dl-btn logo-card__dl-btn--primary">PNG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                        <a href="/assets/prensa/logo-marca-color-claro.svg" download class="logo-card__dl-btn">SVG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Logo 2: Color Fondo Oscuro -->
-                <div class="logo-card">
-                    <div class="logo-card__preview logo-card__preview--dark">
-                        <span class="logo-card__wordmark"><span class="text-white">Cecilia</span><span style="color:#E4BFE8;">Gortari</span></span>
-                        <span class="logo-card__subtitle" style="color:rgba(228,191,232,0.8);">Diputada provincial</span>
-                    </div>
-                    <h4 class="logo-card__name">Color (Fondos oscuros)</h4>
-                    <div class="logo-card__downloads">
-                        <a href="/assets/prensa/logo-marca-color-oscuro.png" download class="logo-card__dl-btn logo-card__dl-btn--primary">PNG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                        <a href="/assets/prensa/logo-marca-color-oscuro.svg" download class="logo-card__dl-btn">SVG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Logo 3: Monocromo Negro -->
-                <div class="logo-card">
-                    <div class="logo-card__preview logo-card__preview--mono-light">
-                        <span class="logo-card__wordmark text-black">CeciliaGortari</span>
-                        <span class="logo-card__subtitle" style="color:#000;">Diputada provincial</span>
-                    </div>
-                    <h4 class="logo-card__name">Monocromo Negro</h4>
-                    <div class="logo-card__downloads">
-                        <a href="/assets/prensa/logo-marca-monocromo-negro.png" download class="logo-card__dl-btn logo-card__dl-btn--primary">PNG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                        <a href="/assets/prensa/logo-marca-monocromo-negro.svg" download class="logo-card__dl-btn">SVG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Logo 4: Monocromo Blanco -->
-                <div class="logo-card">
-                    <div class="logo-card__preview logo-card__preview--mono-dark">
-                        <span class="logo-card__wordmark text-white">CeciliaGortari</span>
-                        <span class="logo-card__subtitle" style="color:rgba(255,255,255,0.9);">Diputada provincial</span>
-                    </div>
-                    <h4 class="logo-card__name">Monocromo Blanco</h4>
-                    <div class="logo-card__downloads">
-                        <a href="/assets/prensa/logo-marca-monocromo-blanco.png" download class="logo-card__dl-btn logo-card__dl-btn--primary">PNG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                        <a href="/assets/prensa/logo-marca-monocromo-blanco.svg" download class="logo-card__dl-btn">SVG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- 4B. Logos institucionales adicionales -->
-            <h3 class="prensa-identidad__subtitle prensa-identidad__subtitle--spaced">Logos institucionales adicionales</h3>
-
-            <div class="prensa-identidad__grid prensa-identidad__grid--duo">
-
-                <!-- Logo Cecilia Gortari — fondo oscuro para apreciar letras blancas -->
-                <div class="logo-card">
-                    <div class="logo-card__preview logo-card__preview--dark">
-                        <img src="/assets/img/logo-cecilia.png" alt="Logo Cecilia Gortari" class="logo-card__real-img">
-                    </div>
-                    <h4 class="logo-card__name">Cecilia Gortari</h4>
-                    <p class="logo-card__note">Logo con transparencia (letras blancas)</p>
-                    <div class="logo-card__downloads">
-                        <a href="/assets/img/logo-cecilia.png" download class="logo-card__dl-btn logo-card__dl-btn--primary">Descargar PNG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Logo Escuela de Emprendedores — fondo oscuro para apreciar letras blancas -->
-                <div class="logo-card">
-                    <div class="logo-card__preview logo-card__preview--dark">
-                        <img src="/assets/img/logo-escuela.png" alt="Logo Escuela de Emprendedores" class="logo-card__real-img">
-                    </div>
-                    <h4 class="logo-card__name">Escuela de Emprendedores</h4>
-                    <div class="logo-card__downloads">
-                        <a href="/assets/img/logo-escuela.png" download class="logo-card__dl-btn logo-card__dl-btn--primary">Descargar PNG
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
+                </li>
+                {%- endfor %}
+                <li>
+                    <a class="recurso-tile recurso-tile--todo" href="{{ RG }}">
+                        <span class="recurso-tile__total">{{ recursosGraficos.resumen.recursos }}<small> recursos</small></span>
+                        <span class="recurso-tile__nombre">Ver toda la biblioteca
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </span>
+                        <span class="recurso-tile__n">{{ recursosGraficos.resumen.png }} PNG · {{ recursosGraficos.resumen.svg }} SVG</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </section>
 

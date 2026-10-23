@@ -17,12 +17,9 @@
     ['ajedrez', 'Transparente', 'linear-gradient(45deg,#ddd 50%,#fff 50%)'],
     ['blanco', 'Blanco', '#fff'],
     ['oscuro', 'Grafito', '#2C2C31'],
-    ['negro', 'Negro', '#0d0d10'],
-    ['foto1', 'Foto 1', `url(${BASE}fondos/foto-1.jpg) center/cover`],
-    ['foto2', 'Foto 2', `url(${BASE}fondos/foto-2.jpg) center/cover`],
-    ['foto3', 'Foto 3', `url(${BASE}fondos/foto-3.jpg) center/cover`]
+    ['negro', 'Negro', '#0d0d10']
   ];
-  const TIPOS = { '01': 'Logos y marca', '02': 'Flechas y marcadores', '03': 'Cápsulas y contenedores', '04': 'Íconos', '05': 'Etiquetas con texto', '06': 'Elementos creativos' };
+  const TIPOS = { '01': 'Logos y marca', '02': 'Flechas y marcadores', '03': 'Cápsulas y contenedores', '04': 'Íconos', '05': 'Etiquetas con texto', '06': 'Elementos creativos', '09': 'Emojis' };
   const COLORES = [
     ['azul-noche', 'Azul noche', '#11103B'],
     ['azul', 'Azul', '#265EEC'],
@@ -30,6 +27,8 @@
     ['naranja', 'Naranja', '#FBA85F'],
     ['turquesa', 'Turquesa', '#24BCDE'],
     ['blanco', 'Blanco', '#fff'],
+    ['rojo', 'Rojo', '#E8364A'],
+    ['verde', 'Verde', '#22B46B'],
     ['vidrio', 'Vidrio', 'linear-gradient(135deg,#f4eef7 0%,#d9cfe0 55%,#fff 100%)']
   ];
   const FONDO_USO = [['claro', 'Fondo claro'], ['oscuro', 'Fondo oscuro o foto']];
@@ -49,6 +48,9 @@
   TOKEN['insignia-oscura'] = { color: ['vidrio', 'azul-noche'], fondo: 'claro' };
   TOKEN['insignia-clara'] = { color: ['vidrio'], fondo: 'oscuro' };
   ['vidrio-claro', 'vidrio-rosa', 'vidrio'].forEach(t => { TOKEN[t] = { color: ['vidrio'], fondo: 'oscuro' }; });
+  // Rojo y verde de convención (pin, en vivo, tilde y cruz): se leen sobre cualquier fondo.
+  ['rojo', 'cruz-roja', 'cruz-roja-suelta'].forEach(t => { TOKEN[t] = { color: ['rojo'] }; });
+  ['tilde-verde', 'tilde-verde-suelta'].forEach(t => { TOKEN[t] = { color: ['verde'] }; });
   // Recursos cuyo nombre no trae color.
   const GRUPO = { '06-04': { color: ['magenta'] }, '06-06': { color: ['vidrio'], fondo: 'oscuro' } };
   const ETQ = {
@@ -66,7 +68,7 @@
       const m = TOKEN[t];
       if (!m) return;
       m.color.forEach(x => colores.add(x));
-      fondos.add(m.fondo);
+      if (m.fondo) fondos.add(m.fondo);
     });
     const extra = GRUPO[g.id];
     if (extra) {
@@ -75,7 +77,7 @@
     }
     // Sin un color que lo ate a un fondo, sirve para los dos.
     if (!fondos.size) { fondos.add('claro'); fondos.add('oscuro'); }
-    const nombre = tokens.map(etiqueta).join(' · ');
+    const nombre = tokens.filter(Boolean).map(etiqueta).join(' · ') || g.t;
     ITEMS.push(Object.assign(i, {
       c, g, colores, fondos, nombre,
       q: normal([TIPOS[c.id], c.t, g.t, g.tags, nombre, i.a].join(' '))
@@ -141,6 +143,8 @@
   function ubicarBarra() {
     if (navbar) raiz.style.setProperty('--rg-top', Math.round(navbar.getBoundingClientRect().height) + 'px');
     raiz.style.setProperty('--rg-barra-h', Math.round($('#rg-barra').getBoundingClientRect().height) + 'px');
+    // Fija bajo el navbar, la barra tapa también la franja de atrás del navbar flotante.
+    raiz.classList.toggle('rg-fija', $('#rg-barra').getBoundingClientRect().top <= (navbar ? navbar.getBoundingClientRect().height : 0) + 1);
   }
   let pendiente = false;
   window.addEventListener('scroll', () => {
@@ -154,7 +158,7 @@
 
   // --- Pintado ---
   const nGrupos = D.reduce((n, c) => n + c.grupos.length, 0);
-  $('#rg-stats').innerHTML = `<span><b>${nGrupos}</b> recursos</span><span><b>${ITEMS.length}</b> PNG</span><span><b>${ITEMS.length}</b> SVG</span>`;
+  $('#rg-stats').innerHTML = `<span><b>${nGrupos}</b> recursos</span><span><b>${ITEMS.length}</b> PNG</span><span><b>${ITEMS.filter(i => i.svg).length}</b> SVG</span>`;
   const chipsFondo = attr => FONDOS.map(f => `<button type="button" class="rg-sw-btn" ${attr}="${f[0]}" title="${f[1]}" aria-label="${f[1]}"><span class="rg-sw" style="background:${f[2]}"></span></button>`).join('');
   $('#rg-fondos').innerHTML = chipsFondo('data-f');
   $('#rg-vfondos').innerHTML = chipsFondo('data-vf');
@@ -197,7 +201,7 @@
     } else {
       h += `<a${puedeCopiar ? ' class="pri"' : ''} href="${BASE}${esc(f.rel)}" download="${esc(base(f.rel))}">PNG</a>`;
     }
-    h += `<a data-k="svg" href="${BASE}${esc(i.svg)}" download="${esc(base(i.svg))}">SVG</a>`;
+    if (i.svg) h += `<a data-k="svg" href="${BASE}${esc(i.svg)}" download="${esc(base(i.svg))}">SVG</a>`;
     return h;
   }
 

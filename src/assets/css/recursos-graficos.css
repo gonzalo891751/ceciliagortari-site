@@ -70,6 +70,17 @@
     gap: 10px;
     align-items: center;
 }
+.rg-barra::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: var(--rg-top);
+    background: var(--gf7);
+    display: none;
+}
+.rg-fija .rg-barra::before { display: block; }
 .rg input[type=search] {
     font: 400 16px Outfit, sans-serif;
     border: 1px solid var(--gca);
@@ -213,19 +224,6 @@
 .rg.f-blanco .rg-prev, .rg .rg-visor.f-blanco .rg-prev { background: #FFFFFF; }
 .rg.f-oscuro .rg-prev, .rg .rg-visor.f-oscuro .rg-prev { background: #2C2C31; }
 .rg.f-negro .rg-prev, .rg .rg-visor.f-negro .rg-prev { background: #0d0d10; }
-.rg.f-foto1 .rg-prev, .rg .rg-visor.f-foto1 .rg-prev { background: url(/prensa/recursos-graficos/archivos/fondos/foto-1.jpg) center/cover; }
-.rg.f-foto2 .rg-prev, .rg .rg-visor.f-foto2 .rg-prev { background: url(/prensa/recursos-graficos/archivos/fondos/foto-2.jpg) center/cover; }
-.rg.f-foto3 .rg-prev, .rg .rg-visor.f-foto3 .rg-prev { background: url(/prensa/recursos-graficos/archivos/fondos/foto-3.jpg) center/cover; }
-
-/* --- Láminas --- */
-.rg-laminas-sec { margin-top: 40px; }
-.rg-laminas { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
-.rg-lamina { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--gec); border-radius: 14px; overflow: hidden; color: var(--noche); }
-.rg-lamina:hover { border-color: var(--magenta); }
-.rg-lamina__img { display: block; height: 240px; overflow: hidden; background: var(--gec); }
-.rg-lamina__img img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-.rg-lamina__t { padding: 9px 11px 0; font-weight: 700; font-size: 14px; }
-.rg-lamina__d { padding: 2px 11px 11px; font-size: 12px; color: var(--g4e); }
 
 .rg-pie { padding: 4px 40px 40px; color: var(--g4e); font-size: 13px; }
 .rg-pie a { color: var(--magenta-osc); font-weight: 500; text-decoration: underline; text-underline-offset: 2px; }
@@ -307,8 +305,6 @@ html.rg-bloqueo, html.rg-bloqueo body { overflow: hidden; }
     .rg-info { padding: 8px 8px 10px; }
     .rg-card .rg-acc [data-k="svg"] { display: none; }
     .rg-acc a, .rg-acc button { font-size: 13px; padding: 6px 10px; }
-    .rg-laminas { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-    .rg-lamina__img { height: 190px; }
     .rg-visor { padding: 0; align-items: stretch; }
     .rg-visor__caja { grid-template-columns: 1fr; max-width: none; max-height: none; height: 100%; border-radius: 0; overflow: auto; grid-template-rows: auto auto; align-content: start; }
     .rg-visor__grande { min-height: 52vh; padding-top: env(safe-area-inset-top); }

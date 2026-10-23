@@ -4,14 +4,14 @@ title: "Recursos gráficos | Cecilia Gortari - Diputada Provincial"
 description: "Logos, íconos, flechas, etiquetas y elementos de la identidad visual de Cecilia Gortari en PNG con fondo transparente y SVG editable. De uso libre para prensa y difusión."
 ogImage: "https://ceciliagortari.com.ar/prensa/recursos-graficos/archivos/og-recursos-graficos.jpg"
 bodyClass: "page-recursos-graficos"
-extraCSS: "/assets/css/recursos-graficos.css?v=202610230500"
+extraCSS: "/assets/css/recursos-graficos.css?v=202610231200"
 ---
 {%- set A = "/prensa/recursos-graficos/archivos/" -%}
 <div class="rg f-ajedrez" id="rg">
 
     <header class="rg-head">
         <nav class="rg-migas" aria-label="Ruta de navegación">
-            <a href="/prensa/#identidad-visual">Prensa</a><span aria-hidden="true">›</span><span>Recursos gráficos</span>
+            <a href="/prensa/#recursos-graficos">Prensa</a><span aria-hidden="true">›</span><span>Recursos gráficos</span>
         </nav>
         <h1>Recursos gráficos</h1>
         <p>Logos, íconos, flechas, etiquetas y elementos de la identidad visual de Cecilia Gortari, en PNG con fondo transparente y SVG editable. De uso libre.</p>
@@ -61,19 +61,6 @@ extraCSS: "/assets/css/recursos-graficos.css?v=202610230500"
                 <button type="button" class="rg-btn" id="rg-zip"></button>
                 <span class="rg-zipbar__nota" id="rg-zip-nota"></span>
             </div>
-
-            <section class="rg-cat rg-laminas-sec" id="laminas">
-                <h2>Láminas de la colección</h2>
-                <div class="rg-laminas">
-                    {%- for l in recursosGraficos.laminas %}
-                    <a class="rg-lamina" href="{{ A }}laminas/{{ l.f }}" target="_blank" rel="noopener">
-                        <span class="rg-lamina__img"><img loading="lazy" src="{{ A }}laminas/vista/{{ l.f }}" alt="{{ l.t }}" width="560" height="{{ l.vh }}"></span>
-                        <span class="rg-lamina__t">{{ l.t }}</span>
-                        <span class="rg-lamina__d">JPG · {{ l.w }} × {{ l.h }} px · {{ (l.s / 1000000) | round(1) | replace(".", ",") }} MB</span>
-                    </a>
-                    {%- endfor %}
-                </div>
-            </section>
         </main>
     </div>
 
@@ -103,4 +90,4 @@ extraCSS: "/assets/css/recursos-graficos.css?v=202610230500"
 </div>
 
 <script type="application/json" id="rg-datos">{{ recursosGraficos.categorias | dump | replace("</", "<\\/") | safe }}</script>
-<script src="/assets/js/recursos-graficos.js?v=202610230500" defer></script>
+<script src="/assets/js/recursos-graficos.js?v=202610231200" defer></script>
