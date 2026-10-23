@@ -6,6 +6,7 @@ CATS = {
     '04': '04_ICONOS_INSTITUCIONALES',
     '05': '05_ETIQUETAS_Y_TEXTOS',
     '06': '06_ELEMENTOS_CREATIVOS',
+    '09': '09_EMOJIS',
 }
 CAT_TITULO = {
     '01': 'Logos y marca', '02': 'Flechas y marcadores', '03': 'Cápsulas y contenedores',
