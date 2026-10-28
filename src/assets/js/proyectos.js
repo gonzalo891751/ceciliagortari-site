@@ -21,7 +21,7 @@
   var el = {
     grid: $('[data-grid]'), empty: $('[data-empty]'), error: $('[data-error]'), more: $('[data-more]'),
     moreBtn: $('[data-more-btn]'), moreText: $('[data-more-text]'), results: $('#lg-results'), chips: $('[data-chips]'),
-    q: $('#lg-q'), orden: $('#lg-orden'), vista: $('[data-vista]'),
+    q: $('#lg-q'), orden: $('#lg-orden'), vista: $('[data-vista]'), sesion: $('#lg-sesion'),
     segment: $('[data-segment]'), scopeNote: $('[data-scope-note]'), estados: $('[data-estados]'), tipos: $('[data-tipos]'),
     badge: $('[data-filtros-activos]'),
     layout: $('[data-layout]'), panelToggle: $('[data-panel-toggle]'), panelToggleLabel: $('[data-panel-toggle-label]'),
@@ -30,7 +30,7 @@
 
   var todos = [];
   var comisionesGlobal = [];
-  var state = { grupo: 'todos', q: '', comision: '', tipo: '', estado: '', mes: '', orden: 'recientes', vista: 'grilla', visibles: PAGE, spotlight: '' };
+  var state = { grupo: 'todos', q: '', comision: '', tipo: '', estado: '', sesion: '', mes: '', orden: 'recientes', vista: 'grilla', visibles: PAGE, spotlight: '' };
 
   // ---------------------------------------------------------------- filtros
   function enGrupo(p, grupo) {
@@ -70,6 +70,7 @@
         (excepto === 'comision' || coincideComision(p, state.comision)) &&
         (excepto === 'tipo' || !state.tipo || p.tipo_corto === state.tipo) &&
         (excepto === 'estado' || !state.estado || p.estado_grupo === state.estado) &&
+        (excepto === 'sesion' || !state.sesion || p.fecha_presentacion === state.sesion) &&
         (!state.mes || String(p.fecha_presentacion).slice(0, 7) === state.mes);
     });
   }
@@ -113,6 +114,15 @@
     })).map(function (t) {
       return { value: t, label: t, n: porTipo.filter(function (p) { return p.tipo_corto === t; }).length };
     }), state.tipo);
+
+    // Sesiones de la más reciente a la más antigua, con la cantidad de proyectos presentados en cada una.
+    var porSesion = filtrar('sesion');
+    el.sesion.innerHTML = '<option value="">Todas las sesiones</option>' + Object.keys(L.SESIONES).sort().reverse().map(function (f) {
+      var n = porSesion.filter(function (p) { return p.fecha_presentacion === f; }).length;
+      return '<option value="' + f + '"' + (n || f === state.sesion ? '' : ' disabled') + '>' +
+        L.esc(L.sesionTexto(f) + ' · ' + L.fecha(f) + ' (' + n + ')') + '</option>';
+    }).join('');
+    el.sesion.value = state.sesion;
   }
 
   // ---------------------------------------------------------------- análisis
@@ -167,6 +177,7 @@
     if (state.comision) chip('comision', state.comision === TABLAS ? 'Sobre tablas' : state.comision);
     if (state.tipo) chip('tipo', state.tipo);
     if (state.estado) chip('estado', ESTADOS[state.estado]);
+    if (state.sesion) chip('sesion', L.sesionTexto(state.sesion) + ' · ' + L.fecha(state.sesion));
     if (state.mes) chip('mes', 'Presentados en ' + L.mesTexto(state.mes));
     if (chips.length > 1) chips.push('<button type="button" class="lg-link-btn" data-reset>Limpiar filtros</button>');
     el.chips.innerHTML = chips.join('');
@@ -223,7 +234,7 @@
       b.setAttribute('aria-pressed', String(b.getAttribute('data-grupo') === state.grupo));
     });
     el.scopeNote.textContent = GRUPOS[state.grupo].nota;
-    var activos = [state.grupo !== 'todos', state.estado, state.tipo, state.comision, state.mes].filter(Boolean).length;
+    var activos = [state.grupo !== 'todos', state.estado, state.tipo, state.sesion, state.comision, state.mes].filter(Boolean).length;
     el.badge.hidden = !activos;
     el.badge.textContent = activos ? activos + ' ' + L.plural(activos, 'activo', 'activos') : '';
     if (el.reloj) {
@@ -243,6 +254,7 @@
       if (state.comision) params.set('comision', state.comision === TABLAS ? 'sobre-tablas' : state.comision);
       if (state.tipo) params.set('tipo', state.tipo);
       if (state.estado) params.set('estado', state.estado);
+      if (state.sesion) params.set('sesion', state.sesion);
       if (state.mes) params.set('mes', state.mes);
       if (state.orden !== 'recientes') params.set('orden', state.orden);
       if (state.vista === 'lista') params.set('vista', 'lista');
@@ -332,14 +344,14 @@
   }
 
   function resetear() {
-    state.grupo = 'todos'; state.q = ''; state.comision = ''; state.tipo = ''; state.estado = ''; state.mes = ''; state.spotlight = '';
+    state.grupo = 'todos'; state.q = ''; state.comision = ''; state.tipo = ''; state.estado = ''; state.sesion = ''; state.mes = ''; state.spotlight = '';
     render({ syncInputs: true });
   }
 
   /** Mes del reloj de caducidad: muestra solo los proyectos de ese mes que siguen esperando (otro clic lo quita). */
   function verMes(mes) {
     var activo = state.mes === mes && state.estado === 'comision';
-    state.grupo = 'todos'; state.q = ''; state.comision = ''; state.tipo = ''; state.spotlight = '';
+    state.grupo = 'todos'; state.q = ''; state.comision = ''; state.tipo = ''; state.sesion = ''; state.spotlight = '';
     state.estado = 'comision';
     state.mes = activo ? '' : mes;
     render({ syncInputs: true });
@@ -378,6 +390,7 @@
       guardarUrl();
     });
     el.orden.addEventListener('change', function () { state.orden = el.orden.value; render(); });
+    el.sesion.addEventListener('change', function () { state.sesion = el.sesion.value; state.spotlight = ''; render(); });
     el.moreBtn.addEventListener('click', function () {
       var antes = state.visibles;
       state.visibles += PAGE;
@@ -424,6 +437,7 @@
     state.comision = comision === 'sobre-tablas' ? TABLAS : (comisionesGlobal.indexOf(comision) !== -1 ? comision : '');
     state.tipo = TIPOS.indexOf(params.get('tipo')) !== -1 ? params.get('tipo') : '';
     state.estado = ESTADOS[params.get('estado')] ? params.get('estado') : '';
+    state.sesion = L.SESIONES[params.get('sesion')] ? params.get('sesion') : '';
     state.mes = /^\d{4}-(0[1-9]|1[0-2])$/.test(params.get('mes') || '') ? params.get('mes') : '';
     state.orden = ['recientes', 'antiguos', 'expediente'].indexOf(params.get('orden')) !== -1 ? params.get('orden') : 'recientes';
     setVista(params.get('vista') || leerVista(), false);

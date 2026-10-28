@@ -32,6 +32,19 @@
   // Un expediente sin tratamiento caduca a los dos años de su presentación.
   var CADUCIDAD_ANIOS = 2;
 
+  // Sesiones ordinarias de 2026 según los informes oficiales de la Cámara ("16/09/26 15ª S.O."; el informe del
+  // 28/10 numera la 18.ª y la 17.ª del 14/10). Los proyectos se presentan en sesión: fecha_presentacion es su fecha.
+  var SESIONES = {
+    '2026-03-11': 1, '2026-03-18': 2, '2026-04-08': 3, '2026-04-15': 4, '2026-04-29': 5, '2026-05-06': 6,
+    '2026-05-13': 7, '2026-05-27': 8, '2026-06-03': 9, '2026-06-17': 10, '2026-07-08': 11, '2026-08-05': 12,
+    '2026-08-19': 13, '2026-08-26': 14, '2026-09-16': 15, '2026-09-23': 16, '2026-10-14': 17, '2026-10-28': 18
+  };
+
+  /** "18.ª sesión" para la fecha de una sesión ordinaria registrada; '' si no corresponde a ninguna. */
+  function sesionTexto(iso) {
+    return SESIONES[iso] ? SESIONES[iso] + '.ª sesión' : '';
+  }
+
   function esc(value) {
     return String(value == null ? '' : value)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -89,7 +102,7 @@
 
   function estadoTexto(p) {
     if (p.estado_grupo === 'aprobado') return p.estado_tramite === 'Sancionado' ? 'Sancionado' : 'Aprobado';
-    if (p.estado_grupo === 'comision') return 'Esperando tratamiento';
+    if (p.estado_grupo === 'comision') return 'Guardado en comisión';
     return p.estado_tramite || 'En comisiones';
   }
 
@@ -333,20 +346,31 @@
     return 'Sin dato en la ficha oficial';
   }
 
-  function accionesHtml(p) {
-    var oficial = p.enlace_oficial
-      ? '<a class="lg-official' + (p.documento ? '' : ' lg-official--button') + '" href="' + esc(p.enlace_oficial) + '" target="_blank" rel="noopener">' +
-          (p.documento ? 'Ficha oficial' : 'Consultar ficha oficial') +
-          '<span class="lg-sr-only"> del expediente ' + esc(numero(p.numero_expediente)) + ' (se abre en una pestaña nueva)</span>' + ICON.external + '</a>'
-      : '';
-    if (p.documento) {
-      var d = p.documento;
+  /**
+   * Descarga del PDF: la copia oficial cargada en el sitio; si no está, el PDF que la Cámara publica en la ficha
+   * (lo resuelve /api/projects/public/:id/expediente). Sin expediente, el texto del proyecto si existe.
+   */
+  function descargaHtml(p) {
+    var d = p.documento;
+    var etiqueta = p.numero_expediente ? 'Descargar expediente' : 'Descargar proyecto';
+    if (d && (d.kind === 'expediente' || !p.numero_expediente)) {
       var meta = [d.formato, tamano(d.bytes)].filter(Boolean).join(' · ');
       return '<a class="lg-download" href="' + esc(d.url) + '" download data-download="' + esc(p.id) + '">' + ICON.download +
-        '<span>Descargar proyecto</span><span class="lg-sr-only">: ' + esc(p.titulo) + '</span>' +
-        (meta ? '<span class="lg-download__meta">' + esc(meta) + '</span>' : '') + '</a>' + oficial;
+        '<span>' + etiqueta + '</span><span class="lg-sr-only">: ' + esc(p.titulo) + '</span>' +
+        (meta ? '<span class="lg-download__meta">' + esc(meta) + '</span>' : '') + '</a>';
     }
-    return oficial || '<span class="lg-nodoc">Documento en preparación</span>';
+    if (!p.numero_expediente) return '';
+    return '<a class="lg-download" href="' + API_URL + '/' + encodeURIComponent(p.id) + '/expediente" target="_blank" rel="noopener" data-download="' + esc(p.id) + '">' +
+      ICON.download + '<span>' + etiqueta + '</span><span class="lg-sr-only">: ' + esc(p.titulo) + ' (PDF de la Cámara, se abre en una pestaña nueva)</span>' +
+      '<span class="lg-download__meta">PDF</span></a>';
+  }
+
+  function accionesHtml(p) {
+    var oficial = p.enlace_oficial
+      ? '<a class="lg-official lg-official--button" href="' + esc(p.enlace_oficial) + '" target="_blank" rel="noopener">Consultar ficha oficial' +
+          '<span class="lg-sr-only"> del expediente ' + esc(numero(p.numero_expediente)) + ' (se abre en una pestaña nueva)</span>' + ICON.external + '</a>'
+      : '';
+    return (descargaHtml(p) + oficial) || '<span class="lg-nodoc">Documento en preparación</span>';
   }
 
   function detallesHtml(p) {
@@ -365,7 +389,10 @@
     fila('Estado parlamentario', estado);
     var cad = p.estado_grupo === 'comision' ? caducidad(p) : null;
     if (cad) fila('Caducidad', 'Caduca el ' + esc(fechaLarga(cad.vence)) + ' si no se trata (faltan ' + esc(duracion(cad.mesesRestantes, cad.diasRestantes)) + ')');
-    if (p.fecha_presentacion) fila('Presentación', esc(fechaLarga(p.fecha_presentacion)));
+    if (p.fecha_presentacion) {
+      fila('Presentación', esc(fechaLarga(p.fecha_presentacion)) +
+        (SESIONES[p.fecha_presentacion] ? ', en la ' + SESIONES[p.fecha_presentacion] + '.ª Sesión Ordinaria' : ''));
+    }
     if (p.documentos_adicionales && p.documentos_adicionales.length) {
       fila('Otros documentos', p.documentos_adicionales.map(function (d) {
         return '<a href="' + esc(d.url) + '" download>' + esc(d.etiqueta) + '</a> <span class="lg-nodoc">(' + esc([d.formato, tamano(d.bytes)].filter(Boolean).join(' · ')) + ')</span>';
@@ -382,8 +409,8 @@
     if (p.estado_grupo !== 'comision') return '';
     var c = caducidad(p);
     if (!c) return '';
-    var espera = c.mesesEsperando >= 1 ? 'hace ' + duracion(c.mesesEsperando, 0) : 'desde este mes';
-    return '<div class="lg-espera"><div class="lg-espera__texto">' + ICON.cajon + '<span>Guardado ' + esc(espera) +
+    var espera = c.mesesEsperando >= 1 ? 'Hace ' + duracion(c.mesesEsperando, 0) : 'Desde este mes';
+    return '<div class="lg-espera"><div class="lg-espera__texto">' + ICON.cajon + '<span>' + esc(espera) +
       ' · caduca en ' + esc(duracion(c.mesesRestantes, c.diasRestantes)) + '</span></div>' +
       '<span class="lg-espera__track" role="img" aria-label="Pasaron ' + esc(duracion(c.mesesEsperando, 0)) + ' de los ' + (CADUCIDAD_ANIOS * 12) + ' del plazo de caducidad">' +
       '<span class="lg-espera__fill" style="--p:' + (c.progreso * 100).toFixed(1) + '%"></span></span></div>';
@@ -401,6 +428,7 @@
     var meta = [];
     if (p.numero_expediente) meta.push('<span>Expte. <strong>' + esc(numero(p.numero_expediente)) + '</strong></span>');
     if (p.fecha_presentacion) meta.push('<span><time datetime="' + esc(p.fecha_presentacion) + '">' + esc(fecha(p.fecha_presentacion)) + '</time></span>');
+    if (sesionTexto(p.fecha_presentacion)) meta.push('<span>' + esc(sesionTexto(p.fecha_presentacion)) + '</span>');
     var html =
       '<div class="lg-card__top"><span class="lg-type ' + tipoClase + '">' + esc(p.tipo_corto) + '</span>' +
         '<span class="lg-status lg-status--' + esc(p.estado_grupo) + '">' + (p.estado_grupo === 'comision' ? ICON.cajon : '') + esc(estadoTexto(p)) + '</span></div>' +
@@ -478,6 +506,8 @@
     relojHtml: relojHtml,
     activarReloj: activarReloj,
     mesTexto: mesTexto,
+    SESIONES: SESIONES,
+    sesionTexto: sesionTexto,
     caducidad: caducidad,
     duracion: duracion,
     ICON: ICON

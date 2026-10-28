@@ -3,7 +3,7 @@ layout: layouts/base.njk
 title: "Proyectos Legislativos | Cecilia Gortari"
 description: "Todos los proyectos legislativos con participación de Cecilia Gortari y su bloque en la Cámara de Diputados de Corrientes: comisión, estado parlamentario, autoría y descarga del documento oficial."
 ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
-extraCSS: "/assets/css/legislativo.css?v=202610231000"
+extraCSS: "/assets/css/legislativo.css?v=202610290900"
 bodyClass: "lg-page"
 ---
 
@@ -106,6 +106,12 @@ bodyClass: "lg-page"
                             <div class="lg-opciones lg-opciones--fila" role="group" aria-labelledby="lg-f-tipo" data-tipos></div>
                         </div>
                         <div class="lg-filtro">
+                            <h3 class="lg-filtro__titulo"><label for="lg-sesion">Sesión de presentación</label></h3>
+                            <select class="lg-select" id="lg-sesion">
+                                <option value="">Todas las sesiones</option>
+                            </select>
+                        </div>
+                        <div class="lg-filtro">
                             <h3 class="lg-filtro__titulo" id="lg-f-comision">Por comisión</h3>
                             <div class="lg-panel__summary" data-panel-summary></div>
                             <ul class="lg-bars" data-bars aria-labelledby="lg-f-comision"></ul>
@@ -139,7 +145,7 @@ bodyClass: "lg-page"
             </div>
 
             <p class="lg-footnote">
-                <strong>Cómo leer esta información.</strong> Los <em>firmantes</em> son los diputados que constan en cada expediente de la Cámara: en general presentamos los proyectos con la firma de los tres integrantes del bloque. “De autoría” marca los proyectos que elaboramos desde nuestro equipo; “Del bloque”, los que presentamos junto a Emiliano Fernández Recalde y Gustavo Canteros; y “Acompañamos”, las iniciativas compartidas con diputados de otros bloques. “Esperando ser tratados” cuenta los proyectos que siguen en comisión sin dictamen según el último estado verificado; el reloj de caducidad toma el plazo de dos años desde la presentación, vencido el cual el expediente caduca. Los documentos descargables son los PDF oficiales de cada expediente; ante cualquier diferencia, prevalece la información publicada por la <a href="https://hcdcorrientes.gov.ar/" target="_blank" rel="noopener">Cámara de Diputados</a>.
+                <strong>Cómo leer esta información.</strong> Los <em>firmantes</em> son los diputados que constan en cada expediente de la Cámara: en general presentamos los proyectos con la firma de los tres integrantes del bloque. “De autoría” marca los proyectos que elaboramos desde nuestro equipo; “Del bloque”, los que presentamos junto a Emiliano Fernández Recalde y Gustavo Canteros; y “Acompañamos”, las iniciativas compartidas con diputados de otros bloques. “Esperando ser tratados” cuenta los proyectos guardados en comisión, sin dictamen, según el último estado verificado; el reloj de caducidad toma el plazo de dos años desde la presentación, vencido el cual el expediente caduca. “Descargar expediente” abre el PDF oficial de cada expediente, el mismo que publica la Cámara en su ficha; ante cualquier diferencia, prevalece la información publicada por la <a href="https://hcdcorrientes.gov.ar/" target="_blank" rel="noopener">Cámara de Diputados</a>.
             </p>
             <noscript><p class="lg-footnote">Para filtrar y descargar los proyectos es necesario habilitar JavaScript.</p></noscript>
         </div>
@@ -155,5 +161,5 @@ bodyClass: "lg-page"
 
     <a href="/gestionproyectos/" rel="nofollow" class="lg-internal-link">Acceso interno</a>
 
-    <script src="/assets/js/legislativo-core.js?v=202610231000"></script>
-    <script src="/assets/js/proyectos.js?v=202610231000"></script>
+    <script src="/assets/js/legislativo-core.js?v=202610290900"></script>
+    <script src="/assets/js/proyectos.js?v=202610290900"></script>

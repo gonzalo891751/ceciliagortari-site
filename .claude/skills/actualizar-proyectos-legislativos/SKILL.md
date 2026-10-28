@@ -34,7 +34,8 @@ Las fijó el equipo de Cecilia Gortari y valen siempre:
 | API pública | `functions/api/projects/public.js` → `lib/proyectos-publicos.mjs` (detecta columnas con `PRAGMA`, así que funciona antes y después de las migraciones) |
 | Reglas compartidas | `lib/legislativo.mjs`: participación, impulso, estados, enlaces oficiales y norma |
 | Respaldo oficial | `lib/datos-oficiales.mjs`. Completa campos vacíos y lo cargado en D1 siempre tiene prioridad |
-| Sitio | `src/proyectos/index.njk`, `src/assets/js/proyectos.js`, `src/assets/js/legislativo-core.js` (contadores, reloj de caducidad, tarjetas) y la vidriera de la portada en `src/assets/js/legislativo-home.js` |
+| Sitio | `src/proyectos/index.njk`, `src/assets/js/proyectos.js`, `src/assets/js/legislativo-core.js` (contadores, reloj de caducidad, tarjetas y `SESIONES`, la lista de sesiones ordinarias del filtro) y la vidriera de la portada en `src/assets/js/legislativo-home.js` |
+| Descarga del expediente | `functions/api/projects/public/[id]/expediente.js`: usa el PDF cargado en R2 o, si falta, el que la Cámara enlaza en la ficha (`pdfExpedienteDesdeFicha` en `lib/legislativo.mjs`) |
 | Panel interno | `/gestionproyectos/` con sesión en el servidor (secreto `ADMIN_PIN`). Ahí se cargan los PDF y se clasifica el impulso |
 | Scripts | `scripts/conciliar-auditoria-preliminar.mjs` (altas desde informes), `scripts/sincronizar-expedientes-hcd.mjs` (cambios desde fichas), `scripts/update-legislative-projects.mjs` (publica un plan por la API con `ADMIN_PIN`) |
 | Antecedentes | `docs/legislative-update-2026-10-22/INFORME.md` (último informe completo y formato de referencia) |
@@ -151,6 +152,7 @@ Si alguna de las columnas de `migrations/0010` todavía no existe en producción
 
 ### 8. Cerrar
 
+- Sumá la fecha y el número de cada sesión nueva a `SESIONES` en `src/assets/js/legislativo-core.js` (el informe trae el número: "18ª SESIÓN ORDINARIA") y subí la versión `?v=` de los scripts en `src/index.njk` y `src/proyectos/index.njk`. Sin eso, los proyectos de esa sesión no aparecen en el filtro por sesión.
 - Actualizá `verificado_at` en los registros verificados contra su ficha. No lo completes en los que solo salen del informe.
 - Escribí `docs/actualizacion-AAAA-MM-DD/INFORME.md` breve, con fuentes, resultados, pendientes y comandos aplicados.
 - Rama nueva, commit, PR y merge según lo que haya autorizado el usuario para publicar código. Cloudflare Pages despliega `main` automáticamente.
