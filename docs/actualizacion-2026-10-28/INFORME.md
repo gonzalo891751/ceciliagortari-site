@@ -109,3 +109,13 @@ npx wrangler d1 time-travel restore gestionproyectos --bookmark=<bookmark del pa
 ```
 
 Las altas aparecen en el sitio en cuanto se aplica la migración, sin volver a desplegar: la API lee D1 y su caché dura como máximo 2 minutos.
+
+## Después de la carga (28/10/2026)
+
+- **Cambios en el sitio (PR #30):**
+  - Cada proyecto ofrece "Descargar expediente": la copia en R2 o, si falta, el PDF que enlaza la ficha de la Cámara, mediante `/api/projects/public/:id/expediente`.
+  - Junto a "Descargar expediente" queda "Consultar ficha oficial".
+  - "Esperando tratamiento" pasa a "Guardado en comisión".
+  - Se suma el filtro por sesión de presentación. Al cargar cada sesión nueva hay que agregarla a `SESIONES` en `legislativo-core.js`.
+- **Panel `/gestionproyectos/`:** estaba cerrado desde el 22/10 porque faltaba el secreto `ADMIN_PIN` en Cloudflare Pages. El equipo lo cargó el 28/10 y la clave rige desde el despliegue siguiente. "1234" ya no funciona.
+- **Pendiente desde el panel:** subir el PDF, completar el título oficial y clasificar el impulso de las 39 altas.
