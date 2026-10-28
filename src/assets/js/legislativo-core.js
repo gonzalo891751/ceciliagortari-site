@@ -213,7 +213,6 @@
       if (p.verificado_at > t.verificado) t.verificado = p.verificado_at;
     });
     t.comisiones = Object.keys(comisiones).length;
-    t.porcentajeEnComision = t.total ? Math.round((t.enComision / t.total) * 100) : 0;
     t.caducidadMasAntiguo = t.enComisionMasAntiguo ? caducidad({ fecha_presentacion: t.enComisionMasAntiguo }) : null;
     // Un expediente vence el mismo mes de presentación, dos años después.
     t.vencimientos = Object.keys(t.esperaPorMes).sort().map(function (mes) {
@@ -433,9 +432,9 @@
       '<div class="lg-card__top"><span class="lg-type ' + tipoClase + '">' + esc(p.tipo_corto) + '</span>' +
         '<span class="lg-status lg-status--' + esc(p.estado_grupo) + '">' + (p.estado_grupo === 'comision' ? ICON.cajon : '') + esc(estadoTexto(p)) + '</span></div>' +
       (meta.length ? '<p class="lg-card__meta">' + meta.join('') + '</p>' : '') +
-      '<' + h + ' class="lg-card__title">' + esc(p.titulo) + '</' + h + '>' +
+      '<div class="lg-card__body"><' + h + ' class="lg-card__title">' + esc(p.titulo) + '</' + h + '>' +
       (resumenLimpio(p.resumen) ? '<p class="lg-card__summary">' + esc(resumenLimpio(p.resumen)) + '</p>' : '') +
-      tagsHtml(p) +
+      tagsHtml(p) + '</div>' +
       esperaHtml(p) +
       (chips.length ? '<div class="lg-authorship">' + chips.join('') + '</div>' : '') +
       (opts.compact ? '' : detallesHtml(p)) +
