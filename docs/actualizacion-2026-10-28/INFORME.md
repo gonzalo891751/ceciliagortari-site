@@ -1,6 +1,25 @@
 # Actualización legislativa — sesión del 28 de octubre de 2026
 
-Fuente: informe oficial de la 18.ª Sesión Ordinaria del 28/10/2026 (`Informe-28-10-26.pdf`, enviado por el equipo; copia en esta carpeta, SHA-256 `b483ce0c…f9de35`). **D1 y R2 de producción no se modificaron.**
+Fuente: informe oficial de la 18.ª Sesión Ordinaria del 28/10/2026 (`Informe-28-10-26.pdf`, enviado por el equipo; copia en esta carpeta, SHA-256 `b483ce0c…f9de35`).
+
+## Aplicado en producción (28/10/2026, 22:03–22:10 UTC)
+
+Con autorización expresa del usuario, después del respaldo verificado, se aplicó por el conector de Cloudflare (D1):
+
+| Paso | Resultado |
+| --- | --- |
+| Instantánea previa (`d1-snapshot-2026-10-28.txt`) | 294 registros, 203 públicos, 361 documentos. Sin cambios desde el 16/09: idéntica, línea por línea, a la del 22/10. |
+| Respaldo | Volcado completo de `projects` y `project_documents` (SHA-256 `f546108f…9411f1`, 424 KB), verificado restaurándolo en SQLite: 294 / 234 / 203 y 361 documentos. **No se versiona** porque incluye datos internos; queda la restauración por Time Travel de D1 al 2026-10-28T22:01Z. |
+| `0010_campos_parlamentarios.sql` | Aplicada: columnas e índices nuevos, sin tocar datos. |
+| `0013_altas_sesiones_2026-09-23_y_2026-10-14.sql` | Aplicada: **24 altas** del 23/09 y del 14/10. No estaban cargadas. |
+| `0014_altas_sesion_2026-10-28.sql` | Aplicada: **15 altas** del 28/10. |
+| Control | 333 registros, **242 públicos**, 132 en comisión (55 %), 0 expedientes duplicados. Ningún registro previo modificado: `MAX(updated_at)` sigue en 2026-09-16. Las 39 filas son idénticas, campo por campo, a las de la base local probada (huella por fila). |
+
+No se aplicaron:
+- `0011` (backfill de los 203 registros previos): el sitio ya completa esos datos desde `lib/datos-oficiales.mjs`. Con datos idénticos, la salida de la API resultó la misma con y sin 0011. Queda opcional, para que el panel muestre esos campos.
+- `0012` (limpieza de duplicados de R2): sigue opcional.
+
+Para revertir: borrar los 39 registros (`DELETE FROM projects WHERE created_at >= '2026-10-22'`) o hacer `npx wrangler d1 time-travel restore gestionproyectos --timestamp=2026-10-28T22:01:00Z`.
 
 ## Alcance real de la verificación
 
@@ -8,7 +27,8 @@ Fuente: informe oficial de la 18.ª Sesión Ordinaria del 28/10/2026 (`Informe-2
 | --- | --- |
 | Informe de la sesión del 28/10/2026 | Leído completo. 16 expedientes con firma de Gortari, Fernández Recalde o Canteros. El detector de `sincronizar-expedientes-hcd.mjs` encuentra los mismos 16. |
 | Fichas oficiales (`hcdcorrientes.gov.ar/expedientes/N/`) | **No verificadas.** La red del entorno bloquea `hcdcorrientes.gov.ar`. |
-| D1 de producción | **No consultada**: el entorno no tiene credenciales de Cloudflare y bloquea `api.cloudflare.com` y el sitio. La conciliación usa la instantánea del 22/10/2026 (`docs/legislative-update-2026-10-22/d1-snapshot-2026-10-22.txt`). Ningún número nuevo coincide con ella ni con las altas de 0013. |
+| D1 de producción | Consultada por el conector de Cloudflare (ver arriba). |
+| Sitio publicado | No se pudo abrir desde el entorno (`ceciliagortari.com.ar` bloqueado). La API lee D1 directamente y se probó en local con los mismos datos. |
 | URL oficial del informe | Sin verificar. Por eso la fuente de las altas cita el nombre del archivo y no una URL. |
 
 ## Altas: 15 expedientes (`migrations/0014_altas_sesion_2026-10-28.sql`)
@@ -50,26 +70,24 @@ La sentencia está en `actualizaciones-pendientes-de-ficha.sql` (estado `Aprobad
 - Ningún otro expediente del informe estaba cargado.
 - Plazos de caducidad: ningún proyecto en comisión supera los 2 años. El más antiguo es del 11/03/2026 y vence en marzo de 2028.
 
-## Cifras del sitio (base local con el estado esperado de producción, 0010–0013 aplicadas)
+## Cifras del sitio
 
-| | Antes | Con 0014 | Con 0014 y 20332 |
-| --- | --- | --- | --- |
-| Proyectos públicos | 227 | 242 | 242 |
-| Esperando ser tratados | 122 (54 %) | 132 (55 %) | 131 (54 %) |
-| Del bloque / acompañamos | 212 / 14 | 223 / 18 | 223 / 18 |
-| Impulso pendiente | 169 | 184 | 184 |
+| | Antes (producción) | Con 0013 | Ahora (0013 y 0014) | Si se confirma 20332 |
+| --- | --- | --- | --- | --- |
+| Proyectos públicos | 203 | 227 | **242** | 242 |
+| Esperando ser tratados | 117 (58 %) | 122 (54 %) | **132 (55 %)** | 131 (54 %) |
+| Del bloque / acompañamos | 190 / 12 | 212 / 14 | 223 / 18 | 223 / 18 |
 
 El total del bloque no incluye P-0067, que no tiene firmantes. Pruebas en `pruebas-funcionales.txt` y capturas en `capturas/`.
 
 ## Pendientes
 
 1. **Ficha de 20332**: confirmar Resolución 17/26 y aplicar `actualizaciones-pendientes-de-ficha.sql`.
-2. **Fichas de las 15 altas**: título oficial (Asunto), PDF del expediente y verificación de comisiones. Recién entonces completar `verificado_at`.
-3. **Impulso**: clasificar las 15 altas desde el panel; entran como `pendiente`.
+2. **Fichas de las 39 altas** (15 de esta sesión y 24 de 0013): título oficial (Asunto), PDF del expediente y verificación de comisiones. Recién entonces completar `verificado_at`. Mientras falte el PDF, el sitio ofrece la ficha oficial.
+3. **Impulso**: clasificar las 39 altas desde el panel; entran como `pendiente`.
 4. **URL oficial del informe**: reemplazar el nombre del archivo en `fuente` si se quiere enlazar.
-5. **Instantánea de D1 de producción**: tomarla antes de aplicar (paso 1 abajo).
 
-## Aplicar en producción (requiere respaldo y autorización expresa)
+## Comandos de referencia (ya ejecutados el 28/10 por el conector, salvo el paso 5)
 
 ```bash
 # 1. Instantánea y control de cambios desde el panel
