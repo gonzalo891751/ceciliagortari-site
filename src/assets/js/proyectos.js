@@ -14,7 +14,7 @@
     acompanamos: { nombre: 'Acompañamos', nota: 'Iniciativas compartidas con diputados de otros bloques que acompañamos con nuestra firma.' }
   };
   var ALIAS_GRUPO = { cecilia: 'autoria' };
-  var ESTADOS = { comision: 'Esperando ser tratados', tramite: 'Con avances en el trámite', aprobado: 'Aprobados', archivado: 'Archivados o retirados' };
+  var ESTADOS = { comision: 'Enviados a comisiones', tramite: 'Con avances en el trámite', aprobado: 'Aprobados', archivado: 'Archivados o retirados' };
   var TIPOS = ['Ley', 'Resolución', 'Declaración'];
 
   var $ = function (sel) { return document.querySelector(sel); };
@@ -144,7 +144,7 @@
 
     el.summary.innerHTML =
       '<div class="lg-panel__stat"><strong>' + base.length + '</strong><span>' + L.plural(base.length, 'proyecto analizado', 'proyectos analizados') + '</span></div>' +
-      '<div class="lg-panel__stat lg-panel__stat--alerta"><strong>' + dormidos + '</strong><span>esperando ser ' + L.plural(dormidos, 'tratado', 'tratados') + '</span></div>' +
+      '<div class="lg-panel__stat lg-panel__stat--alerta"><strong>' + dormidos + '</strong><span>' + L.plural(dormidos, 'enviado', 'enviados') + ' a comisiones</span></div>' +
       '<div class="lg-panel__stat"><strong>' + multiples + '</strong><span>' + L.plural(multiples, 'girado a 2 o más', 'girados a 2 o más') + '</span></div>';
 
     function barra(valor, nombre, n, clase) {
@@ -293,7 +293,7 @@
     var sinNumero = t.total - t.conNumero;
     nota('total', t.conNumero + ' con número de expediente de la Cámara' +
       (sinNumero ? ' y ' + sinNumero + ' en trámite de identificación' : '') + ', sin duplicados');
-    nota('comision', 'El ' + t.porcentajeEnComision + ' % de lo que presentamos sigue guardado en comisión, sin dictamen');
+    nota('comision', 'El ' + t.porcentajeEnComision + ' % de lo que presentamos fue enviado a comisiones y sigue sin dictamen');
     nota('comision-corta', t.porcentajeEnComision + ' % del total');
     if (el.reloj && t.caducidadMasAntiguo) {
       el.reloj.innerHTML = L.relojHtml(t);
@@ -348,7 +348,7 @@
     render({ syncInputs: true });
   }
 
-  /** Mes del reloj de caducidad: muestra solo los proyectos de ese mes que siguen esperando (otro clic lo quita). */
+  /** Mes del reloj de caducidad: muestra solo los proyectos de ese mes que siguen en comisión (otro clic lo quita). */
   function verMes(mes) {
     var activo = state.mes === mes && state.estado === 'comision';
     state.grupo = 'todos'; state.q = ''; state.comision = ''; state.tipo = ''; state.sesion = ''; state.spotlight = '';

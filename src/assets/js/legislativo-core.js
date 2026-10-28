@@ -102,7 +102,7 @@
 
   function estadoTexto(p) {
     if (p.estado_grupo === 'aprobado') return p.estado_tramite === 'Sancionado' ? 'Sancionado' : 'Aprobado';
-    if (p.estado_grupo === 'comision') return 'Guardado en comisión';
+    if (p.estado_grupo === 'comision') return 'Enviado a comisiones';
     return p.estado_tramite || 'En comisiones';
   }
 
@@ -252,7 +252,7 @@
       var etiqueta = MESES[m] + (m === 0 || i === 0 ? ' ' + y : '');
       var movil = i === 0 || i === meses - 1 || (i === idxHoy && i > 2 && i < meses - 3);
       var clase = 'lg-reloj__mes' + (i < idxHoy ? ' pasado' : i === idxHoy ? ' actual' : '') + (movil ? ' movil' : '');
-      var detalle = n + ' ' + plural(n, 'proyecto presentado', 'proyectos presentados') + ' en ' + nombre + ' ' + plural(n, 'sigue', 'siguen') + ' esperando';
+      var detalle = n + ' ' + plural(n, 'proyecto presentado', 'proyectos presentados') + ' en ' + nombre + ' ' + plural(n, 'sigue', 'siguen') + ' en comisión';
       var columna = n
         ? '<button type="button" class="lg-reloj__col" data-mes="' + clave + '" aria-pressed="false" title="' + esc(detalle) + '" aria-label="' + esc(detalle) + '. Ver ' + plural(n, 'ese proyecto', 'esos proyectos') + '">' +
             '<b aria-hidden="true">' + n + '</b><span class="lg-reloj__barra" style="--h:' + Math.max(12, Math.round((n / max) * 100)) + '%"></span></button>'
@@ -275,20 +275,20 @@
         '<span class="lg-reloj__accion"><span data-reloj-accion>Ver cronología</span>' + ICON.chevron + '</span></button>' +
       '<div class="lg-reloj__panel" id="lg-reloj-panel" hidden>' +
         '<div class="lg-reloj__explica"><p><strong>Cada proyecto que presentamos tiene una vida de ' + CADUCIDAD_ANIOS + ' años.</strong> Muchos nacen de urgencias y pedidos de vecinas y vecinos: son propuestas concretas para resolver problemas reales. Pero si la comisión no los trata en ese plazo, vencen y se archivan sin que nadie los haya votado en contra. Es una forma silenciosa de rechazarlos.</p></div>' +
-        '<p class="lg-reloj__ayuda">Cada barra suma los proyectos presentados ese mes que siguen esperando. Tocá un mes, o un vencimiento, para verlos en el listado.</p>' +
+        '<p class="lg-reloj__ayuda">Cada barra suma los proyectos presentados ese mes que siguen en comisión. Tocá un mes, o un vencimiento, para verlos en el listado.</p>' +
         '<div class="lg-reloj__grafico' + (posHoy > 88 ? ' cerca' : '') + '">' +
           '<span class="lg-reloj__transcurrido" style="--p:' + posHoy.toFixed(1) + '%" aria-hidden="true"><span>Hoy</span></span>' +
           '<span class="lg-reloj__vence" aria-hidden="true"><span>Caduca</span></span>' +
-          '<div class="lg-reloj__meses" role="group" aria-label="Proyectos que siguen esperando, por mes de presentación">' + columnas.join('') + '</div>' +
+          '<div class="lg-reloj__meses" role="group" aria-label="Proyectos que siguen en comisión, por mes de presentación">' + columnas.join('') + '</div>' +
         '</div>' +
         '<div class="lg-reloj__vencimientos"><h3 class="lg-reloj__subtitulo">Próximos vencimientos</h3>' +
           '<div class="lg-reloj__chips" role="group" aria-label="Próximos vencimientos">' + chips.join('') + '</div></div>' +
         '<ul class="lg-reloj__leyenda" aria-hidden="true">' +
-          '<li><span class="lg-reloj__clave lg-reloj__clave--barra"></span>Proyectos sin tratar, por mes de presentación</li>' +
+          '<li><span class="lg-reloj__clave lg-reloj__clave--barra"></span>Proyectos en comisión, por mes de presentación</li>' +
           '<li><span class="lg-reloj__clave lg-reloj__clave--transcurrido"></span>Tiempo ya transcurrido</li>' +
           '<li><span class="lg-reloj__clave lg-reloj__clave--vence"></span>Caducidad del más antiguo</li>' +
         '</ul>' +
-        '<p class="lg-reloj__texto">El proyecto en espera más antiguo se presentó el <strong>' + esc(fechaLarga(t.enComisionMasAntiguo)) +
+        '<p class="lg-reloj__texto">El proyecto en comisión más antiguo se presentó el <strong>' + esc(fechaLarga(t.enComisionMasAntiguo)) +
           '</strong> y caduca el <strong>' + esc(fechaLarga(c.vence)) + '</strong>: pasaron ' + esc(duracion(c.mesesEsperando, 0)) +
           ' de ' + meses + ' y le quedan <strong>' + esc(duracion(c.mesesRestantes, c.diasRestantes)) + '</strong>.' +
           (t.plazoVencido ? ' Además, ' + t.plazoVencido + ' ' + plural(t.plazoVencido, 'proyecto superó', 'proyectos superaron') + ' los ' + CADUCIDAD_ANIOS + ' años: estamos verificando su estado en la Cámara.' : '') + '</p>' +

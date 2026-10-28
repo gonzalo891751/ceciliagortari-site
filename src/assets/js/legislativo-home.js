@@ -30,7 +30,7 @@
     var noteComision = section.querySelector('[data-home-note="comision"]');
     if (noteComision) {
       var v = t.vencimientos[0];
-      noteComision.textContent = 'El ' + t.porcentajeEnComision + ' % de lo que presentamos sigue guardado en comisión' +
+      noteComision.textContent = 'El ' + t.porcentajeEnComision + ' % de lo que presentamos fue enviado a comisiones y sigue sin dictamen' +
         (v ? '. En ' + L.mesTexto(v.vence) + ' ' + L.plural(v.cantidad, 'vence', 'vencen') + ' ' + v.cantidad + ' si no se tratan' : '');
     }
     animarAlVer(function () {
