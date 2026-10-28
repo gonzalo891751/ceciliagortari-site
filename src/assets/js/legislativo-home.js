@@ -26,16 +26,15 @@
     if (heroNote && t.total) heroNote.textContent = t.total + ' expedientes para descargar';
 
     var noteTotal = section.querySelector('[data-home-note="total"]');
-    if (noteTotal) noteTotal.textContent = t.comisiones + ' comisiones con expedientes · última sesión ' + L.fecha(t.ultimaSesion);
+    if (noteTotal) noteTotal.textContent = 'Todos con nuestra firma · última sesión ' + L.fecha(t.ultimaSesion);
     var noteComision = section.querySelector('[data-home-note="comision"]');
     if (noteComision) {
       var v = t.vencimientos[0];
-      noteComision.textContent = 'El ' + t.porcentajeEnComision + ' % de lo que presentamos fue mandado a comisiones y sigue sin dictamen' +
+      noteComision.textContent = 'Siguen sin dictamen' +
         (v ? '. En ' + L.mesTexto(v.vence) + ' ' + L.plural(v.cantidad, 'vence', 'vencen') + ' ' + v.cantidad + ' si no se tratan' : '');
     }
     animarAlVer(function () {
       kpi('total', t.total);
-      kpi('autoria', t.autoria);
       kpi('comision', t.enComision);
     });
 

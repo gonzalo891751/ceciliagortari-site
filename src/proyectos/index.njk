@@ -3,7 +3,7 @@ layout: layouts/base.njk
 title: "Proyectos Legislativos | Cecilia Gortari"
 description: "Todos los proyectos legislativos con participación de Cecilia Gortari y su bloque en la Cámara de Diputados de Corrientes: comisión, estado parlamentario, autoría y descarga del documento oficial."
 ogImage: "https://ceciliagortari.com.ar/assets/img/hero-diputados.jpg"
-extraCSS: "/assets/css/legislativo.css?v=202610291100"
+extraCSS: "/assets/css/legislativo.css?v=202610291200"
 bodyClass: "lg-page"
 ---
 
@@ -16,19 +16,13 @@ bodyClass: "lg-page"
             <div class="lg-kpis" aria-live="polite">
                 <div class="lg-kpi lg-kpi--main">
                     <span class="lg-kpi__value" data-kpi="total">—</span>
-                    <span class="lg-kpi__label">Proyectos con nuestra firma</span>
-                    <span class="lg-kpi__note" data-kpi-note="total">Expedientes únicos en la Cámara de Diputados</span>
-                </div>
-                <div class="lg-kpi">
-                    <span class="lg-kpi__value" data-kpi="autoria">—</span>
-                    <span class="lg-kpi__label"><span class="lg-kpi__dot" style="background:#C98BD0" aria-hidden="true"></span>De autoría</span>
-                    <span class="lg-kpi__note">Elaborados por nuestro equipo, incluidos en el total</span>
+                    <span class="lg-kpi__label">Proyectos presentados</span>
+                    <span class="lg-kpi__note" data-kpi-note="total">Todos con nuestra firma</span>
                 </div>
                 <div class="lg-kpi lg-kpi--espera">
                     <span class="lg-kpi__value" data-kpi="comision">—</span>
                     <span class="lg-kpi__label"><span class="lg-kpi__icono" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="5" rx="1.2"/><path d="M4.5 8.5v10.5a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5V8.5"/><path d="M10 12.5h4"/></svg></span>Mandados a comisiones</span>
                     <span class="lg-kpi__note" data-kpi-note="comision">Siguen sin dictamen</span>
-                    <span class="lg-kpi__note lg-kpi__note--corta" data-kpi-note="comision-corta" aria-hidden="true"></span>
                 </div>
             </div>
             <div class="lg-reloj" data-reloj hidden></div>
@@ -56,11 +50,11 @@ bodyClass: "lg-page"
                         </select>
                     </div>
                     <div class="lg-vista" role="group" aria-label="Vista del listado" data-vista>
-                        <button type="button" data-vista-btn="grilla" aria-pressed="true" title="Ver en cuadrícula">
+                        <button type="button" data-vista-btn="grilla" aria-pressed="false" title="Ver en cuadrícula">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
                             <span class="lg-sr-only">Cuadrícula</span>
                         </button>
-                        <button type="button" data-vista-btn="lista" aria-pressed="false" title="Ver en lista">
+                        <button type="button" data-vista-btn="lista" aria-pressed="true" title="Ver en lista">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
                             <span class="lg-sr-only">Lista</span>
                         </button>
@@ -123,7 +117,7 @@ bodyClass: "lg-page"
                 <section class="lg-list" aria-labelledby="lg-list-title">
                     <h2 class="lg-sr-only" id="lg-list-title">Listado de proyectos</h2>
                     <div data-spotlight hidden></div>
-                    <div class="lg-grid" data-grid aria-busy="true">
+                    <div class="lg-grid lg-grid--lista" data-grid aria-busy="true">
                         <div class="lg-skeleton"></div><div class="lg-skeleton"></div><div class="lg-skeleton"></div><div class="lg-skeleton"></div>
                     </div>
                     <div class="lg-state" data-empty hidden>
@@ -161,5 +155,5 @@ bodyClass: "lg-page"
 
     <a href="/gestionproyectos/" rel="nofollow" class="lg-internal-link">Acceso interno</a>
 
-    <script src="/assets/js/legislativo-core.js?v=202610291100"></script>
-    <script src="/assets/js/proyectos.js?v=202610291100"></script>
+    <script src="/assets/js/legislativo-core.js?v=202610291200"></script>
+    <script src="/assets/js/proyectos.js?v=202610291200"></script>

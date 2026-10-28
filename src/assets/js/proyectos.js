@@ -30,7 +30,7 @@
 
   var todos = [];
   var comisionesGlobal = [];
-  var state = { grupo: 'todos', q: '', comision: '', tipo: '', estado: '', sesion: '', mes: '', orden: 'recientes', vista: 'grilla', visibles: PAGE, spotlight: '' };
+  var state = { grupo: 'todos', q: '', comision: '', tipo: '', estado: '', sesion: '', mes: '', orden: 'recientes', vista: 'lista', visibles: PAGE, spotlight: '' };
 
   // ---------------------------------------------------------------- filtros
   function enGrupo(p, grupo) {
@@ -257,7 +257,7 @@
       if (state.sesion) params.set('sesion', state.sesion);
       if (state.mes) params.set('mes', state.mes);
       if (state.orden !== 'recientes') params.set('orden', state.orden);
-      if (state.vista === 'lista') params.set('vista', 'lista');
+      if (state.vista === 'grilla') params.set('vista', 'grilla');
     }
     var qs = params.toString();
     try { history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash); } catch (_) {}
@@ -284,17 +284,12 @@
     var t = L.totales(todos);
     function kpi(key, valor) { L.animarNumero(document.querySelector('[data-kpi="' + key + '"]'), valor); }
     kpi('total', t.total);
-    kpi('autoria', t.autoria);
     kpi('comision', t.enComision);
     function nota(key, texto) {
       var el = document.querySelector('[data-kpi-note="' + key + '"]');
       if (el) el.textContent = texto;
     }
-    var sinNumero = t.total - t.conNumero;
-    nota('total', t.conNumero + ' con número de expediente de la Cámara' +
-      (sinNumero ? ' y ' + sinNumero + ' en trámite de identificación' : '') + ', sin duplicados');
-    nota('comision', 'El ' + t.porcentajeEnComision + ' % de lo que presentamos fue mandado a comisiones y sigue sin dictamen');
-    nota('comision-corta', t.porcentajeEnComision + ' % del total');
+    nota('total', 'Todos con nuestra firma: ' + t.bloque + ' del bloque y ' + t.acompanamos + ' junto a otros bloques');
     if (el.reloj && t.caducidadMasAntiguo) {
       el.reloj.innerHTML = L.relojHtml(t);
       el.reloj.hidden = false;
@@ -321,7 +316,7 @@
   function leerVista() { try { return localStorage.getItem('lg-vista'); } catch (_) { return null; } }
 
   function setVista(vista, persistir) {
-    state.vista = vista === 'lista' ? 'lista' : 'grilla';
+    state.vista = vista === 'grilla' ? 'grilla' : 'lista';
     el.grid.classList.toggle('lg-grid--lista', state.vista === 'lista');
     el.vista.querySelectorAll('[data-vista-btn]').forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.getAttribute('data-vista-btn') === state.vista));
