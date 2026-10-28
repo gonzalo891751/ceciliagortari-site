@@ -102,7 +102,7 @@
 
   function estadoTexto(p) {
     if (p.estado_grupo === 'aprobado') return p.estado_tramite === 'Sancionado' ? 'Sancionado' : 'Aprobado';
-    if (p.estado_grupo === 'comision') return 'Enviado a comisiones';
+    if (p.estado_grupo === 'comision') return 'Mandado a comisiones';
     return p.estado_tramite || 'En comisiones';
   }
 
