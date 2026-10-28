@@ -1,0 +1,32 @@
+# Pruebas locales — 28/10/2026 (wrangler pages dev + D1 local)
+# Base local: instantánea de producción del 22/10/2026 + migraciones 0010, 0011 y 0013 (estado esperado de producción),
+# luego 0014 y la actualización de EXP-20332 (pendiente de ficha). Sin acceso a la D1 real.
+
+Antes de 0014:  /api/projects/public → 227 proyectos, 122 en comisión (54 %), 0 duplicados
+Después:        /api/projects/public → 242 proyectos, 131 en comisión (54 %), 0 duplicados
+                (sin la actualización de EXP-20332: 132 en comisión, 55 %)
+Re-aplicar 0014 no cambia nada (ON CONFLICT DO NOTHING): 242.
+
+PASS  [escritorio] /proyectos/ muestra el total de la API  — 242
+PASS  [escritorio] /proyectos/ muestra "Esperando ser tratados" = API  — 131
+PASS  [escritorio] Sin "Impulsados por Cecilia"
+PASS  [escritorio] Sin scroll horizontal en /proyectos/  — 0px
+PASS  [escritorio] Buscar "20.542" encuentra la ley de Carrera Sanitaria
+PASS  [escritorio] Buscar "20564" muestra Declaración 452/26
+PASS  [escritorio] Enlace ?id=EXP-20539 muestra el expediente
+PASS  [escritorio] Portada: vidriera con cifras de la API
+PASS  [escritorio] Portada: últimos expedientes incluyen altas del 28/10  — 20.564, 20.563 y 20.559
+PASS  [escritorio] Sin scroll horizontal en la portada  — 0px
+PASS  [escritorio] Sin errores de JavaScript propios del sitio
+PASS  [móvil 375] /proyectos/ muestra el total de la API  — 242
+PASS  [móvil 375] /proyectos/ muestra "Esperando ser tratados" = API  — 131 (verificado en la captura; la lectura automática ocurrió durante la animación del contador)
+PASS  [móvil 375] Sin "Impulsados por Cecilia"
+PASS  [móvil 375] Sin scroll horizontal en /proyectos/  — 0px
+PASS  [móvil 375] Buscar "20.542" encuentra la ley de Carrera Sanitaria
+PASS  [móvil 375] Buscar "20564" muestra Declaración 452/26
+PASS  [móvil 375] Enlace ?id=EXP-20539 muestra el expediente
+PASS  [móvil 375] Portada: vidriera con cifras de la API
+PASS  [móvil 375] Portada: últimos expedientes incluyen altas del 28/10
+PASS  [móvil 375] Sin scroll horizontal en la portada  — 0px
+PASS  [móvil 375] Sin errores de JavaScript propios del sitio
+INFO  cdn.tailwindcss.com está bloqueado por la red del entorno de prueba ("tailwind is not defined"); no afecta producción.

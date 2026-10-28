@@ -1,0 +1,208 @@
+# Instantánea de solo lectura de D1 (gestionproyectos) — 2026-10-28 22:01 UTC, antes de aplicar 0010, 0013 y 0014
+# Consulta: proyectos con estado_preparacion='Presentado' y deleted_at IS NULL
+# Formato: id|fecha_presentacion|estado_tramite|tipo_autoria|docs_main|docs_expediente|comisiones(;)
+# Totales: 294 registros, 234 activos, 203 públicos; última modificación 2026-09-16T18:31:59.414Z;
+#          361 documentos (último 2026-09-16T18:32:00.195Z). Idéntica, línea por línea, a la del 22/10/2026.
+EXP-19669|2026-03-11|En comisiones|propio|1|1|Hacienda, Presupuesto e Impuestos;Legislación del Trabajo, Previsión y Seguridad Social
+EXP-19670|2026-03-11|En comisiones|propio|1|1|Hacienda, Presupuesto e Impuestos
+EXP-19675|2026-03-11|En comisiones|propio|1|1|Educación, Cultura, Ciencia y Tecnología
+EXP-19676|2026-03-11|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19680|2026-03-11|En comisiones|propio|1|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19714|2026-03-18|En comisiones|propio|1|1|Derechos Humanos, Género y Diversidad;Salud Pública
+EXP-19715|2026-03-18|En comisiones|propio|1|1|Asuntos Constitucionales y Legislación General
+EXP-19720|2026-03-18|Aprobado|propio|0|1|Sobre Tablas
+EXP-19727|2026-03-18|En comisiones|acompanado|0|1|Asuntos Constitucionales y Legislación General
+EXP-19728|2026-03-18|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19729|2026-03-18|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19730|2026-03-18|En comisiones|acompanado|0|1|Asuntos Constitucionales y Legislación General
+EXP-19731|2026-03-18|En comisiones|acompanado|0|1|Educación, Cultura, Ciencia y Tecnología
+EXP-19732|2026-03-18|En comisiones|acompanado|0|1|Peticiones, Reglamento y Poderes
+EXP-19753|2026-04-08|En comisiones|propio|1|1|Legislación del Trabajo, Previsión y Seguridad Social
+EXP-19756|2026-04-08|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19759|2026-04-08|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19760|2026-04-08|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19770|2026-04-08|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19771|2026-04-08|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19772|2026-04-08|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19773|2026-04-08|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19774|2026-04-08|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19775|2026-04-08|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19786|2026-04-08|En comisiones|propio|1|1|Hacienda, Presupuesto e Impuestos
+EXP-19787|2026-04-08|En comisiones|propio|1|1|Hacienda, Presupuesto e Impuestos
+EXP-19788|2026-04-08|En comisiones|propio|1|1|Defensa del Consumidor;Hacienda, Presupuesto e Impuestos
+EXP-19789|2026-04-08|En comisiones|propio|1|1|Hacienda, Presupuesto e Impuestos;Legislación del Trabajo, Previsión y Seguridad Social
+EXP-19790|2026-04-08|Aprobado|coautoria|1|1|Protección de Personas con Discapacidad
+EXP-19791|2026-04-08|En comisiones|coautoria|1|1|Legislación del Trabajo, Previsión y Seguridad Social
+EXP-19792|2026-04-08|En comisiones|coautoria|1|1|Protección de Personas con Discapacidad;Salud Pública
+EXP-19793|2026-04-08|En comisiones|propio|1|1|Educación, Cultura, Ciencia y Tecnología
+EXP-19794|2026-04-08|En comisiones|acompanado|1|1|Educación, Cultura, Ciencia y Tecnología
+EXP-19795|2026-04-08|Aprobado|acompanado|1|1|Sobre Tablas
+EXP-19796|2026-04-08|En comisiones|acompanado|0|1|Educación, Cultura, Ciencia y Tecnología
+EXP-19804|2026-04-08|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19820|2026-04-15|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19821|2026-04-15|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19822|2026-04-15|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19831|2026-04-15|En comisiones|propio|1|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19832|2026-04-15|En comisiones|propio|1|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19833|2026-04-15|Aprobado|propio|1|1|Sobre Tablas
+EXP-19834|2026-04-15|Aprobado|propio|1|1|Sobre Tablas
+EXP-19835|2026-04-15|Aprobado|propio|1|1|Sobre Tablas
+EXP-19836|2026-04-15|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19837|2026-04-15|En comisiones|acompanado|0|1|Ecología y Ambiente
+EXP-19838|2026-04-15|En comisiones|acompanado|0|1|Hacienda, Presupuesto e Impuestos
+EXP-19839|2026-04-15|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19840|2026-04-15|En comisiones|propio|1|1|Educación, Cultura, Ciencia y Tecnología;Energía, Transporte, Obras y Servicios Públicos
+EXP-19841|2026-04-15|En comisiones|propio|1|1|Asuntos Constitucionales y Legislación General;Salud Pública
+EXP-19859|2026-04-29|En comisiones|coautoria|0|1|Legislación del Trabajo, Previsión y Seguridad Social;Políticas Sociales
+EXP-19866|2026-04-29|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19867|2026-04-29|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19868|2026-04-29|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19874|2026-04-29|En comisiones|acompanado|0|1|Peticiones, Reglamento y Poderes
+EXP-19875|2026-04-29|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos;Hacienda, Presupuesto e Impuestos
+EXP-19876|2026-04-29|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19877|2026-04-29|En comisiones|acompanado|0|1|Legislación del Trabajo, Previsión y Seguridad Social
+EXP-19878|2026-04-29|En comisiones|acompanado|0|1|Educación, Cultura, Ciencia y Tecnología
+EXP-19879|2026-04-29|En comisiones|acompanado|0|1|Educación, Cultura, Ciencia y Tecnología;Legislación del Trabajo, Previsión y Seguridad Social
+EXP-19881|2026-04-29|En comisiones|propio|1|1|Hacienda, Presupuesto e Impuestos
+EXP-19882|2026-04-29|Aprobado|propio|1|1|Sobre Tablas
+EXP-19883|2026-04-29|En comisiones|propio|1|1|Educación, Cultura, Ciencia y Tecnología;Seguridad y Servicios Penitenciarios
+EXP-19884|2026-04-29|En comisiones|propio|1|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19897|2026-04-29|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19899|2026-04-29|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19900|2026-04-29|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19901|2026-04-29|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19902|2026-04-29|En comisiones|acompanado|0|1|Hacienda, Presupuesto e Impuestos;Seguridad y Servicios Penitenciarios
+EXP-19903|2026-04-29|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19904|2026-04-29|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19931|2026-05-06|En comisiones|propio|1|1|Deportes;Protección de Personas con Discapacidad
+EXP-19932|2026-05-06|En comisiones|acompanado|0|1|Asuntos Constitucionales y Legislación General;Hacienda, Presupuesto e Impuestos
+EXP-19933|2026-05-06|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19934|2026-05-06|En comisiones|acompanado|0|1|Deportes;Hacienda, Presupuesto e Impuestos
+EXP-19935|2026-05-06|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19936|2026-05-06|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19937|2026-05-06|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19938|2026-05-06|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19939|2026-05-06|En comisiones|acompanado|0|1|Hacienda, Presupuesto e Impuestos;Salud Pública
+EXP-19941|2026-05-06|En comisiones|acompanado|0|1|Hacienda, Presupuesto e Impuestos;Peticiones, Reglamento y Poderes
+EXP-19947|2026-05-06|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19963|2026-05-13|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19964|2026-05-13|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19965|2026-05-13|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19966|2026-05-13|En comisiones|propio|1|1|Energía, Transporte, Obras y Servicios Públicos;Hacienda, Presupuesto e Impuestos;Producción, Industria, Comercio y Turismo
+EXP-19967|2026-05-13|En comisiones|propio|1|1|Protección de Personas con Discapacidad
+EXP-19968|2026-05-13|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-19969|2026-05-13|En comisiones|acompanado|0|1|Educación, Cultura, Ciencia y Tecnología;Hacienda, Presupuesto e Impuestos
+EXP-19970|2026-05-13|En comisiones|acompanado|0|1|Asuntos Constitucionales y Legislación General;Producción, Industria, Comercio y Turismo
+EXP-19971|2026-05-13|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos;Hacienda, Presupuesto e Impuestos
+EXP-19972|2026-05-13|En comisiones|propio|1|1|Hacienda, Presupuesto e Impuestos;Salud Pública
+EXP-19981|2026-05-13|Aprobado|propio|0|1|Sobre Tablas
+EXP-19995|2026-05-27|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-19996|2026-05-27|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20010|2026-05-27|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20011|2026-05-27|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20012|2026-05-27|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20013|2026-05-27|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos;Hacienda, Presupuesto e Impuestos
+EXP-20014|2026-05-27|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20017|2026-05-27|En comisiones|propio|0|1|Energía, Transporte, Obras y Servicios Públicos;Hacienda, Presupuesto e Impuestos
+EXP-20026|2026-06-03|En comisiones|acompanado|0|1|Educación, Cultura, Ciencia y Tecnología
+EXP-20037|2026-06-03|En comisiones|acompanado|0|1|Asuntos Constitucionales y Legislación General
+EXP-20038|2026-06-03|En comisiones|acompanado|0|1|Asuntos Constitucionales y Legislación General;Deportes
+EXP-20039|2026-06-03|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20040|2026-06-03|En comisiones|acompanado|0|1|Producción, Industria, Comercio y Turismo
+EXP-20041|2026-06-03|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20042|2026-06-03|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20043|2026-06-03|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20044|2026-06-03|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20045|2026-06-03|En comisiones|propio|1|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20046|2026-06-03|En comisiones|propio|1|1|Legislación del Trabajo, Previsión y Seguridad Social
+EXP-20047|2026-06-03|En comisiones|acompanado|1|1|Derechos Humanos, Género y Diversidad
+EXP-20051|2026-06-03|En comisiones|propio|1|1|Educación, Cultura, Ciencia y Tecnología
+EXP-20054|2026-06-03|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20055|2026-06-03|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20056|2026-06-03|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20067|2026-06-17|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20068|2026-06-17|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20069|2026-06-17|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20070|2026-06-17|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20071|2026-06-17|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20072|2026-06-17|En comisiones|acompanado|0|1|Educación, Cultura, Ciencia y Tecnología
+EXP-20073|2026-06-17|En comisiones|coautoria|1|1|Educación, Cultura, Ciencia y Tecnología
+EXP-20074|2026-06-17|En comisiones|propio|1|1|Asuntos Constitucionales y Legislación General
+EXP-20075|2026-06-17|En comisiones|propio|1|1|Educación, Cultura, Ciencia y Tecnología
+EXP-20084|2026-06-17|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20089|2026-06-17|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20100|2026-06-17|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20112|2026-06-17|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20113|2026-06-17|En comisiones|acompanado|0|1|Asuntos Constitucionales y Legislación General
+EXP-20114|2026-06-17|En comisiones|acompanado|0|1|Educación, Cultura, Ciencia y Tecnología
+EXP-20115|2026-06-17|En comisiones|acompanado|0|1|Salud Pública
+EXP-20116|2026-06-17|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20117|2026-06-17|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20118|2026-06-17|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20119|2026-06-17|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20134|2026-07-08|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20145|2026-07-08|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20154|2026-07-08|En comisiones|acompanado|0|1|Asuntos Constitucionales y Legislación General;Seguridad y Servicios Penitenciarios
+EXP-20155|2026-07-08|En comisiones|acompanado|0|1|Educación, Cultura, Ciencia y Tecnología
+EXP-20156|2026-07-08|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos;Hacienda, Presupuesto e Impuestos
+EXP-20157|2026-07-08|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20176|2026-07-08|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20177|2026-07-08|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20192|2026-07-08|Aprobado|acompanado|0|2|Sobre Tablas
+EXP-20211|2026-08-05|En comisiones|propio|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20212|2026-08-05|En comisiones|propio|1|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20213|2026-08-05|En comisiones|propio|0|1|Asuntos Constitucionales y Legislación General
+EXP-20214|2026-08-05|En comisiones|propio|1|1|Protección de Personas con Discapacidad
+EXP-20215|2026-08-05|En comisiones|propio|1|1|Peticiones, Reglamento y Poderes
+EXP-20224|2026-08-05|En comisiones|acompanado|0|1|Salud Pública
+EXP-20225|2026-08-05|En comisiones|acompanado|0|1|Protección de Personas con Discapacidad
+EXP-20226|2026-08-05|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20231|2026-08-05|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20232|2026-08-05|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20262|2026-08-19|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20264|2026-08-19|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20288|2026-08-19|En comisiones|acompanado|0|1|Hacienda, Presupuesto e Impuestos
+EXP-20289|2026-08-19|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20290|2026-08-19|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20291|2026-08-19|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20292|2026-08-19|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20293|2026-08-19|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20294|2026-08-19|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20308|2026-08-26|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20309|2026-08-26|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20311|2026-08-26|En comisiones|coautoria|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20314|2026-08-26|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20315|2026-08-26|En comisiones|acompanado|0|1|Salud Pública
+EXP-20316|2026-08-26|En comisiones|acompanado|0|1|Educación, Cultura, Ciencia y Tecnología
+EXP-20317|2026-08-26|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20318|2026-08-26|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20319|2026-08-26|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20320|2026-08-26|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20321|2026-08-26|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20322|2026-08-26|En comisiones|acompanado|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20332|2026-08-26|En comisiones|coautoria|0|1|Asuntos Constitucionales y Legislación General
+EXP-20349|2026-09-16|En comisiones|coautoria|0|1|Educación, Cultura, Ciencia y Tecnología
+EXP-20350|2026-09-16|En comisiones|coautoria|0|1|Protección de Personas con Discapacidad;Salud Pública
+EXP-20351|2026-09-16|En comisiones|coautoria|0|1|Asuntos Constitucionales y Legislación General;Seguridad y Servicios Penitenciarios
+EXP-20352|2026-09-16|En comisiones|coautoria|0|1|Políticas Sociales
+EXP-20363|2026-09-16|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20364|2026-09-16|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20365|2026-09-16|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20366|2026-09-16|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20367|2026-09-16|En comisiones|acompanado|0|1|Derechos Humanos, Género y Diversidad
+EXP-20380|2026-09-16|Aprobado|coautoria|0|1|Sobre Tablas
+EXP-20381|2026-09-16|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20398|2026-09-16|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20399|2026-09-16|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20400|2026-09-16|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20401|2026-09-16|En comisiones|coautoria|0|1|Salud Pública
+EXP-20402|2026-09-16|Aprobado|acompanado|0|1|Sobre Tablas
+EXP-20405|2026-09-16|En comisiones|coautoria|0|1|Asuntos Constitucionales y Legislación General
+EXP-20406|2026-09-16|En comisiones|coautoria|0|1|Niñez, Adolescencia y Familia;Educación, Cultura, Ciencia y Tecnología
+EXP-20407|2026-09-16|En comisiones|coautoria|0|1|Asuntos Constitucionales y Legislación General
+EXP-20408|2026-09-16|En comisiones|coautoria|0|1|Energía, Transporte, Obras y Servicios Públicos
+EXP-20410|2026-09-16|En comisiones|acompanado|0|1|Políticas Sociales
+EXP-20411|2026-09-16|En comisiones|acompanado|0|1|Educación, Cultura, Ciencia y Tecnología;Asuntos Constitucionales y Legislación General
+EXP-20412|2026-09-16|En comisiones|acompanado|0|1|Producción, Industria, Comercio y Turismo
+EXP-20413|2026-09-16|En comisiones|acompanado|0|1|Salud Pública
+P-0067|2026-04-22|Aprobado|propio|1|0|Ecología y Ambiente
